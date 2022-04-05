@@ -1,3 +1,5 @@
+package it.polimi.ingsw.model;
+
 import java.util.HashSet;
 
 public class Player{
@@ -18,4 +20,7 @@ public class Player{
         this.coins = initialCoins;
     }
 
+    public void setNickname(String nicknameOfCreator) {
+        this.nickname = nicknameOfCreator
+    }
 }

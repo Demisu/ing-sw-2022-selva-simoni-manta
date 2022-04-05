@@ -1,6 +1,9 @@
-import java.util.HashSet;
+package it.polimi.ingsw.model;
 
-public class Character extends StudentAccessiblePiece{
+import java.util.HashSet;
+import java.util.Set;
+
+public class Character extends StudentAccessiblePiece {
 
     //General
     private Integer cost;
@@ -91,7 +94,7 @@ public class Character extends StudentAccessiblePiece{
                 break;
             */
             default:
-                system.out.println("Cannot determine effect type");
+                System.out.println("Cannot determine effect type");
                 break;
         }     
 

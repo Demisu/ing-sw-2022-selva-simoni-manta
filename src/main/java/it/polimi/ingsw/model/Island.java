@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -8,21 +8,24 @@ public class Island extends Tile {
     private Integer noEntry;
     //private HashSet<Integer> towers; //è più semplice tenere le due variabili sotto, non ci serve l'id. Vedi modifiche in player
     private Integer towersNumber;
-    private TowerColor towersColor; //check initiation value
-    /*
-    * BLACK Towers: 0-7
-    * WHITE Towers: 8-15
-    * GREY Towers:  16-21*/
-    //might be a good idea to check for the towers' getter method to not return null first.
-    public TowerColor colorOfPlacedTowers() {
-        Iterator<Integer> it = towers.iterator();
-        Integer towerCheck = it.next();
-        if (towerCheck >= 0 && towerCheck <= 7) return TowerColor.BLACK;
-        else if (towerCheck >= 8 && towerCheck <= 15) return TowerColor.WHITE;
-        else if (towerCheck >= 16 && towerCheck <= 21) return TowerColor.GREY;
 
-        else throw new RuntimeException("No tower, or no valid tower code found on Island");
+    public Integer getTowersNumber() {
+        return towersNumber;
     }
+
+    public void setTowersNumber(Integer towersNumber) {
+        this.towersNumber = towersNumber;
+    }
+
+    public TowerColor getTowersColor() {
+        return towersColor;
+    }
+
+    public void setTowersColor(TowerColor towersColor) {
+        this.towersColor = towersColor;
+    }
+
+    private TowerColor towersColor; //check initiation value
 
     public Island(int id){
         super(id);
@@ -44,13 +47,6 @@ public class Island extends Tile {
         this.noEntry = noEntry;
     }
 
-    public HashSet<Integer> getTowers() {
-        return towers;
-    }
-
-    public void setTowers(HashSet<Integer> towers) {
-        this.towers = towers;
-    }
     /* returns an array of Ints with students counted for each color
     [0] = yellow
     [1] = blue
@@ -84,7 +80,6 @@ public class Island extends Tile {
 
             }
         }
-
     }
 
     public Integer getPlayerInfluence(Player player){
