@@ -1,0 +1,24 @@
+{
+    "cost": "123",
+    "image": "path",
+
+    "setup_required": true,
+    "setup_object": "student/no_entry",
+    "setup_number": "12345",
+
+    "effect_type": "move/exchange/add/resolve",
+    
+    "effect_scope": "self/all/(enemy/team/random/...)/NA",
+    "effect_object": "student/no_entry/island/tower/influence/mother_nature/(professor?)/NA",
+    "effect_condition": "any/color/NA",
+    "effect_choose_condition": "player/random/NA",
+
+    "effect_source": "character/entrance/dining_room/NA",
+    "effect_choose_source": "no/player/random/NA",
+    "effect_target": "dining_room/entrance/bag/NA",
+    "effect_choose_target": "no/player/random/NA",
+
+    "effect_number_min": "12345/NA",
+    "effect_number_max": "12345/NA",
+    "effect_choose_number": "no/player/random/NA"
+  }

@@ -1,0 +1,36 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+
+\title{Peer-Review 1: UML}
+\author{Manta, Selva, Simoni\\Gruppo 15}
+
+\begin{document}
+
+\maketitle
+
+Valutazione del diagramma UML delle classi del gruppo 25.
+
+\section{Lati positivi}
+
+\begin{itemize}
+  \item Buona idea quella di aggiungere lo stato del Game come enumerazione
+  \item La variabile merged nelle isole può semplificare l'unione delle stesse
+\end{itemize}
+
+\section{Lati negativi}
+
+\begin{itemize}
+  \item Nella classe School viene usato un metodo diverso per ogni colore degli studenti/professori, sarebbe opportuno riunirli in un unico metodo con parametro "colore" che distingue caso per caso: si evita così la ripetizione di codice.
+  \item Ci sono molte classi che contengono una singola variabile o comunque pochissimi metodi (es: MotherEarth, Team, Professor), questo porta a una frammentazione del modello e a una conseguente diminuzione della leggibilità. Riunire metodi e variabili di contesti simili ridurrebbe le dimensioni. Allo stesso modo tutti i Check...IsEmpty() di Set/List/ecc sarebbero riassumibili in getXXX().size() == 0.
+  \item Nel modello non sembra esserci ereditarietà, ad esempio il movimento diventerebbe un gruppo molto numeroso di metodi simili ma ripetuti.
+  \item Non è chiara la gestione degli effetti dei Character, dove vengono attivati e come funzionano. Vengono gestiti al 100\% nel controller? Anche la connessione tra Player e DeckAssistant è poco chiara, come si risale al proprietario del mazzo?
+\end{itemize}
+
+\section{Confronto tra le architetture}
+
+La nostra architettura non comprendeva un controllo dello stato del Game o un selettore della difficoltà, quindi proveremo ad aggiungerli nel nostro modello.
+Questo modello.
+
+\end{document}

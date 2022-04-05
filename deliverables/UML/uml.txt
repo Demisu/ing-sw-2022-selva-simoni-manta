@@ -1,0 +1,161 @@
+@startuml
+class GameController {
+moveStudent(student, origin, target)
+moveProfessor(professorColor, origin, target)
+//TODO
+}
+enum Color {
+YELLOW,
+BLUE,
+GREEN,
+RED,
+PURPLE
+}
+class Game {
+    //Constants
+    availableCharactersNumber = 3 : final Integer
+    allCharactersNumber = 12 : final Integer
+    islandsNumber = 12 : final Integer
+    studentNumber = 130 : final Integer
+    allCharacters : final ArrayList<Integer> //All existing characters
+    charactersJSONPath = "path/path/path..." : final String
+
+currentPlayerID : Integer
+playerNumber : Integer
+islands: List<Island>
+clouds : Set<Cloud>
+students : HashSet<Integer> //This is the game bag
+players : List<Player>
+turnOrder: List<Integer> //cantains playerID
+motherNatureMovements : Integer
+availableCharacters : Character[]
+
+characterJsonName : String[]
+Game(int playerNumber, String nicknameOfCreator)
+getAStudent() : Integer //get (and remove) a student from the game bag
+}
+
+class Player {
+playerId : Integer
+coins: integer
+nickname: String
+towers : HashSet<Integer>
+deck : Set<Assistant>
+playerBoard : SchoolBoard
+}
+class Character { 
+    //General
+    cost : private Integer
+    imagePath : private String
+
+    //Setup info
+    setupRequired : private Boolean
+    contentType : private String 
+    students: private HashSet<Integer> //Needs to be populated after reading the JSON
+    contentNumber : private Integer
+
+    //Effect parameters
+effectType : String
+effectScope : String
+effectObject : String
+effectCondition : String
+effectChooseCondition : String
+
+effectSource : String
+effectChooseSource : String
+effectTarget : String
+effectChooseTarget : String
+
+effectNumberMin : Integer
+effectNumberMax : Integer
+effectChooseNumber : String
+
+    //Game
+hasBeenUsed : Boolean
+
+Character(/*All JSON params*/)
+effect() : void //Calls the following methods based on character effect type
+move() : void
+exchange() : void
+add() : void
+resolve() : void
+}
+class Assistant {
+name : AssistantName
+turnPriority : Integer
+roundPriority : Integer
+motherNatureMovements : Integer
+}
+
+enum AssistantName {
+ASSISTANT1,
+ASSISTANT2,
+...,
+ASSISTANT10
+}
+
+Assistant <|-- AssistantName
+
+abstract class StudentAccessiblePiece {
+students : HashSet<Integer>
+removeStudent(int student) : void
+addStudent(int student) : void
+getStudentNumber(Color color) : Integer
+colorOfStudent(int student) : Color
+indexOfColor(Color color) : Integer
+getStudentNumber() : Integer[]
+counter(int lowerExtreme, int upperExtreme) : Integer
+StudentAccessiblePiece()
+}
+StudentAccessiblePiece <|-- Color
+
+class SchoolBoard {
+diningRoomStudents : ArrayList<HashSet<Integer>> 
+professors : Boolean[]
+
+SchoolBoard()
+studentToDining(int student) : void
+setProfessorOfColor(Color color, Boolean status)
+getProfessors() : Boolean[]
+SchoolBoard()
+}
+
+abstract class Tile {
+tileId : Integer
+Tile()
+}
+class Island {
+motherNature : boolean
+noEntry : Integer
+towers : HashSet<Integer>
+colorOfPlacedTowers() : TowerColor
+}
+class Cloud {
+//eredita interamente da Tile
+}
+
+enum TowerColor {
+BLACK,
+WHITE,
+GREY
+}
+Island <|-- TowerColor
+
+Game *-- Player
+Game *-- Tile
+
+Player *-- Assistant
+Player *-- SchoolBoard
+
+
+Tile <|-- Island
+Tile <|-- Cloud
+
+StudentAccessiblePiece <|-- Tile
+StudentAccessiblePiece <|-- SchoolBoard
+StudentAccessiblePiece <|-- Character
+
+Game *-- Character
+
+
+@enduml
