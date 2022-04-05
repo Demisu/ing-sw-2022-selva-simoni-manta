@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -48,28 +47,32 @@ public class Island extends Tile {
         this.noEntry = noEntry;
     }
 
+    /* returns an array of Ints with students counted for each color
+    [0] = yellow
+    [1] = blue
+    [2] = green
+    [3] = red
+    [4] = purple
+    *WARN* potentially useless, also breaks from using Color enum */
+    public void resolveIsland(){
 
-    public void resolveIsland(ArrayList<ArrayList<Player>> teams) {
-        Integer maxInfluence = -2;
+        Integer currentInfluence = 0;
+        Integer maxInfluence = -1;
         Integer winningTeamIndex = -1;
-        Integer provisionalInfluence = -1;
 
-        for(ArrayList<Player> team : teams) {
-            for(Player p : team) {
-                //if (p.getTowerColor().compareTo(this.getTowersColor()) != 0) {
-                    provisionalInfluence = getPlayerInfluence(p);
-                    if (provisionalInfluence > maxInfluence) {
-                        maxInfluence = provisionalInfluence;
-                        winningTeamIndex = teams.indexOf(team);
-                    }
-                //};
+        for(int i = 0; i < Game.getTeamsNumber(); i++){
+            currentInfluence = 0;
+            for(Player player : Game.getTeams().get(i)){
+                currentInfluence += this.getPlayerInfluence(player);
+            }
+            if(currentInfluence > maxInfluence){
+                maxInfluence = currentInfluence;
+                winningTeamIndex = i;
             }
         }
-
         if(winningTeamIndex != -1){
-            //assumes index 0 is always populated with a player having the respective tower color, even in 4 player coop
-            if(this.getTowersColor() != teams.get(winningTeamIndex).get(0).getTowerColor()){
-                this.setTowersColor(teams.get(winningTeamIndex).get(0).getTowerColor());
+            if(this.getTowersColor() != Game.getTeams().get(winningTeamIndex).getTowerColor()){
+                this.setTowersColor(Game.getTeams().get(winningTeamIndex).getTowerColor());
 
                 // (TO DO) change this.towersColor to who won
 
@@ -88,7 +91,7 @@ public class Island extends Tile {
 
             }
         }
-        if(player.getTowerColor() == this.getTowersColor()Color()){//check if this thing works
+        if(player.getTowerColor() == this.getTowerColor()){//check if this thing works
             influence += Game.getTowerValue()*this.getTowersNumber();
         }
         return influence;

@@ -121,8 +121,4 @@ public class Game {
     public static ArrayList<ArrayList<Player>> getTeams() {
         return teams;
     }
-
-    public ArrayList<Integer> getBagStudents(){
-        return this.students;
-    }
 }
