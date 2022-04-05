@@ -67,7 +67,7 @@ public class Island extends Tile {
         }
 
         if(winningTeamIndex != -1){
-            //si assume che nell'index 0 sia salvato sempre un Player, che possiede il colore delle torri usato anche in coop
+            //assumes index 0 is always populated with a player having the respective tower color, even in 4 player coop
             if(this.getTowersColor() != teams.get(winningTeamIndex).get(0).getTowerColor()){
                 this.setTowersColor(teams.get(winningTeamIndex).get(0).getTowerColor());
 
@@ -88,7 +88,7 @@ public class Island extends Tile {
 
             }
         }
-        if(player.getTowerColor() == this.getTowerColor()){//check if this thing works
+        if(player.getTowerColor() == this.getTowersColor()Color()){//check if this thing works
             influence += Game.getTowerValue()*this.getTowersNumber();
         }
         return influence;
