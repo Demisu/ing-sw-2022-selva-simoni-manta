@@ -29,23 +29,18 @@ abstract class StudentAccessiblePiece {
         78-103: red
         104-129: purple
         */
-        switch(color) {
-            case YELLOW: return counter(0, 25);
-
-            case BLUE: return counter(26, 51);
-
-            case GREEN: return counter(52, 77);
-
-            case RED: return counter(78, 103);
-
-            case PURPLE: return counter(104, 129);
-
-            default: throw new IllegalArgumentException("Illegal color code passed!");
-        }
+        return switch (color) {
+            case YELLOW -> counter(0, 25);
+            case BLUE -> counter(26, 51);
+            case GREEN -> counter(52, 77);
+            case RED -> counter(78, 103);
+            case PURPLE -> counter(104, 129);
+            default -> throw new IllegalArgumentException("Illegal color code passed!");
+        };
     }
 
     // returns the corresponding student's color
-    public Color colorOfStudent(int student) {
+    public static Color colorOfStudent(int student) {
         if(student >= 0 && student <= 25) return Color.YELLOW;
         else if(student >= 26 && student <= 51) return Color.BLUE;
         else if(student >= 52 && student <= 77) return Color.GREEN;
@@ -56,22 +51,16 @@ abstract class StudentAccessiblePiece {
     }
 
     //returns the color's chosen index to be used in Lists and Arrays (such as SchoolBoard's dining room)
-    public Integer indexOfColor(Color color) {
-        switch (color) {
-            case YELLOW: return 0;
-
-            case BLUE: return 1;
-
-            case GREEN: return 2;
-
-            case RED: return 3;
-
-            case PURPLE: return 4;
-
-            default: throw new IllegalArgumentException("Illegal color code passed!");
-        }
+    public static Integer indexOfColor(Color color) {
+        return switch (color) {
+            case YELLOW -> 0;
+            case BLUE -> 1;
+            case GREEN -> 2;
+            case RED -> 3;
+            case PURPLE -> 4;
+            default -> throw new IllegalArgumentException("Illegal color code passed!");
+        };
     }
-
     /* returns an array of Ints with students counted for each color
     [0] = yellow
     [1] = blue

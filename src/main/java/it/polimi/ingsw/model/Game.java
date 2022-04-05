@@ -22,7 +22,7 @@ public class Game {
     private List<Island> islands;
     private Set<Cloud> clouds;
     private ArrayList<Integer> students; //This is the game bag
-    private Set<Set<Player>> teams;
+    private static ArrayList<ArrayList<Player>> teams;
     private List<Player> players;
     private List<Integer> turnOrder; //cantains playerID
     private Integer motherNatureMovements;
@@ -31,14 +31,14 @@ public class Game {
     private String[] characterJsonName;
 
     //Modifiers
-    private Integer[] studentValue; //defaults to 1
-    private Integer towerValue; //defaults to 1
+    private static Integer[] studentValue; //defaults to 1
+    private static Integer towerValue; //defaults to 1
 
     public Game(int playerNumber, String nicknameOfCreator) {
 
         //Piece values
-        this.towerValue = 1;
-        this.studentValue = new Integer[5];
+        towerValue = 1;
+        studentValue = new Integer[5];
         for(int i = 0; i < 5; i++){
             studentValue[i] = 1;
         }
@@ -106,5 +106,19 @@ public class Game {
         this.students.remove(randomStudent);
         this.students.trimToSize();
         return studentToGet;
+    }
+
+    public static Integer getStudentValue(int studentID){
+        return switch (StudentAccessiblePiece.colorOfStudent(studentID)) {
+            case YELLOW -> studentValue[0];
+            case BLUE -> studentValue[1];
+            case GREEN -> studentValue[2];
+            case RED -> studentValue[3];
+            case PURPLE -> studentValue[4];
+        };
+    }
+
+    public static ArrayList<ArrayList<Player>> getTeams() {
+        return teams;
     }
 }

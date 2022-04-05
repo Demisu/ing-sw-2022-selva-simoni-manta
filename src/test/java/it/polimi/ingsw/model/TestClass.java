@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import static it.polimi.ingsw.model.StudentAccessiblePiece.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
