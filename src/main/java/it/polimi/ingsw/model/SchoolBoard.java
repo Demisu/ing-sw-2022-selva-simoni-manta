@@ -15,7 +15,9 @@ public class SchoolBoard extends StudentAccessiblePiece {
         this.students.remove(student);
         this.diningRoomStudents.get(indexOfColor(colorOfStudent(student))).add(student);
     }
-
+    public Integer getDiningRoomStudents(int color){
+        return this.diningRoomStudents.get(color).size();
+    }
     //sets professor on the schoolboard
     public void setProfessorOfColor(Color color, boolean status) {
         switch(color) {
@@ -47,7 +49,7 @@ public class SchoolBoard extends StudentAccessiblePiece {
     }
 
     public Boolean[] getProfessors() {
-        /* returns an array of Ints with students counted for each color
+        /* returns an array of Booleans with students counted for each color
         [0] = yellow
         [1] = blue
         [2] = green
@@ -60,7 +62,7 @@ public class SchoolBoard extends StudentAccessiblePiece {
     public SchoolBoard() {
         super();
         this.diningRoomStudents = new ArrayList<>();
-        this.professors = new Boolean[4];
+        this.professors = new Boolean[5];
     }
 
 }
