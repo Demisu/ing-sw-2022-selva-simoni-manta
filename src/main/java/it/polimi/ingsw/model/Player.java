@@ -7,13 +7,22 @@ public class Player{
 
     private Integer playerid;
     private Integer coins;
+
+    public TowerColor getTowerColor() {
+        return towerColor;
+    }
+
+    public void setTowerColor(TowerColor towerColor) {
+        this.towerColor = towerColor;
+    }
+
     private String nickname;
     private TowerColor towerColor;
     private Integer towerNumber;//Towers in player's schoolboard (not island)
     //Check that the number doesn't go below zero. 
     
     private HashSet<Assistant> deck;
-    private SchoolBoard playerBoard;
+    SchoolBoard playerBoard; //package-private
 
     public Player(Integer playerid){
         this.playerid = playerid;
@@ -21,6 +30,6 @@ public class Player{
     }
 
     public void setNickname(String nicknameOfCreator) {
-        this.nickname = nicknameOfCreator
+        this.nickname = nicknameOfCreator;
     }
 }
