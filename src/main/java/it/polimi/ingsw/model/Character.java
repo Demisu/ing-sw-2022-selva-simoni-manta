@@ -41,7 +41,8 @@ public class Character extends StudentAccessiblePiece {
                      String effectType, String effectScope, String effectObject, String effectCondition,                //Effect 
                      String effectChooseCondition,                                                                      //Effect 
                      String effectSource, String effectChooseSource, String effectTarget, String effectChooseTarget,    //Effect source/target
-                     Integer effectNumberMin, Integer effectNumberMax, String effectChooseNumber) {                     //Effect number
+                     Integer effectNumberMin, Integer effectNumberMax, String effectChooseNumber,                       //Effect number
+                     Game game) {
 
         this.cost = cost;
         this.imagePath = imagePath;
@@ -73,6 +74,7 @@ public class Character extends StudentAccessiblePiece {
         this.effectChooseNumber = effectChooseNumber;
         
     }
+
 
     public void effect(){
 

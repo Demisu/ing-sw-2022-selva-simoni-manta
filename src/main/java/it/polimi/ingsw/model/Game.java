@@ -21,7 +21,7 @@ public class Game {
     private Integer playerNumber;
     private List<Island> islands;
     private Set<Cloud> clouds;
-    private Set<Integer> students; //This is the game bag
+    private ArrayList<Integer> students; //This is the game bag
     private Set<Set<Player>> teams;
     private List<Player> players;
     private List<Integer> turnOrder; //cantains playerID
@@ -38,7 +38,7 @@ public class Game {
 
         //Piece values
         this.towerValue = 1;
-        studentValue = new Integer[5];
+        this.studentValue = new Integer[5];
         for(int i = 0; i < 5; i++){
             studentValue[i] = 1;
         }
@@ -54,29 +54,29 @@ public class Game {
             this.players.add(new Player(i));
         }
 
+        this.students = new ArrayList<Integer>();
         for(int i = 0; i < studentNumber; i++) {
-            Student student = new Student(i);
-            this.students.add(student);
+            this.students.add(i);
         }
 
         // ------------------- //
         // Characters creation //
         // ------------------- //
 
-        allCharacters  = new ArrayList<Integer>(); //List of all existing characters
+        this.allCharacters  = new ArrayList<Integer>(); //List of all existing characters
         for (int i=1; i <= allCharactersNumber; i++) {
             allCharacters.add(i);
         }
         Collections.shuffle(allCharacters); //Random shuffle of all existing characters
-        
-        characterJsonName = new String[availableCharactersNumber]; //Array of characters JSON paths
+
+        this.characterJsonName = new String[availableCharactersNumber]; //Array of characters JSON paths
         //Pick n random characters from all the existing ones
         for(int i = 0; i < availableCharactersNumber; i++){
             // Create the paths
-            characterJsonName[i] = charactersJSONPath + "character" + allCharacters.get(i) + ".JSON";
+            this.characterJsonName[i] = charactersJSONPath + "character" + allCharacters.get(i) + ".JSON";
         }
 
-        availableCharacters = new Character[availableCharactersNumber]; //Array of n characters
+        this.availableCharacters = new Character[availableCharactersNumber]; //Array of n characters
         for(int i = 0; i < availableCharactersNumber; i++){
             /* OPEN JSON */
             try {
@@ -104,6 +104,7 @@ public class Game {
         int randomStudent = new Random().nextInt(studentSize);
         int studentToGet = this.students.get(randomStudent);
         this.students.remove(randomStudent);
+        this.students.trimToSize();
         return studentToGet;
     }
 }
