@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import java.util.HashSet;
 import java.util.Iterator;
 
-abstract class StudentAccessiblePiece {
+public abstract class StudentAccessiblePiece {
 
     protected HashSet<Integer> students;
 
@@ -18,7 +18,6 @@ abstract class StudentAccessiblePiece {
     public void addStudent(int student){
         students.add(student);
     }
-
 
     // Returns the number of students of enum color
     public Integer getStudentNumber(Color color) {

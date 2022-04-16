@@ -19,7 +19,7 @@ public class SchoolBoard extends StudentAccessiblePiece {
         return this.diningRoomStudents.get(color).size();
     }
     //sets professor on the schoolboard
-    public void setProfessorOfColor(Color color, boolean status) {
+    public void setProfessor(Color color, boolean status) {
         switch(color) {
             case YELLOW: {
                 this.professors[0] = status;

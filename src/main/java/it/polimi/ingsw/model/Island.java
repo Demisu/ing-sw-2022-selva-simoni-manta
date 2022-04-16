@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 
 public class Island extends Tile {
     private boolean motherNature;
@@ -84,11 +82,10 @@ public class Island extends Tile {
         Integer influence = 0;
         for(int i = 0; i < 5; i++){
             if(professors[i]){
-                influence += Game.getStudentValue(i)*this.getStudentNumber(i);//CONTROLLARE CHE NON DIA PROBLEMI USARE IL NUMERO AL POSTO DI Color color
-
+                influence += Game.getStudentValue(i)*this.getStudentNumber(colorOfStudent(i));
             }
         }
-        if(player.getTowerColor() == this.getTowersColor()Color()){//check if this thing works
+        if(player.getTowerColor() == this.getTowersColor()){//check if this thing works
             influence += Game.getTowerValue()*this.getTowersNumber();
         }
         return influence;

@@ -118,6 +118,10 @@ public class Game {
         };
     }
 
+    public static Integer getTowerValue(){
+        return towerValue;
+    }
+
     public static ArrayList<ArrayList<Player>> getTeams() {
         return teams;
     }

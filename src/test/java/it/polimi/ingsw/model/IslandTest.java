@@ -26,9 +26,9 @@ public class IslandTest {
 
         Player p1 = new Player(0);
         p1.setTowerColor(TowerColor.BLACK);
-        p1.playerBoard.setProfessorOfColor(Color.YELLOW, true);
+        p1.playerBoard.setProfessor(Color.YELLOW, true);
         Player p2 = new Player(1);
-        p2.playerBoard.setProfessorOfColor(Color.GREEN, true);
+        p2.playerBoard.setProfessor(Color.GREEN, true);
         p2.setTowerColor(TowerColor.WHITE);
 
         team1.add(p1);
