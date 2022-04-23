@@ -37,6 +37,7 @@ public class Game {
     public Game(int playerNumber, String nicknameOfCreator) {
 
         //Piece values
+
         towerValue = 1;
         studentValue = new Integer[5];
         for(int i = 0; i < 5; i++){
@@ -45,10 +46,13 @@ public class Game {
 
         this.playerNumber = playerNumber;
 
+        islands = new ArrayList<>();
         for(int i = 0; i < islandsNumber; i++) {
             this.islands.add(new Island(i));
         } 
-        
+
+        clouds = new HashSet<>();
+        players = new ArrayList<>();
         for(int i = 0; i < playerNumber; i++) {
             this.clouds.add(new Cloud(i));
             this.players.add(new Player(i));
@@ -75,26 +79,26 @@ public class Game {
             // Create the paths
             this.characterJsonName[i] = charactersJSONPath + "character" + allCharacters.get(i) + ".JSON";
         }
-
+//REMEMBER TO DECOMMENTATE GUYS
         this.availableCharacters = new Character[availableCharactersNumber]; //Array of n characters
-        for(int i = 0; i < availableCharactersNumber; i++){
-            /* OPEN JSON */
-            try {
-                // create Gson instance
-                Gson gson = new Gson();
-            
-                // create a reader
-                Reader reader = Files.newBufferedReader(Paths.get(characterJsonName[i]));
-                // convert JSON string to Character object
-                availableCharacters[i] = gson.fromJson(reader,Character.class);
+    //    for(int i = 0; i < availableCharactersNumber; i++){
+    //        /* OPEN JSON */
+    //        try {
+    //            // create Gson instance
+    //            Gson gson = new Gson();
+    //
+    //            // create a reader
+    //            Reader reader = Files.newBufferedReader(Paths.get(characterJsonName[i]));
+    //            // convert JSON string to Character object
+    //            availableCharacters[i] = gson.fromJson(reader,Character.class);
 
-                // close reader
-                reader.close();
-            
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
+    //            // close reader
+    //            reader.close();
+    //
+    //        } catch (Exception ex) {
+    //            ex.printStackTrace();
+    //        }
+    //    }
 
         this.players.get(0).setNickname(nicknameOfCreator);
     }

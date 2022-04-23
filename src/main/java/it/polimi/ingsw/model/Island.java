@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Island extends Tile {
     private boolean motherNature;
@@ -28,6 +29,10 @@ public class Island extends Tile {
 
     public Island(int id){
         super(id);
+        this.motherNature = false;
+        this.noEntry = 0;
+        this.towersNumber = 0;
+        this.students = new HashSet<>();
     }
 
     public boolean isMotherNature() {
@@ -47,27 +52,29 @@ public class Island extends Tile {
     }
 
 
-    public void resolveIsland(ArrayList<ArrayList<Player>> teams) {
+    public void resolveIsland(ArrayList<Team> teams) {
         Integer maxInfluence = -2;
-        Integer winningTeamIndex = -1;
+        Team winningTeam = new Team();
+        Boolean won = false;
         Integer provisionalInfluence = -1;
 
-        for(ArrayList<Player> team : teams) {
-            for(Player p : team) {
+        for(Team team : teams) {
+            for(Player p : team.getPlayers()) {
                 //if (p.getTowerColor().compareTo(this.getTowersColor()) != 0) {
-                    provisionalInfluence = getPlayerInfluence(p);
+                    provisionalInfluence = getPlayerInfluence(p, team.getTowerColor());
                     if (provisionalInfluence > maxInfluence) {
                         maxInfluence = provisionalInfluence;
-                        winningTeamIndex = teams.indexOf(team);
+                        winningTeam = team;
+                        won = true;
                     }
                 //};
             }
         }
 
-        if(winningTeamIndex != -1){
+        if(won){
             //assumes index 0 is always populated with a player having the respective tower color, even in 4 player coop
-            if(this.getTowersColor() != teams.get(winningTeamIndex).get(0).getTowerColor()){
-                this.setTowersColor(teams.get(winningTeamIndex).get(0).getTowerColor());
+            if(this.getTowersColor() != winningTeam.getTowerColor()){
+                this.setTowersColor(winningTeam.getTowerColor());
 
                 // (TO DO) change this.towersColor to who won
 
@@ -77,15 +84,15 @@ public class Island extends Tile {
         }
     }
 
-    public Integer getPlayerInfluence(Player player){
-        Boolean[] professors = player.playerBoard.getProfessors();
+    public Integer getPlayerInfluence(Player player, TowerColor towerColor){
+        Boolean[] professors = player.getPlayerBoard().getProfessors();
         Integer influence = 0;
         for(int i = 0; i < 5; i++){
             if(professors[i]){
                 influence += Game.getStudentValue(i)*this.getStudentNumber(colorOfStudent(i));
             }
         }
-        if(player.getTowerColor() == this.getTowersColor()){//check if this thing works
+        if(towerColor == this.getTowersColor()){//check if this thing works
             influence += Game.getTowerValue()*this.getTowersNumber();
         }
         return influence;

@@ -6,17 +6,51 @@ import java.util.HashSet;
 public class SchoolBoard extends StudentAccessiblePiece {
     //inherits HashSet<Integer> students, which is used to save students
     //in front of the main entrance;
-    private ArrayList<HashSet<Integer>> diningRoomStudents;
+    private ArrayList<Integer> yellowDiningRoomStudents;
+    private ArrayList<Integer> blueDiningRoomStudents;
+    private ArrayList<Integer> greenDiningRoomStudents;
+    private ArrayList<Integer> redDiningRoomStudents;
+    private ArrayList<Integer> purpleDiningRoomStudents;
+
     private Boolean[] professors;
 
     //moves student from entrance to dining
     //BY THE RULES, THIS ACTION CANNOT BE UNDONE! (only by one Character)
-    public void studentToDining(int student) {
+    public void studentToDining(Integer student) {
         this.students.remove(student);
-        this.diningRoomStudents.get(indexOfColor(colorOfStudent(student))).add(student);
+        switch(colorOfStudent(student)){
+            case YELLOW:
+                this.yellowDiningRoomStudents.add(student);
+                break;
+            case BLUE:
+                this.blueDiningRoomStudents.add(student);
+                break;
+            case GREEN:
+                this.greenDiningRoomStudents.add(student);
+                break;
+            case RED:
+                this.redDiningRoomStudents.add(student);
+                break;
+            case PURPLE:
+                this.purpleDiningRoomStudents.add(student);
+                break;
+        }
     }
-    public Integer getDiningRoomStudents(int color){
-        return this.diningRoomStudents.get(color).size();
+    public Integer getDiningRoomStudents(Color color){
+        switch(color){
+            case YELLOW:
+                return this.yellowDiningRoomStudents.size();
+            case BLUE:
+                return this.blueDiningRoomStudents.size();
+            case GREEN:
+                return this.greenDiningRoomStudents.size();
+            case RED:
+                return this.redDiningRoomStudents.size();
+            case PURPLE:
+                return this.purpleDiningRoomStudents.size();
+            default:
+                return -69;
+        }
     }
     //sets professor on the schoolboard
     public void setProfessor(Color color, boolean status) {
@@ -61,8 +95,13 @@ public class SchoolBoard extends StudentAccessiblePiece {
 
     public SchoolBoard() {
         super();
-        this.diningRoomStudents = new ArrayList<>();
+        this.yellowDiningRoomStudents = new ArrayList<>();
+        this.blueDiningRoomStudents = new ArrayList<>();
+        this.greenDiningRoomStudents = new ArrayList<>();
+        this.redDiningRoomStudents = new ArrayList<>();
+        this.purpleDiningRoomStudents = new ArrayList<>();
         this.professors = new Boolean[5];
+        this.students = new HashSet<>();
     }
 
 }

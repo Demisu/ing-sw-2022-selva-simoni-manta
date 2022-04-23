@@ -8,17 +8,17 @@ public class Player{
     private Integer playerid;
     private Integer coins;
 
-    public TowerColor getTowerColor() {
-        return towerColor;
-    }
-
-    public void setTowerColor(TowerColor towerColor) {
-        this.towerColor = towerColor;
-    }
+    //public TowerColor getTowerColor() {
+    //    return towerColor;
+    //}
+//
+    //public void setTowerColor(TowerColor towerColor) {
+    //    this.towerColor = towerColor;
+    //}
 
     private String nickname;
-    private TowerColor towerColor;
-    private Integer towerNumber;//Towers in player's schoolboard (not island)
+    //private TowerColor towerColor;
+    //private Integer towerNumber;//Towers in player's schoolboard (not island)
     //Check that the number doesn't go below zero. 
     
     private HashSet<Assistant> deck;
@@ -27,6 +27,15 @@ public class Player{
     public Player(Integer playerid){
         this.playerid = playerid;
         this.coins = initialCoins;
+        this.nickname = "Default";
+    //    this.towerColor = towerColor;
+    //    this.towerNumber = towerNumber;
+        this.deck = new HashSet<>();
+        this.playerBoard = new SchoolBoard();
+    }
+
+    public SchoolBoard getPlayerBoard(){
+        return this.playerBoard;
     }
 
     public void setNickname(String nicknameOfCreator) {

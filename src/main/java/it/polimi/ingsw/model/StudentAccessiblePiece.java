@@ -11,11 +11,11 @@ public abstract class StudentAccessiblePiece {
         HashSet<Integer> students = new HashSet<Integer>();
     }
 
-    public void removeStudent(int student){
+    public void removeStudent(Integer student){
         students.remove(student);
     }
 
-    public void addStudent(int student){
+    public void addStudent(Integer student){
         students.add(student);
     }
 
