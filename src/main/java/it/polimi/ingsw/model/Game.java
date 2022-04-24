@@ -19,7 +19,10 @@ public class Game {
     private ArrayList<Integer> students; //This is the game bag
     private static ArrayList<Team> teams;
     private List<Player> players;
-    private List<Integer> turnOrder; //cantains playerID
+    private List<Player> currentTurnOrder; //contains playerIDs for the current round
+    private List<Player> nextTurnOrder; //contains player IDs for the next round
+    /* MAKE SURE TO COPY nextTurnOrder to currentTurnOrder BEFORE BEGINNING THE NEXT ROUND */
+
     private Integer motherNatureMovements;
     private Character[] availableCharacters;
 
@@ -103,6 +106,15 @@ public class Game {
         this.players.get(0).setNickname(nicknameOfCreator);
     }
 
+    public Player getPlayerById(Integer playerId) {
+
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getPlayerId() == playerId)
+                return players.get(i);
+        }
+        return null;
+    }
+
     public Integer getAStudent() { //get (and remove) a student from the game bag
         int studentSize = this.students.size();
         int randomStudent = new Random().nextInt(studentSize);
@@ -149,5 +161,29 @@ public class Game {
             }
         }
         return new Island(9999);
+    }
+
+    public List<Player> getCurrentTurnOrder() {
+        return currentTurnOrder;
+    }
+
+    public void setCurrentTurnOrder(List<Player> currentTurnOrder) {
+        this.currentTurnOrder = currentTurnOrder;
+    }
+
+    public List<Player> getNextTurnOrder() {
+        return nextTurnOrder;
+    }
+
+    public void setNextTurnOrder(List<Player> nextTurnOrder) {
+        this.nextTurnOrder = nextTurnOrder;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 }

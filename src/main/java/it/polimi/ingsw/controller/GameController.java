@@ -1,7 +1,5 @@
 package it.polimi.ingsw.controller;
-
 import it.polimi.ingsw.model.*;
-
 import java.util.List;
 
 public class GameController {
@@ -20,7 +18,7 @@ public class GameController {
     /* MOVEMENT */
     /*----------*/
 
-    public void moveStudent(Integer student, StudentAccessiblePiece origin, StudentAccessiblePiece target){
+    public void moveStudent(Integer student, StudentAccessiblePiece origin, StudentAccessiblePiece target) {
         origin.removeStudent(student);
         target.addStudent(student);
         return;
@@ -55,7 +53,8 @@ public class GameController {
     /*-------*/
 
     public void playAssistant(Integer playerID, Integer assistantCode){
-        //ask model to process
+        Player p = currentGame.getPlayerById(playerID);
+        p.removeAssistantById(assistantCode); //handles setting last assistant played property as well
     }
 
     public void playCharacter(Integer playerID, Integer characterNumber){
