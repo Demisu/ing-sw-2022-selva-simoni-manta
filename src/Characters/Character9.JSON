@@ -1,0 +1,24 @@
+{
+    "cost": "3",
+    "image": "9",
+
+    "setup_required": false,
+    "setup_object": "NA",
+    "setup_number": "0",
+
+    "effect_type": "add",
+    
+    "effect_scope": "NA",
+    "effect_object": "student",
+    "effect_condition": "color",
+    "effect_choose_condition": "player",
+
+    "effect_source": "NA",
+    "effect_choose_source": "NA",
+    "effect_target": "NA",
+    "effect_choose_target": "NA",
+
+    "effect_number_min": "-1",
+    "effect_number_max": "-1",
+    "effect_choose_number": "no"
+  }

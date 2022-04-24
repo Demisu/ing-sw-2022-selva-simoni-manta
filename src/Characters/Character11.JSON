@@ -1,0 +1,24 @@
+{
+    "cost": "2",
+    "image": "11",
+
+    "setup_required": true,
+    "setup_object": "student",
+    "setup_number": "4",
+
+    "effect_type": "move",
+    
+    "effect_scope": "self",
+    "effect_object": "student",
+    "effect_condition": "any",
+    "effect_choose_condition": "player",
+
+    "effect_source": "character",
+    "effect_choose_source": "player",
+    "effect_target": "dining_room",
+    "effect_choose_target": "player",
+
+    "effect_number_min": "1",
+    "effect_number_max": "1",
+    "effect_choose_number": "no"
+  }

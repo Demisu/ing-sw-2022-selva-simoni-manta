@@ -1,0 +1,24 @@
+{
+    "cost": "1",
+    "image": "1",
+
+    "setup_required": true,
+    "setup_object": "student",
+    "setup_number": "4",
+
+    "effect_type": "move",
+    
+    "effect_scope": "NA",
+    "effect_object": "student",
+    "effect_condition": "any",
+    "effect_choose_condition": "NA",
+
+    "effect_source": "character",
+    "effect_choose_source": "no",
+    "effect_target": "island",
+    "effect_choose_target": "player",
+
+    "effect_number_min": "1",
+    "effect_number_max": "1",
+    "effect_choose_number": "no"
+  }

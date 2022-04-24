@@ -1,0 +1,24 @@
+{
+    "cost": "3",
+    "image": "12",
+
+    "setup_required": false,
+    "setup_object": "NA",
+    "setup_number": "0",
+
+    "effect_type": "move",
+    
+    "effect_scope": "all",
+    "effect_object": "student",
+    "effect_condition": "color",
+    "effect_choose_condition": "player",
+
+    "effect_source": "dining_room",
+    "effect_choose_source": "no",
+    "effect_target": "bag",
+    "effect_choose_target": "no",
+
+    "effect_number_min": "3",
+    "effect_number_max": "3",
+    "effect_choose_number": "no"
+  }

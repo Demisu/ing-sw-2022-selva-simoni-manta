@@ -1,0 +1,24 @@
+{
+    "cost": "1",
+    "image": "7",
+
+    "setup_required": true,
+    "setup_object": "student",
+    "setup_number": "6",
+
+    "effect_type": "exchange",
+    
+    "effect_scope": "NA",
+    "effect_object": "student",
+    "effect_condition": "any",
+    "effect_choose_condition": "NA",
+
+    "effect_source": "character",
+    "effect_choose_source": "player",
+    "effect_target": "entrance",
+    "effect_choose_target": "player",
+
+    "effect_number_min": "3",
+    "effect_number_max": "3",
+    "effect_choose_number": "player"
+  }

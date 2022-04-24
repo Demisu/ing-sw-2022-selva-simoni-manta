@@ -1,0 +1,24 @@
+{
+    "cost": "1",
+    "image": "4",
+
+    "setup_required": false,
+    "setup_object": "NA",
+    "setup_number": "0",
+
+    "effect_type": "add",
+    
+    "effect_scope": "self",
+    "effect_object": "mother_nature",
+    "effect_condition": "any",
+    "effect_choose_condition": "NA",
+
+    "effect_source": "NA",
+    "effect_choose_source": "no",
+    "effect_target": "NA",
+    "effect_choose_target": "no",
+
+    "effect_number_min": "2",
+    "effect_number_max": "2",
+    "effect_choose_number": "no"
+  }

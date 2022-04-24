@@ -1,0 +1,24 @@
+{
+    "cost": "3",
+    "image": "3",
+
+    "setup_required": false,
+    "setup_object": "NA",
+    "setup_number": "0",
+
+    "effect_type": "resolve",
+    
+    "effect_scope": "NA",
+    "effect_object": "NA",
+    "effect_condition": "NA",
+    "effect_choose_condition": "NA",
+
+    "effect_source": "NA",
+    "effect_choose_source": "NA",
+    "effect_target": "island",
+    "effect_choose_target": "player",
+
+    "effect_number_min": "1",
+    "effect_number_max": "1",
+    "effect_choose_number": "no"
+  }

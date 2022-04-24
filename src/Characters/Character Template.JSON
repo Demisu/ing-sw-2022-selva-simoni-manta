@@ -2,14 +2,14 @@
     "cost": "123",
     "image": "path",
 
-    "setup_required": true,
-    "setup_object": "student/no_entry",
+    "setup_required": false,
+    "setup_object": "student/no_entry/NA",
     "setup_number": "12345",
 
     "effect_type": "move/exchange/add/resolve",
     
-    "effect_scope": "self/all/(enemy/team/random/...)/NA",
-    "effect_object": "student/no_entry/island/tower/influence/mother_nature/(professor?)/NA",
+    "effect_scope": "self/all/NA",
+    "effect_object": "student/no_entry/island/tower/influence/mother_nature/NA",
     "effect_condition": "any/color/NA",
     "effect_choose_condition": "player/random/NA",
 
