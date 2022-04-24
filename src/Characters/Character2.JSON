@@ -14,9 +14,9 @@
     "effect_choose_condition": "NA",
 
     "effect_source": "NA",
-    "effect_choose_source": "no",
+    "effect_choose_source": "NA",
     "effect_target": "NA",
-    "effect_choose_target": "no",
+    "effect_choose_target": "NA",
 
     "effect_number_min": "1",
     "effect_number_max": "1",

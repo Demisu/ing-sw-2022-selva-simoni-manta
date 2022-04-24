@@ -14,7 +14,7 @@
     "effect_choose_condition": "NA",
 
     "effect_source": "character",
-    "effect_choose_source": "no",
+    "effect_choose_source": "NA",
     "effect_target": "island",
     "effect_choose_target": "player",
 

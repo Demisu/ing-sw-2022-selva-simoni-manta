@@ -14,9 +14,9 @@
     "effect_choose_condition": "player",
 
     "effect_source": "dining_room",
-    "effect_choose_source": "no",
+    "effect_choose_source": "NA",
     "effect_target": "bag",
-    "effect_choose_target": "no",
+    "effect_choose_target": "NA",
 
     "effect_number_min": "3",
     "effect_number_max": "3",

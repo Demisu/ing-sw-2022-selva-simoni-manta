@@ -2,9 +2,9 @@
     "cost": "1",
     "image": "10",
 
-    "setup_required": true,
-    "setup_object": "student/no_entry",
-    "setup_number": "12345",
+    "setup_required": false,
+    "setup_object": "NA",
+    "setup_number": "0",
 
     "effect_type": "exchange",
     
