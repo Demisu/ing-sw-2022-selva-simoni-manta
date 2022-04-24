@@ -1,10 +1,5 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.Gson;
-
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class Game {
@@ -22,7 +17,7 @@ public class Game {
     private List<Island> islands;
     private Set<Cloud> clouds;
     private ArrayList<Integer> students; //This is the game bag
-    private static ArrayList<ArrayList<Player>> teams;
+    private static ArrayList<Team> teams;
     private List<Player> players;
     private List<Integer> turnOrder; //cantains playerID
     private Integer motherNatureMovements;
@@ -36,8 +31,7 @@ public class Game {
 
     public Game(int playerNumber, String nicknameOfCreator) {
 
-        //Piece values
-
+        //Piece values setup
         towerValue = 1;
         studentValue = new Integer[5];
         for(int i = 0; i < 5; i++){
@@ -46,11 +40,16 @@ public class Game {
 
         this.playerNumber = playerNumber;
 
+        //Islands setup
         islands = new ArrayList<>();
         for(int i = 0; i < islandsNumber; i++) {
             this.islands.add(new Island(i));
-        } 
+        }
+        //Place mother nature randomly
+        int randomIsland = new Random().nextInt(islandsNumber);
+        this.islands.get(randomIsland).setMotherNature(true);
 
+        //Clouds and Players setup
         clouds = new HashSet<>();
         players = new ArrayList<>();
         for(int i = 0; i < playerNumber; i++) {
@@ -58,6 +57,7 @@ public class Game {
             this.players.add(new Player(i));
         }
 
+        //Bag setup
         this.students = new ArrayList<Integer>();
         for(int i = 0; i < studentNumber; i++) {
             this.students.add(i);
@@ -126,11 +126,28 @@ public class Game {
         return towerValue;
     }
 
-    public static ArrayList<ArrayList<Player>> getTeams() {
+    public static ArrayList<Team> getTeams() {
         return teams;
     }
 
     public ArrayList<Integer> getBagStudents(){
-        return this.students;
+        return students;
+    }
+
+    public List<Island> getIslands() {
+        return islands;
+    }
+
+    public Set<Cloud> getClouds() {
+        return clouds;
+    }
+
+    public Island getMotherNatureIsland(){
+        for(Island island : islands){
+            if(island.isMotherNature()){
+                return island;
+            }
+        }
+        return new Island(9999);
     }
 }

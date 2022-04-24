@@ -2,6 +2,8 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 
+import java.util.List;
+
 public class GameController {
 
     Game currentGame;
@@ -31,7 +33,21 @@ public class GameController {
     }
 
     public void moveMotherNature(Integer steps){
-        //ask model to process
+
+        List<Island> islands = currentGame.getIslands();
+        int currentID = 0;
+
+        for (Island island : islands) {
+            if(island.isMotherNature()){
+                currentID = islands.indexOf(island);
+                islands.get(currentID).setMotherNature(false);
+                break;
+            }
+        }
+
+        // Mod to number of island (default 12) + 1 in the game to avoid going out of boundaries
+        islands.get( (currentID+steps)%(currentGame.getIslands().size()+1) ).setMotherNature(true);
+
     }
 
     /*-------*/
@@ -45,5 +61,8 @@ public class GameController {
     public void playCharacter(Integer playerID, Integer characterNumber){
         //ask model to process
     }
-    
+
+    public Game getCurrentGame() {
+        return currentGame;
+    }
 }
