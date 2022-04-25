@@ -8,6 +8,7 @@ public class Island extends Tile {
     private Integer noEntry;
     //private HashSet<Integer> towers; //è più semplice tenere le due variabili sotto, non ci serve l'id. Vedi modifiche in player
     private Integer towersNumber;
+    private TowerColor towersColor; //check initiation value
 
     public Integer getTowersNumber() {
         return towersNumber;
@@ -24,8 +25,6 @@ public class Island extends Tile {
     public void setTowersColor(TowerColor towersColor) {
         this.towersColor = towersColor;
     }
-
-    private TowerColor towersColor; //check initiation value
 
     public Island(int id){
         super(id);

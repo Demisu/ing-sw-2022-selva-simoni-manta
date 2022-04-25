@@ -7,10 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class TestClass {
+class StudentAccessiblePieceTest {
 
 //    @BeforeEach
-    
+
     //@RepeatedTest(5)
     @Test
     @DisplayName("Testing the appropriate return index of colors")
@@ -21,6 +21,6 @@ class TestClass {
         assertEquals(3, indexOfColor(Color.RED), "Index 3 should correspond to green");
         assertEquals(4, indexOfColor(Color.PURPLE), "Index 4 should correspond to purple");
     }
-    
+
 
 }

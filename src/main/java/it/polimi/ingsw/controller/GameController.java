@@ -61,6 +61,18 @@ public class GameController {
         //ask model to process
     }
 
+    /*------*/
+    /* MISC */
+    /*------*/
+
+    public void unifyIslands(Island a, Island b){
+        a.getStudents().addAll(b.getStudents());
+        a.setTowersNumber(a.getTowersNumber() + b.getTowersNumber());
+        if(b.isMotherNature()){
+            a.setMotherNature(true);
+        }
+    }
+
     public Game getCurrentGame() {
         return currentGame;
     }

@@ -11,8 +11,17 @@ public abstract class StudentAccessiblePiece {
         HashSet<Integer> students = new HashSet<Integer>();
     }
 
+    public HashSet<Integer> getStudents() {
+        return students;
+    }
+
+    public void setStudents(HashSet<Integer> students) {
+        this.students = students;
+    }
+
     public void removeStudent(Integer student){
         students.remove(student);
+
     }
 
     public void addStudent(Integer student){

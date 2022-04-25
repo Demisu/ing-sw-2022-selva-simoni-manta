@@ -4,14 +4,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class IslandTest {
 
     @Test
-    @DisplayName("Testing how influence gets evaluated")
-    void testResolveIsland() {
+    @DisplayName("Testing students")
+    void testIslandStudents() {
         Island island = new Island(1);
         island.setTowersColor(TowerColor.GREY);
         island.setTowersNumber(2);
@@ -23,6 +24,14 @@ public class IslandTest {
         ArrayList<ArrayList<Player>> teams = new ArrayList<>();
         ArrayList<Player> team1 = new ArrayList<>();
         ArrayList<Player> team2 = new ArrayList<>();
+
+        HashSet<Integer> bro = new HashSet<Integer>();
+
+
+        assertTrue(island.getStudents().contains(30),"Added student should exist");
+        island.removeStudent(30);
+        assertFalse(island.getStudents().contains(30),"Removed student should not exist");
+
 
         //Player p1 = new Player(0);
         //p1.setTowerColor(TowerColor.BLACK);

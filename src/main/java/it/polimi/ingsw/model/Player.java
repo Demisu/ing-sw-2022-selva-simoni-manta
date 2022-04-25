@@ -38,16 +38,28 @@ public class Player{
         this.playerBoard = new SchoolBoard();
     }
 
+    public Integer getCoins(){
+        return this.coins;
+    }
+
+    public void setCoins(Integer coins){
+        this.coins=coins;
+    }
+
     public Integer getPlayerId() {
         return playerId;
     }
 
     public void setPlayerid(Integer playerid) {
         this.playerId = playerid;
-    }
+    } //Useful only to change existing PlayerId in case it is needed.
 
     public SchoolBoard getPlayerBoard(){
         return this.playerBoard;
+    }
+
+    public String getNickname(){
+        return this.nickname;
     }
 
     public void setNickname(String nicknameOfCreator) {
@@ -77,5 +89,25 @@ public class Player{
                 deck.remove(i);
             }
         }
+    }
+
+    public void addCoin(){
+        //Might need this in the future
+        this.coins++;
+    }
+
+    public void addCoin(Integer coins){
+        //Might need this in the future
+        this.coins=this.coins+coins;
+    }
+
+    public void removeCoin(){
+        //Might need this in the future to not have a negative balance
+        this.coins--;
+    }
+
+    public void removeCoin(Integer coins){
+        //Might need this in the future to not have a negative balance
+        this.coins=this.coins-coins;
     }
 }

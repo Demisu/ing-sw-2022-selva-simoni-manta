@@ -11,8 +11,8 @@ import static it.polimi.ingsw.model.StudentAccessiblePiece.*;
 class SchoolBoardTest {
     /* Check off getDiningRoomStudents */
     @Test
-    @DisplayName("test setup")
-    void setup() {
+    @DisplayName("Testing Students")
+    void testSchoolBoardStudents() {
         SchoolBoard board = new SchoolBoard();
         board.addStudent(1);
         board.addStudent(2);
