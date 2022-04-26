@@ -46,7 +46,7 @@ public class GameController {
         }
 
         // Mod to number of island (default 12) + 1 in the game to avoid going out of boundaries
-        islands.get( (currentID+steps)%(currentGame.getIslands().size()+1) ).setMotherNature(true);
+        islands.get( (currentID+steps)%(islands.size()) ).setMotherNature(true);
 
     }
 

@@ -22,7 +22,7 @@ public class GameControllerTest {
 
         //assertEquals(1, controller.getCurrentGame().getIslands().stream().filter(island -> island.isMotherNature()).count());
         assertNotEquals(9999, controller.getCurrentGame().getMotherNatureIsland().getTileId());
-        assertEquals(tempID+2, controller.getCurrentGame().getMotherNatureIsland().getTileId());
+        assertEquals((tempID+2)%12, controller.getCurrentGame().getMotherNatureIsland().getTileId());
 
     }
 
@@ -62,7 +62,7 @@ public class GameControllerTest {
 
         controller.moveStudent(13, controller.getCurrentGame().getIslands().get(1), controller.getCurrentGame().getIslands().get(2));
         controller.moveProfessor(YELLOW, test1, test2);
-        Boolean[] testone = new Boolean[5];
+        Boolean[] testone = test2.getProfessors();
 
         assertTrue(testone[(StudentAccessiblePiece.indexOfColor(YELLOW))]);
 
