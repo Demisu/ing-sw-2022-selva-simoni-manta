@@ -14,7 +14,7 @@ public class Character extends StudentAccessiblePiece {
     //Setup info
     private Boolean setupRequired;
     private String contentType;
-    private Set<Integer> students; //Needs to be populated after reading the JSON
+    private transient Set<Integer> students; //Needs to be populated after reading the JSON
     private Integer contentNumber;
 
     //Effect parameters
@@ -54,7 +54,7 @@ public class Character extends StudentAccessiblePiece {
         this.contentNumber = contentNumber;
 
         //Populates the character if needed
-        if(contentType == "student"){
+        if(contentType.equals("student")){
             students = new HashSet<Integer>();
             for(int i = 0; i < contentNumber; i++){
                 students.add(GameController.getReferenceGame().getAStudent());
