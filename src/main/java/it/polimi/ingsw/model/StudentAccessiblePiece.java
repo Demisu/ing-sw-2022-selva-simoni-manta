@@ -43,7 +43,6 @@ public abstract class StudentAccessiblePiece {
             case GREEN -> counter(52, 77);
             case RED -> counter(78, 103);
             case PURPLE -> counter(104, 129);
-            default -> throw new IllegalArgumentException("Illegal color code passed!");
         };
     }
 
@@ -66,7 +65,6 @@ public abstract class StudentAccessiblePiece {
             case GREEN -> 2;
             case RED -> 3;
             case PURPLE -> 4;
-            default -> throw new IllegalArgumentException("Illegal color code passed!");
         };
     }
     /* returns an array of Ints with students counted for each color

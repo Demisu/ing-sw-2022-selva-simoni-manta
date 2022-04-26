@@ -18,68 +18,42 @@ public class SchoolBoard extends StudentAccessiblePiece {
     //BY THE RULES, THIS ACTION CANNOT BE UNDONE! (only by one Character)
     public void studentToDining(Integer student) {
         this.students.remove(student);
-        switch(colorOfStudent(student)){
-            case YELLOW:
-                this.yellowDiningRoomStudents.add(student);
-                break;
-            case BLUE:
-                this.blueDiningRoomStudents.add(student);
-                break;
-            case GREEN:
-                this.greenDiningRoomStudents.add(student);
-                break;
-            case RED:
-                this.redDiningRoomStudents.add(student);
-                break;
-            case PURPLE:
-                this.purpleDiningRoomStudents.add(student);
-                break;
+        switch (colorOfStudent(student)) {
+            case YELLOW -> this.yellowDiningRoomStudents.add(student);
+            case BLUE -> this.blueDiningRoomStudents.add(student);
+            case GREEN -> this.greenDiningRoomStudents.add(student);
+            case RED -> this.redDiningRoomStudents.add(student);
+            case PURPLE -> this.purpleDiningRoomStudents.add(student);
         }
     }
     public Integer getDiningRoomStudents(Color color){
-        switch(color){
-            case YELLOW:
-                return this.yellowDiningRoomStudents.size();
-            case BLUE:
-                return this.blueDiningRoomStudents.size();
-            case GREEN:
-                return this.greenDiningRoomStudents.size();
-            case RED:
-                return this.redDiningRoomStudents.size();
-            case PURPLE:
-                return this.purpleDiningRoomStudents.size();
-            default:
-                return -69;
-        }
+        return switch (color) {
+            case YELLOW -> this.yellowDiningRoomStudents.size();
+            case BLUE -> this.blueDiningRoomStudents.size();
+            case GREEN -> this.greenDiningRoomStudents.size();
+            case RED -> this.redDiningRoomStudents.size();
+            case PURPLE -> this.purpleDiningRoomStudents.size();
+        };
     }
     //sets professor on the schoolboard
     public void setProfessor(Color color, boolean status) {
-        switch(color) {
-            case YELLOW: {
+        switch (color) {
+            case YELLOW -> {
                 this.professors[0] = status;
-                break;
             }
-            case BLUE: {
+            case BLUE -> {
                 this.professors[1] = status;
-                break;
             }
-
-            case GREEN: {
+            case GREEN -> {
                 this.professors[2] = status;
-                break;
             }
-
-            case RED: {
+            case RED -> {
                 this.professors[3] = status;
-                break;
             }
-
-            case PURPLE: {
+            case PURPLE -> {
                 this.professors[4] = status;
-                break;
             }
         }
-        //dovrebbe anche disattivare questo professor sulle altre board?
     }
 
     public Boolean[] getProfessors() {

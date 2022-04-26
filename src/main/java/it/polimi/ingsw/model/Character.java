@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GameController;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +35,7 @@ public class Character extends StudentAccessiblePiece {
 
     //Game
     private boolean hasBeenUsed;
+    private boolean hasIncreasedCost;
 
     public Character(){}
 
@@ -41,8 +44,7 @@ public class Character extends StudentAccessiblePiece {
                      String effectType, String effectScope, String effectObject, String effectCondition,                //Effect 
                      String effectChooseCondition,                                                                      //Effect 
                      String effectSource, String effectChooseSource, String effectTarget, String effectChooseTarget,    //Effect source/target
-                     Integer effectNumberMin, Integer effectNumberMax, String effectChooseNumber,                       //Effect number
-                     Game game) {
+                     Integer effectNumberMin, Integer effectNumberMax, String effectChooseNumber) {                      //Effect number
 
         this.cost = cost;
         this.imagePath = imagePath;
@@ -55,7 +57,7 @@ public class Character extends StudentAccessiblePiece {
         if(contentType == "student"){
             students = new HashSet<Integer>();
             for(int i = 0; i < contentNumber; i++){
-                students.add(game.getAStudent());
+                students.add(GameController.getReferenceGame().getAStudent());
             }
         }
 
@@ -78,27 +80,18 @@ public class Character extends StudentAccessiblePiece {
 
     public void effect(){
 
-        switch(effectType){
-            case "move":
-                this.move();
-                break;
-            case "exchange":
-                this.exchange();
-                break;
-            case "add":
-                this.add();
-                break;
-            case "resolve":
-                this.resolve();
-                break;
+        switch (effectType) {
+            case "move" -> this.move();
+            case "exchange" -> this.exchange();
+            case "add" -> this.add();
+            case "resolve" -> this.resolve();
+
             /*Extra cases...
             case "???":
                 break;
             */
-            default:
-                System.out.println("Cannot determine effect type");
-                break;
-        }     
+            default -> System.out.println("Cannot determine effect type");
+        }
 
     }
 
@@ -145,10 +138,10 @@ public class Character extends StudentAccessiblePiece {
 
         switch(effectObject) {
             case "influence":
-                //influence += effectNumberMin; //(no range ATM)
+                Game.setInfluenceModifier(Game.getInfluenceModifier() + effectNumberMin); //(no range ATM)
                 break;
             case "mother_nature_movement":
-                //motherNatureMovement += effectNumberMin; //(no range ATM)
+                Game.setMotherNatureMovements(Game.getMotherNatureMovements() + effectNumberMin); //(no range ATM)
                 break;
             case "student":
                 //Student (color?) influence += effectNumberMin
@@ -166,7 +159,7 @@ public class Character extends StudentAccessiblePiece {
                 }
                 break;
             case "tower":
-                //Tower influence += effectNumberMin; //(no range ATM)
+                Game.setTowerValue(Game.getTowerValue() + effectNumberMin); //(no range ATM)
                 break;
             case "professor":
                 //When counting DiningRoom students, consider count++
@@ -190,4 +183,23 @@ public class Character extends StudentAccessiblePiece {
         //Call controller to resolve the target (ID) (?)
     }
 
+    public boolean getHasIncreasedCost(){
+        return hasIncreasedCost;
+    }
+
+    public Integer getCost() {
+        return cost;
+    }
+
+    public void setCost(Integer cost) {
+        this.cost = cost;
+    }
+
+    public boolean getHasBeenUsed(){
+        return hasBeenUsed;
+    }
+
+    public void setHasBeenUsed(boolean hasBeenUsed) {
+        this.hasBeenUsed = hasBeenUsed;
+    }
 }

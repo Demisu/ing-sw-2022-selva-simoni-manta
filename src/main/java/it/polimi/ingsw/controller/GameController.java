@@ -1,9 +1,12 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Character;
+
 import java.util.List;
 
 public class GameController {
 
+    private static Game referenceGame;
     Game currentGame;
 
     /*------*/
@@ -12,6 +15,7 @@ public class GameController {
 
     public void startGame(Integer playerNumber, String nicknameOfCreator){
         currentGame = new Game(playerNumber, nicknameOfCreator);
+        referenceGame = currentGame;
     }
 
     /*----------*/
@@ -21,13 +25,11 @@ public class GameController {
     public void moveStudent(Integer student, StudentAccessiblePiece origin, StudentAccessiblePiece target) {
         origin.removeStudent(student);
         target.addStudent(student);
-        return;
     }
 
     public void moveProfessor(Color professorColor, SchoolBoard origin, SchoolBoard target){
         origin.setProfessor(professorColor, false);
         target.setProfessor(professorColor, true);
-        return;
     }
 
     public void moveMotherNature(Integer steps){
@@ -58,22 +60,34 @@ public class GameController {
     }
 
     public void playCharacter(Integer playerID, Integer characterNumber){
-        //ask model to process
+        Character playedCharacter =  currentGame.getCharacter(characterNumber);
+        playedCharacter.effect();
+        if(playedCharacter.getHasIncreasedCost()){
+            playedCharacter.setCost(playedCharacter.getCost() + 1);
+        }
+        playedCharacter.setHasBeenUsed(true);
     }
 
     /*------*/
     /* MISC */
     /*------*/
 
+    //Moves all the content of Island b to Island b, then deletes island b from the game table
     public void unifyIslands(Island a, Island b){
         a.getStudents().addAll(b.getStudents());
         a.setTowersNumber(a.getTowersNumber() + b.getTowersNumber());
+        a.setNoEntry(a.getNoEntry() + b.getNoEntry());
         if(b.isMotherNature()){
             a.setMotherNature(true);
         }
+        currentGame.getIslands().remove(b);
     }
 
     public Game getCurrentGame() {
         return currentGame;
+    }
+
+    public static Game getReferenceGame() {
+        return referenceGame;
     }
 }

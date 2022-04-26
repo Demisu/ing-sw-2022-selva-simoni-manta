@@ -27,6 +27,7 @@ public class GameControllerTest {
     @DisplayName("Testing students and merge of islands from controller")
     void testUnifyIslands(){
         GameController controller = new GameController();
+        controller.startGame(2, "testUnifyIslands");
         Island island0 = new Island(0);
         Island island1 = new Island(1);
         island0.addStudent(23);
@@ -38,7 +39,6 @@ public class GameControllerTest {
         assertFalse(island0.getStudents().contains(10),"Student should not be here");
         assertTrue(island1.getStudents().contains(65),"Student should be here");
         assertTrue(island1.getStudents().contains(10),"Student should be here");
-
 
         controller.unifyIslands(island0,island1);
 
