@@ -1,9 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.SchoolBoard;
+import it.polimi.ingsw.model.StudentAccessiblePiece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static it.polimi.ingsw.model.Color.YELLOW;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameControllerTest {
@@ -44,6 +47,24 @@ public class GameControllerTest {
 
         assertTrue(island0.getStudents().contains(65),"After merge student should be present");
         assertTrue(island0.getStudents().contains(10),"After merge student should be present");
+
+    }
+
+    @Test
+    void testMovement(){
+
+        GameController controller = new GameController();
+        controller.startGame(2, "testone");
+        controller.getCurrentGame().getIslands().get(1).addStudent(13);
+        SchoolBoard test1 = new SchoolBoard();
+        test1.setProfessor(YELLOW, true);
+        SchoolBoard test2 = new SchoolBoard();
+
+        controller.moveStudent(13, controller.getCurrentGame().getIslands().get(1), controller.getCurrentGame().getIslands().get(2));
+        controller.moveProfessor(YELLOW, test1, test2);
+        Boolean[] testone = new Boolean[5];
+
+        assertTrue(testone[(StudentAccessiblePiece.indexOfColor(YELLOW))]);
 
     }
 }
