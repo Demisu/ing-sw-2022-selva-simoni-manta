@@ -2,11 +2,9 @@ package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 
 import static it.polimi.ingsw.model.Color.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static it.polimi.ingsw.model.StudentAccessiblePiece.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SchoolBoardTest {
     /* Check off getDiningRoomStudents */
@@ -23,6 +21,7 @@ class SchoolBoardTest {
         board.addStudent(64);
         board.addStudent(100);
         board.addStudent(101);
+        board.addStudent(109);
         board.studentToDining(1);//YELLOW
         board.studentToDining(2);//YELLOW
         board.studentToDining(3);//YELLOW
@@ -32,10 +31,11 @@ class SchoolBoardTest {
         board.studentToDining(64);//GREEN
         board.studentToDining(100);//RED
         board.studentToDining(101);//RED
+        board.studentToDining(109);//PURPLE
         assertEquals(4,board.getDiningRoomStudents(YELLOW));
         assertEquals(1,board.getDiningRoomStudents(BLUE));
         assertEquals(2,board.getDiningRoomStudents(GREEN));
         assertEquals(2,board.getDiningRoomStudents(RED));
-        assertEquals(0,board.getDiningRoomStudents(PURPLE));
+        assertEquals(1,board.getDiningRoomStudents(PURPLE));
     }
 }

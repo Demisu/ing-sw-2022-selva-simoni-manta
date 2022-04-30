@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model;
 
-import static it.polimi.ingsw.model.StudentAccessiblePiece.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-import jdk.jfr.StackTrace;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
+import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StudentAccessiblePieceTest {
     @Test
@@ -29,7 +29,7 @@ class StudentAccessiblePieceTest {
         try{
             color=colorOfStudent(150);
         }catch(IllegalArgumentException exe){
-            exe.printStackTrace();
+            System.out.println("Exception verificata correttamente (StudentAccessiblePieceTest.testColorOfStudent)");
         }
     }
 }

@@ -50,7 +50,6 @@ public class Island extends Tile {
         this.noEntry = noEntry;
     }
 
-
     public void resolveIsland(ArrayList<Team> teams) {
         Integer maxInfluence = -2;
         Team winningTeam = new Team();

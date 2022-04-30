@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import java.util.HashSet;
-import java.util.Iterator;
 
 public abstract class StudentAccessiblePiece {
 
@@ -17,7 +16,6 @@ public abstract class StudentAccessiblePiece {
 
     public void removeStudent(Integer student){
         students.remove(student);
-
     }
 
     public void addStudent(Integer student){

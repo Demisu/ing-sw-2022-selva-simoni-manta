@@ -1,11 +1,9 @@
 package it.polimi.ingsw.model;
 
-import static it.polimi.ingsw.model.StudentAccessiblePiece.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-import jdk.jfr.StackTrace;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CloudTest {
     @Test
@@ -20,6 +18,9 @@ class CloudTest {
 
         assertEquals(cloud1.getStudentNumber(Color.YELLOW),4);
         assertEquals(cloud1.getStudentNumber(Color.RED),0);
+        assertEquals(cloud1.getStudentNumber(Color.BLUE),0);
+        assertEquals(cloud1.getStudentNumber(Color.PURPLE),0);
+        assertEquals(cloud1.getStudentNumber(Color.GREEN),0);
         assertEquals(cloud1.getStudentNumber()[0],4);
     }
 }

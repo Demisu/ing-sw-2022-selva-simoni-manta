@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.StudentAccessiblePiece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.model.Color.YELLOW;
+import static it.polimi.ingsw.model.Color.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameControllerTest {
@@ -55,20 +55,34 @@ public class GameControllerTest {
     }
 
     @Test
-    void testMovement(){
+    void testMovementSchoolBoard(){
 
         GameController controller = new GameController();
         controller.startGame(2, "testone");
         controller.getCurrentGame().getIslands().get(1).addStudent(13);
         SchoolBoard test1 = new SchoolBoard();
         test1.setProfessor(YELLOW, true);
+        test1.setProfessor(GREEN, true);
+        test1.setProfessor(BLUE, true);
+        test1.setProfessor(PURPLE, true);
+        test1.setProfessor(RED, true);
+
         SchoolBoard test2 = new SchoolBoard();
 
         controller.moveStudent(13, controller.getCurrentGame().getIslands().get(1), controller.getCurrentGame().getIslands().get(2));
         controller.moveProfessor(YELLOW, test1, test2);
+        controller.moveProfessor(GREEN, test1, test2);
+        controller.moveProfessor(BLUE, test1, test2);
+        controller.moveProfessor(PURPLE, test1, test2);
+        controller.moveProfessor(RED, test1, test2);
+
         Boolean[] testone = test2.getProfessors();
 
         assertTrue(testone[(StudentAccessiblePiece.indexOfColor(YELLOW))]);
+        assertTrue(testone[(StudentAccessiblePiece.indexOfColor(GREEN))]);
+        assertTrue(testone[(StudentAccessiblePiece.indexOfColor(BLUE))]);
+        assertTrue(testone[(StudentAccessiblePiece.indexOfColor(PURPLE))]);
+        assertTrue(testone[(StudentAccessiblePiece.indexOfColor(RED))]);
 
     }
 }

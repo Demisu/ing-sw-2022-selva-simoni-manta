@@ -18,11 +18,11 @@ public class Game {
     final String charactersJSONPath = ".\\src\\Characters\\";
 
     private Integer currentPlayerID;
-    private Integer playerNumber;
+    private final Integer playerNumber;
     private List<Island> islands;
     private final Set<Cloud> clouds;
     private ArrayList<Integer> students; //This is the game bag
-    private static ArrayList<Team> teams;
+    private final ArrayList<Team> teams;
     private List<Player> players; //TO BE DELETED
     private List<Player> currentTurnOrder; //contains playerIDs for the current round
     private List<Player> nextTurnOrder; //contains player IDs for the next round
@@ -44,6 +44,9 @@ public class Game {
         for(int i = 0; i < 5; i++){
             studentValue[i] = 1;
         }
+        //Modifiers Setup
+        motherNatureMovements = 0;
+        influenceModifier = 0;
 
         this.playerNumber = playerNumber;
 
@@ -66,31 +69,43 @@ public class Game {
 
         //Teams
         teams = new ArrayList<>();
-        if(playerNumber % 2 == 0){
-            //2 or 4 players: 2 teams
-            for(int i = 0; i < 2; i++) {
-                teams.add(new Team(i == 0 ? TowerColor.BLACK : TowerColor.WHITE, 8, i));
+        switch (playerNumber) {
+            case 2 -> {
+                //2 players: 2 teams
+                teams.add(new Team(TowerColor.BLACK, 8, 0));
+                teams.add(new Team(TowerColor.WHITE, 8, 1));
+                teams.get(0).addPlayer(players.get(0));
+                teams.get(1).addPlayer(players.get(1));
             }
-        }else{
-            //3 players: 3 teams
-            for(int i = 0; i < 3; i++) {
-                //DOESN'T WORK
-                teams.add(new Team());
+            case 3 -> {
+                //3 players: 3 teams
+                teams.add(new Team(TowerColor.BLACK, 6, 0));
+                teams.add(new Team(TowerColor.WHITE, 6, 1));
+                teams.add(new Team(TowerColor.GREY, 6, 2));
+                teams.get(0).addPlayer(players.get(0));
+                teams.get(1).addPlayer(players.get(1));
+                teams.get(2).addPlayer(players.get(2));
+            }
+            case 4 -> {
+                //4 players: 2 teams
+                teams.add(new Team(TowerColor.BLACK, 8, 0));
+                teams.add(new Team(TowerColor.WHITE, 8, 1));
+                teams.get(0).addPlayer(players.get(0));
+                teams.get(0).addPlayer(players.get(1));
+                teams.get(1).addPlayer(players.get(2));
+                teams.get(1).addPlayer(players.get(3));
             }
         }
 
         // DEBUG TO REMOVE
-        teams.get(0).addPlayer(players.get(0));
-        teams.get(1).addPlayer(players.get(1));
+        //teams.get(0).addPlayer(players.get(0));
+        //teams.get(1).addPlayer(players.get(1));
 
         //Bag setup
         this.students = new ArrayList<Integer>();
         for(int i = 0; i < studentNumber; i++) {
             this.students.add(i);
         }
-
-        //Influence setup
-        influenceModifier = 0;
 
         // ------------------- //
         // Characters creation //
@@ -119,7 +134,7 @@ public class Game {
                 // create a reader
                 Reader reader = Files.newBufferedReader(Paths.get(characterJsonName[i]));
                 // convert JSON string to Character object
-                availableCharacters[i] = gson.fromJson(reader,Character.class);
+                availableCharacters[i] = gson.fromJson(reader, Character.class);
                 // close reader
                 reader.close();
 
@@ -158,7 +173,7 @@ public class Game {
         Game.towerValue = towerValue;
     }
 
-    public static ArrayList<Team> getTeams() {
+    public ArrayList<Team> getTeams() {
         return teams;
     }
 
@@ -175,12 +190,14 @@ public class Game {
     }
 
     public Island getMotherNatureIsland(){
+
+        Island requestedIsland = new Island(0);
         for(Island island : islands){
             if(island.isMotherNature()){
-                return island;
+                requestedIsland = island;
             }
         }
-        return new Island(9999);
+        return requestedIsland;
     }
 
     public List<Player> getCurrentTurnOrder() {
@@ -207,10 +224,6 @@ public class Game {
         }
         return playerList;
 
-    }
-
-    public void setPlayers(List<Player> players) {
-        this.players = players;
     }
 
     public void unifyIslands(Island a, Island b){
@@ -245,7 +258,6 @@ public class Game {
 
     // GET BY ID SECTION, USED BY THE CONTROLLER
 
-
     public Player getPlayerById(Integer playerId) {
 
         for (Team team : teams) {
@@ -254,7 +266,7 @@ public class Game {
                     return player;
             }
         }
-        System.out.println("Player not found");
+        System.out.println("Player not found (Game.getPlayerById)");
         return null;
 
     }

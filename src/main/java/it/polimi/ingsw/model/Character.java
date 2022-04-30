@@ -1,37 +1,32 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.GameController;
-
-import java.util.HashSet;
-import java.util.Set;
-
 public class Character extends StudentAccessiblePiece {
 
     //General
     private Integer cost;
-    private String imagePath;
+    private String image;
 
     //Setup info
-    private Boolean setupRequired;
-    private String contentType;
-    private transient Set<Integer> students; //Needs to be populated after reading the JSON
-    private Integer contentNumber;
+    private Boolean setup_required;
+    private String setup_object;
+    //private Set<Integer> students; //Needs to be populated after reading the JSON
+    private Integer setup_number;
 
     //Effect parameters
-    private String effectType;
-    private String effectScope;
-    private String effectObject;
-    private String effectCondition;
-    private String effectChooseCondition;
+    private String effect_type;
+    private String effect_scope;
+    private String effect_object;
+    private String effect_condition;
+    private String effect_choose_condition;
 
-    private String effectSource;
-    private String effectChooseSource;
-    private String effectTarget;
-    private String effectChooseTarget;
+    private String effect_source;
+    private String effect_choose_source;
+    private String effect_target;
+    private String effect_choose_target;
 
-    private Integer effectNumberMin;
-    private Integer effectNumberMax;
-    private String effectChooseNumber;
+    private Integer effect_number_min;
+    private Integer effect_number_max;
+    private String effect_choose_number;
 
     //Game
     private boolean hasBeenUsed;
@@ -39,48 +34,49 @@ public class Character extends StudentAccessiblePiece {
 
     public Character(){}
 
-    public Character(Integer cost, String imagePath,                                                                    //General
-                     Boolean setupRequired, String contentType, Integer contentNumber,                                  //Setup
-                     String effectType, String effectScope, String effectObject, String effectCondition,                //Effect 
-                     String effectChooseCondition,                                                                      //Effect 
-                     String effectSource, String effectChooseSource, String effectTarget, String effectChooseTarget,    //Effect source/target
-                     Integer effectNumberMin, Integer effectNumberMax, String effectChooseNumber) {                      //Effect number
+    //DO NOT DELETE, CONTAINS OLD BIG CONSTRUCTOR
+    /*public Character(Integer cost, String image,                                                                    //General
+                     Boolean setup_required, String setup_object, Integer setup_number,                                  //Setup
+                     String effect_type, String effect_scope, String effect_object, String effect_condition,                //Effect
+                     String effect_choose_condition,                                                                      //Effect
+                     String effect_source, String effect_choose_source, String effect_target, String effect_choose_target,    //Effect source/target
+                     Integer effect_number_min, Integer effect_number_max, String effect_choose_number) {                     //Effect number
 
         this.cost = cost;
-        this.imagePath = imagePath;
+        this.image = image;
 
-        this.setupRequired = setupRequired;
-        this.contentType = contentType;
-        this.contentNumber = contentNumber;
+        this.setup_required = setup_required;
+        this.setup_object = setup_object;
+        this.setup_number = setup_number;
 
         //Populates the character if needed
-        if(contentType.equals("student")){
+        if(setup_object.equals("student")){
             students = new HashSet<Integer>();
-            for(int i = 0; i < contentNumber; i++){
+            for(int i = 0; i < setup_number; i++){
                 students.add(GameController.getReferenceGame().getAStudent());
             }
         }
 
-        this.effectType = effectType;
-        this.effectScope = effectScope;
-        this.effectObject = effectObject;
-        this.effectCondition = effectCondition;
-        this.effectChooseCondition = effectChooseCondition;
-        this.effectSource = effectSource;
-        this.effectChooseSource = effectChooseSource;
-        this.effectTarget = effectTarget;
-        this.effectChooseTarget = effectChooseTarget;
+        this.effect_type = effect_type;
+        this.effect_scope = effect_scope;
+        this.effect_object = effect_object;
+        this.effect_condition = effect_condition;
+        this.effect_choose_condition = effect_choose_condition;
+        this.effect_source = effect_source;
+        this.effect_choose_source = effect_choose_source;
+        this.effect_target = effect_target;
+        this.effect_choose_target = effect_choose_target;
 
-        this.effectNumberMin = effectNumberMin;
-        this.effectNumberMax = effectNumberMax;
-        this.effectChooseNumber = effectChooseNumber;
+        this.effect_number_min = effect_number_min;
+        this.effect_number_max = effect_number_max;
+        this.effect_choose_number = effect_choose_number;
         
     }
-
+    */
 
     public void effect(){
 
-        switch (effectType) {
+        switch (effect_type) {
             case "move" -> this.move();
             case "exchange" -> this.exchange();
             case "add" -> this.add();
@@ -100,7 +96,7 @@ public class Character extends StudentAccessiblePiece {
         //All the original characters of type exchange ask a range
         //If more characters are added, other checks may be needed
 
-        switch(effectChooseTarget){
+        switch(effect_choose_target){
             case "player":
                 //ask player 
                 break;
@@ -121,11 +117,11 @@ public class Character extends StudentAccessiblePiece {
         //Both the original characters of type exchange ask a range
         //If more characters are added, other checks may be needed
 
-        for(int i = 0; i < effectNumberMax; i++){
-            //Ask which student to select in (effectSource), or quit
+        for(int i = 0; i < effect_number_max; i++){
+            //Ask which student to select in (effect_source), or quit
             //if(quit) -> break;
             //else
-            //Ask for target student to select in (effectTarget)
+            //Ask for target student to select in (effect_target)
             //Swap(source, target)
         }
 
@@ -136,21 +132,21 @@ public class Character extends StudentAccessiblePiece {
         //Not implementing extra cases out of the original 12 Characters.
         //May need to add more if new characters are added.
 
-        switch(effectObject) {
+        switch(effect_object) {
             case "influence":
-                Game.setInfluenceModifier(Game.getInfluenceModifier() + effectNumberMin); //(no range ATM)
+                Game.setInfluenceModifier(Game.getInfluenceModifier() + effect_number_min); //(no range ATM)
                 break;
             case "mother_nature_movement":
-                Game.setMotherNatureMovements(Game.getMotherNatureMovements() + effectNumberMin); //(no range ATM)
+                Game.setMotherNatureMovements(Game.getMotherNatureMovements() + effect_number_min); //(no range ATM)
                 break;
             case "student":
-                //Student (color?) influence += effectNumberMin
-                switch(effectCondition){
+                //Student (color?) influence += effect_number_min
+                switch(effect_condition){
                     case "color":
                         //Should need more selection, but this is enough with only
                         //The original characters
                         //Ask the player for a color to change
-                        //Student COLOR influence += effectNumberMin
+                        //Student COLOR influence += effect_number_min
                         break;
                     /*Extra cases...
                     case "???":
@@ -159,7 +155,7 @@ public class Character extends StudentAccessiblePiece {
                 }
                 break;
             case "tower":
-                Game.setTowerValue(Game.getTowerValue() + effectNumberMin); //(no range ATM)
+                Game.setTowerValue(Game.getTowerValue() + effect_number_min); //(no range ATM)
                 break;
             case "professor":
                 //When counting DiningRoom students, consider count++
@@ -174,9 +170,9 @@ public class Character extends StudentAccessiblePiece {
 
     public void resolve(){
 
-        if(effectChooseTarget == "player"){
+        if(effect_choose_target == "player"){
             //Ask the player for the ID (e.g.: ID of target island)
-        } else if(effectChooseTarget == "random"){
+        } else if(effect_choose_target == "random"){
             //Get a random ID (e.g.: ID of target island)
         }
 

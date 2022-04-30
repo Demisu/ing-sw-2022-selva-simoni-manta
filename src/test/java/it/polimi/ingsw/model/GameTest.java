@@ -1,10 +1,15 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.Gson;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.model.Game.getStudentValue;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +20,7 @@ public class GameTest {
     void testGetAStudent() {
 
         Game testGame = new Game(2, "test");
-        ArrayList<Integer> testStudents = new ArrayList<Integer>();
+        ArrayList<Integer> testStudents = new ArrayList<>();
         for(int i = 0; i < 10; i++) {
             testStudents.add(testGame.getAStudent());
         }
@@ -48,9 +53,90 @@ public class GameTest {
     @DisplayName("Testing player recovery by ID")
     void testGetPlayers(){
 
-        Game testGame = new Game(2, "test");
+        Game testGame2 = new Game(2, "test2");
+        assertEquals(testGame2.getPlayers().size(), 2);
 
-        assertEquals(testGame.getPlayers().size(), 2);
+        Game testGame3 = new Game(3, "test3");
+        assertEquals(testGame3.getPlayers().size(), 3);
+
+        Game testGame4 = new Game(4, "test4");
+        assertEquals(testGame4.getPlayers().size(), 4);
 
     }
+
+    @Test
+    @DisplayName("Testing character creation")
+    void testCharacterGeneration() {
+
+        String characterJsonName = ".\\src\\Characters\\" + "Character" + "7" + ".JSON";
+        System.out.println(characterJsonName);
+
+        Character testCharacter;
+
+        /* OPEN JSON */
+        try {
+            // create Gson instance
+            Gson gson = new Gson();
+            // create a reader
+            Reader reader = Files.newBufferedReader(Paths.get(characterJsonName));
+            // convert JSON string to Character object
+            testCharacter = gson.fromJson(reader, Character.class);
+            // close reader
+            reader.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            testCharacter = null;
+        }
+
+        assertNotNull(testCharacter);
+
+    }
+
+    @Test
+    @DisplayName("Testing miscellanea")
+    void testMiscellanea(){
+
+        Game gameTest = new Game(2, "TestStudentValue");
+
+        //public static Integer getStudentValue(int studentID)
+
+        Integer studentID1 = Integer.valueOf(0);
+        Integer studentID2 = Integer.valueOf(26);
+        Integer studentID3 = Integer.valueOf(52);
+        Integer studentID4 = Integer.valueOf(78);
+        Integer studentID5 = Integer.valueOf(104);
+
+        assertEquals(getStudentValue(studentID1), 1);
+        assertEquals(getStudentValue(studentID2), 1);
+        assertEquals(getStudentValue(studentID3), 1);
+        assertEquals(getStudentValue(studentID4), 1);
+        assertEquals(getStudentValue(studentID5), 1);
+
+        //Getter and setters
+        assertEquals(Game.getTowerValue(), 1);
+        Game.setTowerValue(0);
+        assertEquals(Game.getTowerValue(), 0);
+
+        assertNotNull(gameTest.getTeams());
+        assertNotNull(gameTest.getClouds());
+
+        assertNotNull(gameTest.getCharacter(0));
+        assertNotNull(gameTest.getCharacter(1));
+        assertNotNull(gameTest.getCharacter(2));
+
+        assertEquals(Game.getInfluenceModifier(), 0);
+        Game.setInfluenceModifier(1);
+        assertEquals(Game.getInfluenceModifier(), 1);
+
+        assertEquals(Game.getMotherNatureMovements(), 0);
+        Game.setMotherNatureMovements(1);
+        assertEquals(Game.getMotherNatureMovements(), 1);
+
+        gameTest.setCurrentTurnOrder(new ArrayList<>());
+        assertTrue(gameTest.getCurrentTurnOrder().isEmpty());
+        gameTest.setNextTurnOrder(new ArrayList<>());
+        assertTrue(gameTest.getNextTurnOrder().isEmpty());
+
+    }
+
 }
