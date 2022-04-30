@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/Demis/Documents/GitHub/ing-sw-2022-selva-simoni-manta/src/main/java/it/polimi/ingsw</OriginalElement>
+  <nodes>
+    <node x="203.0" y="1386.0">it.polimi.ingsw.Eriantys</node>
+    <node x="351.0" y="0.0">it.polimi.ingsw.model.StudentAccessiblePiece</node>
+    <node x="277.0" y="976.0">it.polimi.ingsw.controller.GameController</node>
+    <node x="0.0" y="1386.0">it.polimi.ingsw.model.Color</node>
+    <node x="1305.0" y="976.0">it.polimi.ingsw.model.TowerColor</node>
+    <node x="195.80769230769232" y="404.5">it.polimi.ingsw.model.Tile</node>
+    <node x="0.0" y="976.0">it.polimi.ingsw.model.Player</node>
+    <node x="844.8076923076924" y="0.0">it.polimi.ingsw.model.Game</node>
+    <node x="1057.0" y="976.0">it.polimi.ingsw.model.Assistant</node>
+    <node x="315.0" y="765.5">it.polimi.ingsw.model.Cloud</node>
+    <node x="0.0" y="654.0">it.polimi.ingsw.model.Island</node>
+    <node x="536.0" y="1386.0">it.polimi.ingsw.client.Client</node>
+    <node x="611.8076923076923" y="305.0">it.polimi.ingsw.model.Character</node>
+    <node x="774.0" y="976.0">it.polimi.ingsw.model.Team</node>
+    <node x="333.8076923076923" y="371.0">it.polimi.ingsw.model.SchoolBoard</node>
+    <node x="398.0" y="1386.0">it.polimi.ingsw.server.Server</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.polimi.ingsw.model.Character" target="it.polimi.ingsw.model.StudentAccessiblePiece" relationship="GENERALIZATION">
+      <point x="0.0" y="-149.5" />
+      <point x="705.8076923076923" y="280.0" />
+      <point x="465.5" y="280.0" />
+      <point x="0.0" y="127.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.SchoolBoard" target="it.polimi.ingsw.model.StudentAccessiblePiece" relationship="GENERALIZATION">
+      <point x="0.0" y="-83.5" />
+      <point x="462.8076923076923" y="280.0" />
+      <point x="465.5" y="280.0" />
+      <point x="0.0" y="127.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Tile" target="it.polimi.ingsw.model.StudentAccessiblePiece" relationship="GENERALIZATION">
+      <point x="-2.8421709430404007E-14" y="-50.0" />
+      <point x="254.8076923076923" y="280.0" />
+      <point x="465.5" y="280.0" />
+      <point x="0.0" y="127.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Cloud" target="it.polimi.ingsw.model.Tile" relationship="GENERALIZATION">
+      <point x="0.0" y="-27.0" />
+      <point x="367.5" y="629.0" />
+      <point x="254.80769230769232" y="629.0" />
+      <point x="0.0" y="50.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Island" target="it.polimi.ingsw.model.Tile" relationship="GENERALIZATION">
+      <point x="0.0" y="-138.5" />
+      <point x="147.5" y="629.0" />
+      <point x="254.80769230769232" y="629.0" />
+      <point x="0.0" y="50.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.44451827242524916" showDependencies="false" x="748.0" y="742.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
