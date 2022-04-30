@@ -15,10 +15,6 @@ public abstract class StudentAccessiblePiece {
         return students;
     }
 
-    public void setStudents(HashSet<Integer> students) {
-        this.students = students;
-    }
-
     public void removeStudent(Integer student){
         students.remove(student);
 
@@ -87,14 +83,15 @@ public abstract class StudentAccessiblePiece {
     }
 
     /* helper method for getStudentNumber, does the actual counting*/
-    public Integer counter(int lowerExtreme, int upperExtreme) {
-        Iterator<Integer> it = this.students.iterator();
-        Integer s = 0;
-        while(it.hasNext()) {
-            if (it.next() >= lowerExtreme && it.next() <= upperExtreme) {
+    public int counter(int lowerExtreme, int upperExtreme) {
+        int s = 0;
+
+        for (Integer student : this.students) {
+            if(student >= lowerExtreme && student <= upperExtreme){
                 s++;
             }
         }
         return s;
+
     }
 }

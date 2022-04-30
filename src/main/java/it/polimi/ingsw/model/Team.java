@@ -35,8 +35,8 @@ public class Team {
         return players;
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
+    public void addPlayer(Player player) {
+        this.players.add(player);
     }
 
     public void setTowerColor(TowerColor towerColor) {

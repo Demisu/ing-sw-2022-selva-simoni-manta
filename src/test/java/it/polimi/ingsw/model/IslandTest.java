@@ -9,7 +9,21 @@ import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class IslandTest {
+    @Test
+    @DisplayName("Testing the number of student present")
+    void testGetStudentNumber() {
+        Island island1 = new Island(0);
+        island1.addStudent(23);
+        island1.addStudent(21);
+        island1.addStudent(20);
+        island1.addStudent(7);
 
+        assertEquals(island1.getStudentNumber(Color.YELLOW),4);
+        assertEquals(island1.getStudentNumber(Color.RED),0);
+        assertEquals(island1.getStudentNumber()[0],4);
+
+        island1.addStudent(30);
+    }
     @Test
     @DisplayName("Testing students")
     void testIslandStudents() {
