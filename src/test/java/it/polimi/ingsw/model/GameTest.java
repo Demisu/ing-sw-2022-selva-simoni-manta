@@ -1,11 +1,12 @@
 package it.polimi.ingsw.model;
 
-import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+
+import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
 
@@ -29,5 +30,27 @@ public class GameTest {
         assertEquals(2, indexOfColor(Color.GREEN), "Index 2 should correspond to red");
         assertEquals(3, indexOfColor(Color.RED), "Index 3 should correspond to green");
         assertEquals(4, indexOfColor(Color.PURPLE), "Index 4 should correspond to purple");
+    }
+
+    @Test
+    @DisplayName("Testing player recovery by ID")
+    void testGetPlayerByID(){
+
+        Game testGame = new Game(2, "test");
+
+        assertNull(testGame.getPlayerById(3));
+        assertTrue(testGame.getPlayers().contains(testGame.getPlayerById(1)));
+        assertTrue(testGame.getPlayers().contains(testGame.getPlayerById(0)));
+
+    }
+
+    @Test
+    @DisplayName("Testing player recovery by ID")
+    void testGetPlayers(){
+
+        Game testGame = new Game(2, "test");
+
+        assertEquals(testGame.getPlayers().size(), 2);
+
     }
 }

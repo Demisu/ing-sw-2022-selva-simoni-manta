@@ -20,17 +20,15 @@ public class Game {
     private Integer currentPlayerID;
     private Integer playerNumber;
     private List<Island> islands;
-    private Set<Cloud> clouds;
+    private final Set<Cloud> clouds;
     private ArrayList<Integer> students; //This is the game bag
     private static ArrayList<Team> teams;
-    private List<Player> players;
+    private List<Player> players; //TO BE DELETED
     private List<Player> currentTurnOrder; //contains playerIDs for the current round
     private List<Player> nextTurnOrder; //contains player IDs for the next round
     /* MAKE SURE TO COPY nextTurnOrder to currentTurnOrder BEFORE BEGINNING THE NEXT ROUND */
 
-    private Character[] availableCharacters;
-
-    private String[] characterJsonName;
+    private final Character[] availableCharacters;
 
     //Modifiers
     private static Integer[] studentValue; //defaults to 1
@@ -66,6 +64,25 @@ public class Game {
             this.players.add(new Player(i));
         }
 
+        //Teams
+        teams = new ArrayList<>();
+        if(playerNumber % 2 == 0){
+            //2 or 4 players: 2 teams
+            for(int i = 0; i < 2; i++) {
+                teams.add(new Team(i == 0 ? TowerColor.BLACK : TowerColor.WHITE, 8, i));
+            }
+        }else{
+            //3 players: 3 teams
+            for(int i = 0; i < 3; i++) {
+                //DOESN'T WORK
+                teams.add(new Team());
+            }
+        }
+
+        // DEBUG TO REMOVE
+        teams.get(0).addPlayer(players.get(0));
+        teams.get(1).addPlayer(players.get(1));
+
         //Bag setup
         this.students = new ArrayList<Integer>();
         for(int i = 0; i < studentNumber; i++) {
@@ -85,11 +102,11 @@ public class Game {
         }
         Collections.shuffle(allCharacters); //Random shuffle of all existing characters
 
-        this.characterJsonName = new String[availableCharactersNumber]; //Array of characters JSON paths
+        String[] characterJsonName = new String[availableCharactersNumber]; //Array of characters JSON paths
         //Pick n random characters from all the existing ones
         for(int i = 0; i < availableCharactersNumber; i++){
             // Create the paths
-            this.characterJsonName[i] = charactersJSONPath + "Character" + allCharacters.get(i) + ".JSON";
+            characterJsonName[i] = charactersJSONPath + "Character" + allCharacters.get(i) + ".JSON";
         }
 
         this.availableCharacters = new Character[availableCharactersNumber]; //Array of n characters
@@ -112,15 +129,6 @@ public class Game {
         }
 
         this.players.get(0).setNickname(nicknameOfCreator);
-    }
-
-    public Player getPlayerById(Integer playerId) {
-
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getPlayerId() == playerId)
-                return players.get(i);
-        }
-        return null;
     }
 
     public Integer getAStudent() { //get (and remove) a student from the game bag
@@ -192,7 +200,13 @@ public class Game {
     }
 
     public List<Player> getPlayers() {
-        return players;
+
+        List<Player> playerList = new ArrayList<>();
+        for (Team team: teams) {
+            playerList.addAll(team.getPlayers());
+        }
+        return playerList;
+
     }
 
     public void setPlayers(List<Player> players) {
@@ -228,4 +242,36 @@ public class Game {
     public static void setMotherNatureMovements(Integer newMotherNatureMovements) {
         motherNatureMovements = newMotherNatureMovements;
     }
+
+    // GET BY ID SECTION, USED BY THE CONTROLLER
+
+
+    public Player getPlayerById(Integer playerId) {
+
+        for (Team team : teams) {
+            for (Player player : team.getPlayers()) {
+                if (player.getPlayerId() == playerId)
+                    return player;
+            }
+        }
+        System.out.println("Player not found");
+        return null;
+
+    }
+
+    public SchoolBoard getSchoolBoardByID(Integer boardID) {
+        //TO BE IMPLEMENTED
+        return null;
+    }
+
+    public StudentAccessiblePiece getStudentAccessiblePieceByID(Integer pieceID) {
+        //TO BE IMPLEMENTED
+        return null;
+    }
+
+    public Island getIslandByID(Integer islandID) {
+        //TO BE IMPLEMENTED
+        return null;
+    }
+
 }

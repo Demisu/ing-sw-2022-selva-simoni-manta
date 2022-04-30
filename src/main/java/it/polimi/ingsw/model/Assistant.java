@@ -1,14 +1,15 @@
 package it.polimi.ingsw.model;
 
-public class Assistant{
+public final class Assistant{
 
-    private int assistantId;
-    private int turnPriority;
-    private int motherNatureMovements;
+    private final int assistantId;
+    private final int turnPriority;
+    private final int motherNatureMovements;
 
-    public Assistant(int turnPriority, int motherNatureMovements){
-        this.turnPriority=turnPriority;
-        this.motherNatureMovements=motherNatureMovements;
+    public Assistant(int turnPriority, int motherNatureMovements, int assistantId){
+        this.turnPriority = turnPriority;
+        this.motherNatureMovements = motherNatureMovements;
+        this.assistantId = assistantId;
     }
 
     public int getAssistantId() {
@@ -23,15 +24,4 @@ public class Assistant{
         return motherNatureMovements;
     }
 
-    public void setAssistantId(int assistantId) {
-        this.assistantId = assistantId;
-    }
-
-    public void setTurnPriority(int turnPriority) {
-        this.turnPriority = turnPriority;
-    }
-
-    public void setMotherNatureMovements(int motherNatureMovements) {
-        this.motherNatureMovements = motherNatureMovements;
-    }
 }
