@@ -90,24 +90,4 @@ public class Player{
             }
         }
     }
-
-    public void addCoin(){
-        //Might need this in the future
-        this.coins++;
-    }
-
-    public void addCoin(Integer coins){
-        //Might need this in the future
-        this.coins=this.coins+coins;
-    }
-
-    public void removeCoin(){
-        //Might need this in the future to not have a negative balance
-        this.coins--;
-    }
-
-    public void removeCoin(Integer coins){
-        //Might need this in the future to not have a negative balance
-        this.coins=this.coins-coins;
-    }
 }

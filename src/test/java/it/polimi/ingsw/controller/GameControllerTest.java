@@ -33,6 +33,7 @@ public class GameControllerTest {
         controller.startGame(2, "testUnifyIslands");
         Island island0 = new Island(0);
         Island island1 = new Island(1);
+        island1.setMotherNature(true);
         island0.addStudent(23);
         island0.addStudent(27);
         island1.addStudent(65);
@@ -42,9 +43,12 @@ public class GameControllerTest {
         assertFalse(island0.getStudents().contains(10),"Student should not be here");
         assertTrue(island1.getStudents().contains(65),"Student should be here");
         assertTrue(island1.getStudents().contains(10),"Student should be here");
+        assertEquals(island1.isMotherNature(),true);
 
         controller.unifyIslands(island0,island1);
 
+
+        assertEquals(island0.isMotherNature(),true);
         assertTrue(island0.getStudents().contains(65),"After merge student should be present");
         assertTrue(island0.getStudents().contains(10),"After merge student should be present");
 

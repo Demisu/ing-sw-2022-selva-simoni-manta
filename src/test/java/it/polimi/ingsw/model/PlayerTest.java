@@ -2,6 +2,9 @@ package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
@@ -32,6 +35,32 @@ public class PlayerTest {
         player1.setCoins(player1.getCoins()+5);
 
         assertEquals(player1.getCoins(),6);
+    }
+    @Test
+    @DisplayName("Testing initial values")
+    void testInfo(){
+        Player player1 = new Player(0);
 
+        assertEquals(player1.getPlayerId(),0);
+        player1.setPlayerid(2);
+        assertEquals(player1.getPlayerId(),2);
+        SchoolBoard schoolboard = player1.getPlayerBoard();
+
+        Assistant assistant1 = new Assistant(4,6,0);
+        Assistant assistant2 = new Assistant(5,5,1);
+        Assistant assistant3 = new Assistant(2,9,2);
+
+        ArrayList<Assistant> deck = new ArrayList<Assistant>();
+        deck.add(assistant1);
+        deck.add(assistant2);
+        deck.add(assistant3);
+        player1.setLastAssistantPlayed(assistant2);
+        assertEquals(player1.getLastAssistantPlayed(),assistant2);
+
+        player1.setDeck(deck);
+        assertEquals(deck,player1.getDeck());
+
+        player1.removeAssistantById(1);
+        assertFalse(player1.getDeck().contains(assistant2));
     }
 }
