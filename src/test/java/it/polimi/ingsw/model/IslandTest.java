@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import static it.polimi.ingsw.model.Color.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class IslandTest {
@@ -18,11 +19,58 @@ public class IslandTest {
         island1.addStudent(20);
         island1.addStudent(7);
 
-        assertEquals(island1.getStudentNumber(Color.YELLOW),4);
+        assertEquals(island1.getStudentNumber(YELLOW),4);
         assertEquals(island1.getStudentNumber(Color.RED),0);
         assertEquals(island1.getStudentNumber()[0],4);
 
         island1.addStudent(30);
+    }
+    @Test
+    @DisplayName("Testing TowerColor")
+    void testGetTowerColor() {
+        Island island1 = new Island(0);
+        island1.setTowersColor(TowerColor.GREY);
+        assertEquals(island1.getTowersColor(),TowerColor.GREY);
+    }
+    @Test
+    @DisplayName("Testing ResolveIsland")
+    void testResolveIsland() {
+        Island island1 = new Island(0);
+        island1.setTowersColor(TowerColor.WHITE);
+        ArrayList<Team> teams = new ArrayList<Team>();
+        Team team1 = new Team(TowerColor.BLACK,1,0);
+        Team team2 = new Team(TowerColor.WHITE,0,0);
+        Player player1 = new Player(0);
+        Player player2 = new Player(1);
+        Player player3 = new Player(2);
+        Player player4 = new Player(3);
+        player1.getPlayerBoard().setProfessor(YELLOW,true);
+        player1.getPlayerBoard().setProfessor(BLUE,false);
+        player1.getPlayerBoard().setProfessor(GREEN,false);
+        player1.getPlayerBoard().setProfessor(RED,false);
+        player1.getPlayerBoard().setProfessor(PURPLE,false);
+        player2.getPlayerBoard().setProfessor(YELLOW,false);
+        player2.getPlayerBoard().setProfessor(BLUE,true);
+        player2.getPlayerBoard().setProfessor(GREEN,false);
+        player2.getPlayerBoard().setProfessor(RED,false);
+        player2.getPlayerBoard().setProfessor(PURPLE,false);
+        player3.getPlayerBoard().setProfessor(YELLOW,false);
+        player3.getPlayerBoard().setProfessor(BLUE,false);
+        player3.getPlayerBoard().setProfessor(GREEN,true);
+        player3.getPlayerBoard().setProfessor(RED,false);
+        player3.getPlayerBoard().setProfessor(PURPLE,false);
+        player4.getPlayerBoard().setProfessor(YELLOW,false);
+        player4.getPlayerBoard().setProfessor(BLUE,false);
+        player4.getPlayerBoard().setProfessor(GREEN,false);
+        player4.getPlayerBoard().setProfessor(RED,false);
+        player4.getPlayerBoard().setProfessor(PURPLE,false);
+        team1.addPlayer(player1);
+        team1.addPlayer(player2);
+        team2.addPlayer(player3);
+        team2.addPlayer(player4);
+        teams.add(team1);
+        teams.add(team2);
+        island1.resolveIsland(teams);
     }
     @Test
     @DisplayName("Testing students")
