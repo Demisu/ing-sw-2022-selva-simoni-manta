@@ -12,6 +12,7 @@ class SchoolBoardTest {
     @DisplayName("Testing Students")
     void testSchoolBoardStudents() {
         SchoolBoard board = new SchoolBoard();
+        board.setPieceID(1);
         board.addStudent(1);
         board.addStudent(2);
         board.addStudent(3);

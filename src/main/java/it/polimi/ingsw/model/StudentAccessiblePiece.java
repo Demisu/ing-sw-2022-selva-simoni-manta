@@ -5,9 +5,11 @@ import java.util.HashSet;
 public abstract class StudentAccessiblePiece {
 
     protected HashSet<Integer> students;
+    private Integer pieceID;
 
     public StudentAccessiblePiece(){
-        HashSet<Integer> students = new HashSet<Integer>();
+        HashSet<Integer> students = new HashSet<>();
+        pieceID = Game.getNextPieceID();
     }
 
     public HashSet<Integer> getStudents() {
@@ -91,5 +93,14 @@ public abstract class StudentAccessiblePiece {
         }
         return s;
 
+    }
+
+    public Integer getPieceID() {
+        return pieceID;
+    }
+
+    //DO NOT USE EXCEPT FOR DEBUGGING/TESTING
+    public void setPieceID(Integer pieceID) {
+        this.pieceID = pieceID;
     }
 }

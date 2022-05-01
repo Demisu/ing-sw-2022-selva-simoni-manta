@@ -22,12 +22,16 @@ public class GameController {
     /* MOVEMENT */
     /*----------*/
 
-    public void moveStudent(Integer student, StudentAccessiblePiece origin, StudentAccessiblePiece target) {
+    public void moveStudent(Integer student, Integer originID, Integer targetID) {
+        StudentAccessiblePiece origin = currentGame.getStudentAccessiblePieceByID(originID);
+        StudentAccessiblePiece target = currentGame.getStudentAccessiblePieceByID(targetID);
         origin.removeStudent(student);
         target.addStudent(student);
     }
 
-    public void moveProfessor(Color professorColor, SchoolBoard origin, SchoolBoard target){
+    public void moveProfessor(Color professorColor, Integer originID, Integer targetID){
+        SchoolBoard origin = currentGame.getSchoolBoardByID(originID);
+        SchoolBoard target = currentGame.getSchoolBoardByID(targetID);
         origin.setProfessor(professorColor, false);
         target.setProfessor(professorColor, true);
     }

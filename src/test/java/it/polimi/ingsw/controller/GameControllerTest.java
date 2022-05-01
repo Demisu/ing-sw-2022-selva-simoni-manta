@@ -58,23 +58,27 @@ public class GameControllerTest {
     void testMovementSchoolBoard(){
 
         GameController controller = new GameController();
+        //Game with 2 teams: team0 and team1
         controller.startGame(2, "testone");
         controller.getCurrentGame().getIslands().get(1).addStudent(13);
-        SchoolBoard test1 = new SchoolBoard();
+
+        //board of player 0 in team 0
+        SchoolBoard test1 = controller.getCurrentGame().getTeams().get(0).getPlayers().get(0).getPlayerBoard();
         test1.setProfessor(YELLOW, true);
         test1.setProfessor(GREEN, true);
         test1.setProfessor(BLUE, true);
         test1.setProfessor(PURPLE, true);
         test1.setProfessor(RED, true);
 
-        SchoolBoard test2 = new SchoolBoard();
+        //board of player 0 in team 1
+        SchoolBoard test2 = controller.getCurrentGame().getTeams().get(1).getPlayers().get(0).getPlayerBoard();
 
-        controller.moveStudent(13, controller.getCurrentGame().getIslands().get(1), controller.getCurrentGame().getIslands().get(2));
-        controller.moveProfessor(YELLOW, test1, test2);
-        controller.moveProfessor(GREEN, test1, test2);
-        controller.moveProfessor(BLUE, test1, test2);
-        controller.moveProfessor(PURPLE, test1, test2);
-        controller.moveProfessor(RED, test1, test2);
+        controller.moveStudent(13, controller.getCurrentGame().getIslands().get(1).getPieceID(), controller.getCurrentGame().getIslands().get(2).getPieceID());
+        controller.moveProfessor(YELLOW, test1.getPieceID(), test2.getPieceID());
+        controller.moveProfessor(GREEN, test1.getPieceID(), test2.getPieceID());
+        controller.moveProfessor(BLUE, test1.getPieceID(), test2.getPieceID());
+        controller.moveProfessor(PURPLE, test1.getPieceID(), test2.getPieceID());
+        controller.moveProfessor(RED, test1.getPieceID(), test2.getPieceID());
 
         Boolean[] testone = test2.getProfessors();
 

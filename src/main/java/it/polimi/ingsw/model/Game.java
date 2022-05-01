@@ -36,6 +36,9 @@ public class Game {
     private static Integer influenceModifier; //defaults to 0
     private static Integer motherNatureMovements; //defaults to 0
 
+    //Needed for Piece ID
+    private static Integer nextPieceID = 0;
+
     public Game(int playerNumber, String nicknameOfCreator) {
 
         //Piece values setup
@@ -226,16 +229,6 @@ public class Game {
 
     }
 
-    public void unifyIslands(Island a, Island b){
-        a.getStudents().addAll(b.getStudents());
-        a.setTowersNumber(a.getTowersNumber() + b.getTowersNumber());
-        a.setNoEntry(a.getNoEntry() + b.getNoEntry());
-        if(b.isMotherNature()){
-            a.setMotherNature(true);
-        }
-        this.islands.remove(b);
-    }
-
     public Character getCharacter(int index) {
         return availableCharacters[index];
     }
@@ -272,18 +265,65 @@ public class Game {
     }
 
     public SchoolBoard getSchoolBoardByID(Integer boardID) {
-        //TO BE IMPLEMENTED
+        for (Team team : teams) {
+            for (Player player : team.getPlayers()) {
+                if(player.getPlayerBoard().getPieceID() == boardID)
+                    return player.getPlayerBoard();
+            }
+        }
+        System.out.println("SchoolBoard with id " + boardID + " not found (Game.getSchoolBoardByID)");
         return null;
     }
 
     public StudentAccessiblePiece getStudentAccessiblePieceByID(Integer pieceID) {
-        //TO BE IMPLEMENTED
+        //SchoolBoards
+        for (Team team : teams) {
+            for (Player player : team.getPlayers()) {
+                if(player.getPlayerBoard().getPieceID() == pieceID) {
+                    System.out.println("Found playerBoard: " + player.getPlayerBoard().getPieceID() + " searching for pieceID:" + pieceID);
+                    return player.getPlayerBoard();
+                }
+            }
+        }
+        //Characters
+        for (Character character : availableCharacters) {
+            if(character.getPieceID() == pieceID){
+                System.out.println("Found character: " + character.getPieceID() + " searching for pieceID:" + pieceID);
+                return character;
+            }
+        }
+        //Clouds
+        for (Cloud cloud : clouds) {
+            if(cloud.getPieceID() == pieceID){
+                System.out.println("Found cloud: " + cloud.getPieceID() + " searching for pieceID:" + pieceID);
+                return cloud;
+            }
+        }
+        //Islands
+        for (Island island : islands) {
+            if(island.getPieceID() == pieceID){
+                System.out.println("Found island: " + island.getPieceID() + " searching for pieceID:" + pieceID);
+                return island;
+            }
+        }
+
+        //No piece found
+        System.out.println("StudentAccessiblePiece with id " + pieceID + " not found (Game.getStudentAccessiblePieceByID)");
         return null;
     }
 
     public Island getIslandByID(Integer islandID) {
-        //TO BE IMPLEMENTED
+        for (Island island : islands) {
+            if(island.getPieceID() == islandID)
+                return island;
+        }
+        System.out.println("Island with id " + islandID + " not found (Game.getIslandByID)");
         return null;
+    }
+
+    public static Integer getNextPieceID(){
+        nextPieceID++;
+        return nextPieceID-1;
     }
 
 }
