@@ -1,16 +1,18 @@
 package it.polimi.ingsw.server;
-import it.polimi.ingsw.controller.GameController;
 
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import java.io.IOException;
 
 public class Server {
-    //public static void main(String[] args) throws RemoteException {
-        //GameController controller = new GameController();
-        //System.out.println("Controller inizializzato");
-//
-        //Registry registry = LocateRegistry.createRegistry(1099);
-        //registry.rebind();
-    //}
+    public static void main(String[] args) throws IOException {
+        GameServer server = new GameServer(13954);
+
+        try {
+            server.run();
+        } catch (Exception e) {
+            System.out.println("Error occurred in Server thread");
+            e.printStackTrace();
+        } finally {
+            server.close();
+        }
+    }
 }
