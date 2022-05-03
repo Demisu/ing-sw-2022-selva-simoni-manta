@@ -17,12 +17,13 @@ public class GameControllerTest {
 
         GameController controller = new GameController();
         controller.startGame(2, "testUser");
-        Integer tempID = controller.getCurrentGame().getMotherNatureIsland().getTileId();
+        Island tempIsland = controller.getCurrentGame().getMotherNatureIsland();
+        int tempID = controller.getCurrentGame().getIslands().indexOf(tempIsland);
         controller.moveMotherNature(2);
 
         //assertEquals(1, controller.getCurrentGame().getIslands().stream().filter(island -> island.isMotherNature()).count());
-        assertNotEquals(9999, controller.getCurrentGame().getMotherNatureIsland().getTileId());
-        assertEquals((tempID+2)%12, controller.getCurrentGame().getMotherNatureIsland().getTileId());
+        assertNotEquals(9999, controller.getCurrentGame().getIslands().indexOf(controller.getCurrentGame().getMotherNatureIsland()));
+        assertEquals((tempID+2)%12, controller.getCurrentGame().getIslands().indexOf(controller.getCurrentGame().getMotherNatureIsland()));
 
     }
 
@@ -31,8 +32,8 @@ public class GameControllerTest {
     void testUnifyIslands(){
         GameController controller = new GameController();
         controller.startGame(2, "testUnifyIslands");
-        Island island0 = new Island(0);
-        Island island1 = new Island(1);
+        Island island0 = new Island();
+        Island island1 = new Island();
         island1.setMotherNature(true);
         island0.addStudent(23);
         island0.addStudent(27);
@@ -43,12 +44,12 @@ public class GameControllerTest {
         assertFalse(island0.getStudents().contains(10),"Student should not be here");
         assertTrue(island1.getStudents().contains(65),"Student should be here");
         assertTrue(island1.getStudents().contains(10),"Student should be here");
-        assertEquals(island1.isMotherNature(),true);
+        assertTrue(island1.isMotherNature());
 
         controller.unifyIslands(island0,island1);
 
 
-        assertEquals(island0.isMotherNature(),true);
+        assertTrue(island0.isMotherNature());
         assertTrue(island0.getStudents().contains(65),"After merge student should be present");
         assertTrue(island0.getStudents().contains(10),"After merge student should be present");
 

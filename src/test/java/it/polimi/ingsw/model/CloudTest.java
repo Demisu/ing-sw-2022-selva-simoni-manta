@@ -9,7 +9,7 @@ class CloudTest {
     @Test
     @DisplayName("Testing the number of student present")
     void testGetStudentNumber() {
-        Cloud cloud1 = new Cloud(0);
+        Cloud cloud1 = new Cloud();
 
         cloud1.addStudent(23);
         cloud1.addStudent(21);

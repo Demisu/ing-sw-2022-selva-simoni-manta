@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.ingsw.model.Game.getStudentValue;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
@@ -136,6 +137,19 @@ public class GameTest {
         assertTrue(gameTest.getCurrentTurnOrder().isEmpty());
         gameTest.setNextTurnOrder(new ArrayList<>());
         assertTrue(gameTest.getNextTurnOrder().isEmpty());
+
+        //getIslandByID
+        gameTest = new Game(2, "testGetIslandByID");
+        Island anIsland = gameTest.getIslands().get(0);
+        Island tester = gameTest.getIslandByID(anIsland.getPieceID());
+        assertEquals(tester.getPieceID(), anIsland.getPieceID());
+        //Using wrong indexes
+        tester = gameTest.getIslandByID(-99);
+        assertNull(tester);
+        SchoolBoard testerBoard = gameTest.getSchoolBoardByID(-99);
+        assertNull(testerBoard);
+        StudentAccessiblePiece testPiece = gameTest.getStudentAccessiblePieceByID(-99);
+        assertNull(testPiece);
 
     }
 

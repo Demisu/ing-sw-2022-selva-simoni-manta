@@ -56,7 +56,7 @@ public class Game {
         //Islands setup
         islands = new ArrayList<>();
         for(int i = 0; i < islandsNumber; i++) {
-            this.islands.add(new Island(i));
+            this.islands.add(new Island());
         }
         //Place mother nature randomly
         int randomIsland = new Random().nextInt(islandsNumber);
@@ -66,7 +66,7 @@ public class Game {
         clouds = new HashSet<>();
         players = new ArrayList<>();
         for(int i = 0; i < playerNumber; i++) {
-            this.clouds.add(new Cloud(i));
+            this.clouds.add(new Cloud());
             this.players.add(new Player(i));
         }
 
@@ -194,7 +194,7 @@ public class Game {
 
     public Island getMotherNatureIsland(){
 
-        Island requestedIsland = new Island(0);
+        Island requestedIsland = new Island();
         for(Island island : islands){
             if(island.isMotherNature()){
                 requestedIsland = island;

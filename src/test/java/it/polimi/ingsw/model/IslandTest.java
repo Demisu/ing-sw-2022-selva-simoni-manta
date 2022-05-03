@@ -13,7 +13,7 @@ public class IslandTest {
     @Test
     @DisplayName("Testing the number of student present")
     void testGetStudentNumber() {
-        Island island1 = new Island(0);
+        Island island1 = new Island();
         island1.addStudent(23);
         island1.addStudent(21);
         island1.addStudent(20);
@@ -28,14 +28,14 @@ public class IslandTest {
     @Test
     @DisplayName("Testing TowerColor")
     void testGetTowerColor() {
-        Island island1 = new Island(0);
+        Island island1 = new Island();
         island1.setTowersColor(TowerColor.GREY);
         assertEquals(island1.getTowersColor(),TowerColor.GREY);
     }
     @Test
     @DisplayName("Testing ResolveIsland")
     void testResolveIsland() {
-        Island island1 = new Island(0);
+        Island island1 = new Island();
         island1.setTowersColor(TowerColor.WHITE);
         ArrayList<Team> teams = new ArrayList<Team>();
         Team team1 = new Team(TowerColor.BLACK,1,0);
@@ -75,7 +75,7 @@ public class IslandTest {
     @Test
     @DisplayName("Testing students")
     void testIslandStudents() {
-        Island island = new Island(1);
+        Island island = new Island();
         island.setTowersColor(TowerColor.GREY);
         island.setTowersNumber(2);
         island.addStudent(1);

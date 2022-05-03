@@ -2,10 +2,9 @@ package it.polimi.ingsw.model;
 
 import java.util.HashSet;
 
-public class Cloud extends Tile {
+public class Cloud extends StudentAccessiblePiece {
     
-    public Cloud(int id) {
-        super(id);
+    public Cloud() {
         this.students = new HashSet<>();
 
     }

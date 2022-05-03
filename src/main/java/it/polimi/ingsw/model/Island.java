@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class Island extends Tile {
+public class Island extends StudentAccessiblePiece {
     private boolean motherNature;
     private Integer noEntry;
     //private HashSet<Integer> towers; //è più semplice tenere le due variabili sotto, non ci serve l'id. Vedi modifiche in player
@@ -26,8 +26,7 @@ public class Island extends Tile {
         this.towersColor = towersColor;
     }
 
-    public Island(int id){
-        super(id);
+    public Island(){
         this.motherNature = false;
         this.noEntry = 0;
         this.towersNumber = 0;
