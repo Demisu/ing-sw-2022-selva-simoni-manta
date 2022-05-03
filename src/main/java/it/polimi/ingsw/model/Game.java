@@ -105,7 +105,7 @@ public class Game {
         //teams.get(1).addPlayer(players.get(1));
 
         //Bag setup
-        this.students = new ArrayList<Integer>();
+        this.students = new ArrayList<>();
         for(int i = 0; i < studentNumber; i++) {
             this.students.add(i);
         }
@@ -114,7 +114,7 @@ public class Game {
         // Characters creation //
         // ------------------- //
 
-        this.allCharacters  = new ArrayList<Integer>(); //List of all existing characters
+        this.allCharacters  = new ArrayList<>(); //List of all existing characters
         for (int i=1; i <= allCharactersNumber; i++) {
             allCharacters.add(i);
         }

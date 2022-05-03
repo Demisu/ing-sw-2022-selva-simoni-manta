@@ -8,7 +8,6 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 
 import static it.polimi.ingsw.model.Game.getStudentValue;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
@@ -101,11 +100,11 @@ public class GameTest {
 
         //public static Integer getStudentValue(int studentID)
 
-        Integer studentID1 = Integer.valueOf(0);
-        Integer studentID2 = Integer.valueOf(26);
-        Integer studentID3 = Integer.valueOf(52);
-        Integer studentID4 = Integer.valueOf(78);
-        Integer studentID5 = Integer.valueOf(104);
+        Integer studentID1 = 0;
+        Integer studentID2 = 26;
+        Integer studentID3 = 52;
+        Integer studentID4 = 78;
+        Integer studentID5 = 104;
 
         assertEquals(getStudentValue(studentID1), 1);
         assertEquals(getStudentValue(studentID2), 1);

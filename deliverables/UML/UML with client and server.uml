@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/Demis/Documents/GitHub/ing-sw-2022-selva-simoni-manta/src/main/java/it/polimi/ingsw</OriginalElement>
+  <nodes>
+    <node x="856.0" y="0.0">it.polimi.ingsw.model.StudentAccessiblePiece</node>
+    <node x="54.5" y="800.9999999999999">it.polimi.ingsw.controller.GameController</node>
+    <node x="547.0" y="137.88192932507127">it.polimi.ingsw.model.Color</node>
+    <node x="320.0" y="1206.0">it.polimi.ingsw.client.requests.MoveMotherNatureRequest</node>
+    <node x="1299.5" y="1836.0">it.polimi.ingsw.server.requests.EndGameNotifyRequest</node>
+    <node x="640.0" y="1206.0">it.polimi.ingsw.client.requests.PlayerRoundEndedRequest</node>
+    <node x="640.0" y="1102.0">it.polimi.ingsw.client.ClientRequest</node>
+    <node x="1559.9627365600402" y="1368.0">it.polimi.ingsw.client.ClientResponseHandler</node>
+    <node x="1365.0" y="0.0">it.polimi.ingsw.model.Player</node>
+    <node x="1201.5" y="1959.0">it.polimi.ingsw.server.ServerRequestHandler</node>
+    <node x="1021.0" y="476.0">it.polimi.ingsw.model.Cloud</node>
+    <node x="1280.0" y="1206.0">it.polimi.ingsw.client.requests.PlayCharacterRequest</node>
+    <node x="1559.9627365600402" y="1925.3133478479317">it.polimi.ingsw.server.ServerController</node>
+    <node x="835.5000000000005" y="1550.0">it.polimi.ingsw.client.ClientHandler</node>
+    <node x="1044.5" y="1836.0">it.polimi.ingsw.server.requests.BeginGameNotifyRequest</node>
+    <node x="227.5" y="1539.0">it.polimi.ingsw.client.Client</node>
+    <node x="1559.9627365600402" y="1755.3133478479317">it.polimi.ingsw.server.ServerResponseHandler</node>
+    <node x="1133.0" y="352.0">it.polimi.ingsw.model.Character</node>
+    <node x="1559.9627365600402" y="1516.0">it.polimi.ingsw.client.ClientController</node>
+    <node x="745.0" y="418.0">it.polimi.ingsw.model.SchoolBoard</node>
+    <node x="685.75" y="1732.0">it.polimi.ingsw.server.Server</node>
+    <node x="996.5" y="1959.0">it.polimi.ingsw.server.GameServer</node>
+    <node x="1331.98136828002" y="1445.0">it.polimi.ingsw.client.ClientView</node>
+    <node x="715.5" y="892.8007033997654">it.polimi.ingsw.Eriantys</node>
+    <node x="789.5" y="1836.0">it.polimi.ingsw.server.requests.BeginPlayerRoundRequest</node>
+    <node x="524.0" y="1329.0">it.polimi.ingsw.client.ClientResponse</node>
+    <node x="786.0" y="1433.0">it.polimi.ingsw.client.responses.PlayerRoundBeginResponse</node>
+    <node x="262.0" y="1433.0">it.polimi.ingsw.client.responses.GameBeginNotifyResponse</node>
+    <node x="227.5" y="1836.0">it.polimi.ingsw.server.responses.MotherNatureMovedResponse</node>
+    <node x="233.0" y="1732.0">it.polimi.ingsw.server.ServerResponse</node>
+    <node x="531.0" y="13.199296600234561">it.polimi.ingsw.model.TowerColor</node>
+    <node x="0.0" y="0.0">it.polimi.ingsw.model.Game</node>
+    <node x="1124.5" y="56.0">it.polimi.ingsw.model.Assistant</node>
+    <node x="960.0" y="1206.0">it.polimi.ingsw.client.requests.PlayAssistantRequest</node>
+    <node x="1044.5" y="1732.0">it.polimi.ingsw.server.ServerRequest</node>
+    <node x="0.0" y="1206.0">it.polimi.ingsw.client.requests.MoveStudentRequest</node>
+    <node x="501.5" y="1836.0">it.polimi.ingsw.server.responses.StudentMovedResponse</node>
+    <node x="431.0" y="363.0">it.polimi.ingsw.model.Island</node>
+    <node x="524.0" y="1433.0">it.polimi.ingsw.client.responses.RequestSuccessfulResponse</node>
+    <node x="-35.5" y="1836.0">it.polimi.ingsw.server.responses.CharacterPlayedResponse</node>
+    <node x="1048.0" y="1433.0">it.polimi.ingsw.server.responses.AssistantPlayedResponse</node>
+    <node x="0.0" y="1433.0">it.polimi.ingsw.client.responses.GameEndNotifyResponse</node>
+    <node x="483.0000000000002" y="1540.0">it.polimi.ingsw.client.ClientRequestHandler</node>
+    <node x="1362.0" y="400.1227600066991">it.polimi.ingsw.model.Team</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.polimi.ingsw.model.Island" target="it.polimi.ingsw.model.StudentAccessiblePiece" relationship="GENERALIZATION">
+      <point x="0.0" y="-140.0" />
+      <point x="578.0" y="327.0" />
+      <point x="970.0" y="327.0" />
+      <point x="0.0" y="151.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Cloud" target="it.polimi.ingsw.model.StudentAccessiblePiece" relationship="GENERALIZATION">
+      <point x="0.0" y="-27.0" />
+      <point x="1067.0" y="327.0" />
+      <point x="970.0" y="327.0" />
+      <point x="0.0" y="151.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.server.requests.BeginGameNotifyRequest" target="it.polimi.ingsw.server.ServerRequest" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Character" target="it.polimi.ingsw.model.StudentAccessiblePiece" relationship="GENERALIZATION">
+      <point x="0.0" y="-151.0" />
+      <point x="1226.5" y="327.0" />
+      <point x="970.0" y="327.0" />
+      <point x="0.0" y="151.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.responses.PlayerRoundBeginResponse" target="it.polimi.ingsw.client.ClientResponse" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="907.0" y="1408.0" />
+      <point x="645.0" y="1408.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.requests.PlayCharacterRequest" target="it.polimi.ingsw.client.ClientRequest" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="1430.0" y="1181.0" />
+      <point x="790.0" y="1181.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.requests.MoveStudentRequest" target="it.polimi.ingsw.client.ClientRequest" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="150.0" y="1181.0" />
+      <point x="790.0" y="1181.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.responses.GameEndNotifyResponse" target="it.polimi.ingsw.client.ClientResponse" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="121.0" y="1408.0" />
+      <point x="645.0" y="1408.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.server.ServerController" target="it.polimi.ingsw.server.ServerResponseHandler" relationship="REALIZATION">
+      <point x="0.0" y="-72.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.server.responses.MotherNatureMovedResponse" target="it.polimi.ingsw.server.ServerResponse" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.server.responses.AssistantPlayedResponse" target="it.polimi.ingsw.client.ClientResponse" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="1169.0" y="1408.0" />
+      <point x="645.0" y="1408.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.ClientController" target="it.polimi.ingsw.client.ClientResponseHandler" relationship="REALIZATION">
+      <point x="0.0" y="-83.0" />
+      <point x="0.0" y="49.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.responses.RequestSuccessfulResponse" target="it.polimi.ingsw.client.ClientResponse" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.server.responses.CharacterPlayedResponse" target="it.polimi.ingsw.server.ServerResponse" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="86.0" y="1811.0" />
+      <point x="354.5" y="1811.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.server.requests.BeginPlayerRoundRequest" target="it.polimi.ingsw.server.ServerRequest" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="907.0" y="1811.0" />
+      <point x="1162.0" y="1811.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.requests.PlayAssistantRequest" target="it.polimi.ingsw.client.ClientRequest" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="1110.0" y="1181.0" />
+      <point x="790.0" y="1181.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.SchoolBoard" target="it.polimi.ingsw.model.StudentAccessiblePiece" relationship="GENERALIZATION">
+      <point x="0.0" y="-85.0" />
+      <point x="873.0" y="327.0" />
+      <point x="970.0" y="327.0" />
+      <point x="0.0" y="151.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.responses.GameBeginNotifyResponse" target="it.polimi.ingsw.client.ClientResponse" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="383.0" y="1408.0" />
+      <point x="645.0" y="1408.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.requests.MoveMotherNatureRequest" target="it.polimi.ingsw.client.ClientRequest" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="470.0" y="1181.0" />
+      <point x="790.0" y="1181.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.server.responses.StudentMovedResponse" target="it.polimi.ingsw.server.ServerResponse" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="623.0" y="1811.0" />
+      <point x="354.5" y="1811.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.server.requests.EndGameNotifyRequest" target="it.polimi.ingsw.server.ServerRequest" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="1417.0" y="1811.0" />
+      <point x="1162.0" y="1811.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.requests.PlayerRoundEndedRequest" target="it.polimi.ingsw.client.ClientRequest" relationship="REALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.5774661508704062" showDependencies="false" x="934.416849284019" y="755.4128286719142" />
+  <SelectedNodes>
+    <node>it.polimi.ingsw.Eriantys</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
