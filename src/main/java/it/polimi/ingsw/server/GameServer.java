@@ -18,6 +18,8 @@ public class GameServer {
         serverSocket = new ServerSocket(port);
         executorServicePool = Executors.newCachedThreadPool();
         System.out.println("Server running on port " + port);
+        System.out.println("Server listening on address " + serverSocket.getLocalSocketAddress() + " and port "
+                + serverSocket.getLocalPort());
     }
 
     public void run() throws IOException {
@@ -25,6 +27,7 @@ public class GameServer {
             Socket clientSocket = serverSocket.accept();
             System.out.println("New connection established with " + clientSocket.getLocalSocketAddress());
             executorServicePool.submit(new ClientHandler(clientSocket));
+
         }
     }
 
