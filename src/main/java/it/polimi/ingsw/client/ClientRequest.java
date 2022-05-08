@@ -1,9 +1,11 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.server.ServerResponse;
+
 import java.io.Serializable;
 
 public interface ClientRequest extends Serializable {
 
-    ClientResponse handle(ClientResponseHandler handler);
+    ServerResponse handle(ClientRequestHandler handler);
 
 }

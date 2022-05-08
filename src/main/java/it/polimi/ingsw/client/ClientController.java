@@ -2,16 +2,20 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.requests.MoveMotherNatureRequest;
 import it.polimi.ingsw.client.requests.PlayerRoundEndedRequest;
+import it.polimi.ingsw.client.requests.SetNicknameRequest;
 import it.polimi.ingsw.client.responses.GameBeginNotifyResponse;
 import it.polimi.ingsw.client.responses.GameEndNotifyResponse;
 import it.polimi.ingsw.client.responses.PlayerRoundBeginResponse;
-import it.polimi.ingsw.client.responses.RequestSuccessfulResponse;
+import it.polimi.ingsw.server.ServerResponseHandler;
+import it.polimi.ingsw.server.responses.*;
+
+import java.io.IOException;
 
 /**
  * Controller used by the Client
  */
 
-public class ClientController implements ClientResponseHandler {
+public class ClientController implements ServerResponseHandler {
 
     private final Client client;
 
@@ -27,6 +31,11 @@ public class ClientController implements ClientResponseHandler {
         this.view = new ClientView(this);
     }
 
+    public void run() throws IOException {
+        view.nicknamePhase();
+        receiver.interrupt();
+    }
+
 
     /**
      * Methods corresponding 1:1 to the Requests the Client can do
@@ -37,7 +46,7 @@ public class ClientController implements ClientResponseHandler {
      * Moves MotherNature
      * @param movements the amount of movements to do
      */
-    void moveMotherNature(Integer movements) {
+    public void moveMotherNature(Integer movements) {
         client.clientRequest(new MoveMotherNatureRequest(movements));
     }
 
@@ -46,8 +55,14 @@ public class ClientController implements ClientResponseHandler {
      * @param status must be set to TRUE for the request to be correctly processed
      *               by the server
      */
-    void playerRoundEnded(Boolean status) {
+    public void playerRoundEnded(Boolean status) {
         client.clientRequest(new PlayerRoundEndedRequest(status));
+    }
+
+
+    public String setPlayerNickname(String nickname) {
+        client.clientRequest(new SetNicknameRequest(nickname));
+        return ((SetNicknameResponse) client.clientResponse()).getNickname();
     }
 
 
@@ -56,23 +71,32 @@ public class ClientController implements ClientResponseHandler {
      * Requests are defined in the client.responses package, one Class for each
      * @param res the response received by the Client from the Server
      */
+    @Override
+    public void handle(AssistantPlayedResponse res) {
+
+    }
+
+    @Override
+    public void handle(CharacterPlayedResponse res) {
+
+    }
+
+    @Override
+    public void handle(MotherNatureMovedResponse res) {
+
+    }
+
+    @Override
+    public void handle(StudentMovedResponse res) {
+
+    }
+
+
+
 //    @Override
 //    public void handle(RequestSuccessfulResponse res) {
 //
 //    }
 
-    @Override
-    public void handle(PlayerRoundBeginResponse res) {
 
-    }
-
-    @Override
-    public void handle(GameBeginNotifyResponse res) {
-
-    }
-
-    @Override
-    public void handle(GameEndNotifyResponse res) {
-
-    }
 }

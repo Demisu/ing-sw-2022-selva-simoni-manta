@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.server.ServerResponse;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -38,9 +40,9 @@ public class Client {
      * Repeatedly processes the next Response received by the client
      * @return supertype Response type, or null
      */
-    public ClientResponse clientResponse() {
+    public ServerResponse clientResponse() {
         try {
-            return (ClientResponse) in.readObject();
+            return (ServerResponse) in.readObject();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

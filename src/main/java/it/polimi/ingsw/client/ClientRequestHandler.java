@@ -1,21 +1,25 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.requests.*;
+import it.polimi.ingsw.server.ServerResponse;
 
 /**
  * A method for every possible Request the Client may make to the Server
+ * these methods are implemented in the client.requests package, one class each
  */
 
 public interface ClientRequestHandler {
 
-    ClientResponse handle(MoveMotherNatureRequest req);
+    ServerResponse handle(MoveMotherNatureRequest req);
 
-    ClientResponse handle(MoveStudentRequest req);
+    ServerResponse handle(MoveStudentRequest req);
 
-    ClientResponse handle(PlayAssistantRequest req);
+    ServerResponse handle(PlayAssistantRequest req);
 
-    ClientResponse handle(PlayCharacterRequest req);
+    ServerResponse handle(PlayCharacterRequest req);
 
-    ClientResponse handle(PlayerRoundEndedRequest req);
+    ServerResponse handle(PlayerRoundEndedRequest req);
+
+    ServerResponse handle(SetNicknameRequest req);
 
 }

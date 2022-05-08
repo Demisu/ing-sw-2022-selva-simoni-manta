@@ -1,6 +1,6 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.server.ServerController;
+import it.polimi.ingsw.client.ClientRequest;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,7 +11,7 @@ public class ClientHandler implements Runnable /*Listeners to the View*/{
 
     private Socket socket;
 
-    private Boolean isClientRunning;
+    private Boolean isClientStopped = false;
 
     private final ObjectInputStream in;
 
@@ -30,15 +30,15 @@ public class ClientHandler implements Runnable /*Listeners to the View*/{
     public void run() {
         try {
             do {
-                ClientResponse clientResponse = ((ClientRequest) in.readObject()).handle((ClientResponseHandler) controller);
-                if (clientResponse != null) {
+                ServerResponse serverResponse = ((ClientRequest) in.readObject()).handle(controller);
+                if (serverResponse != null) {
                     try {
-                        out.writeObject(clientResponse);
+                        out.writeObject(serverResponse);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-            } while (isClientRunning != false);
+            } while (isClientStopped == null || !isClientStopped);
         } catch (Exception e) {
             System.out.println("Error occurred in ClientHandler thread");
             e.printStackTrace();
@@ -48,7 +48,7 @@ public class ClientHandler implements Runnable /*Listeners to the View*/{
     }
 
     private void closeConnection() {
-        isClientRunning = false;
+        isClientStopped = true;
 
         if (in != null) {
             try {
@@ -77,7 +77,7 @@ public class ClientHandler implements Runnable /*Listeners to the View*/{
     }
 
     public void stopClient() {
-        this.isClientRunning = false;
+        this.isClientStopped = true;
     }
 
 

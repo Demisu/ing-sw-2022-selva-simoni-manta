@@ -3,7 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.responses.*;
 
 /**
- * every method corresponds to 1, and only 1, possible Response to the Client
+ * every method corresponds to 1, and only 1, possible Response to the Client from the Server
  */
 
 public interface ClientResponseHandler {
