@@ -33,6 +33,7 @@ public class ClientHandler implements Runnable /*Listeners to the View*/{
                 ServerResponse serverResponse = ((ClientRequest) in.readObject()).handle(controller);
                 if (serverResponse != null) {
                     try {
+                        System.out.println(serverResponse);
                         out.writeObject(serverResponse);
                     } catch (IOException e) {
                         e.printStackTrace();

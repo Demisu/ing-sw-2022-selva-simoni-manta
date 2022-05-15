@@ -3,9 +3,6 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.requests.MoveMotherNatureRequest;
 import it.polimi.ingsw.client.requests.PlayerRoundEndedRequest;
 import it.polimi.ingsw.client.requests.SetNicknameRequest;
-import it.polimi.ingsw.client.responses.GameBeginNotifyResponse;
-import it.polimi.ingsw.client.responses.GameEndNotifyResponse;
-import it.polimi.ingsw.client.responses.PlayerRoundBeginResponse;
 import it.polimi.ingsw.server.ServerResponseHandler;
 import it.polimi.ingsw.server.responses.*;
 
@@ -65,7 +62,6 @@ public class ClientController implements ServerResponseHandler {
         return ((SetNicknameResponse) client.clientResponse()).getNickname();
     }
 
-
     /**
      * Properly dispatches the received response to the correct method
      * Requests are defined in the client.responses package, one Class for each
@@ -88,6 +84,11 @@ public class ClientController implements ServerResponseHandler {
 
     @Override
     public void handle(StudentMovedResponse res) {
+
+    }
+
+    @Override
+    public void handle(SetNicknameResponse res) {
 
     }
 

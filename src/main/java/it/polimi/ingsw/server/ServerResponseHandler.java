@@ -11,4 +11,6 @@ public interface ServerResponseHandler {
     void handle(MotherNatureMovedResponse res);
 
     void handle(StudentMovedResponse res);
+
+    void handle(SetNicknameResponse res);
 }
