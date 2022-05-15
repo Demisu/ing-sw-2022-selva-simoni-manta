@@ -25,7 +25,6 @@ public class GameServer {
             Socket clientSocket = serverSocket.accept();
             System.out.println("New connection established with " + clientSocket.getLocalSocketAddress());
             executorServicePool.submit(new ClientHandler(clientSocket));
-
         }
     }
 

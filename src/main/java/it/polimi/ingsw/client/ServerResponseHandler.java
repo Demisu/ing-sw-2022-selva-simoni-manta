@@ -12,5 +12,6 @@ public interface ServerResponseHandler {
 
     void handle(StudentMovedResponse res);
 
-    void handle(SetNicknameResponse res);
+    Boolean handle(SetNicknameResponse res);
+
 }

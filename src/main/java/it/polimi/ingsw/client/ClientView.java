@@ -14,11 +14,21 @@ public class ClientView /*will have to implement listeners*/ {
 
     public void nicknamePhase() {
         String nickname = null;
-
+        Boolean choosePlayersNumber = false;
         do {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Choose your nickname: ");
-            nickname = controller.setPlayerNickname(scanner.nextLine());
+            nickname = scanner.nextLine();
+            choosePlayersNumber = controller.setPlayerNickname(nickname);
+            //nickname = controller.setPlayerNickname(scanner.nextLine());
+
+            if(choosePlayersNumber){
+                System.out.println("Choose player number: ");
+            }else{
+                System.out.println("tu non scegli.");
+            }
+            nickname = scanner.nextLine();
+
             scanner.close();
             System.out.println("Response received. Nickname: " + nickname);
         } while (nickname == null);

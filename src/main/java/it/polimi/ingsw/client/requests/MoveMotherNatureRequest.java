@@ -12,7 +12,6 @@ public class MoveMotherNatureRequest implements ClientRequest {
         this.movements = movements;
     }
 
-
     @Override
     public ServerResponse handle(ClientRequestHandler handler) {
         return handler.handle(this);

@@ -22,4 +22,5 @@ public interface ClientRequestHandler {
 
     ServerResponse handle(SetNicknameRequest req);
 
+    ServerResponse handle(WaitingRequest waitingRequest);
 }

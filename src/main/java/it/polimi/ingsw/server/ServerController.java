@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.requests.*;
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.server.responses.*;
 
 /**
@@ -10,8 +12,13 @@ public class ServerController implements ClientRequestHandler {
 
     private final ClientHandler clientHandler;
 
+    private GameController gameController;
+
+    private static Boolean gameExists = false;
+
     public ServerController(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
+        gameController = new GameController();
     }
 
     //return new constructors to be updated
@@ -42,7 +49,18 @@ public class ServerController implements ClientRequestHandler {
 
     @Override
     public ServerResponse handle(SetNicknameRequest req) {
-        return new SetNicknameResponse(req.getNickname());
+        if(!gameExists){
+            gameExists = true;
+            return new SetNicknameResponse(true);
+        }else{
+            gameController.getCurrentGame();
+            return new SetNicknameResponse(false);
+        }
+    }
+
+    @Override
+    public ServerResponse handle(WaitingRequest req) {
+        return null; //TO BE REVISED.
     }
 
 

@@ -15,7 +15,6 @@ public class SetNicknameRequest implements ClientRequest {
     @Override
     public ServerResponse handle(ClientRequestHandler handler) {
         return handler.handle(this);
-        //return (new SetNicknameResponse(nickname));
     }
 
     public String getNickname() {

@@ -4,19 +4,11 @@ import it.polimi.ingsw.client.ClientRequest;
 import it.polimi.ingsw.server.ClientRequestHandler;
 import it.polimi.ingsw.server.ServerResponse;
 
-/**
- * Notifies the Server the round has ended. Server must check for TRUE
- */
-public class PlayerRoundEndedRequest implements ClientRequest {
-
-    private final Boolean status;
-
-    public PlayerRoundEndedRequest(Boolean status) {
-        this.status = status;
-    }
+public class WaitingRequest implements ClientRequest {
 
     @Override
     public ServerResponse handle(ClientRequestHandler handler) {
         return handler.handle(this);
     }
+
 }

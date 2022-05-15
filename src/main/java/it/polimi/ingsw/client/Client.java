@@ -36,6 +36,8 @@ public class Client {
         isConnected = false;
     }
 
+
+
     /**
      * Repeatedly processes the next Response received by the client
      * @return supertype Response type, or null
