@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.model.Player;
-
 import java.util.Scanner;
 
 public class ClientView /*will have to implement listeners*/ {
@@ -22,10 +20,21 @@ public class ClientView /*will have to implement listeners*/ {
             System.out.println("Choose your nickname: ");
             nickname = controller.setPlayerNickname(scanner.nextLine());
             scanner.close();
-            System.out.println("dario albanese " + nickname);
+            System.out.println("Response received. Nickname: " + nickname);
         } while (nickname == null);
     }
 
+    public void waitTurnPhase() {
+
+    }
+
+    public void planningPhase() {
+
+    }
+
+    public void actionPhase() {
+
+    }
 
     //@Override methods that will be defined in Listener Interface
 }

@@ -1,6 +1,7 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.requests.*;
+import it.polimi.ingsw.server.ServerResponse;
 import it.polimi.ingsw.server.requests.BeginGameNotifyRequest;
 import it.polimi.ingsw.server.requests.BeginPlayerRoundRequest;
 import it.polimi.ingsw.server.requests.EndGameNotifyRequest;
@@ -12,13 +13,13 @@ import it.polimi.ingsw.server.requests.EndGameNotifyRequest;
 
 public interface ServerRequestHandler {
 
-    ServerResponse handle(MoveMotherNatureRequest req);
+    ClientResponse handle(MoveMotherNatureRequest req);
 
-    ServerResponse handle(MoveStudentRequest req);
+    ClientResponse handle(MoveStudentRequest req);
 
-    ServerResponse handle(PlayAssistantRequest req);
+    ClientResponse handle(PlayAssistantRequest req);
 
-    ServerResponse handle(PlayCharacterRequest req);
+    ClientResponse handle(PlayCharacterRequest req);
 
-    ServerResponse handle(PlayerRoundEndedRequest req);
+    ClientResponse handle(PlayerRoundEndedRequest req);
 }

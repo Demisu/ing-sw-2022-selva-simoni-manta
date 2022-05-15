@@ -1,9 +1,11 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.requests.MoveMotherNatureRequest;
 import it.polimi.ingsw.client.requests.PlayerRoundEndedRequest;
 import it.polimi.ingsw.client.requests.SetNicknameRequest;
-import it.polimi.ingsw.server.ServerResponseHandler;
+import it.polimi.ingsw.client.ServerResponseHandler;
 import it.polimi.ingsw.server.responses.*;
 
 import java.io.IOException;
@@ -29,7 +31,18 @@ public class ClientController implements ServerResponseHandler {
     }
 
     public void run() throws IOException {
+
+        //Setup
         view.nicknamePhase();
+
+        //Game phases
+        do{
+            view.waitTurnPhase();
+            view.planningPhase();
+            view.actionPhase();
+        } while(client.isConnected());
+
+        //Game ended
         receiver.interrupt();
     }
 

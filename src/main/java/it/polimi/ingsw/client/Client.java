@@ -10,14 +10,12 @@ import java.net.Socket;
 public class Client {
 
     private String hostAddress;
-
     private final int port;
 
     private Socket connection;
-
     private ObjectInputStream in;
-
     private ObjectOutputStream out;
+    private Boolean isConnected = false;
 
     public Client(String hostAddress, Integer port) {
         this.hostAddress = hostAddress;
@@ -28,12 +26,14 @@ public class Client {
         connection = new Socket(hostAddress, port);
         in = new ObjectInputStream(connection.getInputStream());
         out = new ObjectOutputStream(connection.getOutputStream());
+        isConnected = true;
     }
 
     public void closeConnection() throws IOException {
         in.close();
         out.close();
         connection.close();
+        isConnected = false;
     }
 
     /**
@@ -63,5 +63,9 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Boolean isConnected() {
+        return isConnected;
     }
 }

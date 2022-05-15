@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.requests.*;
 import it.polimi.ingsw.server.ServerResponse;
