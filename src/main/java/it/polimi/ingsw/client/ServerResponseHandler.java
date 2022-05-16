@@ -14,4 +14,5 @@ public interface ServerResponseHandler {
 
     Boolean handle(SetNicknameResponse res);
 
+    Boolean handle(OperationResultResponse res);
 }

@@ -87,6 +87,10 @@ public class GameController {
         currentGame.getIslands().remove(b);
     }
 
+    public Boolean addPlayer(String nickname){
+        return currentGame.addPlayer(nickname);
+    }
+
     public Game getCurrentGame() {
         return currentGame;
     }

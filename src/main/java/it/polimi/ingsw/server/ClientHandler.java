@@ -10,20 +10,17 @@ import java.net.Socket;
 public class ClientHandler implements Runnable /*Listeners to the View*/{
 
     private Socket socket;
-
     private Boolean isClientStopped = false;
-
     private final ObjectInputStream in;
-
     private final ObjectOutputStream out;
-
     private final ServerController controller;
 
-    public ClientHandler(Socket socket) throws IOException {
+    public ClientHandler(Socket socket, ServerController mainServerController) throws IOException {
         this.socket = socket;
         this.out = new ObjectOutputStream(socket.getOutputStream());
         this.in = new ObjectInputStream(socket.getInputStream());
-        this.controller = new ServerController(this);
+        this.controller = mainServerController;
+        mainServerController.addClientHandler(this);
     }
 
     @Override

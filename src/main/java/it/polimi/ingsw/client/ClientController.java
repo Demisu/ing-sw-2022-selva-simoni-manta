@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.requests.MoveMotherNatureRequest;
 import it.polimi.ingsw.client.requests.PlayerRoundEndedRequest;
 import it.polimi.ingsw.client.requests.SetNicknameRequest;
+import it.polimi.ingsw.client.requests.SetPlayerNumberRequest;
 import it.polimi.ingsw.server.responses.*;
 
 import java.io.IOException;
@@ -73,6 +74,12 @@ public class ClientController implements ServerResponseHandler {
         //return ((SetNicknameResponse) client.clientResponse()).getNickname();
     }
 
+    public Boolean setPlayerNumber(String nickname, Integer number) {
+        client.clientRequest(new SetPlayerNumberRequest(nickname, number));
+        return this.handle((OperationResultResponse) client.clientResponse());
+        //return ((SetNicknameResponse) client.clientResponse()).getNickname();
+    }
+
     /**
      * Properly dispatches the received response to the correct method
      * Requests are defined in the client.responses package, one Class for each
@@ -101,6 +108,11 @@ public class ClientController implements ServerResponseHandler {
     @Override
     public Boolean handle(SetNicknameResponse res) {
         return res.getNeedPlayerNumber();
+    }
+
+    @Override
+    public Boolean handle(OperationResultResponse res) {
+        return res.getResult();
     }
 
 //    @Override

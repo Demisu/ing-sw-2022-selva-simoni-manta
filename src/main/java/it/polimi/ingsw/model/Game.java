@@ -18,12 +18,13 @@ public class Game {
     final String charactersJSONPath = ".\\src\\Characters\\";
 
     private Integer currentPlayerID;
+    private Integer emptyPlayerNumber = 1;
     private final Integer playerNumber;
     private List<Island> islands;
     private final Set<Cloud> clouds;
     private ArrayList<Integer> students; //This is the game bag
     private final ArrayList<Team> teams;
-    private List<Player> players; //TO BE DELETED
+    private List<Player> players; //MAYBE DELETE
     private List<Player> currentTurnOrder; //contains playerIDs for the current round
     private List<Player> nextTurnOrder; //contains player IDs for the next round
     /* MAKE SURE TO COPY nextTurnOrder to currentTurnOrder BEFORE BEGINNING THE NEXT ROUND */
@@ -217,6 +218,16 @@ public class Game {
 
     public void setNextTurnOrder(List<Player> nextTurnOrder) {
         this.nextTurnOrder = nextTurnOrder;
+    }
+
+    public Boolean addPlayer(String nickname){
+
+        if(emptyPlayerNumber >= playerNumber){
+            return false;
+        } else {
+            this.players.get(emptyPlayerNumber).setNickname(nickname);
+            return true;
+        }
     }
 
     public List<Player> getPlayers() {
