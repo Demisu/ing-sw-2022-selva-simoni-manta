@@ -16,4 +16,8 @@ public class MoveMotherNatureRequest implements ClientRequest {
     public ServerResponse handle(ClientRequestHandler handler) {
         return handler.handle(this);
     }
+
+    public Integer getMovements() {
+        return movements;
+    }
 }

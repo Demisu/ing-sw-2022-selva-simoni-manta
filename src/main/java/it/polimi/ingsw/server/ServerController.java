@@ -16,6 +16,8 @@ public class ServerController implements ClientRequestHandler {
     private ArrayList<ClientHandler> clientHandlerList;
     private GameController gameController;
     private static Boolean gameExists = false;
+    private static Integer connectedPlayers = 0;
+    private static Boolean gameStarted = false;
 
     public ServerController(GameController gameController) {
         this.gameController = gameController;
@@ -29,16 +31,19 @@ public class ServerController implements ClientRequestHandler {
     //return new constructors to be updated
     @Override
     public ServerResponse handle(MoveMotherNatureRequest req) {
-        return new OperationResultResponse(true, "Moved mother nature");
+        gameController.moveMotherNature(req.getMovements());
+        return new OperationResultResponse(true, "Moved mother nature by " + req.getMovements() + " steps.");
     }
 
     @Override
     public ServerResponse handle(MoveStudentRequest req) {
-        return new OperationResultResponse(true, "Moved student");
+        gameController.moveStudent(req.getStudentId(), req.getSourceId(), req.getTargetId());
+        return new OperationResultResponse(true, "Moved student " + req.getStudentId() + " from " + req.getSourceId() + " to " + req.getTargetId());
     }
 
     @Override
     public ServerResponse handle(PlayAssistantRequest req) {
+        gameController.playAssistant();
         return new OperationResultResponse(true, "Played assistant");
     }
 
@@ -61,13 +66,15 @@ public class ServerController implements ClientRequestHandler {
             return new SetNicknameResponse(true);
         }else{
             success = gameController.addPlayer(req.getNickname());
+            connectedPlayers++;
             return new SetNicknameResponse(false);
         }
     }
 
     @Override
     public ServerResponse handle(WaitingRequest req) {
-        return null; //TO BE REVISED.
+
+        return new OperationResultResponse(true, "Ready");
     }
 
     @Override
@@ -78,9 +85,11 @@ public class ServerController implements ClientRequestHandler {
         if(!gameExists) {
             gameController.startGame(req.getNumber(), req.getNickname());
             gameExists = true;
+            connectedPlayers++;
             return new OperationResultResponse(true, "Game created successfully");
         } else {
             success = gameController.addPlayer(req.getNickname());
+            connectedPlayers++;
             return new OperationResultResponse(false, "Game already started");
         }
     }

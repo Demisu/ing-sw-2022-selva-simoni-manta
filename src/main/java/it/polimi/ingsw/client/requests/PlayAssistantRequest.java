@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.ServerResponse;
 public class PlayAssistantRequest implements ClientRequest {
 
     Integer assistantNumber;
+    Integer 
 
     public PlayAssistantRequest(Integer assistantNumber) {
         this.assistantNumber = assistantNumber;

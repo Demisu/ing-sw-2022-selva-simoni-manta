@@ -19,4 +19,16 @@ public class MoveStudentRequest implements ClientRequest {
     public ServerResponse handle(ClientRequestHandler handler) {
         return handler.handle(this);
     }
+
+    public Integer getStudentId() {
+        return studentId;
+    }
+
+    public Integer getSourceId() {
+        return sourceId;
+    }
+
+    public Integer getTargetId() {
+        return targetId;
+    }
 }

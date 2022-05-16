@@ -1,9 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.requests.MoveMotherNatureRequest;
-import it.polimi.ingsw.client.requests.PlayerRoundEndedRequest;
-import it.polimi.ingsw.client.requests.SetNicknameRequest;
-import it.polimi.ingsw.client.requests.SetPlayerNumberRequest;
+import it.polimi.ingsw.client.requests.*;
 import it.polimi.ingsw.server.responses.*;
 
 import java.io.IOException;
@@ -78,6 +75,11 @@ public class ClientController implements ServerResponseHandler {
         client.clientRequest(new SetPlayerNumberRequest(nickname, number));
         return this.handle((OperationResultResponse) client.clientResponse());
         //return ((SetNicknameResponse) client.clientResponse()).getNickname();
+    }
+
+    public Boolean waitTurn() {
+        client.clientRequest(new WaitingRequest());
+        return this.handle((OperationResultResponse) client.clientResponse());
     }
 
     /**
