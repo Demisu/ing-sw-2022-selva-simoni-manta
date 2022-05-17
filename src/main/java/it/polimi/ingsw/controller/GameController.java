@@ -23,10 +23,13 @@ public class GameController {
     /*----------*/
 
     public void moveStudent(Integer student, Integer originID, Integer targetID) {
+
         StudentAccessiblePiece origin = currentGame.getStudentAccessiblePieceByID(originID);
         StudentAccessiblePiece target = currentGame.getStudentAccessiblePieceByID(targetID);
         origin.removeStudent(student);
         target.addStudent(student);
+
+        //Maybe check if someone wins a professor?
     }
 
     public void moveProfessor(Color professorColor, Integer originID, Integer targetID){
@@ -106,10 +109,16 @@ public class GameController {
     public void playCharacter(Integer playerID, Integer characterNumber){
 
         Character playedCharacter =  currentGame.getCharacter(characterNumber);
+
+        //Potentially really bad
+        playedCharacter.setGameController(this);
+
         playedCharacter.effect();
+
         if(playedCharacter.getHasIncreasedCost()){
             playedCharacter.setCost(playedCharacter.getCost() + 1);
         }
+
         playedCharacter.setHasBeenUsed(true);
     }
 

@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GameController;
+
+import java.util.Random;
+
 public class Character extends StudentAccessiblePiece {
 
     //General
@@ -31,6 +35,9 @@ public class Character extends StudentAccessiblePiece {
     //Game
     private boolean hasBeenUsed;
     private boolean hasIncreasedCost;
+
+    //Utility
+    GameController gameController;
 
     public Character(){}
 
@@ -170,13 +177,18 @@ public class Character extends StudentAccessiblePiece {
 
     public void resolve(){
 
+        Integer targetID = 0;
+
         if(effect_choose_target == "player"){
             //Ask the player for the ID (e.g.: ID of target island)
+            //targetID = ...;
         } else if(effect_choose_target == "random"){
             //Get a random ID (e.g.: ID of target island)
+            targetID = new Random().nextInt(gameController.getCurrentGame().getIslands().size());
         }
 
         //Call controller to resolve the target (ID) (?)
+        gameController.resolveIsland(targetID);
     }
 
     public boolean getHasIncreasedCost(){
@@ -197,5 +209,9 @@ public class Character extends StudentAccessiblePiece {
 
     public void setHasBeenUsed(boolean hasBeenUsed) {
         this.hasBeenUsed = hasBeenUsed;
+    }
+
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
     }
 }
