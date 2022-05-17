@@ -30,6 +30,7 @@ public class GameController {
     }
 
     public void moveProfessor(Color professorColor, Integer originID, Integer targetID){
+
         SchoolBoard origin = currentGame.getSchoolBoardByID(originID);
         SchoolBoard target = currentGame.getSchoolBoardByID(targetID);
         origin.setProfessor(professorColor, false);
@@ -59,11 +60,19 @@ public class GameController {
     /*-------*/
 
     public void playAssistant(Integer playerID, Integer assistantCode){
+
         Player p = currentGame.getPlayerById(playerID);
-        p.removeAssistantById(assistantCode); //handles setting last assistant played property as well
+        p.removeAssistant(p.getAssistantById(assistantCode)); //handles setting last assistant played property as well
+    }
+
+    public void playAssistant(String playerNickname, Integer assistantCode){
+
+        Player p = currentGame.getPlayerByNickname(playerNickname);
+        p.removeAssistant(p.getAssistantById(assistantCode)); //handles setting last assistant played property as well
     }
 
     public void playCharacter(Integer playerID, Integer characterNumber){
+
         Character playedCharacter =  currentGame.getCharacter(characterNumber);
         playedCharacter.effect();
         if(playedCharacter.getHasIncreasedCost()){
@@ -78,6 +87,7 @@ public class GameController {
 
     //Moves all the content of Island b to Island b, then deletes island b from the game table
     public void unifyIslands(Island a, Island b){
+
         a.getStudents().addAll(b.getStudents());
         a.setTowersNumber(a.getTowersNumber() + b.getTowersNumber());
         a.setNoEntry(a.getNoEntry() + b.getNoEntry());

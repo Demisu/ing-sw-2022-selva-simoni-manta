@@ -275,6 +275,19 @@ public class Game {
 
     }
 
+    public Player getPlayerByNickname(String playerNickname) {
+
+        for (Team team : teams) {
+            for (Player player : team.getPlayers()) {
+                if (player.getNickname() == playerNickname)
+                    return player;
+            }
+        }
+        System.out.println("Player not found (Game.getPlayerById)");
+        return null;
+
+    }
+
     public SchoolBoard getSchoolBoardByID(Integer boardID) {
         for (Team team : teams) {
             for (Player player : team.getPlayers()) {

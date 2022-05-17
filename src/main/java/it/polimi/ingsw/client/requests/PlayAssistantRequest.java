@@ -7,10 +7,11 @@ import it.polimi.ingsw.server.ServerResponse;
 public class PlayAssistantRequest implements ClientRequest {
 
     Integer assistantNumber;
-    Integer 
+    String nickname;
 
-    public PlayAssistantRequest(Integer assistantNumber) {
+    public PlayAssistantRequest(String nickname, Integer assistantNumber) {
         this.assistantNumber = assistantNumber;
+        this.nickname = nickname;
     }
 
     @Override
@@ -20,5 +21,9 @@ public class PlayAssistantRequest implements ClientRequest {
 
     public Integer getAssistantNumber() {
         return assistantNumber;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 }

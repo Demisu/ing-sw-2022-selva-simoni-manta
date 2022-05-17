@@ -29,6 +29,8 @@ public class ClientController implements ServerResponseHandler {
 
         //Setup
         view.nicknamePhase();
+        view.testingPhase();
+        /*
 
         //Game phases
         do{
@@ -38,7 +40,7 @@ public class ClientController implements ServerResponseHandler {
         } while(client.isConnected());
 
         //Game ended
-        receiver.interrupt();
+        receiver.interrupt();*/
     }
 
 
@@ -48,14 +50,6 @@ public class ClientController implements ServerResponseHandler {
      */
 
     /**
-     * Moves MotherNature
-     * @param movements the amount of movements to do
-     */
-    public void moveMotherNature(Integer movements) {
-        client.clientRequest(new MoveMotherNatureRequest(movements));
-    }
-
-    /**
      * Notifies the Player's Round on the executing Client has terminated
      * @param status must be set to TRUE for the request to be correctly processed
      *               by the server
@@ -63,7 +57,6 @@ public class ClientController implements ServerResponseHandler {
     public void playerRoundEnded(Boolean status) {
         client.clientRequest(new PlayerRoundEndedRequest(status));
     }
-
 
     public Boolean setPlayerNickname(String nickname) {
         client.clientRequest(new SetNicknameRequest(nickname));
@@ -75,6 +68,30 @@ public class ClientController implements ServerResponseHandler {
         client.clientRequest(new SetPlayerNumberRequest(nickname, number));
         return this.handle((OperationResultResponse) client.clientResponse());
         //return ((SetNicknameResponse) client.clientResponse()).getNickname();
+    }
+
+    /**
+     * Moves MotherNature
+     * @param movements the amount of movements to do
+     */
+    public Boolean moveMotherNature(Integer movements) {
+        client.clientRequest(new MoveMotherNatureRequest(movements));
+        return this.handle((OperationResultResponse) client.clientResponse());
+    }
+
+    public Boolean moveStudent(Integer student, Integer source, Integer target){
+        client.clientRequest(new MoveStudentRequest(student, source, target));
+        return this.handle((OperationResultResponse) client.clientResponse());
+    }
+
+    public Boolean playCharacter(Integer number){
+        client.clientRequest(new PlayCharacterRequest(number));
+        return this.handle((OperationResultResponse) client.clientResponse());
+    }
+
+    public Boolean playAssistant(String nickname, Integer number){
+        client.clientRequest(new PlayAssistantRequest(nickname, number));
+        return this.handle((OperationResultResponse) client.clientResponse());
     }
 
     public Boolean waitTurn() {
@@ -114,6 +131,7 @@ public class ClientController implements ServerResponseHandler {
 
     @Override
     public Boolean handle(OperationResultResponse res) {
+        System.out.println(res.getMessage());
         return res.getResult();
     }
 

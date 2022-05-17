@@ -7,9 +7,11 @@ public class SetNicknameResponse implements ServerResponse {
 
     String nickname;
     Boolean needPlayerNumber;
+    String message;
 
-    public SetNicknameResponse(Boolean needPlayerNumber) {
+    public SetNicknameResponse(Boolean needPlayerNumber, String message) {
         this.needPlayerNumber = needPlayerNumber;
+        this.message = message;
     }
 
     public SetNicknameResponse(String nickname) {
@@ -29,4 +31,7 @@ public class SetNicknameResponse implements ServerResponse {
         return needPlayerNumber;
     }
 
+    public String getMessage() {
+        return message;
+    }
 }

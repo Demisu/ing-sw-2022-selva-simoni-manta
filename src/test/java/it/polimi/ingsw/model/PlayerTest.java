@@ -60,7 +60,7 @@ public class PlayerTest {
         player1.setDeck(deck);
         assertEquals(deck,player1.getDeck());
 
-        player1.removeAssistantById(1);
+        player1.removeAssistant(player1.getAssistantById(1));
         assertFalse(player1.getDeck().contains(assistant2));
     }
 }

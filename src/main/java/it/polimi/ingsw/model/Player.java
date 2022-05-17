@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player{
-    final Integer initialCoins = 1;
 
+    private final Integer initialCoins = 1;
     private Integer playerId;
     private Integer coins;
 
@@ -33,7 +33,7 @@ public class Player{
         this.nickname = "Default";
     //    this.towerColor = towerColor;
     //    this.towerNumber = towerNumber;
-        this.deck = new ArrayList<Assistant>();
+        this.deck = new ArrayList<>();
         this.playerBoard = new SchoolBoard();
     }
 
@@ -81,12 +81,21 @@ public class Player{
         LastAssistantPlayed = lastAssistantPlayed;
     }
 
-    public void removeAssistantById(Integer assistantId) {
-        for(int i = 0; i < deck.size(); i++) {
-            if(deck.get(i).getAssistantId() == assistantId) {
-                this.setLastAssistantPlayed(deck.get(i));
-                deck.remove(i);
+    public Assistant getAssistantById(Integer assistantId) {
+
+        for (Assistant assistant: deck) {
+            if(assistant.getAssistantId() == assistantId) {
+                return assistant;
             }
         }
+
+        System.out.println("Assistant with ID " + assistantId + " not found in " + this.nickname + "'s deck.");
+        return null;
+    }
+
+    public void removeAssistant(Assistant assistant) {
+
+        this.setLastAssistantPlayed(assistant);
+        deck.remove(assistant);
     }
 }

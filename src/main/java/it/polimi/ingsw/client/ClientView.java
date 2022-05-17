@@ -3,21 +3,74 @@ package it.polimi.ingsw.client;
 import java.util.Scanner;
 
 public class ClientView /*will have to implement listeners*/ {
+
+    Scanner scanner = new Scanner(System.in);
+    String nickname;
+
     /**
      * holds a reference to the Client's Controller
      */
+
     private final ClientController clientController;
 
     public ClientView(ClientController clientController) {
         this.clientController = clientController;
     }
 
+    public void testingPhase(){
+
+        Scanner scanner = new Scanner(System.in);
+        String action;
+
+        do {
+            System.out.println("""
+                    -----------------
+                    Choose an action:\s
+                    -----------------
+                    Allowed:
+                    PLAY_ASSISTANT
+                    PLAY_CHARACTER
+                    MOVE_MOTHERNATURE
+                    MOVE_STUDENT
+                    QUIT
+                    -----------------
+                    """);
+            System.out.print("Your choice: ");
+            action = scanner.nextLine();
+
+            switch (action) {
+                case "PLAY_ASSISTANT" -> {
+                    System.out.print("\nInput assistant number: ");
+                    clientController.playAssistant(nickname, scanner.nextInt());
+                }
+                case "PLAY_CHARACTER" -> {
+                    System.out.print("\nInput character number: ");
+                    clientController.playCharacter(scanner.nextInt());
+                }
+                case "MOVE_MOTHERNATURE" -> {
+                    System.out.print("\nInput movements: ");
+                    clientController.moveMotherNature(scanner.nextInt());
+                }
+                case "MOVE_STUDENT" -> {
+                    System.out.print("\nInput student ID: ");
+                    Integer student = scanner.nextInt();
+                    System.out.print("\nInput source ID: ");
+                    Integer source = scanner.nextInt();
+                    System.out.print("\nInput target ID: ");
+                    Integer target = scanner.nextInt();
+                    clientController.moveStudent(student, source, target);
+                }
+                default -> System.out.println("Invalid action.");
+            }
+        } while(!action.equals("QUIT"));
+
+        scanner.close();
+    }
+
     public void nicknamePhase() {
 
-        String nickname = null;
         Boolean choosePlayersNumber = false;
         Boolean status = false;
-        Scanner scanner = new Scanner(System.in);
 
         do {
             System.out.print("Choose your nickname: ");
@@ -32,7 +85,7 @@ public class ClientView /*will have to implement listeners*/ {
             Integer number = Integer.parseInt(scanner.nextLine());
             status = clientController.setPlayerNumber(nickname, number);
         }else{
-            System.out.println("tu non scegli.");
+            System.out.println("No need to choose player number");
             status = false;
         }
         if(status){
@@ -44,8 +97,6 @@ public class ClientView /*will have to implement listeners*/ {
                     Waiting for all players...""");
         }
         //System.out.println("Response received. Nickname: " + nickname);
-
-        scanner.close();
     }
 
     public void waitTurnPhase() {

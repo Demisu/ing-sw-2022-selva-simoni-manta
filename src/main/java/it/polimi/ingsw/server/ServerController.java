@@ -43,13 +43,13 @@ public class ServerController implements ClientRequestHandler {
 
     @Override
     public ServerResponse handle(PlayAssistantRequest req) {
-        gameController.playAssistant();
-        return new OperationResultResponse(true, "Played assistant");
+        gameController.playAssistant(req.getNickname(), req.getAssistantNumber());
+        return new OperationResultResponse(true, "Played assistant " + req.getAssistantNumber() + " of player " + req.getNickname());
     }
 
     @Override
     public ServerResponse handle(PlayCharacterRequest req) {
-        return new OperationResultResponse(true, "Played character");
+        return new OperationResultResponse(true, "Played character " + req.getCharacterNumber());
     }
 
     @Override
@@ -63,18 +63,15 @@ public class ServerController implements ClientRequestHandler {
         Boolean success = false;
 
         if(!gameExists){
-            return new SetNicknameResponse(true);
+            return new SetNicknameResponse(true, "You are the game creator");
         }else{
             success = gameController.addPlayer(req.getNickname());
             connectedPlayers++;
-            return new SetNicknameResponse(false);
+            return new SetNicknameResponse(false, """
+                    Connected to game lobby.
+                    The game will start as soon as all players have joined.
+                    Waiting for all players...""");
         }
-    }
-
-    @Override
-    public ServerResponse handle(WaitingRequest req) {
-
-        return new OperationResultResponse(true, "Ready");
     }
 
     @Override
@@ -86,14 +83,22 @@ public class ServerController implements ClientRequestHandler {
             gameController.startGame(req.getNumber(), req.getNickname());
             gameExists = true;
             connectedPlayers++;
-            return new OperationResultResponse(true, "Game created successfully");
+            return new OperationResultResponse(true, "Game created");
         } else {
             success = gameController.addPlayer(req.getNickname());
             connectedPlayers++;
-            return new OperationResultResponse(false, "Game already started");
+            return new OperationResultResponse(false, """
+                    Game already playing, added to lobby.
+                    The game will start as soon as all players have joined.
+                    Waiting for all players...""");
         }
     }
 
+    @Override
+    public ServerResponse handle(WaitingRequest req) {
+
+        return new OperationResultResponse(true, "Ready");
+    }
 
     /**
      * Properly dispatches the received response to the correct method
