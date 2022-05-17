@@ -51,7 +51,39 @@ public class GameController {
         }
 
         // Mod to number of island (default 12) + 1 in the game to avoid going out of boundaries
-        islands.get( (currentID+steps)%(islands.size()) ).setMotherNature(true);
+        int refIndex = (currentID+steps)%(islands.size());
+        Island currentIsland = islands.get(refIndex);
+        currentIsland.setMotherNature(true);
+
+        // Resolve that island
+        this.resolveIsland(currentIsland.getPieceID());
+
+    }
+
+    public void resolveIsland(Integer islandID){
+
+        List<Island> islands = currentGame.getIslands();
+        boolean unified = false;
+        int refIndex;
+        Island currentIsland = currentGame.getIslandByID(islandID);
+
+        do {
+
+            refIndex = islands.indexOf(currentIsland);
+            Island nextIsland = islands.get((refIndex + 1) % (islands.size()));
+            Island previousIsland = islands.get((refIndex - 1) % (islands.size()));
+
+            if (currentIsland.getTowersColor() == nextIsland.getTowersColor()) {
+                currentGame.unifyIslands(currentIsland, nextIsland);
+                unified = true;
+            } else if (currentIsland.getTowersColor() == previousIsland.getTowersColor()) {
+                currentGame.unifyIslands(currentIsland, previousIsland);
+                unified = true;
+            } else {
+                unified = false;
+            }
+
+        } while(unified);
 
     }
 
@@ -85,18 +117,6 @@ public class GameController {
     /* MISC */
     /*------*/
 
-    //Moves all the content of Island b to Island b, then deletes island b from the game table
-    public void unifyIslands(Island a, Island b){
-
-        a.getStudents().addAll(b.getStudents());
-        a.setTowersNumber(a.getTowersNumber() + b.getTowersNumber());
-        a.setNoEntry(a.getNoEntry() + b.getNoEntry());
-        if(b.isMotherNature()){
-            a.setMotherNature(true);
-        }
-        currentGame.getIslands().remove(b);
-    }
-
     public Boolean addPlayer(String nickname){
         return currentGame.addPlayer(nickname);
     }
@@ -107,5 +127,9 @@ public class GameController {
 
     public static Game getReferenceGame() {
         return referenceGame;
+    }
+
+    public Integer getPlayerNumber() {
+        return currentGame.getPlayers().size();
     }
 }

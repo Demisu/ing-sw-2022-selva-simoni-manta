@@ -260,6 +260,17 @@ public class Game {
         motherNatureMovements = newMotherNatureMovements;
     }
 
+    public void unifyIslands(Island toKeep, Island toRemove){
+
+        toKeep.getStudents().addAll(toRemove.getStudents());
+        toKeep.setTowersNumber(toKeep.getTowersNumber() + toRemove.getTowersNumber());
+        toKeep.setNoEntry(toKeep.getNoEntry() + toRemove.getNoEntry());
+        if(toRemove.isMotherNature()){
+            toKeep.setMotherNature(true);
+        }
+        islands.remove(toRemove);
+    }
+
     // GET BY ID SECTION, USED BY THE CONTROLLER
 
     public Player getPlayerById(Integer playerId) {

@@ -1,8 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.SchoolBoard;
-import it.polimi.ingsw.model.StudentAccessiblePiece;
+import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,13 +15,16 @@ public class GameControllerTest {
 
         GameController controller = new GameController();
         controller.startGame(2, "testUser");
-        Island tempIsland = controller.getCurrentGame().getMotherNatureIsland();
-        int tempID = controller.getCurrentGame().getIslands().indexOf(tempIsland);
+        Game currentGame = controller.getCurrentGame();
+        Island tempIsland = currentGame.getMotherNatureIsland();
+        tempIsland.setTowersColor(TowerColor.BLACK);
+        currentGame.getIslands().get( currentGame.getIslands().indexOf(currentGame.getMotherNatureIsland()) + 2).setTowersColor(TowerColor.WHITE);
+        int tempID = currentGame.getIslands().indexOf(tempIsland);
         controller.moveMotherNature(2);
 
         //assertEquals(1, controller.getCurrentGame().getIslands().stream().filter(island -> island.isMotherNature()).count());
-        assertNotEquals(9999, controller.getCurrentGame().getIslands().indexOf(controller.getCurrentGame().getMotherNatureIsland()));
-        assertEquals((tempID+2)%12, controller.getCurrentGame().getIslands().indexOf(controller.getCurrentGame().getMotherNatureIsland()));
+        assertNotEquals(9999, currentGame.getIslands().indexOf(controller.getCurrentGame().getMotherNatureIsland()));
+        assertEquals((tempID+2)%12, currentGame.getIslands().indexOf(controller.getCurrentGame().getMotherNatureIsland()));
 
     }
 
@@ -46,8 +47,7 @@ public class GameControllerTest {
         assertTrue(island1.getStudents().contains(10),"Student should be here");
         assertTrue(island1.isMotherNature());
 
-        controller.unifyIslands(island0,island1);
-
+        controller.getCurrentGame().unifyIslands(island0,island1);
 
         assertTrue(island0.isMotherNature());
         assertTrue(island0.getStudents().contains(65),"After merge student should be present");

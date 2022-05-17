@@ -2,22 +2,19 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.requests.*;
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.server.responses.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Controller used by the Server
  */
 public class ServerController implements ClientRequestHandler {
 
-    private ArrayList<ClientHandler> clientHandlerList;
-    private GameController gameController;
+    private final ArrayList<ClientHandler> clientHandlerList;
+    private final GameController gameController;
     private static Boolean gameExists = false;
     private static Integer connectedPlayers = 0;
-    private static Boolean gameStarted = false;
 
     public ServerController(GameController gameController) {
         this.gameController = gameController;
@@ -29,6 +26,13 @@ public class ServerController implements ClientRequestHandler {
     }
 
     //return new constructors to be updated
+
+    /**
+     * Properly dispatches the received response to the correct method
+     * Requests are defined in the server. Responses package, one Class for each
+     * @param req the response received by the Server from the Client
+     */
+
     @Override
     public ServerResponse handle(MoveMotherNatureRequest req) {
         gameController.moveMotherNature(req.getMovements());
@@ -60,12 +64,13 @@ public class ServerController implements ClientRequestHandler {
     @Override
     public ServerResponse handle(SetNicknameRequest req) {
 
-        Boolean success = false;
-
         if(!gameExists){
             return new SetNicknameResponse(true, "You are the game creator");
         }else{
-            success = gameController.addPlayer(req.getNickname());
+            Boolean success = gameController.addPlayer(req.getNickname());
+            if(!success){
+                System.out.println("ERROR: Error adding player (from SetNicknameRequest)");
+            }
             connectedPlayers++;
             return new SetNicknameResponse(false, """
                     Connected to game lobby.
@@ -77,15 +82,16 @@ public class ServerController implements ClientRequestHandler {
     @Override
     public ServerResponse handle(SetPlayerNumberRequest req) {
 
-        Boolean success = false;
-
         if(!gameExists) {
             gameController.startGame(req.getNumber(), req.getNickname());
             gameExists = true;
             connectedPlayers++;
             return new OperationResultResponse(true, "Game created");
         } else {
-            success = gameController.addPlayer(req.getNickname());
+            Boolean success = gameController.addPlayer(req.getNickname());
+            if(!success){
+                System.out.println("ERROR: Error adding player (from SetPlayerNumberRequest)");
+            }
             connectedPlayers++;
             return new OperationResultResponse(false, """
                     Game already playing, added to lobby.
@@ -99,12 +105,4 @@ public class ServerController implements ClientRequestHandler {
 
         return new OperationResultResponse(true, "Ready");
     }
-
-    /**
-     * Properly dispatches the received response to the correct method
-     * Requests are defined in the server.responses package, one Class for each
-     * @param req the response received by the Server from the Client
-     */
-
-
 }
