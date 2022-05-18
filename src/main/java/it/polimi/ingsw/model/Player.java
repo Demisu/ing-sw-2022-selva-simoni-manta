@@ -24,6 +24,7 @@ public class Player{
     
     private ArrayList<Assistant> deck;
     private Assistant LastAssistantPlayed;
+    private Boolean activeCharacter;
 
     SchoolBoard playerBoard; //package-private
 
@@ -35,6 +36,7 @@ public class Player{
     //    this.towerNumber = towerNumber;
         this.deck = new ArrayList<>();
         this.playerBoard = new SchoolBoard();
+        this.activeCharacter = false;
     }
 
     public Integer getCoins(){
@@ -79,6 +81,14 @@ public class Player{
 
     public void setLastAssistantPlayed(Assistant lastAssistantPlayed) {
         LastAssistantPlayed = lastAssistantPlayed;
+    }
+
+    public void setActiveCharacter(Boolean status){
+        this.activeCharacter = status;
+    }
+
+    public Boolean hasActiveCharacter() {
+        return activeCharacter;
     }
 
     public Assistant getAssistantById(Integer assistantId) {

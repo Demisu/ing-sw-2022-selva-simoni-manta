@@ -166,7 +166,7 @@ public class Character extends StudentAccessiblePiece {
                 break;
             case "professor":
                 //When counting DiningRoom students, consider count++
-                break;
+                Game.setStudentsInDiningModifier(effect_number_min);                break;
             /*Extra cases...
             case "???":
                 break;
@@ -181,7 +181,8 @@ public class Character extends StudentAccessiblePiece {
 
         if(effect_choose_target == "player"){
             //Ask the player for the ID (e.g.: ID of target island)
-            //targetID = ...;
+            //TO CHANGE
+            targetID = new Random().nextInt(gameController.getCurrentGame().getIslands().size());
         } else if(effect_choose_target == "random"){
             //Get a random ID (e.g.: ID of target island)
             targetID = new Random().nextInt(gameController.getCurrentGame().getIslands().size());

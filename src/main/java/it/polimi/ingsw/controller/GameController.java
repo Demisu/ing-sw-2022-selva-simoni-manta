@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Character;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameController {
@@ -18,6 +19,20 @@ public class GameController {
         referenceGame = currentGame;
     }
 
+    public void resetModifiers(){
+
+        Game.setAllStudentsValue(1);
+        Game.setTowerValue(1);
+        Game.setInfluenceModifier(0);
+        Game.setMotherNatureMovements(0);
+        Game.setStudentsInDiningModifier(0);
+
+        for (Player player : currentGame.getPlayers()) {
+            player.setActiveCharacter(false);
+            //player.setLastAssistantPlayed(null);
+        }
+    }
+
     /*----------*/
     /* MOVEMENT */
     /*----------*/
@@ -26,10 +41,57 @@ public class GameController {
 
         StudentAccessiblePiece origin = currentGame.getStudentAccessiblePieceByID(originID);
         StudentAccessiblePiece target = currentGame.getStudentAccessiblePieceByID(targetID);
-        origin.removeStudent(student);
-        target.addStudent(student);
 
-        //Maybe check if someone wins a professor?
+        //If movement is from school board entrance to dining room (same id)
+        if(origin.getPieceID() == target.getPieceID()){
+
+            ( (SchoolBoard) origin).studentToDining(student);
+            //Check if someone wins a professor
+            this.checkProfessorChange(StudentAccessiblePiece.colorOfStudent(student));
+
+        }else{
+
+            origin.removeStudent(student);
+            target.addStudent(student);
+
+        }
+
+    }
+
+    public void checkProfessorChange(Color color){
+
+        SchoolBoard winningBoard = null;
+        SchoolBoard oldBoard = null;
+        int maxFound = -1;
+
+        for (Player player : currentGame.getPlayers()) {
+
+            if(player.getPlayerBoard().getProfessors()[StudentAccessiblePiece.indexOfColor(color)]){
+                oldBoard = player.getPlayerBoard();
+            }
+
+            //If a certain character is active,
+            int currentNumber = player.getPlayerBoard().getDiningRoomStudents(color) +
+                                (player.hasActiveCharacter() ?
+                                Game.getStudentsInDiningModifier() :
+                                0);
+
+            if(currentNumber > maxFound){
+                maxFound = currentNumber;
+                winningBoard = player.getPlayerBoard();
+            }else if(player.getPlayerBoard().getDiningRoomStudents(color) == maxFound){
+                maxFound = -1;
+                winningBoard = null;
+            }
+        }
+
+        if(winningBoard != null){
+            if(oldBoard != null){
+                this.moveProfessor(color, oldBoard.getPieceID(), winningBoard.getPieceID());
+            }else{
+                winningBoard.setProfessor(color, true);
+            }
+        }
     }
 
     public void moveProfessor(Color professorColor, Integer originID, Integer targetID){
@@ -60,7 +122,6 @@ public class GameController {
 
         // Resolve that island
         this.resolveIsland(currentIsland.getPieceID());
-
     }
 
     public void resolveIsland(Integer islandID){
@@ -109,7 +170,8 @@ public class GameController {
     public void playCharacter(Integer playerID, Integer characterNumber){
 
         Character playedCharacter =  currentGame.getCharacter(characterNumber);
-
+        //REMEMBER TO REVERT THIS AFTER ROUND ENDS
+        currentGame.getPlayerById(playerID).setActiveCharacter(true);
         //Potentially really bad
         playedCharacter.setGameController(this);
 

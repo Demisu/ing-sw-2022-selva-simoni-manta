@@ -36,6 +36,7 @@ public class Game {
     private static Integer towerValue; //defaults to 1
     private static Integer influenceModifier; //defaults to 0
     private static Integer motherNatureMovements; //defaults to 0
+    private static Integer studentsInDiningModifier;
 
     //Needed for Piece ID
     private static Integer nextPieceID = 0;
@@ -51,6 +52,7 @@ public class Game {
         //Modifiers Setup
         motherNatureMovements = 0;
         influenceModifier = 0;
+        studentsInDiningModifier = 0;
 
         this.playerNumber = playerNumber;
 
@@ -244,6 +246,16 @@ public class Game {
         return availableCharacters[index];
     }
 
+    public static void setStudentValue(Color color, Integer studentValue) {
+        Game.studentValue[StudentAccessiblePiece.indexOfColor(color)] = studentValue;
+    }
+
+    public static void setAllStudentsValue(Integer studentValue) {
+        for (int i = 0; i < 5; i++){
+            Game.studentValue[i] = studentValue;
+        }
+    }
+
     public static Integer getInfluenceModifier() {
         return influenceModifier;
     }
@@ -258,6 +270,14 @@ public class Game {
 
     public static void setMotherNatureMovements(Integer newMotherNatureMovements) {
         motherNatureMovements = newMotherNatureMovements;
+    }
+
+    public static void setStudentsInDiningModifier(Integer studentsInDiningModifier) {
+        Game.studentsInDiningModifier = studentsInDiningModifier;
+    }
+
+    public static Integer getStudentsInDiningModifier() {
+        return studentsInDiningModifier;
     }
 
     public void unifyIslands(Island toKeep, Island toRemove){

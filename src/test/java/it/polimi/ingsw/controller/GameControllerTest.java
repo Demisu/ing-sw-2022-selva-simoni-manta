@@ -18,7 +18,7 @@ public class GameControllerTest {
         Game currentGame = controller.getCurrentGame();
         Island tempIsland = currentGame.getMotherNatureIsland();
         tempIsland.setTowersColor(TowerColor.BLACK);
-        currentGame.getIslands().get( currentGame.getIslands().indexOf(currentGame.getMotherNatureIsland()) + 2).setTowersColor(TowerColor.WHITE);
+        currentGame.getIslands().get( (currentGame.getIslands().indexOf(currentGame.getMotherNatureIsland()) + 2) % currentGame.getIslands().size()).setTowersColor(TowerColor.WHITE);
         int tempID = currentGame.getIslands().indexOf(tempIsland);
         controller.moveMotherNature(2);
 
