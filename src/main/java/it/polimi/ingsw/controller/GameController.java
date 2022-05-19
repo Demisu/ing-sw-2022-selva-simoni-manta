@@ -194,6 +194,13 @@ public class GameController {
     /*------*/
 
     public Boolean addPlayer(String nickname){
+        for (Player player : currentGame.getPlayers()) {
+            if(player.getNickname().equals(nickname)){
+                //Player already in game
+                player.setActive(true);
+                return true;
+            }
+        }
         return currentGame.addPlayer(nickname);
     }
 

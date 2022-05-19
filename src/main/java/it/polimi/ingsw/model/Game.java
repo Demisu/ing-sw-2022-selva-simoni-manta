@@ -228,6 +228,7 @@ public class Game {
             return false;
         } else {
             this.players.get(emptyPlayerNumber).setNickname(nickname);
+            this.players.get(emptyPlayerNumber).setActive(true);
             return true;
         }
     }

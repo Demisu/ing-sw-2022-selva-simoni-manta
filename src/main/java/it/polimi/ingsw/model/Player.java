@@ -11,24 +11,14 @@ public class Player implements Serializable {
     private Integer playerId;
     private Integer coins;
 
-    //public TowerColor getTowerColor() {
-    //    return towerColor;
-    //}
-//
-    //public void setTowerColor(TowerColor towerColor) {
-    //    this.towerColor = towerColor;
-    //}
-
     private String nickname;
-    //private TowerColor towerColor;
-    //private Integer towerNumber;//Towers in player's schoolboard (not island)
-    //Check that the number doesn't go below zero. 
+    private Boolean isActive;
     
     private ArrayList<Assistant> deck;
     private Assistant LastAssistantPlayed;
     private Boolean activeCharacter;
 
-    SchoolBoard playerBoard; //package-private
+    private SchoolBoard playerBoard; //package-private
 
     public Player(Integer playerId){
         this.playerId = playerId;
@@ -96,6 +86,14 @@ public class Player implements Serializable {
 
     public Boolean hasActiveCharacter() {
         return activeCharacter;
+    }
+
+    public Boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public Assistant getAssistantById(Integer assistantId) {
