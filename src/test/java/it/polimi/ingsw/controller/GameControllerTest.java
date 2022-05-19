@@ -29,6 +29,27 @@ public class GameControllerTest {
     }
 
     @Test
+    @DisplayName("Testing mother nature managing from controller 2")
+    void testAnotherMoveMotherNature() {
+
+        GameController controller = new GameController();
+        controller.startGame(2, "testUser");
+        Game currentGame = controller.getCurrentGame();
+        Island tempIsland = currentGame.getMotherNatureIsland();
+        Island anotherTempIsland = currentGame.getIslands().get(currentGame.getIslands().indexOf(currentGame.getMotherNatureIsland())+1);
+        anotherTempIsland.setTowersColor(TowerColor.BLACK);
+        tempIsland.setTowersColor(TowerColor.BLACK);
+        currentGame.getIslands().get( (currentGame.getIslands().indexOf(currentGame.getMotherNatureIsland()) + 2) % currentGame.getIslands().size()).setTowersColor(TowerColor.WHITE);
+        currentGame.getIslands().get( (currentGame.getIslands().indexOf(currentGame.getMotherNatureIsland()) + 1) % currentGame.getIslands().size()).setTowersColor(TowerColor.WHITE);
+        int tempID = currentGame.getIslands().indexOf(tempIsland);
+        controller.moveMotherNature(2);
+
+        //assertEquals(1, controller.getCurrentGame().getIslands().stream().filter(island -> island.isMotherNature()).count());
+        assertNotEquals(9999, currentGame.getIslands().indexOf(controller.getCurrentGame().getMotherNatureIsland()));
+        assertNotEquals(currentGame.getIslands().indexOf(tempIsland), currentGame.getIslands().indexOf(controller.getCurrentGame().getMotherNatureIsland()));
+    }
+
+    @Test
     @DisplayName("Testing students and merge of islands from controller")
     void testUnifyIslands(){
         GameController controller = new GameController();
@@ -90,4 +111,16 @@ public class GameControllerTest {
         assertTrue(testone[(StudentAccessiblePiece.indexOfColor(RED))]);
 
     }
+
+    @Test
+    @DisplayName("Testing add of players in the game")
+    void testAddingPlayer(){
+        GameController controller = new GameController();
+        controller.startGame(2, "xX-KEKKER2000-Xx");
+        controller.addPlayer("sus");
+        assertEquals(controller.getPlayerNumber(),2);
+
+    }
+
+
 }

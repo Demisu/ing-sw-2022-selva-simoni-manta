@@ -135,7 +135,12 @@ public class GameController {
 
             refIndex = islands.indexOf(currentIsland);
             Island nextIsland = islands.get((refIndex + 1) % (islands.size()));
-            Island previousIsland = islands.get((refIndex - 1) % (islands.size()));
+            Island previousIsland;
+            if(refIndex==0){
+                previousIsland = islands.get(islands.size()-1);
+            }else{
+                previousIsland = islands.get((refIndex - 1) % (islands.size()));
+            }
 
             if (currentIsland.getTowersColor() == nextIsland.getTowersColor()) {
                 currentGame.unifyIslands(currentIsland, nextIsland);
@@ -198,7 +203,7 @@ public class GameController {
 
     public static Game getReferenceGame() {
         return referenceGame;
-    }
+    } //Might be deleted in the future
 
     public Integer getPlayerNumber() {
         return currentGame.getPlayers().size();
