@@ -25,4 +25,6 @@ public interface ClientRequestHandler {
     ServerResponse handle(WaitingRequest waitingRequest);
 
     ServerResponse handle(SetPlayerNumberRequest setPlayerNumberRequest);
+
+    ServerResponse handle(GetUpdatedBoardRequest getUpdatedBoardRequest);
 }

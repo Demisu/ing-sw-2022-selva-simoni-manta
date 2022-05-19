@@ -2,13 +2,16 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.GameController;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Random;
 
-public class Character extends StudentAccessiblePiece {
+public class Character extends StudentAccessiblePiece implements Serializable {
 
     //General
     private Integer cost;
     private String image;
+    private Integer noEntryNumber;
 
     //Setup info
     private Boolean setup_required;
@@ -34,12 +37,20 @@ public class Character extends StudentAccessiblePiece {
 
     //Game
     private boolean hasBeenUsed;
-    private boolean hasIncreasedCost;
+    private final boolean hasIncreasedCost;
 
     //Utility
-    GameController gameController;
+    transient GameController gameController;
 
-    public Character(){}
+    public Character(Integer cost, String image, Boolean hasIncreasedCost, HashSet<Integer> students, Integer noEntryNumber){
+
+        this.cost = cost;
+        this.image = image;
+        this.hasIncreasedCost = hasIncreasedCost;
+        this.students = students;
+        this.noEntryNumber = noEntryNumber;
+
+    }
 
     //DO NOT DELETE, CONTAINS OLD BIG CONSTRUCTOR
     /*public Character(Integer cost, String image,                                                                    //General
@@ -166,7 +177,8 @@ public class Character extends StudentAccessiblePiece {
                 break;
             case "professor":
                 //When counting DiningRoom students, consider count++
-                Game.setStudentsInDiningModifier(effect_number_min);                break;
+                Game.setStudentsInDiningModifier(effect_number_min);
+                break;
             /*Extra cases...
             case "???":
                 break;
@@ -198,6 +210,14 @@ public class Character extends StudentAccessiblePiece {
 
     public Integer getCost() {
         return cost;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public Integer getNoEntryNumber() {
+        return noEntryNumber;
     }
 
     public void setCost(Integer cost) {

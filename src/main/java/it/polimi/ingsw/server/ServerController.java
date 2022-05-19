@@ -2,9 +2,14 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.requests.*;
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Character;
 import it.polimi.ingsw.server.responses.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Controller used by the Server
@@ -98,6 +103,39 @@ public class ServerController implements ClientRequestHandler {
                     The game will start as soon as all players have joined.
                     Waiting for all players...""");
         }
+    }
+
+    @Override
+    public ServerResponse handle(GetUpdatedBoardRequest req) {
+
+        String nickname = req.getNickname();
+        Game currentGame = gameController.getCurrentGame();
+
+        Player playerInfo = currentGame.getPlayerByNickname(nickname);
+        ArrayList<Character> charactersFull = new ArrayList<>( List.of(currentGame.getAllCharacters()) );
+        ArrayList<Character> characters = new ArrayList<>();
+
+        for (Character character : charactersFull) {
+
+            Integer cost = character.getCost();
+            String image = character.getImage();
+            Boolean hasIncreasedCost = character.getHasIncreasedCost();
+            HashSet<Integer> students = character.getStudents();
+            Integer noEntryNumber = character.getNoEntryNumber();
+
+            characters.add(new Character(cost, image, hasIncreasedCost, students, noEntryNumber));
+        }
+
+        List<Island> islands = currentGame.getIslands();
+        Set<Cloud> clouds = currentGame.getClouds();
+        ArrayList<SchoolBoard> schoolBoards = new ArrayList<>();
+
+        for (Player player : currentGame.getPlayers()) {
+            schoolBoards.add(player.getPlayerBoard());
+        }
+
+        return new GetUpdatedBoardResponse(playerInfo, characters, islands, clouds, schoolBoards);
+
     }
 
     @Override

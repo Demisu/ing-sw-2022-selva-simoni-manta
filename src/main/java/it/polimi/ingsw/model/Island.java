@@ -1,9 +1,10 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class Island extends StudentAccessiblePiece {
+public class Island extends StudentAccessiblePiece implements Serializable {
     private boolean motherNature;
     private Integer noEntry;
     //private HashSet<Integer> towers; //è più semplice tenere le due variabili sotto, non ci serve l'id. Vedi modifiche in player

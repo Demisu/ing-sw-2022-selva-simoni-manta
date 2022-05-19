@@ -1,5 +1,9 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.model.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ClientView /*will have to implement listeners*/ {
@@ -22,6 +26,8 @@ public class ClientView /*will have to implement listeners*/ {
         Scanner scanner = new Scanner(System.in);
         String action;
 
+        clientController.getModelInfo(nickname);
+
         do {
             System.out.println("""
                     -----------------
@@ -40,6 +46,18 @@ public class ClientView /*will have to implement listeners*/ {
 
             switch (action) {
                 case "PLAY_ASSISTANT" -> {
+                    System.out.println("""
+                            -----------------
+                            Available assistants:\s
+                            (format: turnPriority | motherMovs)
+                            -----------------
+                            """);
+                    List<Assistant> deck = clientController.getPlayerInfo().getDeck();
+                    for (Assistant assistant : deck) {
+                        System.out.println(deck.indexOf(assistant) + ": "
+                                            + assistant.getTurnPriority()+ " | "
+                                            + assistant.getMotherNatureMovements());
+                    }
                     System.out.print("\nInput assistant number: ");
                     clientController.playAssistant(nickname, scanner.nextInt());
                 }
@@ -89,7 +107,7 @@ public class ClientView /*will have to implement listeners*/ {
             status = false;
         }
         if(status){
-            System.out.println("Game Created");
+            //System.out.println("Game Created");
         } else {
             System.out.println("""
                     Game already playing, added to lobby.

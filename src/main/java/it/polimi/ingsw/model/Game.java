@@ -246,6 +246,10 @@ public class Game {
         return availableCharacters[index];
     }
 
+    public Character[] getAllCharacters(){
+        return this.availableCharacters;
+    }
+
     public static void setStudentValue(Color color, Integer studentValue) {
         Game.studentValue[StudentAccessiblePiece.indexOfColor(color)] = studentValue;
     }

@@ -1,9 +1,17 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.requests.*;
+import it.polimi.ingsw.model.Cloud;
+import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Character;
+import it.polimi.ingsw.model.SchoolBoard;
 import it.polimi.ingsw.server.responses.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Controller used by the Client
@@ -14,6 +22,13 @@ public class ClientController implements ServerResponseHandler {
     private final Client client;
 
     private Thread receiver;
+
+    //Game info
+    Player playerInfo;
+    ArrayList<Character> characters;
+    List<Island> islands;
+    Set<Cloud> clouds;
+    ArrayList<SchoolBoard> schoolBoards;
 
     /**
      * the Client's View, intended as MVC
@@ -68,6 +83,12 @@ public class ClientController implements ServerResponseHandler {
         client.clientRequest(new SetPlayerNumberRequest(nickname, number));
         return this.handle((OperationResultResponse) client.clientResponse());
         //return ((SetNicknameResponse) client.clientResponse()).getNickname();
+    }
+
+    public void getModelInfo(String nickname) {
+        client.clientRequest(new GetUpdatedBoardRequest(nickname));
+        this.handle((GetUpdatedBoardResponse) client.clientResponse());
+        System.out.println("SIUUUUUUUUUUUUUUUUUUUUUM");
     }
 
     /**
@@ -135,7 +156,36 @@ public class ClientController implements ServerResponseHandler {
         return res.getResult();
     }
 
-//    @Override
+    @Override
+    public void handle(GetUpdatedBoardResponse res) {
+        playerInfo = res.getPlayerInfo();
+        characters = res.getCharacters();
+        islands = res.getIslands();
+        clouds = res.getClouds();
+        schoolBoards = res.getSchoolBoards();
+    }
+
+    public Player getPlayerInfo() {
+        return playerInfo;
+    }
+
+    public ArrayList<Character> getCharacters() {
+        return characters;
+    }
+
+    public List<Island> getIslands() {
+        return islands;
+    }
+
+    public Set<Cloud> getClouds() {
+        return clouds;
+    }
+
+    public ArrayList<SchoolBoard> getSchoolBoards() {
+        return schoolBoards;
+    }
+
+    //    @Override
 //    public void handle(RequestSuccessfulResponse res) {
 //
 //    }

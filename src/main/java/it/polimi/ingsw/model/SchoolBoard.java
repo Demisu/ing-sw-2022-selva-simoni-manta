@@ -1,9 +1,10 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class SchoolBoard extends StudentAccessiblePiece {
+public class SchoolBoard extends StudentAccessiblePiece implements Serializable {
     //inherits HashSet<Integer> students, which is used to save students
     //in front of the main entrance;
     private ArrayList<Integer> yellowDiningRoomStudents;
