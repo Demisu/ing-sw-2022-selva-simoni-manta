@@ -26,9 +26,9 @@ public class ClientView /*will have to implement listeners*/ {
         Scanner scanner = new Scanner(System.in);
         String action;
 
-        clientController.getModelInfo(nickname);
-
         do {
+            clientController.getModelInfo(nickname);
+
             System.out.println("""
                     -----------------
                     Choose an action:\s

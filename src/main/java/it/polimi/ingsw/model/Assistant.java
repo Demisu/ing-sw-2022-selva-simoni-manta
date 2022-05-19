@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
-public final class Assistant{
+import java.io.Serializable;
+
+public final class Assistant implements Serializable {
 
     private final int assistantId;
     private final int turnPriority;

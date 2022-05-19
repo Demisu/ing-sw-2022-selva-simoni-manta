@@ -72,9 +72,9 @@ public class GameController {
 
             //If a certain character is active,
             int currentNumber = player.getPlayerBoard().getDiningRoomStudents(color) +
-                                (player.hasActiveCharacter() ?
-                                Game.getStudentsInDiningModifier() :
-                                0);
+                    (player.hasActiveCharacter() ?
+                            Game.getStudentsInDiningModifier() :
+                            0);
 
             if(currentNumber > maxFound){
                 maxFound = currentNumber;
@@ -160,16 +160,16 @@ public class GameController {
     /* CARDS */
     /*-------*/
 
-    public void playAssistant(Integer playerID, Integer assistantCode){
+    public void playAssistant(Integer playerID, Integer assistantNumber){
 
         Player p = currentGame.getPlayerById(playerID);
-        p.removeAssistant(p.getAssistantById(assistantCode)); //handles setting last assistant played property as well
+        p.removeAssistant(p.getDeck().get(assistantNumber)); //handles setting last assistant played property as well
     }
 
-    public void playAssistant(String playerNickname, Integer assistantCode){
+    public void playAssistant(String playerNickname, Integer assistantNumber){
 
         Player p = currentGame.getPlayerByNickname(playerNickname);
-        p.removeAssistant(p.getAssistantById(assistantCode)); //handles setting last assistant played property as well
+        p.removeAssistant(p.getDeck().get(assistantNumber)); //handles setting last assistant played property as well
     }
 
     public void playCharacter(Integer playerID, Integer characterNumber){

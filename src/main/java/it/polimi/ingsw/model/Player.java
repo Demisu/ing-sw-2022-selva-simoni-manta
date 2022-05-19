@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import it.polimi.ingsw.model.Assistant;
 
 public class Player implements Serializable {
 
@@ -36,6 +37,11 @@ public class Player implements Serializable {
     //    this.towerColor = towerColor;
     //    this.towerNumber = towerNumber;
         this.deck = new ArrayList<>();
+
+        for(int i = 0; i < 10; i++){
+            deck.add(new Assistant(i, 10-i, Game.getNextPieceID()));
+        }
+
         this.playerBoard = new SchoolBoard();
         this.activeCharacter = false;
     }
