@@ -38,6 +38,8 @@ public class ClientHandler implements Runnable /*Listeners to the View*/{
                                             + serverResponse.getClass()
                                             + "\n-----------\n");
                         out.writeObject(serverResponse);
+                        out.flush();
+                        out.reset();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.SchoolBoard;
 import it.polimi.ingsw.server.ServerResponse;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -35,23 +34,23 @@ public class GetUpdatedBoardResponse  implements ServerResponse {
     }
 
     public Player getPlayerInfo() {
-        return playerInfo;
+        return this.playerInfo;
     }
 
     public ArrayList<Character> getCharacters() {
-        return characters;
+        return this.characters;
     }
 
     public List<Island> getIslands() {
-        return islands;
+        return this.islands;
     }
 
     public Set<Cloud> getClouds() {
-        return clouds;
+        return this.clouds;
     }
 
     public ArrayList<SchoolBoard> getSchoolBoards() {
-        return schoolBoards;
+        return this.schoolBoards;
     }
 }
 

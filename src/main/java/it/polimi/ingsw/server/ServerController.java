@@ -16,6 +16,7 @@ import java.util.Set;
  */
 public class ServerController implements ClientRequestHandler {
 
+    private static int tester = 0;
     private final ArrayList<ClientHandler> clientHandlerList;
     private final GameController gameController;
     private static Boolean gameExists = false;
@@ -110,6 +111,7 @@ public class ServerController implements ClientRequestHandler {
 
         String nickname = req.getNickname();
         Game currentGame = gameController.getCurrentGame();
+        tester++;
 
         Player playerInfo = currentGame.getPlayerByNickname(nickname);
         ArrayList<Character> charactersFull = new ArrayList<>( List.of(currentGame.getAllCharacters()) );
@@ -117,7 +119,7 @@ public class ServerController implements ClientRequestHandler {
 
         for (Character character : charactersFull) {
 
-            Integer cost = character.getCost();
+            Integer cost = character.getCost() + tester;
             String image = character.getImage();
             Boolean hasIncreasedCost = character.getHasIncreasedCost();
             HashSet<Integer> students = character.getStudents();

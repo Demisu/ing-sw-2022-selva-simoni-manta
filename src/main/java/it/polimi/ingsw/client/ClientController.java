@@ -88,7 +88,7 @@ public class ClientController implements ServerResponseHandler {
     public void getModelInfo(String nickname) {
         client.clientRequest(new GetUpdatedBoardRequest(nickname));
         this.handle((GetUpdatedBoardResponse) client.clientResponse());
-        System.out.println("SIUUUUUUUUUUUUUUUUUUUUUM");
+        System.out.println("Objects updated!");
     }
 
     /**

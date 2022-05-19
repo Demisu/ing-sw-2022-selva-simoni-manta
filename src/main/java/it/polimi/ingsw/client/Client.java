@@ -44,7 +44,8 @@ public class Client {
      */
     public ServerResponse clientResponse() {
         try {
-            return (ServerResponse) in.readObject();
+            ServerResponse temp = (ServerResponse) in.readObject();
+            return temp;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -62,6 +63,7 @@ public class Client {
     public void clientRequest(ClientRequest req) {
         try {
             out.writeObject(req);
+            out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -41,7 +41,7 @@ public class ClientView /*will have to implement listeners*/ {
                     QUIT
                     -----------------
                     """);
-            System.out.print("Your choice: ");
+            System.out.println("Your choice: ");
             action = scanner.nextLine();
 
             switch (action) {
@@ -58,23 +58,23 @@ public class ClientView /*will have to implement listeners*/ {
                                             + assistant.getTurnPriority()+ " | "
                                             + assistant.getMotherNatureMovements());
                     }
-                    System.out.print("\nInput assistant number: ");
+                    System.out.println("\nInput assistant number: ");
                     clientController.playAssistant(nickname, scanner.nextInt());
                 }
                 case "PLAY_CHARACTER" -> {
-                    System.out.print("\nInput character number: ");
+                    System.out.println("\nInput character number: ");
                     clientController.playCharacter(scanner.nextInt());
                 }
                 case "MOVE_MOTHERNATURE" -> {
-                    System.out.print("\nInput movements: ");
+                    System.out.println("\nInput movements: ");
                     clientController.moveMotherNature(scanner.nextInt());
                 }
                 case "MOVE_STUDENT" -> {
-                    System.out.print("\nInput student ID: ");
+                    System.out.println("\nInput student ID: ");
                     Integer student = scanner.nextInt();
-                    System.out.print("\nInput source ID: ");
+                    System.out.println("\nInput source ID: ");
                     Integer source = scanner.nextInt();
-                    System.out.print("\nInput target ID: ");
+                    System.out.println("\nInput target ID: ");
                     Integer target = scanner.nextInt();
                     clientController.moveStudent(student, source, target);
                 }
