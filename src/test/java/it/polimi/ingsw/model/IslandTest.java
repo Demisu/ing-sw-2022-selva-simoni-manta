@@ -70,7 +70,7 @@ public class IslandTest {
         team2.addPlayer(player4);
         teams.add(team1);
         teams.add(team2);
-        island1.resolveIsland(teams);
+        island1.resolve(teams);
     }
     @Test
     @DisplayName("Testing students")

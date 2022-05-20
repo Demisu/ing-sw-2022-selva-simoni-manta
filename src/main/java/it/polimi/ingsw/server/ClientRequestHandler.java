@@ -27,4 +27,6 @@ public interface ClientRequestHandler {
     ServerResponse handle(SetPlayerNumberRequest setPlayerNumberRequest);
 
     ServerResponse handle(GetUpdatedBoardRequest getUpdatedBoardRequest);
+
+    ServerResponse handle(PassTurnRequest passTurnRequest);
 }

@@ -17,7 +17,7 @@ public class Game {
     final ArrayList<Integer> allCharacters; //All existing characters
     final String charactersJSONPath = ".\\src\\Characters\\";
 
-    private Integer currentPlayerID;
+    private String currentPlayer;
     private Integer emptyPlayerNumber = 1;
     private final Integer playerNumber;
     private List<Island> islands;
@@ -68,9 +68,13 @@ public class Game {
         //Clouds and Players setup
         clouds = new HashSet<>();
         players = new ArrayList<>();
+        currentTurnOrder = new ArrayList<>();
+        nextTurnOrder = new ArrayList<>();
         for(int i = 0; i < playerNumber; i++) {
             this.clouds.add(new Cloud());
-            this.players.add(new Player(i));
+            Player newPlayer = new Player(i);
+            this.players.add(newPlayer);
+            this.currentTurnOrder.add(newPlayer);
         }
 
         //Teams
@@ -150,6 +154,7 @@ public class Game {
         }
 
         this.players.get(0).setNickname(nicknameOfCreator);
+        this.currentPlayer = players.get(0).getNickname();
     }
 
     public Integer getAStudent() { //get (and remove) a student from the game bag
@@ -169,6 +174,17 @@ public class Game {
             case RED -> studentValue[3];
             case PURPLE -> studentValue[4];
         };
+    }
+
+    public void unifyIslands(Island toKeep, Island toRemove){
+
+        toKeep.getStudents().addAll(toRemove.getStudents());
+        toKeep.setTowersNumber(toKeep.getTowersNumber() + toRemove.getTowersNumber());
+        toKeep.setNoEntry(toKeep.getNoEntry() + toRemove.getNoEntry());
+        if(toRemove.isMotherNature()){
+            toKeep.setMotherNature(true);
+        }
+        islands.remove(toRemove);
     }
 
     public static Integer getTowerValue(){
@@ -229,6 +245,7 @@ public class Game {
         } else {
             this.players.get(emptyPlayerNumber).setNickname(nickname);
             this.players.get(emptyPlayerNumber).setActive(true);
+            emptyPlayerNumber++;
             return true;
         }
     }
@@ -250,6 +267,16 @@ public class Game {
     public Character[] getAllCharacters(){
         return this.availableCharacters;
     }
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(String currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    // STATIC SECTION --------------------------------------------------------------------------------------------------
 
     public static void setStudentValue(Color color, Integer studentValue) {
         Game.studentValue[StudentAccessiblePiece.indexOfColor(color)] = studentValue;
@@ -285,18 +312,9 @@ public class Game {
         return studentsInDiningModifier;
     }
 
-    public void unifyIslands(Island toKeep, Island toRemove){
+    // -----------------------------------------------------------------------------------------------------------------
 
-        toKeep.getStudents().addAll(toRemove.getStudents());
-        toKeep.setTowersNumber(toKeep.getTowersNumber() + toRemove.getTowersNumber());
-        toKeep.setNoEntry(toKeep.getNoEntry() + toRemove.getNoEntry());
-        if(toRemove.isMotherNature()){
-            toKeep.setMotherNature(true);
-        }
-        islands.remove(toRemove);
-    }
-
-    // GET BY ID SECTION, USED BY THE CONTROLLER
+    // GET BY ID SECTION, USED BY THE CONTROLLER -----------------------------------------------------------------------
 
     public Player getPlayerById(Integer playerId) {
 

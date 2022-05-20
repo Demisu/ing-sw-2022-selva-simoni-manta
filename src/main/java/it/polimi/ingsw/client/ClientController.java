@@ -46,11 +46,12 @@ public class ClientController implements ServerResponseHandler {
         //Setup
         view.setupPhase();
         view.waitGameStartPhase();
-        view.testingPhase();
-        /*
+        do{
+            view.testingPhase();
+        } while(client.isConnected());
 
         //Game phases
-        do{
+        /*do{
             view.waitTurnPhase();
             view.planningPhase();
             view.actionPhase();
@@ -87,8 +88,8 @@ public class ClientController implements ServerResponseHandler {
         //return ((SetNicknameResponse) client.clientResponse()).getNickname();
     }
 
-    public void getModelInfo(String nickname) {
-        client.clientRequest(new GetUpdatedBoardRequest(nickname));
+    public void getModelInfo(String nickname, Boolean firstRequest) {
+        client.clientRequest(new GetUpdatedBoardRequest(nickname, firstRequest));
         this.handle((GetUpdatedBoardResponse) client.clientResponse());
         System.out.println("Objects updated!");
     }
@@ -117,8 +118,13 @@ public class ClientController implements ServerResponseHandler {
         return this.handle((OperationResultResponse) client.clientResponse());
     }
 
-    public Boolean waitTurn(){
+    public Boolean waitGameStart(){
         client.clientRequest(new WaitingRequest());
+        return this.handle((OperationResultResponse) client.clientResponse());
+    }
+
+    public Boolean passTurn(String nickname){
+        client.clientRequest(new PassTurnRequest(nickname));
         return this.handle((OperationResultResponse) client.clientResponse());
     }
 

@@ -36,7 +36,7 @@ public class GameControllerTest {
         controller.startGame(2, "testUser");
         Game currentGame = controller.getCurrentGame();
         Island tempIsland = currentGame.getMotherNatureIsland();
-        Island anotherTempIsland = currentGame.getIslands().get(currentGame.getIslands().indexOf(currentGame.getMotherNatureIsland())+1);
+        Island anotherTempIsland = currentGame.getIslands().get((currentGame.getIslands().indexOf(currentGame.getMotherNatureIsland())+1) % currentGame.getIslands().size());
         anotherTempIsland.setTowersColor(TowerColor.BLACK);
         tempIsland.setTowersColor(TowerColor.BLACK);
         currentGame.getIslands().get( (currentGame.getIslands().indexOf(currentGame.getMotherNatureIsland()) + 2) % currentGame.getIslands().size()).setTowersColor(TowerColor.WHITE);

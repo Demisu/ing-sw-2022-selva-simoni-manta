@@ -110,6 +110,13 @@ public class ServerController implements ClientRequestHandler {
     public ServerResponse handle(GetUpdatedBoardRequest req) {
 
         String nickname = req.getNickname();
+        boolean condition = gameController.getCurrentGame().getCurrentPlayer().equals(nickname);
+
+        while(!condition){
+            //waits player's turn
+            condition = gameController.getCurrentGame().getCurrentPlayer().equals(nickname);
+        }
+
         Game currentGame = gameController.getCurrentGame();
 
         Player playerInfo = currentGame.getPlayerByNickname(nickname);
@@ -137,6 +144,18 @@ public class ServerController implements ClientRequestHandler {
 
         return new GetUpdatedBoardResponse(playerInfo, characters, islands, clouds, schoolBoards);
 
+    }
+
+    @Override
+    public ServerResponse handle(PassTurnRequest req) {
+
+        if(gameController.getCurrentGame().getCurrentPlayer().equals(req.getNickname())){
+            gameController.nextPlayer();
+            return new OperationResultResponse(true, req.getNickname() + "'s turn ended.\n" +
+                                                            gameController.getCurrentGame().getCurrentPlayer() +
+                                                            "'s turn started.");
+        }
+        return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to end it.");
     }
 
     @Override

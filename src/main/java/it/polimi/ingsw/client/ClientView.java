@@ -10,6 +10,7 @@ public class ClientView /*will have to implement listeners*/ {
 
     Scanner scanner = new Scanner(System.in);
     String nickname;
+    Boolean firstRequest = true;
 
     /**
      * holds a reference to the Client's Controller
@@ -21,13 +22,63 @@ public class ClientView /*will have to implement listeners*/ {
         this.clientController = clientController;
     }
 
+    public void waitGameStartPhase() {
+
+        Boolean status = false;
+
+        //System.out.println("Waiting further implementations");
+        //Scanner scanner = new Scanner(System.in);
+        //String placeholder = scanner.nextLine();
+
+        //TO CHECK
+        System.out.println("Waiting for all players...");
+        while(!status){
+            status = clientController.waitGameStart();
+        }
+
+    }
+
+    public void setupPhase() {
+
+        Boolean choosePlayersNumber = false;
+        Boolean status = false;
+
+        do {
+            System.out.print("Choose your nickname: ");
+            nickname = scanner.nextLine();
+        } while (nickname == null);
+
+        choosePlayersNumber = clientController.setPlayerNickname(nickname);
+        //nickname = controller.setPlayerNickname(scanner.nextLine());
+
+        if(choosePlayersNumber){
+            System.out.print("Choose player number: ");
+            Integer number = Integer.parseInt(scanner.nextLine());
+            status = clientController.setPlayerNumber(nickname, number);
+        }else{
+            System.out.println("No need to choose player number");
+            status = false;
+        }
+        if(status){
+            //System.out.println("Game Created");
+        } else {
+            System.out.println("""
+                    Game already playing, added to lobby.
+                    The game will start as soon as all players have joined.
+                    """);
+        }
+    }
+
     public void testingPhase(){
 
         Scanner scanner = new Scanner(System.in);
         String action;
 
         do {
-            clientController.getModelInfo(nickname);
+
+            System.out.println("Waiting your turn...");
+            clientController.getModelInfo(nickname, firstRequest);
+            firstRequest = false;
 
             System.out.println("""
                     -----------------
@@ -38,7 +89,7 @@ public class ClientView /*will have to implement listeners*/ {
                     PLAY_CHARACTER
                     MOVE_MOTHERNATURE
                     MOVE_STUDENT
-                    QUIT
+                    PASS_TURN
                     -----------------
                     """);
             System.out.println("Your choice: ");
@@ -80,58 +131,9 @@ public class ClientView /*will have to implement listeners*/ {
                 }
                 default -> System.out.println("Invalid action.");
             }
-        } while(!action.equals("QUIT"));
+        } while(!action.equals("PASS_TURN"));
 
-        scanner.close();
-    }
-
-    public void setupPhase() {
-
-        Boolean choosePlayersNumber = false;
-        Boolean status = false;
-
-        do {
-            System.out.print("Choose your nickname: ");
-            nickname = scanner.nextLine();
-        } while (nickname == null);
-
-        choosePlayersNumber = clientController.setPlayerNickname(nickname);
-        //nickname = controller.setPlayerNickname(scanner.nextLine());
-
-        if(choosePlayersNumber){
-            System.out.print("Choose player number: ");
-            Integer number = Integer.parseInt(scanner.nextLine());
-            status = clientController.setPlayerNumber(nickname, number);
-        }else{
-            System.out.println("No need to choose player number");
-            status = false;
-        }
-        if(status){
-            //System.out.println("Game Created");
-        } else {
-            System.out.println("""
-                    Game already playing, added to lobby.
-                    The game will start as soon as all players have joined.
-                    """);
-        }
-    }
-
-    public void waitGameStartPhase() {
-
-        Boolean status = false;
-
-        //System.out.println("Waiting further implementations");
-        //Scanner scanner = new Scanner(System.in);
-        //String placeholder = scanner.nextLine();
-
-        //TO CHECK
-        System.out.println("Waiting for all players...");
-        while(!status){
-            status = clientController.waitTurn();
-        }
-
-        System.out.println("Waiting your turn...");
-
+        Boolean status = clientController.passTurn(nickname);
     }
 
     public void planningPhase() {

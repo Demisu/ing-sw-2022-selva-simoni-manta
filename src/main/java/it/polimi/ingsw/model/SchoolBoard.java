@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import static java.util.Arrays.fill;
+
 public class SchoolBoard extends StudentAccessiblePiece implements Serializable {
     //inherits HashSet<Integer> students, which is used to save students
     //in front of the main entrance;
@@ -23,6 +25,7 @@ public class SchoolBoard extends StudentAccessiblePiece implements Serializable 
         this.redDiningRoomStudents = new ArrayList<>();
         this.purpleDiningRoomStudents = new ArrayList<>();
         this.professors = new Boolean[5];
+        fill(professors, false);
         this.students = new HashSet<>();
     }
 

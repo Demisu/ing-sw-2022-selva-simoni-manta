@@ -130,6 +130,7 @@ public class GameController {
         boolean unified = false;
         int refIndex;
         Island currentIsland = currentGame.getIslandByID(islandID);
+        currentIsland.resolve(currentGame.getTeams());
 
         do {
 
@@ -137,7 +138,7 @@ public class GameController {
             Island nextIsland = islands.get((refIndex + 1) % (islands.size()));
             Island previousIsland;
             if(refIndex==0){
-                previousIsland = islands.get(islands.size()-1);
+                previousIsland = islands.get(islands.size() - 1);
             }else{
                 previousIsland = islands.get((refIndex - 1) % (islands.size()));
             }
@@ -154,6 +155,20 @@ public class GameController {
 
         } while(unified);
 
+    }
+
+    public void nextPlayer() {
+
+        int currentIndex = currentGame.getCurrentTurnOrder().indexOf(
+                                                    currentGame.getPlayerByNickname(
+                                                            currentGame.getCurrentPlayer()));
+        //If current is the last element
+        if(currentIndex == currentGame.getCurrentTurnOrder().size() - 1){
+            currentGame.setCurrentTurnOrder(currentGame.getNextTurnOrder());
+            currentGame.setCurrentPlayer(currentGame.getCurrentTurnOrder().get(0).getNickname());
+        } else {
+            currentGame.setCurrentPlayer(currentGame.getCurrentTurnOrder().get(currentIndex + 1).getNickname());
+        }
     }
 
     /*-------*/
