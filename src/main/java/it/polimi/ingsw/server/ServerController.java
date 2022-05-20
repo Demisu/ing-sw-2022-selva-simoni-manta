@@ -16,7 +16,6 @@ import java.util.Set;
  */
 public class ServerController implements ClientRequestHandler {
 
-    private static int tester = 0;
     private final ArrayList<ClientHandler> clientHandlerList;
     private final GameController gameController;
     private static Boolean gameExists = false;
@@ -102,7 +101,8 @@ public class ServerController implements ClientRequestHandler {
             return new OperationResultResponse(false, """
                     Game already playing, added to lobby.
                     The game will start as soon as all players have joined.
-                    Waiting for all players...""");
+                    Waiting for all players...
+                    """);
         }
     }
 
@@ -111,7 +111,6 @@ public class ServerController implements ClientRequestHandler {
 
         String nickname = req.getNickname();
         Game currentGame = gameController.getCurrentGame();
-        tester++;
 
         Player playerInfo = currentGame.getPlayerByNickname(nickname);
         ArrayList<Character> charactersFull = new ArrayList<>( List.of(currentGame.getAllCharacters()) );
@@ -119,7 +118,7 @@ public class ServerController implements ClientRequestHandler {
 
         for (Character character : charactersFull) {
 
-            Integer cost = character.getCost() + tester;
+            Integer cost = character.getCost();
             String image = character.getImage();
             Boolean hasIncreasedCost = character.getHasIncreasedCost();
             HashSet<Integer> students = character.getStudents();
@@ -142,6 +141,14 @@ public class ServerController implements ClientRequestHandler {
 
     @Override
     public ServerResponse handle(WaitingRequest req) {
+
+        while(connectedPlayers < gameController.getPlayerNumber()){}
+
+        //if(connectedPlayers < gameController.getPlayerNumber()){
+        //    return new OperationResultResponse(false, "Players connected: " + connectedPlayers + "/" + gameController.getPlayerNumber());
+        //}
+
+        System.out.println("ALL PLAYERS JOINED, GAME HAS STARTED");
 
         return new OperationResultResponse(true, "Ready");
     }

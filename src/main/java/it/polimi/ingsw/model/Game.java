@@ -306,7 +306,7 @@ public class Game {
                     return player;
             }
         }
-        System.out.println("Player not found (Game.getPlayerById)");
+        System.out.println("Player " + playerId + " not found (Game.getPlayerById)");
         return null;
 
     }
@@ -315,11 +315,11 @@ public class Game {
 
         for (Team team : teams) {
             for (Player player : team.getPlayers()) {
-                if (player.getNickname() == playerNickname)
+                if (player.getNickname().equals(playerNickname))
                     return player;
             }
         }
-        System.out.println("Player not found (Game.getPlayerById)");
+        System.out.println("Player " + playerNickname + " not found (Game.getPlayerByNickname)");
         return null;
 
     }

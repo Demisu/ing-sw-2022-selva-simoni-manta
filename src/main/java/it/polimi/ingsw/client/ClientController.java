@@ -23,6 +23,7 @@ public class ClientController implements ServerResponseHandler {
 
     private Thread receiver;
 
+    String lastMessage = "";
     //Game info
     Player playerInfo;
     ArrayList<Character> characters;
@@ -43,7 +44,8 @@ public class ClientController implements ServerResponseHandler {
     public void run() throws IOException {
 
         //Setup
-        view.nicknamePhase();
+        view.setupPhase();
+        view.waitGameStartPhase();
         view.testingPhase();
         /*
 
@@ -115,7 +117,7 @@ public class ClientController implements ServerResponseHandler {
         return this.handle((OperationResultResponse) client.clientResponse());
     }
 
-    public Boolean waitTurn() {
+    public Boolean waitTurn(){
         client.clientRequest(new WaitingRequest());
         return this.handle((OperationResultResponse) client.clientResponse());
     }
@@ -152,7 +154,10 @@ public class ClientController implements ServerResponseHandler {
 
     @Override
     public Boolean handle(OperationResultResponse res) {
-        System.out.println(res.getMessage());
+        if(!res.getMessage().equals(lastMessage)){
+            lastMessage = res.getMessage();
+            System.out.println(res.getMessage());
+        }
         return res.getResult();
     }
 

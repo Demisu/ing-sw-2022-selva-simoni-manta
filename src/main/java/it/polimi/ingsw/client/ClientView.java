@@ -85,7 +85,7 @@ public class ClientView /*will have to implement listeners*/ {
         scanner.close();
     }
 
-    public void nicknamePhase() {
+    public void setupPhase() {
 
         Boolean choosePlayersNumber = false;
         Boolean status = false;
@@ -112,20 +112,24 @@ public class ClientView /*will have to implement listeners*/ {
             System.out.println("""
                     Game already playing, added to lobby.
                     The game will start as soon as all players have joined.
-                    Waiting for all players...""");
+                    """);
         }
-        //System.out.println("Response received. Nickname: " + nickname);
     }
 
-    public void waitTurnPhase() {
+    public void waitGameStartPhase() {
 
         Boolean status = false;
-        System.out.println("Waiting further implementations");
-        Scanner scanner = new Scanner(System.in);
-        String placeholder = scanner.nextLine();
+
+        //System.out.println("Waiting further implementations");
+        //Scanner scanner = new Scanner(System.in);
+        //String placeholder = scanner.nextLine();
 
         //TO CHECK
-        status = clientController.waitTurn();
+        System.out.println("Waiting for all players...");
+        while(!status){
+            status = clientController.waitTurn();
+        }
+
         System.out.println("Waiting your turn...");
 
     }

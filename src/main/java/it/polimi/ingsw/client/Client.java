@@ -36,8 +36,6 @@ public class Client {
         isConnected = false;
     }
 
-
-
     /**
      * Repeatedly processes the next Response received by the client
      * @return supertype Response type, or null
@@ -63,6 +61,7 @@ public class Client {
         try {
             out.writeObject(req);
             out.flush();
+            out.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
