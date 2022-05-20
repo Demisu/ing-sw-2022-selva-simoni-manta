@@ -159,6 +159,8 @@ public class GameController {
 
     public void nextPlayer() {
 
+        //testcomment
+        int x = 1;
         int currentIndex = currentGame.getCurrentTurnOrder().indexOf(
                                                     currentGame.getPlayerByNickname(
                                                             currentGame.getCurrentPlayer()));
