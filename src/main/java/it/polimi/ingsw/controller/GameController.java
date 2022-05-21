@@ -8,7 +8,7 @@ import java.util.List;
 public class GameController {
 
     private static Game referenceGame;
-    Game currentGame;
+    private Game currentGame;
 
     /*------*/
     /* GAME */
@@ -221,7 +221,7 @@ public class GameController {
         return currentGame.addPlayer(nickname);
     }
 
-    public Game getCurrentGame() {
+    public synchronized Game getCurrentGame() {
         return currentGame;
     }
 
