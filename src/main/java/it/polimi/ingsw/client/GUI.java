@@ -1,16 +1,13 @@
 package it.polimi.ingsw.client;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 public class GUI extends Application {
@@ -19,14 +16,10 @@ public class GUI extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("fxml/gui.fxml"));
-            primaryStage.setTitle("Hello World");
-            primaryStage.setScene(new Scene(root, 300, 275));
-            primaryStage.show();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+    public void start(Stage primaryStage) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/gui.fxml"));
+        primaryStage.setTitle("Hello World");
+        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.show();
     }
 }

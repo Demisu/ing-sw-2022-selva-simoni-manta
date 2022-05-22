@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="433.0" prefWidth="636.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI">
+   <children>
+      <CheckBox layoutX="238.0" layoutY="61.0" mnemonicParsing="false" text="CheckBox" />
+      <Button layoutX="248.0" layoutY="86.0" mnemonicParsing="false" text="Button" />
+      <Text layoutX="263.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <TextArea layoutX="175.0" layoutY="121.0" prefHeight="268.0" prefWidth="368.0" />
+   </children>
+</AnchorPane>
