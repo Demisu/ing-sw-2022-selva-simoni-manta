@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="206.0" prefWidth="390.0">
+         <children>
+            <Text layoutX="84.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scegli il numero di giocatori">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Button layoutX="54.0" layoutY="134.0" mnemonicParsing="false" text="1 v 1" />
+            <Button layoutX="164.0" layoutY="134.0" mnemonicParsing="false" text="1 v 1 v 1" />
+            <Button layoutX="294.0" layoutY="134.0" mnemonicParsing="false" text="2 v 2" />
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="239.0" prefWidth="298.0">
+         <children>
+            <Button layoutX="41.0" layoutY="35.0" mnemonicParsing="false" text="Play assistant" />
+            <Button layoutX="161.0" layoutY="35.0" mnemonicParsing="false" text="Play character" />
+            <Button layoutX="86.0" layoutY="80.0" mnemonicParsing="false" text="Move mother nature" />
+            <Button layoutX="104.0" layoutY="120.0" mnemonicParsing="false" text="Move student" />
+            <Button layoutX="117.0" layoutY="187.0" mnemonicParsing="false" text="Pass turn" />
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>
