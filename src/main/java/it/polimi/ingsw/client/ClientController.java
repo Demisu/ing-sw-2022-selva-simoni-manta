@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.cli.CLI;
+import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.requests.*;
 import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Island;
@@ -36,9 +38,13 @@ public class ClientController implements ServerResponseHandler {
      */
     private final ClientView view;
 
-    public ClientController(Client client) {
+    public ClientController(Client client, String ui) {
         this.client = client;
-        this.view = new ClientView(this);
+        if(ui.equals("GUI")) {
+            this.view = new GUI(this);
+        } else {
+            this.view = new CLI(this);
+        }
     }
 
     public void run() throws IOException {

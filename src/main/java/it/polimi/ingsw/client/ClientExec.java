@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class ClientExec {
     public static void main(String[] args) throws IOException {
@@ -8,7 +9,10 @@ public class ClientExec {
         int port = 4567;
 
         Client client = new Client("127.0.0.1", port);
-        ClientController controller = new ClientController(client);
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Select type:\nGUI or CLI?");
+        ClientController controller = new ClientController(client, scanner.nextLine());
 
         try {
             client.initConnection();
