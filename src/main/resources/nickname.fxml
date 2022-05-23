@@ -8,7 +8,7 @@
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="156.0" prefWidth="259.0">
          <children>
-            <Text layoutX="40.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scegli il tuo nickname!" wrappingWidth="178.13671875">
+            <Text layoutX="36.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your nickname!" wrappingWidth="187.13671875">
                <font>
                   <Font size="18.0" />
                </font>
