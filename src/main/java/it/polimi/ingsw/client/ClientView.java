@@ -8,15 +8,15 @@ import java.util.Scanner;
 
 public interface ClientView /*will have to implement listeners*/ {
 
-    public void waitGameStartPhase();
+    void waitGameStartPhase();
 
-    public void setupPhase();
+    void setupPhase();
 
-    public void testingPhase();
+    void testingPhase();
 
-    public void planningPhase();
+    void planningPhase();
 
-    public void actionPhase();
+    void actionPhase();
 
     //@Override methods that will be defined in Listener Interface
 }

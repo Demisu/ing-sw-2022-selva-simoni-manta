@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SetNicknameController">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="156.0" prefWidth="259.0">
          <children>
@@ -13,12 +13,12 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Button layoutX="106.0" layoutY="96.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="46.0" text="✅">
+            <Button fx:id="buttonConfirmNick" onAction="#setNickname" layoutX="106.0" layoutY="96.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="46.0" text="✅">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <TextField layoutX="18.0" layoutY="47.0">
+            <TextField fx:id="textFieldNickname" layoutX="18.0" layoutY="47.0">
                <font>
                   <Font size="18.0" />
                </font>

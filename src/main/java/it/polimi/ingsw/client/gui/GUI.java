@@ -11,27 +11,39 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class GUI extends Application implements ClientView {
 
     private final ClientController clientController;
+    private Parent root;
 
     public static void main(String[] args) throws IOException  {
         launch(args);
     }
 
+    public GUI(){
+        this.clientController = null;
+    }
+
     public GUI(ClientController clientController){
         this.clientController = clientController;
         try {
-            this.start(new Stage());
+            main(new String[]{});
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void changeRoot(String name) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("/" + name + ".fxml"));
+    }
+
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/players.fxml"));
+        this.changeRoot("nickname");
+        this.changeRoot("players");
+        //this.changeRoot("action");
         primaryStage.setTitle("Eriantys");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
