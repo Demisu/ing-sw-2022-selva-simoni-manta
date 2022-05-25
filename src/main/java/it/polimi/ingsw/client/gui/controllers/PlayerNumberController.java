@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 public class PlayerNumberController {
 
     @FXML
-    private Button button2p, button3p, button4p, buttonConfirmNick;
+    private Button button2p, button3p, button4p;
 
     @FXML
     private CheckBox checkBoxExpertMode;
@@ -32,7 +32,7 @@ public class PlayerNumberController {
     }
 
     public void setPlayerNumber(int number){
-        Boolean expertMode = checkBoxExpertMode.isSelected();
+        boolean expertMode = checkBoxExpertMode.isSelected();
         System.out.println("Selected: " +  number);
         System.out.println("Expert mode is: " +  (expertMode ? "on" : "off"));
     }

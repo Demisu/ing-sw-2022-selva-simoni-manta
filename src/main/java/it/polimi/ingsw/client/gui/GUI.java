@@ -42,7 +42,7 @@ public class GUI extends Application implements ClientView {
     @Override
     public void start(Stage primaryStage) throws IOException {
         this.changeRoot("nickname");
-        this.changeRoot("players");
+        //this.changeRoot("players");
         //this.changeRoot("action");
         primaryStage.setTitle("Eriantys");
         primaryStage.setScene(new Scene(root, 300, 275));
