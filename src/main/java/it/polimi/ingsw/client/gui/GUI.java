@@ -41,11 +41,14 @@ public class GUI extends Application implements ClientView {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        this.changeRoot("nickname");
+        this.changeRoot("start");
         //this.changeRoot("players");
         //this.changeRoot("action");
         primaryStage.setTitle("Eriantys");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setMaximized(false);
+        primaryStage.setMaxHeight(758);
+        primaryStage.setMaxWidth(1295);
+        primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
     }
 
