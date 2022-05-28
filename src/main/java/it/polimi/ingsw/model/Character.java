@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Random;
 
+/**
+ * Class for the Character cards
+ */
 public class Character extends StudentAccessiblePiece implements Serializable {
 
     //General
@@ -40,8 +43,19 @@ public class Character extends StudentAccessiblePiece implements Serializable {
     private final boolean hasIncreasedCost;
 
     //Utility
-    transient GameController gameController;
+    private transient GameController gameController;
 
+    /**
+     *
+     * Custom builder for the view.
+     * Omits Variables not useful for user interaction.
+     *
+     * @param cost cost of the character
+     * @param image image to show
+     * @param hasIncreasedCost flag to display a coin on top of the character
+     * @param students students contained, may be empty
+     * @param noEntryNumber no entry pieces contained, may be 0
+     */
     public Character(Integer cost, String image, Boolean hasIncreasedCost, HashSet<Integer> students, Integer noEntryNumber){
 
         this.cost = cost;
@@ -92,6 +106,10 @@ public class Character extends StudentAccessiblePiece implements Serializable {
     }
     */
 
+    /**
+     * Depending on the character type,
+     * calls the relative effect (move/exchange/add/resolve)
+     */
     public void effect(){
 
         switch (effect_type) {
@@ -109,6 +127,9 @@ public class Character extends StudentAccessiblePiece implements Serializable {
 
     }
 
+    /**
+     * Used by move-type characters, performs the action
+     */
     public void move(){
 
         //All the original characters of type exchange ask a range
@@ -130,6 +151,9 @@ public class Character extends StudentAccessiblePiece implements Serializable {
 
     }
 
+    /**
+     * Used by exchange-type characters, performs the action
+     */
     public void exchange(){
 
         //Both the original characters of type exchange ask a range
@@ -145,6 +169,9 @@ public class Character extends StudentAccessiblePiece implements Serializable {
 
     }
 
+    /**
+     * Used by add-type characters, adds a certain value to the game modifiers
+     */
     public void add(){
 
         //Not implementing extra cases out of the original 12 Characters.
@@ -187,15 +214,18 @@ public class Character extends StudentAccessiblePiece implements Serializable {
 
     }
 
+    /**
+     * Used by resolve-type characters, resolves the target island
+     */
     public void resolve(){
 
         Integer targetID = 0;
 
-        if(effect_choose_target == "player"){
+        if(effect_choose_target.equals("player")){
             //Ask the player for the ID (e.g.: ID of target island)
             //TO CHANGE
             targetID = new Random().nextInt(gameController.getCurrentGame().getIslands().size());
-        } else if(effect_choose_target == "random"){
+        } else if(effect_choose_target.equals("random")){
             //Get a random ID (e.g.: ID of target island)
             targetID = new Random().nextInt(gameController.getCurrentGame().getIslands().size());
         }
@@ -204,34 +234,58 @@ public class Character extends StudentAccessiblePiece implements Serializable {
         gameController.resolveIsland(targetID);
     }
 
+    /**
+     * @return boolean flag, true if the character's cost has been increased
+     */
     public boolean getHasIncreasedCost(){
         return hasIncreasedCost;
     }
 
+    /**
+     * @return cost of the character
+     */
     public Integer getCost() {
         return cost;
     }
 
+    /**
+     * @return image of the character
+     */
     public String getImage() {
         return image;
     }
 
+    /**
+     * @return no entry pieces contained, may be 0
+     */
     public Integer getNoEntryNumber() {
         return noEntryNumber;
     }
 
-    public void setCost(Integer cost) {
-        this.cost = cost;
-    }
-
+    /**
+     * @return boolean flag, true if character has been used during current turn
+     */
     public boolean getHasBeenUsed(){
         return hasBeenUsed;
     }
 
+    /**
+     * @param cost the character's cost
+     */
+    public void setCost(Integer cost) {
+        this.cost = cost;
+    }
+
+    /**
+     * @param hasBeenUsed boolean flag, should be true if character has been used during current turn
+     */
     public void setHasBeenUsed(boolean hasBeenUsed) {
         this.hasBeenUsed = hasBeenUsed;
     }
 
+    /**
+     * @param gameController gameController for certain effects
+     */
     public void setGameController(GameController gameController) {
         this.gameController = gameController;
     }

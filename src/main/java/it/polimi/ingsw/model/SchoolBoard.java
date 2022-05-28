@@ -6,9 +6,12 @@ import java.util.HashSet;
 
 import static java.util.Arrays.fill;
 
+/**
+ * Class for School Boards,
+ * inherits HashSet<Integer> students from StudentAccessiblePiece, which is used to save students in the entrance
+ */
 public class SchoolBoard extends StudentAccessiblePiece implements Serializable {
-    //inherits HashSet<Integer> students, which is used to save students
-    //in front of the main entrance;
+
     private ArrayList<Integer> yellowDiningRoomStudents;
     private ArrayList<Integer> blueDiningRoomStudents;
     private ArrayList<Integer> greenDiningRoomStudents;
@@ -17,6 +20,9 @@ public class SchoolBoard extends StudentAccessiblePiece implements Serializable 
 
     private Boolean[] professors;
 
+    /**
+     * SchoolBoard constructor, initializes dining room students and professors
+     */
     public SchoolBoard() {
         super();
         this.yellowDiningRoomStudents = new ArrayList<>();
@@ -29,8 +35,11 @@ public class SchoolBoard extends StudentAccessiblePiece implements Serializable 
         this.students = new HashSet<>();
     }
 
-    //moves student from entrance to dining
-    //BY THE RULES, THIS ACTION CANNOT BE UNDONE! (only by one Character)
+    /**
+     * Moves the student from entrance to dining
+     *
+     * @param student student to move
+     */
     public void studentToDining(Integer student) {
         this.students.remove(student);
         switch (colorOfStudent(student)) {
@@ -41,6 +50,11 @@ public class SchoolBoard extends StudentAccessiblePiece implements Serializable 
             case PURPLE -> this.purpleDiningRoomStudents.add(student);
         }
     }
+
+    /**
+     * @param color color of the students
+     * @return number of input color students in the dining room
+     */
     public Integer getDiningRoomStudents(Color color){
         return switch (color) {
             case YELLOW -> this.yellowDiningRoomStudents.size();
@@ -50,7 +64,13 @@ public class SchoolBoard extends StudentAccessiblePiece implements Serializable 
             case PURPLE -> this.purpleDiningRoomStudents.size();
         };
     }
-    //sets professor on the schoolboard
+
+    /**
+     * Sets professor status on the schoolboard
+     *
+     * @param color color of the professor
+     * @param status status of the professor (true = owned, false = not owned)
+     */
     public void setProfessor(Color color, boolean status) {
         switch (color) {
             case YELLOW -> {
@@ -71,14 +91,10 @@ public class SchoolBoard extends StudentAccessiblePiece implements Serializable 
         }
     }
 
+    /**
+     * @return array of Booleans with professors' status in this SchoolBoard
+     */
     public Boolean[] getProfessors() {
-        /* returns an array of Booleans with students counted for each color
-        [0] = yellow
-        [1] = blue
-        [2] = green
-        [3] = red
-        [4] = purple
-        *WARN* potentially useless, also breaks from using Color enum */
         return this.professors;
     }
 }

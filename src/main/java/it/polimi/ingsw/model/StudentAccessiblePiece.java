@@ -2,37 +2,56 @@ package it.polimi.ingsw.model;
 
 import java.util.HashSet;
 
+/**
+ * Abstract class that includes all pieces which can contain students (Islands, Clouds, etc.)
+ */
 public abstract class StudentAccessiblePiece {
 
     protected HashSet<Integer> students;
     private Integer pieceID;
 
+    /**
+     * Constructor of StudentAccessiblePiece,
+     * gives a unique id to every piece created
+     */
     public StudentAccessiblePiece(){
         HashSet<Integer> students = new HashSet<>();
         pieceID = Game.getNextPieceID();
     }
 
+    /**
+     * @return students present on the piece
+     */
     public HashSet<Integer> getStudents() {
         return students;
     }
 
+    /**
+     * @param student student to be removed from the piece
+     */
     public void removeStudent(Integer student){
         students.remove(student);
     }
 
+    /**
+     * @param student student to be added to the piece
+     */
     public void addStudent(Integer student){
         students.add(student);
     }
 
-    // Returns the number of students of enum color
+    /**
+     * StudentID to Color conversion:
+     * 0-25: yellow
+     * 26-51: blue
+     * 52-77: green
+     * 78-103: red
+     * 104-129: purple
+     *
+     * @param color color of the students to get
+     * @return the number of students of that color
+     */
     public Integer getStudentNumber(Color color) {
-        /* CODIFICA COLORI
-        0-25: yellow
-        26-51: blue
-        52-77: green
-        78-103: red
-        104-129: purple
-        */
         return switch (color) {
             case YELLOW -> counter(0, 25);
             case BLUE -> counter(26, 51);
@@ -42,7 +61,17 @@ public abstract class StudentAccessiblePiece {
         };
     }
 
-    // returns the corresponding student's color
+    /**
+     * StudentID to Color conversion:
+     * 0-25: yellow
+     * 26-51: blue
+     * 52-77: green
+     * 78-103: red
+     * 104-129: purple
+     *
+     * @param student student unique ID
+     * @return the color of that student
+     */
     public static Color colorOfStudent(int student) {
         if(student >= 0 && student <= 25) return Color.YELLOW;
         else if(student >= 26 && student <= 51) return Color.BLUE;
@@ -53,7 +82,10 @@ public abstract class StudentAccessiblePiece {
         else throw new IllegalArgumentException("Illegal color code passed!");
     }
 
-    //returns the color's chosen index to be used in Lists and Arrays (such as SchoolBoard's dining room)
+    /**
+     * @param color color of which you want the index
+     * @return color's index to be used in Arrays (such as SchoolBoard's dining room)
+     */
     public static Integer indexOfColor(Color color) {
         return switch (color) {
             case YELLOW -> 0;
@@ -63,13 +95,17 @@ public abstract class StudentAccessiblePiece {
             case PURPLE -> 4;
         };
     }
-    /* returns an array of Ints with students counted for each color
-    [0] = yellow
-    [1] = blue
-    [2] = green
-    [3] = red
-    [4] = purple
-    *WARN* potentially useless, also breaks from using Color enum */
+
+    /**
+     * Indexes to Color:
+     * [0] = yellow
+     * [1] = blue
+     * [2] = green
+     * [3] = red
+     * [4] = purple
+     *
+     * @return an array of Integers with students counted for each color
+     */
     public Integer[] getStudentNumber() {
         Integer[] studentsOfEachColor = new Integer[5];
 
@@ -82,7 +118,13 @@ public abstract class StudentAccessiblePiece {
         return studentsOfEachColor;
     }
 
-    /* helper method for getStudentNumber, does the actual counting*/
+    /**
+     * Helper method for getStudentNumber, does the actual counting
+     *
+     * @param lowerExtreme first ID with a certain color
+     * @param upperExtreme last ID of the same color
+     * @return the student count needed
+     */
     public int counter(int lowerExtreme, int upperExtreme) {
         int s = 0;
 
@@ -95,11 +137,19 @@ public abstract class StudentAccessiblePiece {
 
     }
 
+    /**
+     * @return Unique piece ID
+     */
     public Integer getPieceID() {
         return pieceID;
     }
 
-    //DO NOT USE EXCEPT FOR DEBUGGING/TESTING
+    /**
+     * Used for testing,
+     * avoid using this for other purposes
+     *
+     * @param pieceID piece ID that overwrites the old ID
+     */
     public void setPieceID(Integer pieceID) {
         this.pieceID = pieceID;
     }
