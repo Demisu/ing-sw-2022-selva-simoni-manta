@@ -23,16 +23,16 @@ public class Character extends StudentAccessiblePiece implements Serializable {
     private Integer setup_number;
 
     //Effect parameters
-    private String effect_type;
+    private String effect_type="???"; //This needs to be reverted to null when everything works (testing purposes)
     private String effect_scope;
-    private String effect_object;
+    private String effect_object="???"; //This needs to be reverted to null when everything works (testing purposes)
     private String effect_condition;
     private String effect_choose_condition;
 
     private String effect_source;
     private String effect_choose_source;
     private String effect_target;
-    private String effect_choose_target;
+    private String effect_choose_target="???"; //This needs to be reverted to null when everything works (testing purposes)
 
     private Integer effect_number_min;
     private Integer effect_number_max;
