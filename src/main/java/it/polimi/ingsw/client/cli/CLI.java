@@ -146,10 +146,12 @@ public class CLI implements ClientView {
 
     public void planningPhase() {
 
-        clientController.getModelInfo();
-        firstRequest = false;
-
         do {
+
+            clientController.getModelInfo();
+            if(!clientController.getGamePhase().equals(GamePhase.PLANNING)) {
+                break;
+            }
 
             for (int i = 0; i < 30; i++) {
                 System.out.println();
@@ -165,6 +167,12 @@ public class CLI implements ClientView {
                     """);
             System.out.println("Your choice: ");
             String action = scanner.nextLine();
+
+            clientController.getModelInfo();
+            if(!clientController.getGamePhase().equals(GamePhase.PLANNING)) {
+                System.out.println("\n\nGAME PHASE HAS CHANGED,\nmoving to Action phase...");
+                break;
+            }
 
             switch (action) {
                 case "PLAY_ASSISTANT" -> {
@@ -199,7 +207,10 @@ public class CLI implements ClientView {
         do {
 
             clientController.getModelInfo();
-            firstRequest = false;
+
+            if(!clientController.getGamePhase().equals(GamePhase.ACTION)) {
+                break;
+            }
 
             System.out.println("""
                     -----------------

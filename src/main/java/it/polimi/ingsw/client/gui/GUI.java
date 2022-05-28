@@ -6,12 +6,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class GUI extends Application implements ClientView {
 
@@ -41,7 +38,8 @@ public class GUI extends Application implements ClientView {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        this.changeRoot("realm");
+        this.changeRoot("start");
+        //this.changeRoot("realm");
         //this.changeRoot("players");
         //this.changeRoot("action");
         primaryStage.setTitle("Eriantys");

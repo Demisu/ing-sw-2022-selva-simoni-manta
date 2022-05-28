@@ -16,6 +16,7 @@ public class GameController {
 
     public void startGame(Integer playerNumber, String nicknameOfCreator){
         currentGame = new Game(playerNumber, nicknameOfCreator);
+        currentGame.setCurrentPhase(GamePhase.SETUP);
         referenceGame = currentGame;
     }
 
@@ -159,16 +160,27 @@ public class GameController {
 
     public void nextPlayer() {
 
-        //testcomment
-        int x = 1;
         int currentIndex = currentGame.getCurrentTurnOrder().indexOf(
                                                     currentGame.getPlayerByNickname(
                                                             currentGame.getCurrentPlayer()));
         //If current is the last element
         if(currentIndex == currentGame.getCurrentTurnOrder().size() - 1){
-            currentGame.setCurrentTurnOrder(currentGame.getNextTurnOrder());
-            currentGame.setCurrentPlayer(currentGame.getCurrentTurnOrder().get(0).getNickname());
+
+            //If all players played a character, change to action phase
+            if(currentGame.getCurrentPhase().equals(GamePhase.PLANNING)){
+
+                //Restart from first player in turn order
+                currentGame.setCurrentPlayer(currentGame.getCurrentTurnOrder().get(0).getNickname());
+                currentGame.setCurrentPhase(GamePhase.ACTION);
+
+            } else {
+                //Action phase ended, next turn starting
+                currentGame.setCurrentTurnOrder(currentGame.getNextTurnOrder());
+                currentGame.setCurrentPlayer(currentGame.getCurrentTurnOrder().get(0).getNickname());
+            }
+
         } else {
+            //Next player
             currentGame.setCurrentPlayer(currentGame.getCurrentTurnOrder().get(currentIndex + 1).getNickname());
         }
     }
@@ -179,14 +191,16 @@ public class GameController {
 
     public void playAssistant(Integer playerID, Integer assistantNumber){
 
-        Player p = currentGame.getPlayerById(playerID);
-        p.removeAssistant(p.getDeck().get(assistantNumber)); //handles setting last assistant played property as well
+        playAssistant(currentGame.getPlayerById(playerID).getNickname(), assistantNumber);
     }
 
     public void playAssistant(String playerNickname, Integer assistantNumber){
 
         Player p = currentGame.getPlayerByNickname(playerNickname);
         p.removeAssistant(p.getDeck().get(assistantNumber)); //handles setting last assistant played property as well
+
+        //May be changed
+        this.nextPlayer();
     }
 
     public void playCharacter(String nickname, Integer characterNumber){

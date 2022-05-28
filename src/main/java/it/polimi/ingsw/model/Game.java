@@ -164,6 +164,10 @@ public class Game {
         return currentPhase;
     }
 
+    public void setCurrentPhase(GamePhase currentPhase) {
+        this.currentPhase = currentPhase;
+    }
+
     public Integer getAStudent() { //get (and remove) a student from the game bag
         int studentSize = this.students.size();
         int randomStudent = new Random().nextInt(studentSize);
@@ -247,6 +251,9 @@ public class Game {
             this.players.get(emptyPlayerNumber).setNickname(nickname);
             this.players.get(emptyPlayerNumber).setActive(true);
             emptyPlayerNumber++;
+            if(emptyPlayerNumber == playerNumber) {
+                this.currentPhase = PLANNING;
+            }
             return true;
         }
     }
