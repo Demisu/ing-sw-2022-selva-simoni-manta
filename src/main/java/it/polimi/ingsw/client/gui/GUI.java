@@ -46,9 +46,11 @@ public class GUI extends Application implements ClientView {
         //this.changeRoot("action");
         primaryStage.setTitle("Eriantys");
         primaryStage.setMaximized(false);
+        primaryStage.setMinWidth(1295);
+        primaryStage.setMaxWidth(1295);
+        primaryStage.setMinHeight(758);
+        primaryStage.setMaxHeight(758);
         primaryStage.setScene(new Scene(root, 1280, 720));
-        primaryStage.setMinWidth(1280);
-        primaryStage.setMaxWidth(1280);
         primaryStage.show();
     }
 
