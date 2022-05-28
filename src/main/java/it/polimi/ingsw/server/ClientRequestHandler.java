@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.requests.*;
-import it.polimi.ingsw.server.ServerResponse;
 
 /**
  * A method for every possible Request the Client may make to the Server
@@ -17,8 +16,6 @@ public interface ClientRequestHandler {
     ServerResponse handle(PlayAssistantRequest req);
 
     ServerResponse handle(PlayCharacterRequest req);
-
-    ServerResponse handle(PlayerRoundEndedRequest req);
 
     ServerResponse handle(SetNicknameRequest req);
 

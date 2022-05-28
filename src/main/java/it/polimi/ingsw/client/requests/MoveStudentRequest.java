@@ -8,11 +8,13 @@ public class MoveStudentRequest implements ClientRequest {
     Integer studentId;
     Integer sourceId;
     Integer targetId;
+    String nickname;
 
-    public MoveStudentRequest(Integer studentId, Integer sourceId, Integer targetId) {
+    public MoveStudentRequest(Integer studentId, Integer sourceId, Integer targetId, String nickname) {
         this.studentId = studentId;
         this.sourceId = sourceId;
         this.targetId = targetId;
+        this.nickname = nickname;
     }
 
     @Override
@@ -30,5 +32,9 @@ public class MoveStudentRequest implements ClientRequest {
 
     public Integer getTargetId() {
         return targetId;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 }

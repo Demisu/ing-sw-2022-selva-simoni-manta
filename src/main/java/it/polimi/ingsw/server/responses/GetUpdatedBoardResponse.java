@@ -1,11 +1,8 @@
 package it.polimi.ingsw.server.responses;
 
 import it.polimi.ingsw.client.ServerResponseHandler;
-import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Character;
-import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.SchoolBoard;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.server.ServerResponse;
 
 import java.util.ArrayList;
@@ -19,13 +16,16 @@ public class GetUpdatedBoardResponse  implements ServerResponse {
     List<Island> islands;
     Set<Cloud> clouds;
     ArrayList<SchoolBoard> schoolBoards;
+    GamePhase gamePhase;
 
-    public GetUpdatedBoardResponse(Player playerInfo, ArrayList<Character> characters, List<Island> islands, Set<Cloud> clouds, ArrayList<SchoolBoard> schoolBoards) {
+    public GetUpdatedBoardResponse(Player playerInfo, ArrayList<Character> characters, List<Island> islands,
+                                   Set<Cloud> clouds, ArrayList<SchoolBoard> schoolBoards, GamePhase gamePhase) {
         this.playerInfo = playerInfo;
         this.characters = characters;
         this.islands = islands;
         this.clouds = clouds;
         this.schoolBoards = schoolBoards;
+        this.gamePhase = gamePhase;
     }
 
     @Override
@@ -51,6 +51,10 @@ public class GetUpdatedBoardResponse  implements ServerResponse {
 
     public ArrayList<SchoolBoard> getSchoolBoards() {
         return this.schoolBoards;
+    }
+
+    public GamePhase getGamePhase() {
+        return gamePhase;
     }
 }
 

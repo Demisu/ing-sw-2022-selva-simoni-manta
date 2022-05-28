@@ -7,9 +7,11 @@ import it.polimi.ingsw.server.ServerResponse;
 public class PlayCharacterRequest implements ClientRequest {
 
     Integer characterNumber;
+    String nickname;
 
-    public PlayCharacterRequest(Integer characterNumber) {
+    public PlayCharacterRequest(Integer characterNumber, String nickname) {
         this.characterNumber = characterNumber;
+        this.nickname = nickname;
     }
 
     @Override
@@ -19,5 +21,9 @@ public class PlayCharacterRequest implements ClientRequest {
 
     public Integer getCharacterNumber() {
         return characterNumber;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 }

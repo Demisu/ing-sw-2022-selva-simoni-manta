@@ -40,30 +40,42 @@ public class ServerController implements ClientRequestHandler {
 
     @Override
     public ServerResponse handle(MoveMotherNatureRequest req) {
-        gameController.moveMotherNature(req.getMovements());
-        return new OperationResultResponse(true, "Moved mother nature by " + req.getMovements() + " steps.");
+
+        if(gameController.getCurrentGame().getCurrentPlayer().equals(req.getNickname())){
+            gameController.moveMotherNature(req.getMovements());
+            return new OperationResultResponse(true, "Moved mother nature by " + req.getMovements() + " steps.");
+        }
+        return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to move mother nature.");
     }
 
     @Override
     public ServerResponse handle(MoveStudentRequest req) {
-        gameController.moveStudent(req.getStudentId(), req.getSourceId(), req.getTargetId());
-        return new OperationResultResponse(true, "Moved student " + req.getStudentId() + " from " + req.getSourceId() + " to " + req.getTargetId());
+
+        if(gameController.getCurrentGame().getCurrentPlayer().equals(req.getNickname())){
+            gameController.moveStudent(req.getStudentId(), req.getSourceId(), req.getTargetId());
+            return new OperationResultResponse(true, "Moved student " + req.getStudentId() + " from " + req.getSourceId() + " to " + req.getTargetId());
+        }
+        return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to move student.");
     }
 
     @Override
     public ServerResponse handle(PlayAssistantRequest req) {
-        gameController.playAssistant(req.getNickname(), req.getAssistantNumber());
-        return new OperationResultResponse(true, "Played assistant " + req.getAssistantNumber() + " of player " + req.getNickname());
-    }
+
+        if(gameController.getCurrentGame().getCurrentPlayer().equals(req.getNickname())){
+            gameController.playAssistant(req.getNickname(), req.getAssistantNumber());
+            return new OperationResultResponse(true, "Played assistant " + req.getAssistantNumber() + " of player " + req.getNickname());
+        }
+        return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to play assistant.");
+}
 
     @Override
     public ServerResponse handle(PlayCharacterRequest req) {
-        return new OperationResultResponse(true, "Played character " + req.getCharacterNumber());
-    }
 
-    @Override
-    public ServerResponse handle(PlayerRoundEndedRequest req) {
-        return new OperationResultResponse(true, "Round ended successfully");
+        if(gameController.getCurrentGame().getCurrentPlayer().equals(req.getNickname())){
+            gameController.playCharacter(req.getNickname(), req.getCharacterNumber());
+            return new OperationResultResponse(true, "Played character " + req.getCharacterNumber());
+        }
+        return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to play character.");
     }
 
     @Override
@@ -110,13 +122,6 @@ public class ServerController implements ClientRequestHandler {
     public ServerResponse handle(GetUpdatedBoardRequest req) {
 
         String nickname = req.getNickname();
-        boolean condition = gameController.getCurrentGame().getCurrentPlayer().equals(nickname);
-
-        while(!condition){
-            //waits player's turn
-            condition = gameController.getCurrentGame().getCurrentPlayer().equals(nickname);
-        }
-
         Game currentGame = gameController.getCurrentGame();
 
         Player playerInfo = currentGame.getPlayerByNickname(nickname);
@@ -142,7 +147,7 @@ public class ServerController implements ClientRequestHandler {
             schoolBoards.add(player.getPlayerBoard());
         }
 
-        return new GetUpdatedBoardResponse(playerInfo, characters, islands, clouds, schoolBoards);
+        return new GetUpdatedBoardResponse(playerInfo, characters, islands, clouds, schoolBoards, currentGame.getCurrentPhase());
 
     }
 
@@ -162,10 +167,6 @@ public class ServerController implements ClientRequestHandler {
     public ServerResponse handle(WaitingRequest req) {
 
         while(connectedPlayers < gameController.getPlayerNumber()){}
-
-        //if(connectedPlayers < gameController.getPlayerNumber()){
-        //    return new OperationResultResponse(false, "Players connected: " + connectedPlayers + "/" + gameController.getPlayerNumber());
-        //}
 
         System.out.println("ALL PLAYERS JOINED, GAME HAS STARTED");
 

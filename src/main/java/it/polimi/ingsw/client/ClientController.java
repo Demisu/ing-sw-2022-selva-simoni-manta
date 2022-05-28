@@ -3,11 +3,8 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.requests.*;
-import it.polimi.ingsw.model.Cloud;
-import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Character;
-import it.polimi.ingsw.model.SchoolBoard;
 import it.polimi.ingsw.server.responses.*;
 
 import java.io.IOException;
@@ -26,7 +23,10 @@ public class ClientController implements ServerResponseHandler {
     private Thread receiver;
 
     String lastMessage = "";
+    String nickname = "";
+
     //Game info
+    GamePhase gamePhase;
     Player playerInfo;
     ArrayList<Character> characters;
     List<Island> islands;
@@ -52,19 +52,18 @@ public class ClientController implements ServerResponseHandler {
         //Setup
         view.setupPhase();
         view.waitGameStartPhase();
-        do{
-            view.testingPhase();
-        } while(client.isConnected());
+        //do{
+        //    view.testingPhase();
+        //} while(client.isConnected());
 
         //Game phases
-        /*do{
-            view.waitTurnPhase();
+        do{
             view.planningPhase();
             view.actionPhase();
         } while(client.isConnected());
 
         //Game ended
-        receiver.interrupt();*/
+        receiver.interrupt();
     }
 
 
@@ -73,29 +72,21 @@ public class ClientController implements ServerResponseHandler {
      * Responses are defined in the client.requests package, one Class for each
      */
 
-    /**
-     * Notifies the Player's Round on the executing Client has terminated
-     * @param status must be set to TRUE for the request to be correctly processed
-     *               by the server
-     */
-    public void playerRoundEnded(Boolean status) {
-        client.clientRequest(new PlayerRoundEndedRequest(status));
-    }
-
     public Boolean setPlayerNickname(String nickname) {
+        this.nickname = nickname;
         client.clientRequest(new SetNicknameRequest(nickname));
         return this.handle((SetNicknameResponse) client.clientResponse());
         //return ((SetNicknameResponse) client.clientResponse()).getNickname();
     }
 
-    public Boolean setPlayerNumber(String nickname, Integer number) {
+    public Boolean setPlayerNumber(Integer number) {
         client.clientRequest(new SetPlayerNumberRequest(nickname, number));
         return this.handle((OperationResultResponse) client.clientResponse());
         //return ((SetNicknameResponse) client.clientResponse()).getNickname();
     }
 
-    public void getModelInfo(String nickname, Boolean firstRequest) {
-        client.clientRequest(new GetUpdatedBoardRequest(nickname, firstRequest));
+    public void getModelInfo() {
+        client.clientRequest(new GetUpdatedBoardRequest(nickname));
         this.handle((GetUpdatedBoardResponse) client.clientResponse());
         System.out.println("Objects updated!");
     }
@@ -105,21 +96,21 @@ public class ClientController implements ServerResponseHandler {
      * @param movements the amount of movements to do
      */
     public Boolean moveMotherNature(Integer movements) {
-        client.clientRequest(new MoveMotherNatureRequest(movements));
+        client.clientRequest(new MoveMotherNatureRequest(movements, nickname));
         return this.handle((OperationResultResponse) client.clientResponse());
     }
 
     public Boolean moveStudent(Integer student, Integer source, Integer target){
-        client.clientRequest(new MoveStudentRequest(student, source, target));
+        client.clientRequest(new MoveStudentRequest(student, source, target, nickname));
         return this.handle((OperationResultResponse) client.clientResponse());
     }
 
     public Boolean playCharacter(Integer number){
-        client.clientRequest(new PlayCharacterRequest(number));
+        client.clientRequest(new PlayCharacterRequest(number, nickname));
         return this.handle((OperationResultResponse) client.clientResponse());
     }
 
-    public Boolean playAssistant(String nickname, Integer number){
+    public Boolean playAssistant(Integer number){
         client.clientRequest(new PlayAssistantRequest(nickname, number));
         return this.handle((OperationResultResponse) client.clientResponse());
     }
@@ -129,7 +120,7 @@ public class ClientController implements ServerResponseHandler {
         return this.handle((OperationResultResponse) client.clientResponse());
     }
 
-    public Boolean passTurn(String nickname){
+    public Boolean passTurn(){
         client.clientRequest(new PassTurnRequest(nickname));
         return this.handle((OperationResultResponse) client.clientResponse());
     }
@@ -180,6 +171,7 @@ public class ClientController implements ServerResponseHandler {
         islands = res.getIslands();
         clouds = res.getClouds();
         schoolBoards = res.getSchoolBoards();
+        gamePhase = res.getGamePhase();
     }
 
     public Player getPlayerInfo() {
@@ -200,6 +192,10 @@ public class ClientController implements ServerResponseHandler {
 
     public ArrayList<SchoolBoard> getSchoolBoards() {
         return schoolBoards;
+    }
+
+    public GamePhase getGamePhase() {
+        return gamePhase;
     }
 
     //    @Override

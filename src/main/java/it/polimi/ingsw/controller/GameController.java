@@ -1,8 +1,8 @@
 package it.polimi.ingsw.controller;
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.Character;
 
-import java.util.ArrayList;
+import it.polimi.ingsw.model.Character;
+import it.polimi.ingsw.model.*;
+
 import java.util.List;
 
 public class GameController {
@@ -189,11 +189,11 @@ public class GameController {
         p.removeAssistant(p.getDeck().get(assistantNumber)); //handles setting last assistant played property as well
     }
 
-    public void playCharacter(Integer playerID, Integer characterNumber){
+    public void playCharacter(String nickname, Integer characterNumber){
 
         Character playedCharacter =  currentGame.getCharacter(characterNumber);
         //REMEMBER TO REVERT THIS AFTER ROUND ENDS
-        currentGame.getPlayerById(playerID).setActiveCharacter(true);
+        currentGame.getPlayerByNickname(nickname).setActiveCharacter(true);
         //Potentially really bad
         playedCharacter.setGameController(this);
 

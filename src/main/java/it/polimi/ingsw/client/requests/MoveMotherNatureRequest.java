@@ -6,10 +6,12 @@ import it.polimi.ingsw.server.ServerResponse;
 
 public class MoveMotherNatureRequest implements ClientRequest {
 
-    public final Integer movements;
+    final Integer movements;
+    private String nickname;
 
-    public MoveMotherNatureRequest(Integer movements) {
+    public MoveMotherNatureRequest(Integer movements, String nickname) {
         this.movements = movements;
+        this.nickname = nickname;
     }
 
     @Override
@@ -19,5 +21,9 @@ public class MoveMotherNatureRequest implements ClientRequest {
 
     public Integer getMovements() {
         return movements;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 }

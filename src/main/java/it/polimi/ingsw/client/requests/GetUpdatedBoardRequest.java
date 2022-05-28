@@ -7,20 +7,14 @@ import it.polimi.ingsw.server.ServerResponse;
 public class GetUpdatedBoardRequest implements ClientRequest {
 
     String nickname;
-    Boolean firstRequest;
 
-    public GetUpdatedBoardRequest(String nickname, Boolean firstRequest) {
+    public GetUpdatedBoardRequest(String nickname) {
         this.nickname = nickname;
-        this.firstRequest = firstRequest;
     }
 
     @Override
     public ServerResponse handle(ClientRequestHandler handler) {
         return handler.handle(this);
-    }
-
-    public Boolean getFirstRequest() {
-        return firstRequest;
     }
 
     public String getNickname() {

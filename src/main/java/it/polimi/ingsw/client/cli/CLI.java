@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.cli;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.model.Assistant;
+import it.polimi.ingsw.model.GamePhase;
 
 import java.util.List;
 import java.util.Scanner;
@@ -55,7 +56,7 @@ public class CLI implements ClientView {
         if(choosePlayersNumber){
             System.out.print("Choose player number: ");
             Integer number = Integer.parseInt(scanner.nextLine());
-            status = clientController.setPlayerNumber(nickname, number);
+            status = clientController.setPlayerNumber(number);
         }else{
             System.out.println("No need to choose player number");
             status = false;
@@ -72,13 +73,13 @@ public class CLI implements ClientView {
 
     public void testingPhase(){
 
-        Scanner scanner = new Scanner(System.in);
+        /*Scanner scanner = new Scanner(System.in);
         String action;
 
         do {
 
             System.out.println("Waiting your turn...");
-            clientController.getModelInfo(nickname, firstRequest);
+            clientController.getModelInfo();
             firstRequest = false;
 
             System.out.println("""
@@ -111,15 +112,18 @@ public class CLI implements ClientView {
                                 + assistant.getMotherNatureMovements());
                     }
                     System.out.println("\nInput assistant number: ");
-                    clientController.playAssistant(nickname, scanner.nextInt());
+                    clientController.playAssistant(scanner.nextInt());
+                    scanner.nextLine();
                 }
                 case "PLAY_CHARACTER" -> {
                     System.out.println("\nInput character number: ");
                     clientController.playCharacter(scanner.nextInt());
+                    scanner.nextLine();
                 }
                 case "MOVE_MOTHERNATURE" -> {
                     System.out.println("\nInput movements: ");
                     clientController.moveMotherNature(scanner.nextInt());
+                    scanner.nextLine();
                 }
                 case "MOVE_STUDENT" -> {
                     System.out.println("\nInput student ID: ");
@@ -129,22 +133,116 @@ public class CLI implements ClientView {
                     System.out.println("\nInput target ID: ");
                     Integer target = scanner.nextInt();
                     clientController.moveStudent(student, source, target);
+                    scanner.nextLine();
+                }
+                case "PASS_TURN" -> {
                 }
                 default -> System.out.println("Invalid action.");
             }
         } while(!action.equals("PASS_TURN"));
 
-        Boolean status = clientController.passTurn(nickname);
+        Boolean status = clientController.passTurn();*/
     }
 
     public void planningPhase() {
 
-        System.out.println("Planning phase has started!");
+        clientController.getModelInfo();
+        firstRequest = false;
+
+        do {
+
+            for (int i = 0; i < 30; i++) {
+                System.out.println();
+            }
+            System.out.println("""
+                    -----------------
+                    Choose an action:\s
+                    -----------------
+                    Allowed:
+                    PLAY_ASSISTANT
+                    QUIT
+                    -----------------
+                    """);
+            System.out.println("Your choice: ");
+            String action = scanner.nextLine();
+
+            switch (action) {
+                case "PLAY_ASSISTANT" -> {
+                    System.out.println("""
+                            -----------------
+                            Available assistants:\s
+                            (format: turnPriority | motherMovs)
+                            -----------------
+                            """);
+                    List<Assistant> deck = clientController.getPlayerInfo().getDeck();
+                    for (Assistant assistant : deck) {
+                        System.out.println(deck.indexOf(assistant) + ": "
+                                + assistant.getTurnPriority() + " | "
+                                + assistant.getMotherNatureMovements());
+                    }
+                    System.out.println("\nInput assistant number: ");
+                    clientController.playAssistant(scanner.nextInt());
+                    scanner.nextLine();
+                }
+                case "QUIT" -> {
+                }
+                default -> System.out.println("Invalid action.");
+            }
+        } while(clientController.getGamePhase().equals(GamePhase.PLANNING));
     }
 
     public void actionPhase() {
 
         System.out.println("Action phase has started!");
+        String action;
+
+        do {
+
+            clientController.getModelInfo();
+            firstRequest = false;
+
+            System.out.println("""
+                    -----------------
+                    Choose an action:\s
+                    -----------------
+                    Allowed:
+                    PLAY_CHARACTER
+                    MOVE_MOTHERNATURE
+                    MOVE_STUDENT
+                    PASS_TURN
+                    -----------------
+                    """);
+            System.out.println("Your choice: ");
+            action = scanner.nextLine();
+
+            switch (action) {
+                case "PLAY_CHARACTER" -> {
+                    System.out.println("\nInput character number: ");
+                    clientController.playCharacter(scanner.nextInt());
+                    scanner.nextLine();
+                }
+                case "MOVE_MOTHERNATURE" -> {
+                    System.out.println("\nInput movements: ");
+                    clientController.moveMotherNature(scanner.nextInt());
+                    scanner.nextLine();
+                }
+                case "MOVE_STUDENT" -> {
+                    System.out.println("\nInput student ID: ");
+                    Integer student = scanner.nextInt();
+                    System.out.println("\nInput source ID: ");
+                    Integer source = scanner.nextInt();
+                    System.out.println("\nInput target ID: ");
+                    Integer target = scanner.nextInt();
+                    clientController.moveStudent(student, source, target);
+                    scanner.nextLine();
+                }
+                case "PASS_TURN" -> {
+                }
+                default -> System.out.println("Invalid action.");
+            }
+        } while(clientController.getGamePhase().equals(GamePhase.ACTION));
+
+        Boolean status = clientController.passTurn();
     }
 
     //@Override methods that will be defined in Listener Interface

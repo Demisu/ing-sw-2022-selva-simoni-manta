@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static it.polimi.ingsw.model.GamePhase.*;
+
 public class Game {
 
     //Constants
@@ -24,10 +26,11 @@ public class Game {
     private final Set<Cloud> clouds;
     private ArrayList<Integer> students; //This is the game bag
     private final ArrayList<Team> teams;
-    private List<Player> players; //MAYBE DELETE
+    private List<Player> players;
     private List<Player> currentTurnOrder; //contains playerIDs for the current round
     private List<Player> nextTurnOrder; //contains player IDs for the next round
     /* MAKE SURE TO COPY nextTurnOrder to currentTurnOrder BEFORE BEGINNING THE NEXT ROUND */
+    private GamePhase currentPhase = OFF; //Game phase
 
     private final Character[] availableCharacters;
 
@@ -155,6 +158,10 @@ public class Game {
 
         this.players.get(0).setNickname(nicknameOfCreator);
         this.currentPlayer = players.get(0).getNickname();
+    }
+
+    public GamePhase getCurrentPhase() {
+        return currentPhase;
     }
 
     public Integer getAStudent() { //get (and remove) a student from the game bag
