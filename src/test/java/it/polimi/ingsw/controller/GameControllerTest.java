@@ -122,5 +122,15 @@ public class GameControllerTest {
 
     }
 
+    @Test
+    @DisplayName("Testing modifiers")
+    void testModifiers(){
+        GameController controller = new GameController();
+        controller.startGame(2,"Gianfranco");
+        Game gameTest = controller.getCurrentGame();
+        gameTest.addPlayer("Frank");
+        controller.resetModifiers();
+        assertEquals(gameTest.getTowerValue(),1);
+    }
 
 }

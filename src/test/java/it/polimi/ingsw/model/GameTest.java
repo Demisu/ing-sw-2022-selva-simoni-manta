@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.model.Game.getStudentValue;
+import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -93,6 +94,32 @@ public class GameTest {
     }
 
     @Test
+    @DisplayName("Testing player managing")
+    void testPlayerManaging() {
+        Game gameTest = new Game(2, "Test");
+        assertTrue(gameTest.addPlayer("Gianfranco"));
+        assertFalse(gameTest.addPlayer("BRone"));
+        gameTest.setCurrentPlayer("Gianfranco");
+        assertEquals(gameTest.getCurrentPlayer(),"Gianfranco");
+    }
+
+    @Test
+    @DisplayName("Testing character effects")
+    void testCharacterEffects() {
+        Game gameTest = new Game(2, "Test");
+        assertNotNull(gameTest.getAllCharacters());
+        gameTest.setStudentValue(Color.BLUE,3);
+        assertEquals(3,Game.getStudentValue(indexOfColor(Color.BLUE)));
+        gameTest.setAllStudentsValue(4);
+        for(int i=0;i<5;i++){
+            assertEquals(4,Game.getStudentValue(i));
+        }
+        gameTest.setStudentsInDiningModifier(2);
+        assertEquals(gameTest.getStudentsInDiningModifier(),2);
+        assertNotNull(gameTest.getPlayerByNickname("Test"));
+    }
+
+    @Test
     @DisplayName("Testing miscellanea")
     void testMiscellanea(){
 
@@ -106,11 +133,11 @@ public class GameTest {
         Integer studentID4 = 78;
         Integer studentID5 = 104;
 
-        assertEquals(getStudentValue(studentID1), 1);
-        assertEquals(getStudentValue(studentID2), 1);
-        assertEquals(getStudentValue(studentID3), 1);
-        assertEquals(getStudentValue(studentID4), 1);
-        assertEquals(getStudentValue(studentID5), 1);
+        assertEquals(getStudentValue(indexOfColor(colorOfStudent(studentID1))), 1);
+        assertEquals(getStudentValue(indexOfColor(colorOfStudent(studentID2))), 1);
+        assertEquals(getStudentValue(indexOfColor(colorOfStudent(studentID3))), 1);
+        assertEquals(getStudentValue(indexOfColor(colorOfStudent(studentID4))), 1);
+        assertEquals(getStudentValue(indexOfColor(colorOfStudent(studentID5))), 1);
 
         //Getter and setters
         assertEquals(Game.getTowerValue(), 1);

@@ -166,14 +166,8 @@ public class Game {
         return studentToGet;
     }
 
-    public static Integer getStudentValue(int studentID){
-        return switch (StudentAccessiblePiece.colorOfStudent(studentID)) {
-            case YELLOW -> studentValue[0];
-            case BLUE -> studentValue[1];
-            case GREEN -> studentValue[2];
-            case RED -> studentValue[3];
-            case PURPLE -> studentValue[4];
-        };
+    public static Integer getStudentValue(int colorID){
+        return studentValue[colorID];
     }
 
     public void unifyIslands(Island toKeep, Island toRemove){
