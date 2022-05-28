@@ -12,7 +12,7 @@ public class ClientExec {
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select type:\nGUI or CLI?");
-        ClientController controller = new ClientController(client, scanner.nextLine());
+        ClientController controller = new ClientController(client, scanner.nextLine().toUpperCase());
 
         try {
             client.initConnection();

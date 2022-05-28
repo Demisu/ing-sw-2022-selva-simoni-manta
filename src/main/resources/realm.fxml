@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="1280.0" minHeight="-Infinity" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SceneController">
+   <children>
+      <ImageView fitHeight="336.0" fitWidth="596.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@assets/Reame/PNG/reameB_2.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="14.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToSchoolBoardScene" text="Show Schoolboard" />
+      <Button layoutX="152.0" layoutY="681.0" mnemonicParsing="false" text="Play assistant" />
+      <Button layoutX="245.0" layoutY="681.0" mnemonicParsing="false" text="Play character" />
+      <Button layoutX="453.0" layoutY="681.0" mnemonicParsing="false" text="Move mother nature" />
+      <Button layoutX="357.0" layoutY="681.0" mnemonicParsing="false" text="Move student" />
+      <Button layoutX="608.0" layoutY="681.0" mnemonicParsing="false" text="Pass turn" />
+   </children>
+</AnchorPane>

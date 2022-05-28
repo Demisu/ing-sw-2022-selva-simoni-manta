@@ -15,8 +15,8 @@ public class SceneController {
     private Scene scene;
     private Parent root;
 
-    public void switchToPlayerBoardScene(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/nickname.fxml"));
+    public void switchToIslandBoardScene(ActionEvent e) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/realm.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -24,7 +24,7 @@ public class SceneController {
     }
 
     public void switchToSchoolBoardScene(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/players.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/schoolboard.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
