@@ -16,7 +16,7 @@
    <children>
       <ImageView fitHeight="720.0" fitWidth="1706.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@assets/background.jpg" />
+            <Image url="@assets/background.png" />
          </image>
       </ImageView>
       <Button layoutX="575.0" layoutY="372.0" mnemonicParsing="false" prefHeight="7.0" prefWidth="150.0" text="Play">

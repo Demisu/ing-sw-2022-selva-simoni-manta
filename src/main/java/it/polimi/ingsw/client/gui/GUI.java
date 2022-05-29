@@ -38,10 +38,7 @@ public class GUI extends Application implements ClientView {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        //this.changeRoot("start");
-        this.changeRoot("realm");
-        //this.changeRoot("players");
-        //this.changeRoot("action");
+        this.changeRoot("realm"); // start  -  players  -  action  -  realm
         primaryStage.setTitle("Eriantys");
         primaryStage.setMaximized(false);
         primaryStage.setMinWidth(1295);
