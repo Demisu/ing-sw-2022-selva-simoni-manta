@@ -3,21 +3,22 @@ package it.polimi.ingsw.model;
 import com.google.gson.Gson;
 
 import java.io.Reader;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
 import static it.polimi.ingsw.model.GamePhase.*;
 
-public class Game {
+public class Game implements Serializable {
 
     //Constants
-    final Integer availableCharactersNumber = 3;
-    final Integer allCharactersNumber = 12;
-    final Integer islandsNumber = 12;
-    final Integer studentNumber = 130;
-    final ArrayList<Integer> allCharacters; //All existing characters
-    final String charactersJSONPath = ".\\src\\Characters\\";
+    private final Integer availableCharactersNumber = 3;
+    private final Integer allCharactersNumber = 12;
+    private final Integer islandsNumber = 12;
+    private final Integer studentNumber = 130;
+    private final ArrayList<Integer> allCharacters; //All existing characters
+    private final String charactersJSONPath = ".\\src\\Characters\\";
 
     private String currentPlayer;
     private Integer emptyPlayerNumber = 1;
@@ -43,6 +44,33 @@ public class Game {
 
     //Needed for Piece ID
     private static Integer nextPieceID = 0;
+
+    //Custom constructor for small model for the view
+    private Game(Game fullGame){
+
+        availableCharacters = new Character[availableCharactersNumber];
+        int i = 0;
+
+        for (Character character : fullGame.getAllCharacters()) {
+
+            Integer cost = character.getCost();
+            String image = character.getImage();
+            Boolean hasIncreasedCost = character.getHasIncreasedCost();
+            HashSet<Integer> students = character.getStudents();
+            Integer noEntryNumber = character.getNoEntryNumber();
+
+            availableCharacters[i] = new Character(cost, image, hasIncreasedCost, students, noEntryNumber);
+            i++;
+        }
+
+        this.currentPhase = fullGame.getCurrentPhase();
+        this.players = fullGame.getPlayers();
+        this.playerNumber = fullGame.getPlayers().size();
+        this.teams = fullGame.getTeams();
+        this.islands = fullGame.getIslands();
+        this.clouds = fullGame.getClouds();
+        this.allCharacters = null;
+    }
 
     public Game(int playerNumber, String nicknameOfCreator) {
 
@@ -410,6 +438,10 @@ public class Game {
     public static Integer getNextPieceID(){
         nextPieceID++;
         return nextPieceID-1;
+    }
+
+    public Game getReducedModel(){
+        return new Game(this);
     }
 
 }

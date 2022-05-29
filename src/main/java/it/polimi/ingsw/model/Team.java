@@ -1,12 +1,13 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Class for Teams partecipating to the game
  */
-public class Team {
+public class Team implements Serializable {
     private TowerColor towerColor;
     private Integer towerNumber;//Towers in player's schoolboard (not island)
     //Check that the number doesn't go below zero.

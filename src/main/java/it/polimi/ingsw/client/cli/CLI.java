@@ -153,15 +153,13 @@ public class CLI implements ClientView {
                 break;
             }
 
-            for (int i = 0; i < 30; i++) {
-                System.out.println();
-            }
             System.out.println("""
                     -----------------
                     Choose an action:\s
                     -----------------
                     Allowed:
                     PLAY_ASSISTANT
+                    INFO
                     QUIT
                     -----------------
                     """);
@@ -189,8 +187,21 @@ public class CLI implements ClientView {
                                 + assistant.getMotherNatureMovements());
                     }
                     System.out.println("\nInput assistant number: ");
-                    clientController.playAssistant(scanner.nextInt());
+                    Integer assistantNumber = scanner.nextInt();
+
+                    for (int i = 0; i < 30; i++) {
+                        System.out.println();
+                    }
+
+                    clientController.playAssistant(assistantNumber);
                     scanner.nextLine();
+                }
+                case "INFO" -> {
+                    System.out.println("""
+                            -----------------
+                            Select info type:\s
+                            1)
+                            """);
                 }
                 case "QUIT" -> {
                 }

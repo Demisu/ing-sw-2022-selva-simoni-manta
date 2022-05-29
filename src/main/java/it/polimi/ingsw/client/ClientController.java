@@ -125,31 +125,6 @@ public class ClientController implements ServerResponseHandler {
         return this.handle((OperationResultResponse) client.clientResponse());
     }
 
-    /**
-     * Properly dispatches the received response to the correct method
-     * Requests are defined in the client.responses package, one Class for each
-     * @param res the response received by the Client from the Server
-     */
-    @Override
-    public void handle(AssistantPlayedResponse res) {
-
-    }
-
-    @Override
-    public void handle(CharacterPlayedResponse res) {
-
-    }
-
-    @Override
-    public void handle(MotherNatureMovedResponse res) {
-
-    }
-
-    @Override
-    public void handle(StudentMovedResponse res) {
-
-    }
-
     @Override
     public Boolean handle(SetNicknameResponse res) {
         return res.getNeedPlayerNumber();
@@ -166,12 +141,15 @@ public class ClientController implements ServerResponseHandler {
 
     @Override
     public void handle(GetUpdatedBoardResponse res) {
-        playerInfo = res.getPlayerInfo();
-        characters = res.getCharacters();
-        islands = res.getIslands();
-        clouds = res.getClouds();
-        schoolBoards = res.getSchoolBoards();
-        gamePhase = res.getGamePhase();
+        playerInfo = res.getGameInfo().getPlayerByNickname(nickname);
+        characters = new ArrayList<>( List.of(res.getGameInfo().getAllCharacters()) );
+        islands = res.getGameInfo().getIslands();
+        clouds = res.getGameInfo().getClouds();
+        schoolBoards = new ArrayList<>();
+        res.getGameInfo().getPlayers().forEach(player -> {
+            schoolBoards.add(player.getPlayerBoard());
+        });
+        gamePhase = res.getGameInfo().getCurrentPhase();
     }
 
     public Player getPlayerInfo() {
