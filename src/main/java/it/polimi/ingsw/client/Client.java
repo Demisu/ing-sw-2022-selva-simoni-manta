@@ -9,7 +9,7 @@ import java.net.Socket;
 
 public class Client {
 
-    private String hostAddress;
+    private final String hostAddress;
     private final int port;
 
     private Socket connection;

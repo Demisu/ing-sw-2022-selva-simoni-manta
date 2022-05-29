@@ -3,7 +3,10 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.Character;
 import it.polimi.ingsw.model.*;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameController {
 
@@ -44,7 +47,7 @@ public class GameController {
         StudentAccessiblePiece target = currentGame.getStudentAccessiblePieceByID(targetID);
 
         //If movement is from school board entrance to dining room (same id)
-        if(origin.getPieceID() == target.getPieceID()){
+        if(origin.getPieceID().equals(target.getPieceID())){
 
             ( (SchoolBoard) origin).studentToDining(student);
             //Check if someone wins a professor
@@ -128,7 +131,7 @@ public class GameController {
     public void resolveIsland(Integer islandID){
 
         List<Island> islands = currentGame.getIslands();
-        boolean unified = false;
+        boolean unified;
         int refIndex;
         Island currentIsland = currentGame.getIslandByID(islandID);
         currentIsland.resolve(currentGame.getTeams());
@@ -169,8 +172,9 @@ public class GameController {
             //If all players played a character, change to action phase
             if(currentGame.getCurrentPhase().equals(GamePhase.PLANNING)){
 
-                //Restart from first player in turn order
-                currentGame.setCurrentPlayer(currentGame.getCurrentTurnOrder().get(0).getNickname());
+                //Update order and move to action order
+                updateNextTurnOrder();
+                currentGame.setCurrentTurnOrder(currentGame.getActionPhaseOrder());
                 currentGame.setCurrentPhase(GamePhase.ACTION);
 
             } else {
@@ -183,6 +187,25 @@ public class GameController {
             //Next player
             currentGame.setCurrentPlayer(currentGame.getCurrentTurnOrder().get(currentIndex + 1).getNickname());
         }
+    }
+
+    public void updateNextTurnOrder(){
+
+        List<Player> players = currentGame.getPlayers();
+        List<Player> actionPhaseOrder = players.stream()
+                .sorted(Comparator.comparingInt(Player::getLastAssistantPlayedPriority))
+                .collect(Collectors.toList());
+
+        currentGame.setActionPhaseOrder(actionPhaseOrder);
+        Integer firstPlayerIndex = actionPhaseOrder.get(0).getPlayerId();
+        List<Player> nextTurnOrder = new ArrayList<>();
+
+        for(int i = 0; i < players.size(); ){
+            //first player = who won the character phase. Next players selected clockwise (following players original list)
+            nextTurnOrder.add(players.get( (firstPlayerIndex + i) % players.size() ));
+        }
+
+        currentGame.setNextTurnOrder(nextTurnOrder);
     }
 
     /*-------*/

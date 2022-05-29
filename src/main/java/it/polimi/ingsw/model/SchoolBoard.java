@@ -66,28 +66,18 @@ public class SchoolBoard extends StudentAccessiblePiece implements Serializable 
     }
 
     /**
-     * Sets professor status on the schoolboard
+     * Sets professor status on the school board
      *
      * @param color color of the professor
      * @param status status of the professor (true = owned, false = not owned)
      */
     public void setProfessor(Color color, boolean status) {
         switch (color) {
-            case YELLOW -> {
-                this.professors[0] = status;
-            }
-            case BLUE -> {
-                this.professors[1] = status;
-            }
-            case GREEN -> {
-                this.professors[2] = status;
-            }
-            case RED -> {
-                this.professors[3] = status;
-            }
-            case PURPLE -> {
-                this.professors[4] = status;
-            }
+            case YELLOW -> this.professors[0] = status;
+            case BLUE -> this.professors[1] = status;
+            case GREEN -> this.professors[2] = status;
+            case RED -> this.professors[3] = status;
+            case PURPLE -> this.professors[4] = status;
         }
     }
 

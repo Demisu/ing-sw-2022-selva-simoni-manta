@@ -13,7 +13,7 @@ public class Character extends StudentAccessiblePiece implements Serializable {
 
     //General
     private Integer cost;
-    private String image;
+    private final String image;
     private Integer noEntryNumber;
 
     //Setup info
@@ -219,7 +219,7 @@ public class Character extends StudentAccessiblePiece implements Serializable {
      */
     public void resolve(){
 
-        Integer targetID = 0;
+        int targetID = 0;
 
         if(effect_choose_target.equals("player")){
             //Ask the player for the ID (e.g.: ID of target island)

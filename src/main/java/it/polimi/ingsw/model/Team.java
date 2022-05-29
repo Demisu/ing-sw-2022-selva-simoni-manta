@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class for Teams partecipating to the game
+ * Class for Teams participating in the game
  */
 public class Team implements Serializable {
     private TowerColor towerColor;
-    private Integer towerNumber;//Towers in player's schoolboard (not island)
+    private Integer towerNumber;//Towers in player's school board (not island)
     //Check that the number doesn't go below zero.
     private List<Player> players;
-    private Integer teamId;
+    private final Integer teamId;
 
     /**
      * @param towerColor tower color of the team

@@ -28,9 +28,9 @@ public class Game implements Serializable {
     private ArrayList<Integer> students; //This is the game bag
     private final ArrayList<Team> teams;
     private List<Player> players;
-    private List<Player> currentTurnOrder; //contains playerIDs for the current round
-    private List<Player> nextTurnOrder; //contains player IDs for the next round
-    /* MAKE SURE TO COPY nextTurnOrder to currentTurnOrder BEFORE BEGINNING THE NEXT ROUND */
+    private List<Player> currentTurnOrder; //contains players for the current round
+    private List<Player> actionPhaseOrder; //contains players for the action phase
+    private List<Player> nextTurnOrder; //contains players for the next round
     private GamePhase currentPhase = OFF; //Game phase
 
     private final Character[] availableCharacters;
@@ -271,6 +271,14 @@ public class Game implements Serializable {
         this.nextTurnOrder = nextTurnOrder;
     }
 
+    public List<Player> getActionPhaseOrder() {
+        return actionPhaseOrder;
+    }
+
+    public void setActionPhaseOrder(List<Player> actionPhaseOrder) {
+        this.actionPhaseOrder = actionPhaseOrder;
+    }
+
     public Boolean addPlayer(String nickname){
 
         if(emptyPlayerNumber >= playerNumber){
@@ -279,7 +287,7 @@ public class Game implements Serializable {
             this.players.get(emptyPlayerNumber).setNickname(nickname);
             this.players.get(emptyPlayerNumber).setActive(true);
             emptyPlayerNumber++;
-            if(emptyPlayerNumber == playerNumber) {
+            if(emptyPlayerNumber.equals(playerNumber)) {
                 this.currentPhase = PLANNING;
             }
             return true;
@@ -356,7 +364,7 @@ public class Game implements Serializable {
 
         for (Team team : teams) {
             for (Player player : team.getPlayers()) {
-                if (player.getPlayerId() == playerId)
+                if (player.getPlayerId().equals(playerId))
                     return player;
             }
         }
@@ -381,7 +389,7 @@ public class Game implements Serializable {
     public SchoolBoard getSchoolBoardByID(Integer boardID) {
         for (Team team : teams) {
             for (Player player : team.getPlayers()) {
-                if(player.getPlayerBoard().getPieceID() == boardID)
+                if(player.getPlayerBoard().getPieceID().equals(boardID))
                     return player.getPlayerBoard();
             }
         }
@@ -393,7 +401,7 @@ public class Game implements Serializable {
         //SchoolBoards
         for (Team team : teams) {
             for (Player player : team.getPlayers()) {
-                if(player.getPlayerBoard().getPieceID() == pieceID) {
+                if(Objects.equals(player.getPlayerBoard().getPieceID(), pieceID)) {
                     System.out.println("Found playerBoard: " + player.getPlayerBoard().getPieceID() + " searching for pieceID:" + pieceID);
                     return player.getPlayerBoard();
                 }
@@ -401,21 +409,21 @@ public class Game implements Serializable {
         }
         //Characters
         for (Character character : availableCharacters) {
-            if(character.getPieceID() == pieceID){
+            if(Objects.equals(character.getPieceID(), pieceID)){
                 System.out.println("Found character: " + character.getPieceID() + " searching for pieceID:" + pieceID);
                 return character;
             }
         }
         //Clouds
         for (Cloud cloud : clouds) {
-            if(cloud.getPieceID() == pieceID){
+            if(Objects.equals(cloud.getPieceID(), pieceID)){
                 System.out.println("Found cloud: " + cloud.getPieceID() + " searching for pieceID:" + pieceID);
                 return cloud;
             }
         }
         //Islands
         for (Island island : islands) {
-            if(island.getPieceID() == pieceID){
+            if(Objects.equals(island.getPieceID(), pieceID)){
                 System.out.println("Found island: " + island.getPieceID() + " searching for pieceID:" + pieceID);
                 return island;
             }
@@ -428,7 +436,7 @@ public class Game implements Serializable {
 
     public Island getIslandByID(Integer islandID) {
         for (Island island : islands) {
-            if(island.getPieceID() == islandID)
+            if(Objects.equals(island.getPieceID(), islandID))
                 return island;
         }
         System.out.println("Island with id " + islandID + " not found (Game.getIslandByID)");

@@ -53,7 +53,7 @@ public class Island extends StudentAccessiblePiece implements Serializable {
         Integer maxInfluence = -2;
         Team winningTeam = new Team();
         boolean won = false;
-        Integer provisionalInfluence = -1;
+        Integer provisionalInfluence;
 
         for(Team team : teams) {
             for(Player p : team.getPlayers()) {

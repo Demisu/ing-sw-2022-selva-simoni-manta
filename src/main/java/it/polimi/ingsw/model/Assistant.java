@@ -22,7 +22,6 @@ public final class Assistant implements Serializable {
         this.assistantId = assistantId;
     }
 
-
     /**
      * @return assistantId
      */
@@ -43,5 +42,4 @@ public final class Assistant implements Serializable {
     public int getMotherNatureMovements() {
         return motherNatureMovements;
     }
-
 }

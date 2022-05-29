@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import it.polimi.ingsw.model.Assistant;
 
 public class Player implements Serializable {
 
@@ -18,14 +17,12 @@ public class Player implements Serializable {
     private Assistant LastAssistantPlayed;
     private Boolean activeCharacter;
 
-    private SchoolBoard playerBoard; //package-private
+    private final SchoolBoard playerBoard; //package-private
 
     public Player(Integer playerId){
         this.playerId = playerId;
         this.coins = initialCoins;
         this.nickname = "Default";
-    //    this.towerColor = towerColor;
-    //    this.towerNumber = towerNumber;
         this.deck = new ArrayList<>();
 
         for(int i = 0; i < 10; i++){
@@ -74,6 +71,10 @@ public class Player implements Serializable {
 
     public Assistant getLastAssistantPlayed() {
         return LastAssistantPlayed;
+    }
+
+    public int getLastAssistantPlayedPriority() {
+        return LastAssistantPlayed.getTurnPriority();
     }
 
     public void setLastAssistantPlayed(Assistant lastAssistantPlayed) {

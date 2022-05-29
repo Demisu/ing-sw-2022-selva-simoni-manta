@@ -146,9 +146,7 @@ public class ClientController implements ServerResponseHandler {
         islands = res.getGameInfo().getIslands();
         clouds = res.getGameInfo().getClouds();
         schoolBoards = new ArrayList<>();
-        res.getGameInfo().getPlayers().forEach(player -> {
-            schoolBoards.add(player.getPlayerBoard());
-        });
+        res.getGameInfo().getPlayers().forEach(player -> schoolBoards.add(player.getPlayerBoard()));
         gamePhase = res.getGameInfo().getCurrentPhase();
     }
 
@@ -175,11 +173,4 @@ public class ClientController implements ServerResponseHandler {
     public GamePhase getGamePhase() {
         return gamePhase;
     }
-
-    //    @Override
-//    public void handle(RequestSuccessfulResponse res) {
-//
-//    }
-
-
 }

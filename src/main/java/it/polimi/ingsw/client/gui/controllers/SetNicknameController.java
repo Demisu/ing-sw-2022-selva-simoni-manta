@@ -22,6 +22,6 @@ public class SetNicknameController {
     }
 
     public void setNickname(String nickname){
-        System.out.println("Choosen:  " +  nickname);
+        System.out.println("Chosen:  " +  nickname);
     }
 }
