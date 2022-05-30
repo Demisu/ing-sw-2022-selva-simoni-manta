@@ -4,19 +4,100 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="1280.0" minHeight="-Infinity" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SceneController">
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.RealmController">
    <children>
-      <ImageView fitHeight="336.0" fitWidth="596.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@assets/Reame/PNG/reameB_2.png" />
-         </image>
-      </ImageView>
-      <Button layoutX="14.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToSchoolBoardScene" text="Show Schoolboard" />
-      <Button layoutX="152.0" layoutY="681.0" mnemonicParsing="false" text="Play assistant" />
-      <Button layoutX="245.0" layoutY="681.0" mnemonicParsing="false" text="Play character" />
-      <Button layoutX="453.0" layoutY="681.0" mnemonicParsing="false" text="Move mother nature" />
-      <Button layoutX="357.0" layoutY="681.0" mnemonicParsing="false" text="Move student" />
-      <Button layoutX="608.0" layoutY="681.0" mnemonicParsing="false" text="Pass turn" />
+      <AnchorPane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0">
+         <children>
+            <ImageView fitHeight="1706.0" fitWidth="3127.0" layoutX="-573.0" layoutY="-340.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/bg-realm.png" />
+               </image>
+            </ImageView>
+            <ImageView onMouseClicked="#switchToIsland3Scene" fitHeight="150.0" fitWidth="150.0" layoutX="149.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/island3.png" />
+               </image>
+            </ImageView>
+            <ImageView onMouseClicked="#switchToIsland1Scene" fitHeight="150.0" fitWidth="150.0" layoutX="38.0" layoutY="270.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/island1.png" />
+               </image>
+            </ImageView>
+            <ImageView onMouseClicked="#switchToIsland2Scene" fitHeight="150.0" fitWidth="150.0" layoutX="989.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/island2.png" />
+               </image>
+            </ImageView>
+            <ImageView onMouseClicked="#switchToIsland3Scene" fitHeight="150.0" fitWidth="150.0" layoutX="346.0" layoutY="494.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/island3.png" />
+               </image>
+            </ImageView>
+            <ImageView onMouseClicked="#switchToIsland3Scene" fitHeight="150.0" fitWidth="150.0" layoutX="999.0" layoutY="442.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/island3.png" />
+               </image>
+            </ImageView>
+            <ImageView onMouseClicked="#switchToIsland2Scene" fitHeight="150.0" fitWidth="150.0" layoutX="346.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/island2.png" />
+               </image>
+            </ImageView>
+            <ImageView onMouseClicked="#switchToIsland2Scene" fitHeight="150.0" fitWidth="150.0" layoutX="149.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/island2.png" />
+               </image>
+            </ImageView>
+            <ImageView onMouseClicked="#switchToIsland1Scene" fitHeight="150.0" fitWidth="150.0" layoutX="574.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/island1.png" />
+               </image>
+            </ImageView>
+            <ImageView onMouseClicked="#switchToIsland3Scene" fitHeight="150.0" fitWidth="150.0" layoutX="793.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/island3.png" />
+               </image>
+            </ImageView>
+            <ImageView onMouseClicked="#switchToIsland2Scene" fitHeight="150.0" fitWidth="150.0" layoutX="793.0" layoutY="506.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/island2.png" />
+               </image>
+            </ImageView>
+            <ImageView onMouseClicked="#switchToIsland1Scene" fitHeight="150.0" fitWidth="150.0" layoutX="1107.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/island1.png" />
+               </image>
+            </ImageView>
+            <ImageView onMouseClicked="#switchToIsland1Scene" fitHeight="150.0" fitWidth="150.0" layoutX="574.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/island1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="466.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/cloud.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="681.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/cloud.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="615.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/bag.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="14.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToSchoolBoardScene" text="Show Schoolboard" />
+            <Button layoutX="180.0" layoutY="681.0" mnemonicParsing="false" text="Play assistant" />
+            <Button layoutX="280.0" layoutY="681.0" mnemonicParsing="false" text="Play character" />
+            <Button layoutX="523.0" layoutY="681.0" mnemonicParsing="false" text="Move mother nature" />
+            <Button layoutX="421.0" layoutY="681.0" mnemonicParsing="false" text="Move student" />
+            <Button layoutX="1074.0" layoutY="681.0" mnemonicParsing="false" text="Pass turn" />
+            <Button fx:id="menuButton" layoutX="1162.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToGameSetupScene" text="Return to MENU" />
+         </children>
+      </AnchorPane>
    </children>
-</AnchorPane>
+</HBox>
