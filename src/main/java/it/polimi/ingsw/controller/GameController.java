@@ -17,24 +17,10 @@ public class GameController {
     /* GAME */
     /*------*/
 
-    public void startGame(Integer playerNumber, String nicknameOfCreator){
-        currentGame = new Game(playerNumber, nicknameOfCreator);
+    public void startGame(Integer playerNumber, String nicknameOfCreator, Boolean expertMode){
+        currentGame = new Game(playerNumber, nicknameOfCreator, expertMode);
         currentGame.setCurrentPhase(GamePhase.SETUP);
         referenceGame = currentGame;
-    }
-
-    public void resetModifiers(){
-
-        Game.setAllStudentsValue(1);
-        Game.setTowerValue(1);
-        Game.setInfluenceModifier(0);
-        Game.setMotherNatureMovements(0);
-        Game.setStudentsInDiningModifier(0);
-
-        for (Player player : currentGame.getPlayers()) {
-            player.setActiveCharacter(false);
-            //player.setLastAssistantPlayed(null);
-        }
     }
 
     /*----------*/
@@ -163,13 +149,14 @@ public class GameController {
 
     public void nextPlayer() {
 
+        currentGame.resetModifiers();
         int currentIndex = currentGame.getCurrentTurnOrder().indexOf(
                                                     currentGame.getPlayerByNickname(
                                                             currentGame.getCurrentPlayer()));
         //If current is the last element
         if(currentIndex == currentGame.getCurrentTurnOrder().size() - 1){
 
-            //If all players played a character, change to action phase
+            //If all players played an assistant, change to action phase
             if(currentGame.getCurrentPhase().equals(GamePhase.PLANNING)){
 
                 //Update order and move to action order
@@ -181,6 +168,8 @@ public class GameController {
                 //Action phase ended, next turn starting
                 currentGame.setCurrentTurnOrder(currentGame.getNextTurnOrder());
                 currentGame.setCurrentPlayer(currentGame.getCurrentTurnOrder().get(0).getNickname());
+                //Refill clouds for new planning phase
+                currentGame.turnStartFill();
             }
 
         } else {

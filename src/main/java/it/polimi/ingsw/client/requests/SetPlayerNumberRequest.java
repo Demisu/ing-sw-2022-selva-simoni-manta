@@ -8,10 +8,12 @@ public class SetPlayerNumberRequest implements ClientRequest {
 
     String nickname;
     Integer number;
+    Boolean expertMode;
 
-    public SetPlayerNumberRequest(String nickname, Integer number) {
+    public SetPlayerNumberRequest(String nickname, Integer number, Boolean expertMode) {
         this.nickname = nickname;
         this.number = number;
+        this.expertMode = expertMode;
     }
 
     @Override
@@ -25,5 +27,9 @@ public class SetPlayerNumberRequest implements ClientRequest {
 
     public Integer getNumber() {
         return number;
+    }
+
+    public Boolean getExpertMode() {
+        return expertMode;
     }
 }

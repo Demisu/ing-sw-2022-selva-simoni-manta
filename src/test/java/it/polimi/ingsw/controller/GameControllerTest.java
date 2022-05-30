@@ -14,7 +14,7 @@ public class GameControllerTest {
     void testMoveMotherNature() {
 
         GameController controller = new GameController();
-        controller.startGame(2, "testUser");
+        controller.startGame(2, "testUser", true);
         Game currentGame = controller.getCurrentGame();
         Island tempIsland = currentGame.getMotherNatureIsland();
         tempIsland.setTowersColor(TowerColor.BLACK);
@@ -33,7 +33,7 @@ public class GameControllerTest {
     void testAnotherMoveMotherNature() {
 
         GameController controller = new GameController();
-        controller.startGame(2, "testUser");
+        controller.startGame(2, "testUser", true);
         Game currentGame = controller.getCurrentGame();
         Island tempIsland = currentGame.getMotherNatureIsland();
         Island anotherTempIsland = currentGame.getIslands().get((currentGame.getIslands().indexOf(currentGame.getMotherNatureIsland())+1) % currentGame.getIslands().size());
@@ -53,7 +53,7 @@ public class GameControllerTest {
     @DisplayName("Testing students and merge of islands from controller")
     void testUnifyIslands(){
         GameController controller = new GameController();
-        controller.startGame(2, "testUnifyIslands");
+        controller.startGame(2, "testUnifyIslands", true);
         Island island0 = new Island();
         Island island1 = new Island();
         island1.setMotherNature(true);
@@ -81,7 +81,7 @@ public class GameControllerTest {
 
         GameController controller = new GameController();
         //Game with 2 teams: team0 and team1
-        controller.startGame(2, "testone");
+        controller.startGame(2, "testone",true);
         controller.getCurrentGame().getIslands().get(1).addStudent(13);
 
         //board of player 0 in team 0
@@ -116,7 +116,7 @@ public class GameControllerTest {
     @DisplayName("Testing add of players in the game")
     void testAddingPlayer(){
         GameController controller = new GameController();
-        controller.startGame(2, "xX-KEKKER2000-Xx");
+        controller.startGame(2, "xX-KEKKER2000-Xx", true);
         controller.addPlayer("sus");
         assertEquals(controller.getPlayerNumber(),2);
 
@@ -126,10 +126,10 @@ public class GameControllerTest {
     @DisplayName("Testing modifiers")
     void testModifiers(){
         GameController controller = new GameController();
-        controller.startGame(2,"Gianfranco");
+        controller.startGame(2,"Gianfranco", true);
         Game gameTest = controller.getCurrentGame();
         gameTest.addPlayer("Frank");
-        controller.resetModifiers();
+        gameTest.resetModifiers();
         assertEquals(gameTest.getTowerValue(),1);
     }
 

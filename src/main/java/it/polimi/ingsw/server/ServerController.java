@@ -97,7 +97,7 @@ public class ServerController implements ClientRequestHandler {
     public ServerResponse handle(SetPlayerNumberRequest req) {
 
         if(!gameExists) {
-            gameController.startGame(req.getNumber(), req.getNickname());
+            gameController.startGame(req.getNumber(), req.getNickname(), req.getExpertMode());
             gameExists = true;
             connectedPlayers++;
             return new OperationResultResponse(true, "Game created");

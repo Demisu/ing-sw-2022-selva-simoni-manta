@@ -20,14 +20,18 @@ public class GameTest {
     @DisplayName("Testing student movement from the game bag and the appropriate return index of colors")
     void testGetAStudent() {
 
-        Game testGame = new Game(2, "test");
+        Game testGame = new Game(2, "test",true);
         ArrayList<Integer> testStudents = new ArrayList<>();
         for(int i = 0; i < 10; i++) {
             testStudents.add(testGame.getAStudent());
         }
 
         assertEquals(10, testStudents.size());
-        assertEquals(120, testGame.getBagStudents().size());
+        int remainingStudents = 120 - 10 - 7*2 - 3*2;
+        for (Character character : testGame.getAllCharacters()) {
+            remainingStudents -= character.getStudents().size();
+        }
+        assertEquals(remainingStudents, testGame.getBagStudents().size());
 
         assertFalse(testGame.getBagStudents().contains(testStudents));
 
@@ -42,7 +46,7 @@ public class GameTest {
     @DisplayName("Testing player recovery by ID")
     void testGetPlayerByID(){
 
-        Game testGame = new Game(2, "test");
+        Game testGame = new Game(2, "test", true);
 
         assertNull(testGame.getPlayerById(3));
         assertTrue(testGame.getPlayers().contains(testGame.getPlayerById(1)));
@@ -54,13 +58,13 @@ public class GameTest {
     @DisplayName("Testing player recovery by ID")
     void testGetPlayers(){
 
-        Game testGame2 = new Game(2, "test2");
+        Game testGame2 = new Game(2, "test2", true);
         assertEquals(testGame2.getPlayers().size(), 2);
 
-        Game testGame3 = new Game(3, "test3");
+        Game testGame3 = new Game(3, "test3", true);
         assertEquals(testGame3.getPlayers().size(), 3);
 
-        Game testGame4 = new Game(4, "test4");
+        Game testGame4 = new Game(4, "test4", true);
         assertEquals(testGame4.getPlayers().size(), 4);
 
     }
@@ -96,7 +100,7 @@ public class GameTest {
     @Test
     @DisplayName("Testing player managing")
     void testPlayerManaging() {
-        Game gameTest = new Game(2, "Test");
+        Game gameTest = new Game(2, "Test", true);
         assertTrue(gameTest.addPlayer("Gianfranco"));
         assertFalse(gameTest.addPlayer("BRone"));
         gameTest.setCurrentPlayer("Gianfranco");
@@ -106,7 +110,7 @@ public class GameTest {
     @Test
     @DisplayName("Testing character effects")
     void testCharacterEffects() {
-        Game gameTest = new Game(2, "Test");
+        Game gameTest = new Game(2, "Test", true);
         assertNotNull(gameTest.getAllCharacters());
         gameTest.setStudentValue(Color.BLUE,3);
         assertEquals(3,Game.getStudentValue(indexOfColor(Color.BLUE)));
@@ -123,7 +127,7 @@ public class GameTest {
     @DisplayName("Testing miscellanea")
     void testMiscellanea(){
 
-        Game gameTest = new Game(2, "TestStudentValue");
+        Game gameTest = new Game(2, "TestStudentValue", true);
 
         //public static Integer getStudentValue(int studentID)
 
@@ -165,7 +169,7 @@ public class GameTest {
         assertTrue(gameTest.getNextTurnOrder().isEmpty());
 
         //getIslandByID
-        gameTest = new Game(2, "testGetIslandByID");
+        gameTest = new Game(2, "testGetIslandByID", true);
         Island anIsland = gameTest.getIslands().get(0);
         Island tester = gameTest.getIslandByID(anIsland.getPieceID());
         assertEquals(tester.getPieceID(), anIsland.getPieceID());

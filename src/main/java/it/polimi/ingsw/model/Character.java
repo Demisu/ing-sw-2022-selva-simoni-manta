@@ -289,4 +289,16 @@ public class Character extends StudentAccessiblePiece implements Serializable {
     public void setGameController(GameController gameController) {
         this.gameController = gameController;
     }
+
+    public String getSetupObject() {
+        return setup_object;
+    }
+
+    public Integer getSetupNumber() {
+        return setup_number;
+    }
+
+    public void setNoEntryNumber(Integer noEntryNumber) {
+        this.noEntryNumber = noEntryNumber;
+    }
 }

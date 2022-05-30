@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 import static it.polimi.ingsw.model.GamePhase.*;
+import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 
 public class Game implements Serializable {
 
@@ -20,6 +21,7 @@ public class Game implements Serializable {
     private final ArrayList<Integer> allCharacters; //All existing characters
     private final String charactersJSONPath = ".\\src\\Characters\\";
 
+    private final Boolean expertMode;
     private String currentPlayer;
     private Integer emptyPlayerNumber = 1;
     private final Integer playerNumber;
@@ -32,6 +34,8 @@ public class Game implements Serializable {
     private List<Player> actionPhaseOrder; //contains players for the action phase
     private List<Player> nextTurnOrder; //contains players for the next round
     private GamePhase currentPhase = OFF; //Game phase
+    private final int studentsForClouds;
+    private final int studentsForBoards;
 
     private final Character[] availableCharacters;
 
@@ -40,7 +44,7 @@ public class Game implements Serializable {
     private static Integer towerValue; //defaults to 1
     private static Integer influenceModifier; //defaults to 0
     private static Integer motherNatureMovements; //defaults to 0
-    private static Integer studentsInDiningModifier;
+    private static Integer studentsInDiningModifier; //defaults to 0
 
     //Needed for Piece ID
     private static Integer nextPieceID = 0;
@@ -56,10 +60,10 @@ public class Game implements Serializable {
             Integer cost = character.getCost();
             String image = character.getImage();
             Boolean hasIncreasedCost = character.getHasIncreasedCost();
-            HashSet<Integer> students = character.getStudents();
+            HashSet<Integer> characterStudents = character.getStudents();
             Integer noEntryNumber = character.getNoEntryNumber();
 
-            availableCharacters[i] = new Character(cost, image, hasIncreasedCost, students, noEntryNumber);
+            availableCharacters[i] = new Character(cost, image, hasIncreasedCost, characterStudents, noEntryNumber);
             i++;
         }
 
@@ -69,10 +73,13 @@ public class Game implements Serializable {
         this.teams = fullGame.getTeams();
         this.islands = fullGame.getIslands();
         this.clouds = fullGame.getClouds();
+        this.expertMode = fullGame.isExpertMode();
         this.allCharacters = null;
+        this.studentsForClouds = fullGame.studentsForClouds;
+        this.studentsForBoards = fullGame.studentsForBoards;
     }
 
-    public Game(int playerNumber, String nicknameOfCreator) {
+    public Game(int playerNumber, String nicknameOfCreator, Boolean expertMode) {
 
         //Piece values setup
         towerValue = 1;
@@ -86,15 +93,18 @@ public class Game implements Serializable {
         studentsInDiningModifier = 0;
 
         this.playerNumber = playerNumber;
+        this.expertMode = expertMode;
+
+        studentsForClouds = playerNumber == 3 ? 4 : 3;
+        studentsForBoards = playerNumber == 3 ? 9 : 7;
 
         //Islands setup
         islands = new ArrayList<>();
         for(int i = 0; i < islandsNumber; i++) {
             this.islands.add(new Island());
         }
-        //Place mother nature randomly
-        int randomIsland = new Random().nextInt(islandsNumber);
-        this.islands.get(randomIsland).setMotherNature(true);
+        //Place mother nature on the first island
+        this.islands.get(0).setMotherNature(true);
 
         //Clouds and Players setup
         clouds = new HashSet<>();
@@ -152,48 +162,115 @@ public class Game implements Serializable {
         // Characters creation //
         // ------------------- //
 
-        this.allCharacters  = new ArrayList<>(); //List of all existing characters
-        for (int i=1; i <= allCharactersNumber; i++) {
-            allCharacters.add(i);
-        }
-        Collections.shuffle(allCharacters); //Random shuffle of all existing characters
+        if(expertMode) {
 
-        String[] characterJsonName = new String[availableCharactersNumber]; //Array of characters JSON paths
-        //Pick n random characters from all the existing ones
-        for(int i = 0; i < availableCharactersNumber; i++){
-            // Create the paths
-            characterJsonName[i] = charactersJSONPath + "Character" + allCharacters.get(i) + ".JSON";
-        }
-
-        this.availableCharacters = new Character[availableCharactersNumber]; //Array of n characters
-        for(int i = 0; i < availableCharactersNumber; i++){
-            /* OPEN JSON */
-            try {
-                // create Gson instance
-                Gson gson = new Gson();
-
-                // create a reader
-                Reader reader = Files.newBufferedReader(Paths.get(characterJsonName[i]));
-                // convert JSON string to Character object
-                availableCharacters[i] = gson.fromJson(reader, Character.class);
-                // close reader
-                reader.close();
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            this.allCharacters = new ArrayList<>(); //List of all existing characters
+            for (int i = 1; i <= allCharactersNumber; i++) {
+                allCharacters.add(i);
             }
+            Collections.shuffle(allCharacters); //Random shuffle of all existing characters
+
+            String[] characterJsonName = new String[availableCharactersNumber]; //Array of characters JSON paths
+            //Pick n random characters from all the existing ones
+            for (int i = 0; i < availableCharactersNumber; i++) {
+                // Create the paths
+                characterJsonName[i] = charactersJSONPath + "Character" + allCharacters.get(i) + ".JSON";
+            }
+
+            this.availableCharacters = new Character[availableCharactersNumber]; //Array of n characters
+            for (int i = 0; i < availableCharactersNumber; i++) {
+                /* OPEN JSON */
+                try {
+                    // create Gson instance
+                    Gson gson = new Gson();
+
+                    // create a reader
+                    Reader reader = Files.newBufferedReader(Paths.get(characterJsonName[i]));
+                    // convert JSON string to Character object
+                    availableCharacters[i] = gson.fromJson(reader, Character.class);
+                    availableCharacters[i].students = new HashSet<>();
+                    // close reader
+                    reader.close();
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } else {
+            allCharacters = null;
+            availableCharacters = null;
         }
 
         this.players.get(0).setNickname(nicknameOfCreator);
         this.currentPlayer = players.get(0).getNickname();
+        this.setupFill();
     }
 
-    public GamePhase getCurrentPhase() {
-        return currentPhase;
+    public void setupFill(){
+
+        //Get 10 students, 2 of each color
+        List<Integer> studentsForIslands = new ArrayList<>();
+        for(int i = 0; i < 2; i++){
+            studentsForIslands.add(getAStudent(Color.YELLOW));
+            studentsForIslands.add(getAStudent(Color.BLUE));
+            studentsForIslands.add(getAStudent(Color.GREEN));
+            studentsForIslands.add(getAStudent(Color.RED));
+            studentsForIslands.add(getAStudent(Color.PURPLE));
+        }
+        Collections.shuffle(studentsForIslands);
+
+        //Fill islands (except first one and last one)
+        Integer student;
+        for (Island island : this.islands.subList(1, islands.size() - 2)) {
+            student = studentsForIslands.get(0);
+            studentsForIslands.remove(0);
+            island.addStudent(student);
+        }
+
+        //Fill clouds
+        for (Cloud cloud : this.clouds) {
+            for(int i = 0; i < studentsForClouds; i++){
+                cloud.addStudent(getAStudent());
+            }
+        }
+
+        //Fill schoolboards
+        for (Player player : this.getPlayers()) {
+            //Add 7/9 random students
+            for(int i = 0; i < studentsForBoards; i++){
+                player.getPlayerBoard().addStudent(getAStudent());
+            }
+        }
+
+        //Fill characters
+        if(expertMode) {
+            for (Character character : this.availableCharacters) {
+                switch (character.getSetupObject()) {
+                    case "student":
+                        //Adds n students from the bag
+                        for (int i = 0; i < character.getSetupNumber(); i++) {
+                            character.addStudent(this.getAStudent());
+                        }
+                        break;
+                    case "no_entry":
+                        //Adds n noEntry tiles
+                        character.setNoEntryNumber(character.getSetupNumber());
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
-    public void setCurrentPhase(GamePhase currentPhase) {
-        this.currentPhase = currentPhase;
+    public void turnStartFill(){
+
+        //Fill clouds
+        for (Cloud cloud : this.clouds) {
+            for(int i = 0; i < studentsForClouds; i++){
+                cloud.addStudent(getAStudent());
+            }
+        }
     }
 
     public Integer getAStudent() { //get (and remove) a student from the game bag
@@ -205,8 +282,17 @@ public class Game implements Serializable {
         return studentToGet;
     }
 
-    public static Integer getStudentValue(int colorID){
-        return studentValue[colorID];
+    public Integer getAStudent(Color color) { //get (and remove) a certain color student from the game bag
+        int studentSize = this.students.size();
+        int randomStudent = new Random().nextInt(studentSize);
+        int studentToGet = this.students.get(randomStudent);
+        while(!colorOfStudent(studentToGet).equals(color)){
+            randomStudent = new Random().nextInt(studentSize);
+            studentToGet = this.students.get(randomStudent);
+        }
+        this.students.remove(randomStudent);
+        this.students.trimToSize();
+        return studentToGet;
     }
 
     public void unifyIslands(Island toKeep, Island toRemove){
@@ -220,12 +306,12 @@ public class Game implements Serializable {
         islands.remove(toRemove);
     }
 
-    public static Integer getTowerValue(){
-        return towerValue;
+    public GamePhase getCurrentPhase() {
+        return currentPhase;
     }
 
-    public static void setTowerValue(Integer towerValue) {
-        Game.towerValue = towerValue;
+    public void setCurrentPhase(GamePhase currentPhase) {
+        this.currentPhase = currentPhase;
     }
 
     public ArrayList<Team> getTeams() {
@@ -294,6 +380,26 @@ public class Game implements Serializable {
         }
     }
 
+    public void resetModifiers(){
+
+        Game.setAllStudentsValue(1);
+        Game.setTowerValue(1);
+        Game.setInfluenceModifier(0);
+        Game.setMotherNatureMovements(0);
+        Game.setStudentsInDiningModifier(0);
+
+        for (Player player : this.getPlayers()) {
+            player.setActiveCharacter(false);
+            //player.setLastAssistantPlayed(null);
+        }
+
+        if(this.isExpertMode()) {
+            for (Character character : this.getAllCharacters()) {
+                character.setHasBeenUsed(false);
+            }
+        }
+    }
+
     public List<Player> getPlayers() {
 
         List<Player> playerList = new ArrayList<>();
@@ -320,7 +426,27 @@ public class Game implements Serializable {
         this.currentPlayer = currentPlayer;
     }
 
+    public Boolean isExpertMode() {
+        return expertMode;
+    }
+
+    public Game getReducedModel(){
+        return new Game(this);
+    }
+
     // STATIC SECTION --------------------------------------------------------------------------------------------------
+
+    public static Integer getStudentValue(int colorID){
+        return studentValue[colorID];
+    }
+
+    public static Integer getTowerValue(){
+        return towerValue;
+    }
+
+    public static void setTowerValue(Integer towerValue) {
+        Game.towerValue = towerValue;
+    }
 
     public static void setStudentValue(Color color, Integer studentValue) {
         Game.studentValue[StudentAccessiblePiece.indexOfColor(color)] = studentValue;
@@ -354,6 +480,11 @@ public class Game implements Serializable {
 
     public static Integer getStudentsInDiningModifier() {
         return studentsInDiningModifier;
+    }
+
+    public static Integer getNextPieceID(){
+        nextPieceID++;
+        return nextPieceID-1;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -442,14 +573,4 @@ public class Game implements Serializable {
         System.out.println("Island with id " + islandID + " not found (Game.getIslandByID)");
         return null;
     }
-
-    public static Integer getNextPieceID(){
-        nextPieceID++;
-        return nextPieceID-1;
-    }
-
-    public Game getReducedModel(){
-        return new Game(this);
-    }
-
 }

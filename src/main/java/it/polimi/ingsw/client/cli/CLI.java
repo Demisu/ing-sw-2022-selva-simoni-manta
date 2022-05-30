@@ -56,7 +56,9 @@ public class CLI implements ClientView {
         if(choosePlayersNumber){
             System.out.print("Choose player number: ");
             Integer number = Integer.parseInt(scanner.nextLine());
-            status = clientController.setPlayerNumber(number);
+            System.out.print("Expert mode? (true/false)");
+            Boolean expertMode = Boolean.parseBoolean(scanner.nextLine());
+            status = clientController.setPlayerNumber(number, expertMode);
         }else{
             System.out.println("No need to choose player number");
             status = false;

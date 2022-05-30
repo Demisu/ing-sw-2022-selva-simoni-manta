@@ -79,8 +79,8 @@ public class ClientController implements ServerResponseHandler {
         //return ((SetNicknameResponse) client.clientResponse()).getNickname();
     }
 
-    public Boolean setPlayerNumber(Integer number) {
-        client.clientRequest(new SetPlayerNumberRequest(nickname, number));
+    public Boolean setPlayerNumber(Integer number, Boolean expertMode) {
+        client.clientRequest(new SetPlayerNumberRequest(nickname, number, expertMode));
         return this.handle((OperationResultResponse) client.clientResponse());
         //return ((SetNicknameResponse) client.clientResponse()).getNickname();
     }
