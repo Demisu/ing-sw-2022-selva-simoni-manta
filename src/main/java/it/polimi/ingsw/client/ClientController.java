@@ -19,10 +19,8 @@ import java.util.Set;
 public class ClientController implements ServerResponseHandler {
 
     private final Client client;
-
     private Thread receiver;
 
-    String lastMessage = "";
     String nickname = "";
 
     //Game info
@@ -132,10 +130,8 @@ public class ClientController implements ServerResponseHandler {
 
     @Override
     public Boolean handle(OperationResultResponse res) {
-        if(!res.getMessage().equals(lastMessage)){
-            lastMessage = res.getMessage();
-            System.out.println(res.getMessage());
-        }
+
+        System.out.println(res.getMessage());
         return res.getResult();
     }
 

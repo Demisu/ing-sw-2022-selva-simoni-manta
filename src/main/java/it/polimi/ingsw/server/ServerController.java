@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.requests.*;
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.responses.GetUpdatedBoardResponse;
 import it.polimi.ingsw.server.responses.OperationResultResponse;
 import it.polimi.ingsw.server.responses.SetNicknameResponse;
@@ -58,7 +59,17 @@ public class ServerController implements ClientRequestHandler {
     @Override
     public ServerResponse handle(PlayAssistantRequest req) {
 
-        if(gameController.getCurrentGame().getCurrentPlayer().equals(req.getNickname())){
+        String nickname = req.getNickname();
+        Player requestPlayer = gameController.getCurrentGame().getPlayerByNickname(nickname);
+        if(gameController.getCurrentGame().getCurrentPlayer().equals(nickname)){
+            for (Player player : gameController.getCurrentGame().getPlayers()) {
+                if(player.getLastAssistantPlayed() == null){
+                    continue;
+                }
+                if(player.getLastAssistantPlayed().getAssistantId() == requestPlayer.getDeck().get(req.getAssistantNumber()).getAssistantId()){
+                    return new OperationResultResponse(false, "Assistant already played during this turn");
+                }
+            }
             gameController.playAssistant(req.getNickname(), req.getAssistantNumber());
             return new OperationResultResponse(true, "Played assistant " + req.getAssistantNumber() + " of player " + req.getNickname());
         }

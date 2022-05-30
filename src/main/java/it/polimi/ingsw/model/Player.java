@@ -25,8 +25,8 @@ public class Player implements Serializable {
         this.nickname = "Default";
         this.deck = new ArrayList<>();
 
-        for(int i = 0; i < 10; i++){
-            deck.add(new Assistant(i, 10-i, Game.getNextPieceID()));
+        for(int i = 1; i <= 10; i++){
+            deck.add(new Assistant(i, (i + i%2) / 2, i + (i + i%2) / 2));
         }
 
         this.playerBoard = new SchoolBoard();
