@@ -12,6 +12,6 @@
             <Image url="@assets/Plancia/Plancia_DEF2.png" />
          </image>
       </ImageView>
-      <Button layoutX="10.0" layoutY="569.0" mnemonicParsing="false" onAction="#switchToIslandBoardScene" text="Return to Islands' Board" />
+      <Button layoutX="10.0" layoutY="569.0" mnemonicParsing="false" onAction="#switchToRealmScene" text="Return to Islands' Board" />
    </children>
 </AnchorPane>

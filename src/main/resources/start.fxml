@@ -11,15 +11,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SceneController">
    <children>
       <ImageView fitHeight="720.0" fitWidth="1706.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@assets/background.png" />
          </image>
       </ImageView>
-      <Button layoutX="575.0" layoutY="372.0" mnemonicParsing="false" prefHeight="7.0" prefWidth="150.0" text="Play">
+      <Button layoutX="575.0" layoutY="372.0" mnemonicParsing="false" onAction="#switchToNicknameScene" prefHeight="7.0" prefWidth="150.0" text="Play">
          <font>
             <Font name="Arial Rounded MT Bold" size="36.0" />
          </font>
