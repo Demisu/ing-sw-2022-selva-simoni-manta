@@ -52,19 +52,24 @@ public class Game implements Serializable {
     //Custom constructor for small model for the view
     private Game(Game fullGame){
 
-        availableCharacters = new Character[availableCharactersNumber];
-        int i = 0;
+        this.expertMode = fullGame.isExpertMode();
+        this.availableCharacters = new Character[availableCharactersNumber];
 
-        for (Character character : fullGame.getAllCharacters()) {
+        if(this.expertMode) {
 
-            Integer cost = character.getCost();
-            String image = character.getImage();
-            Boolean hasIncreasedCost = character.getHasIncreasedCost();
-            HashSet<Integer> characterStudents = character.getStudents();
-            Integer noEntryNumber = character.getNoEntryNumber();
+            int i = 0;
 
-            availableCharacters[i] = new Character(cost, image, hasIncreasedCost, characterStudents, noEntryNumber);
-            i++;
+            for (Character character : fullGame.getAllCharacters()) {
+
+                Integer cost = character.getCost();
+                String image = character.getImage();
+                Boolean hasIncreasedCost = character.getHasIncreasedCost();
+                HashSet<Integer> characterStudents = character.getStudents();
+                Integer noEntryNumber = character.getNoEntryNumber();
+
+                this.availableCharacters[i] = new Character(cost, image, hasIncreasedCost, characterStudents, noEntryNumber);
+                i++;
+            }
         }
 
         this.currentPhase = fullGame.getCurrentPhase();
@@ -73,7 +78,6 @@ public class Game implements Serializable {
         this.teams = fullGame.getTeams();
         this.islands = fullGame.getIslands();
         this.clouds = fullGame.getClouds();
-        this.expertMode = fullGame.isExpertMode();
         this.allCharacters = null;
         this.studentsForClouds = fullGame.studentsForClouds;
         this.studentsForBoards = fullGame.studentsForBoards;

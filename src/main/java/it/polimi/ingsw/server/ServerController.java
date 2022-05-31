@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.requests.*;
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.responses.GetUpdatedBoardResponse;
 import it.polimi.ingsw.server.responses.OperationResultResponse;
@@ -111,6 +112,10 @@ public class ServerController implements ClientRequestHandler {
             gameController.startGame(req.getNumber(), req.getNickname(), req.getExpertMode());
             gameExists = true;
             connectedPlayers++;
+            Game currentGame = gameController.getCurrentGame();
+            System.out.println("GAME CREATED\nParameters:\nPlayer Number: " + currentGame.getPlayers().size()
+                    + "\nCreator: " + currentGame.getPlayers().get(0).getNickname()
+                    + "\nExpert Mode: " + currentGame.isExpertMode());
             return new OperationResultResponse(true, "Game created");
         } else {
             Boolean success = gameController.addPlayer(req.getNickname());
@@ -130,7 +135,6 @@ public class ServerController implements ClientRequestHandler {
     public ServerResponse handle(GetUpdatedBoardRequest req) {
 
         return new GetUpdatedBoardResponse(gameController.getCurrentGame().getReducedModel());
-
     }
 
     @Override

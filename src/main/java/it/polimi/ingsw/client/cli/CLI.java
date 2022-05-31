@@ -54,10 +54,17 @@ public class CLI implements ClientView {
         choosePlayersNumber = clientController.setPlayerNickname(nickname);
 
         if(choosePlayersNumber){
-            System.out.print("Choose player number: ");
-            Integer number = Integer.parseInt(scanner.nextLine());
-            System.out.println("Expert mode? true (1) / false (2))");
-            Boolean expertMode = Boolean.parseBoolean(scanner.nextLine());
+            Integer number;
+            do {
+                System.out.println("Choose player number:\n[ 2 / 3 / 4 ]");
+                number = Integer.parseInt(scanner.nextLine());
+            } while (number > 4 || number < 2);
+            System.out.println("Expert mode?\n[ true (1) / false (2) ]");
+            String answer = scanner.nextLine();
+            if(answer.equals("1")) {
+                answer = "true";
+            }
+            Boolean expertMode = Boolean.parseBoolean(answer);
             status = clientController.setPlayerNumber(number, expertMode);
         }
         if(status){
@@ -69,6 +76,154 @@ public class CLI implements ClientView {
                     """);
         }
     }
+
+    public void planningPhase() {
+
+        do {
+
+            clientController.getModelInfo();
+            if(!clientController.getGamePhase().equals(GamePhase.PLANNING)) {
+                break;
+            }
+
+            System.out.print("""
+                    -----------------
+                    Choose an action:\s
+                    -----------------
+                    Allowed:
+                    PLAY_ASSISTANT
+                    INFO
+                    QUIT
+                    -----------------
+                    """);
+            System.out.println("Your choice: ");
+            String action = scanner.nextLine();
+
+            clientController.getModelInfo();
+            if(!clientController.getGamePhase().equals(GamePhase.PLANNING)) {
+
+                for (int i = 0; i < 30; i++) {
+                    System.out.println();
+                }
+                System.out.println("""
+                            --------------------------
+                            * GAME PHASE HAS CHANGED *\s
+                            moving to Action phase...
+                            --------------------------
+                            """);
+                break;
+            }
+
+            switch (action) {
+                case "PLAY_ASSISTANT" -> {
+                    System.out.print("""
+                            -----------------------------------
+                            Available assistants:\s
+                            (format: turnPriority | motherMovs)
+                            -----------------------------------
+                            """);
+                    List<Assistant> deck = clientController.getPlayerInfo().getDeck();
+                    for (Assistant assistant : deck) {
+                        System.out.println(deck.indexOf(assistant) + ": "
+                                + assistant.getTurnPriority() + " | "
+                                + assistant.getMotherNatureMovements());
+                    }
+                    System.out.println("Input assistant number: ");
+                    Integer assistantNumber = scanner.nextInt();
+
+                    for (int i = 0; i < 30; i++) {
+                        System.out.println();
+                    }
+
+                    scanner.nextLine();
+                    clientController.playAssistant(assistantNumber);
+                }
+                case "INFO" -> {
+                    System.out.print("""
+                            -----------------
+                            Select info type:\s
+                            1)
+                            """);
+                }
+                case "QUIT" -> {
+                }
+                default -> System.out.println("Invalid action.");
+            }
+        } while(clientController.getGamePhase().equals(GamePhase.PLANNING));
+    }
+
+    public void actionPhase() {
+
+        System.out.println("Action phase has started!");
+        String action;
+
+        do {
+
+            clientController.getModelInfo();
+
+            if(!clientController.getGamePhase().equals(GamePhase.ACTION)) {
+                break;
+            }
+
+            System.out.print("""
+                    -----------------
+                    Choose an action:\s
+                    -----------------
+                    Allowed:
+                    PLAY_CHARACTER
+                    MOVE_MOTHERNATURE
+                    MOVE_STUDENT
+                    PASS_TURN
+                    -----------------
+                    """);
+            System.out.println("Your choice: ");
+            action = scanner.nextLine();
+
+            switch (action) {
+                case "PLAY_CHARACTER" -> {
+                    System.out.print("""
+                            ---------------------
+                            Available characters:\s
+                            (format: name | cost)
+                            ---------------------
+                            """);
+                    ArrayList<Character> characters = clientController.getCharacters();
+                    for (Character character : characters) {
+                        if(!character.getHasBeenUsed()) {
+                            System.out.println(characters.indexOf(character) + ": "
+                                    + character.getImage() + " | "
+                                    + character.getCost());
+                        }
+                    }
+                    System.out.println("Input character number: ");
+                    Integer assistantNumber = scanner.nextInt();
+                    clientController.playCharacter(assistantNumber);
+                    scanner.nextLine();
+                }
+                case "MOVE_MOTHERNATURE" -> {
+                    System.out.println("Input movements: ");
+                    clientController.moveMotherNature(scanner.nextInt());
+                    scanner.nextLine();
+                }
+                case "MOVE_STUDENT" -> {
+                    System.out.println("Input student ID: ");
+                    Integer student = scanner.nextInt();
+                    System.out.println("Input source ID: ");
+                    Integer source = scanner.nextInt();
+                    System.out.println("Input target ID: ");
+                    Integer target = scanner.nextInt();
+                    clientController.moveStudent(student, source, target);
+                    scanner.nextLine();
+                }
+                case "PASS_TURN" -> {
+                }
+                default -> System.out.println("Invalid action.");
+            }
+        } while(clientController.getGamePhase().equals(GamePhase.ACTION));
+
+        Boolean status = clientController.passTurn();
+    }
+
 
     public void testingPhase(){
 
@@ -143,152 +298,6 @@ public class CLI implements ClientView {
         Boolean status = clientController.passTurn();*/
     }
 
-    public void planningPhase() {
-
-        do {
-
-            clientController.getModelInfo();
-            if(!clientController.getGamePhase().equals(GamePhase.PLANNING)) {
-                break;
-            }
-
-            System.out.println("""
-                    -----------------
-                    Choose an action:\s
-                    -----------------
-                    Allowed:
-                    PLAY_ASSISTANT
-                    INFO
-                    QUIT
-                    -----------------
-                    """);
-            System.out.println("Your choice: ");
-            String action = scanner.nextLine();
-
-            clientController.getModelInfo();
-            if(!clientController.getGamePhase().equals(GamePhase.PLANNING)) {
-
-                for (int i = 0; i < 30; i++) {
-                    System.out.println();
-                }
-                System.out.println("""
-                            --------------------------
-                            * GAME PHASE HAS CHANGED *\s
-                            moving to Action phase...
-                            --------------------------
-                            """);
-                break;
-            }
-
-            switch (action) {
-                case "PLAY_ASSISTANT" -> {
-                    System.out.println("""
-                            -----------------------------------
-                            Available assistants:\s
-                            (format: turnPriority | motherMovs)
-                            -----------------------------------
-                            """);
-                    List<Assistant> deck = clientController.getPlayerInfo().getDeck();
-                    for (Assistant assistant : deck) {
-                        System.out.println(deck.indexOf(assistant) + ": "
-                                + assistant.getTurnPriority() + " | "
-                                + assistant.getMotherNatureMovements());
-                    }
-                    System.out.println("Input assistant number: ");
-                    Integer assistantNumber = scanner.nextInt();
-
-                    for (int i = 0; i < 30; i++) {
-                        System.out.println();
-                    }
-
-                    scanner.nextLine();
-                    clientController.playAssistant(assistantNumber);
-                }
-                case "INFO" -> {
-                    System.out.println("""
-                            -----------------
-                            Select info type:\s
-                            1)
-                            """);
-                }
-                case "QUIT" -> {
-                }
-                default -> System.out.println("Invalid action.");
-            }
-        } while(clientController.getGamePhase().equals(GamePhase.PLANNING));
-    }
-
-    public void actionPhase() {
-
-        System.out.println("Action phase has started!");
-        String action;
-
-        do {
-
-            clientController.getModelInfo();
-
-            if(!clientController.getGamePhase().equals(GamePhase.ACTION)) {
-                break;
-            }
-
-            System.out.println("""
-                    -----------------
-                    Choose an action:\s
-                    -----------------
-                    Allowed:
-                    PLAY_CHARACTER
-                    MOVE_MOTHERNATURE
-                    MOVE_STUDENT
-                    PASS_TURN
-                    -----------------
-                    """);
-            System.out.println("Your choice: ");
-            action = scanner.nextLine();
-
-            switch (action) {
-                case "PLAY_CHARACTER" -> {
-                    System.out.println("""
-                            ---------------------
-                            Available characters:\s
-                            (format: name | cost)
-                            ---------------------
-                            """);
-                    ArrayList<Character> characters = clientController.getCharacters();
-                    for (Character character : characters) {
-                        if(!character.getHasBeenUsed()) {
-                            System.out.println(characters.indexOf(character) + ": "
-                                    + character.getImage() + " | "
-                                    + character.getCost());
-                        }
-                    }
-                    System.out.println("Input character number: ");
-                    Integer assistantNumber = scanner.nextInt();
-                    clientController.playCharacter(assistantNumber);
-                    scanner.nextLine();
-                }
-                case "MOVE_MOTHERNATURE" -> {
-                    System.out.println("Input movements: ");
-                    clientController.moveMotherNature(scanner.nextInt());
-                    scanner.nextLine();
-                }
-                case "MOVE_STUDENT" -> {
-                    System.out.println("Input student ID: ");
-                    Integer student = scanner.nextInt();
-                    System.out.println("Input source ID: ");
-                    Integer source = scanner.nextInt();
-                    System.out.println("Input target ID: ");
-                    Integer target = scanner.nextInt();
-                    clientController.moveStudent(student, source, target);
-                    scanner.nextLine();
-                }
-                case "PASS_TURN" -> {
-                }
-                default -> System.out.println("Invalid action.");
-            }
-        } while(clientController.getGamePhase().equals(GamePhase.ACTION));
-
-        Boolean status = clientController.passTurn();
-    }
 
     //@Override methods that will be defined in Listener Interface
 }

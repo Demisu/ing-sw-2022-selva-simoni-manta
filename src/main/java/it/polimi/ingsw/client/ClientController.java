@@ -138,7 +138,9 @@ public class ClientController implements ServerResponseHandler {
     @Override
     public void handle(GetUpdatedBoardResponse res) {
         playerInfo = res.getGameInfo().getPlayerByNickname(nickname);
-        characters = new ArrayList<>( List.of(res.getGameInfo().getAllCharacters()) );
+        if(res.getGameInfo().isExpertMode()) {
+            characters = new ArrayList<>(List.of(res.getGameInfo().getAllCharacters()));
+        }
         islands = res.getGameInfo().getIslands();
         clouds = res.getGameInfo().getClouds();
         schoolBoards = new ArrayList<>();
