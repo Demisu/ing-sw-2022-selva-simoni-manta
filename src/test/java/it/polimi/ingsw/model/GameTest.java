@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.controller.GameController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -181,6 +182,47 @@ public class GameTest {
         StudentAccessiblePiece testPiece = gameTest.getStudentAccessiblePieceByID(-99);
         assertNull(testPiece);
 
+    }
+
+    @Test
+    @DisplayName("Testing turn rotation")
+    void testTurns(){
+
+        GameController gameController = new GameController();
+        gameController.startGame(2, "turntest", true);
+        gameController.addPlayer("player2");
+        Game game = gameController.getCurrentGame();
+
+        //Play planning phase
+        gameController.playAssistant(game.getPlayerByNickname("turntest").getPlayerId(), 0);
+        gameController.playAssistant("player2", 0);
+
+        assertEquals(gameController.getCurrentGame().getCurrentPhase(), GamePhase.ACTION);
+
+        //Go to next turn
+        gameController.nextPlayer();
+        gameController.nextPlayer();
+
+        assertEquals(gameController.getCurrentGame().getCurrentPhase(), GamePhase.PLANNING);
+    }
+
+    @Test
+    @DisplayName("Testing reduced model creation")
+    void testReducedModel(){
+
+        GameController gameController = new GameController();
+        gameController.startGame(2, "model test", true);
+        gameController.addPlayer("player2");
+
+        Game originalGame = gameController.getCurrentGame();
+        Game copyGame = originalGame.getReducedModel();
+
+        assertEquals(originalGame.getCurrentPhase(), copyGame.getCurrentPhase());
+        assertEquals(originalGame.getPlayers(), copyGame.getPlayers());
+        assertEquals(originalGame.getTeams(), copyGame.getTeams());
+        assertEquals(originalGame.getIslands(), copyGame.getIslands());
+        assertEquals(originalGame.getClouds(), copyGame.getClouds());
+        assertEquals(originalGame.isExpertMode(), copyGame.isExpertMode());
     }
 
 }

@@ -169,4 +169,8 @@ public class ClientController implements ServerResponseHandler {
     public GamePhase getGamePhase() {
         return gamePhase;
     }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }

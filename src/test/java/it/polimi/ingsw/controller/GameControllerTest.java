@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.client.requests.PlayCharacterRequest;
 import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -131,6 +132,30 @@ public class GameControllerTest {
         gameTest.addPlayer("Frank");
         gameTest.resetModifiers();
         assertEquals(gameTest.getTowerValue(),1);
+    }
+
+    @Test
+    @DisplayName("Testing professor updater")
+    void checkProfessorChangeTest(){
+        GameController controller = new GameController();
+        controller.startGame(2, "testProf", true);
+        controller.checkProfessorChange(BLUE);
+        controller.checkProfessorChange(YELLOW);
+        controller.checkProfessorChange(GREEN);
+        controller.checkProfessorChange(RED);
+        controller.checkProfessorChange(PURPLE);
+    }
+
+    @Test
+    @DisplayName("Testing character use")
+    void testPlayCharacter(){
+        GameController controller = new GameController();
+        controller.startGame(2, "testChar", true);
+
+        PlayCharacterRequest testReq = new PlayCharacterRequest(0, "testChar");
+        controller.playCharacter(testReq);
+
+        assertTrue(controller.getCurrentGame().getPlayerByNickname("testChar").hasActiveCharacter());
     }
 
 }

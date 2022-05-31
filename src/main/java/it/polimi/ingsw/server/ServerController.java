@@ -80,7 +80,7 @@ public class ServerController implements ClientRequestHandler {
     public ServerResponse handle(PlayCharacterRequest req) {
 
         if(gameController.getCurrentGame().getCurrentPlayer().equals(req.getNickname())){
-            gameController.playCharacter(req.getNickname(), req.getCharacterNumber());
+            gameController.playCharacter(req);
             return new OperationResultResponse(true, "Played character " + req.getCharacterNumber());
         }
         return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to play character.");

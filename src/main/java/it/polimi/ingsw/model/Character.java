@@ -1,9 +1,11 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.client.requests.PlayCharacterRequest;
 import it.polimi.ingsw.controller.GameController;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -110,13 +112,13 @@ public class Character extends StudentAccessiblePiece implements Serializable {
      * Depending on the character type,
      * calls the relative effect (move/exchange/add/resolve)
      */
-    public void effect(){
+    public void effect(PlayCharacterRequest req){
 
         switch (effect_type) {
-            case "move" -> this.move();
-            case "exchange" -> this.exchange();
+            case "move" -> this.move(req.getPiecesToMove(), req.getTargetPieces());
+            case "exchange" -> this.exchange(req.getExchangeOriginList(), req.getExchangeTargetList());
             case "add" -> this.add();
-            case "resolve" -> this.resolve();
+            case "resolve" -> this.resolve(req.getTargetID());
 
             /*Extra cases...
             case "???":
@@ -130,7 +132,7 @@ public class Character extends StudentAccessiblePiece implements Serializable {
     /**
      * Used by move-type characters, performs the action
      */
-    public void move(){
+    public void move(List<Integer> piecesToMove, List<Integer> targetPieces){
 
         //All the original characters of type exchange ask a range
         //If more characters are added, other checks may be needed
@@ -154,7 +156,7 @@ public class Character extends StudentAccessiblePiece implements Serializable {
     /**
      * Used by exchange-type characters, performs the action
      */
-    public void exchange(){
+    public void exchange(List<Integer> exchangeOriginList, List<Integer> exchangeTargetList){
 
         //Both the original characters of type exchange ask a range
         //If more characters are added, other checks may be needed
@@ -217,9 +219,10 @@ public class Character extends StudentAccessiblePiece implements Serializable {
     /**
      * Used by resolve-type characters, resolves the target island
      */
-    public void resolve(){
+    public void resolve(Integer targetID){
 
-        int targetID = 0;
+        //TO BE CHANGED
+        targetID = 0;
 
         if(effect_choose_target.equals("player")){
             //Ask the player for the ID (e.g.: ID of target island)

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GameController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -62,5 +63,18 @@ public class PlayerTest {
 
         player1.removeAssistant(player1.getAssistantById(1));
         assertFalse(player1.getDeck().contains(assistant2));
+    }
+
+    @Test
+    @DisplayName("Testing micellanea")
+    void testMiscellanea(){
+
+        GameController gameController = new GameController();
+        gameController.startGame(2, "testPlayer", true);
+        gameController.getCurrentGame().getPlayerByNickname("testPlayer").setActive(true);
+
+        assertFalse(gameController.getCurrentGame().getPlayerByNickname("testPlayer").hasActiveCharacter());
+        assertTrue(gameController.getCurrentGame().getPlayerByNickname("testPlayer").isActive());
+
     }
 }

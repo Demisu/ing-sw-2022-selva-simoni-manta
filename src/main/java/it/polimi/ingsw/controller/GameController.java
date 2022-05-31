@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.client.requests.PlayCharacterRequest;
 import it.polimi.ingsw.model.Character;
 import it.polimi.ingsw.model.*;
 
@@ -62,7 +63,7 @@ public class GameController {
 
             //If a certain character is active,
             int currentNumber = player.getPlayerBoard().getDiningRoomStudents(color) +
-                    (player.hasActiveCharacter() ?
+                            (player.hasActiveCharacter() ?
                             Game.getStudentsInDiningModifier() :
                             0);
 
@@ -168,6 +169,7 @@ public class GameController {
                 //Action phase ended, next turn starting
                 currentGame.setCurrentTurnOrder(currentGame.getNextTurnOrder());
                 currentGame.setCurrentPlayer(currentGame.getCurrentTurnOrder().get(0).getNickname());
+                currentGame.setCurrentPhase(GamePhase.PLANNING);
                 //Refill clouds for new planning phase
                 currentGame.turnStartFill();
             }
@@ -182,14 +184,14 @@ public class GameController {
 
         List<Player> players = currentGame.getPlayers();
         List<Player> actionPhaseOrder = players.stream()
-                .sorted(Comparator.comparingInt(Player::getLastAssistantPlayedPriority))
+                .sorted(Comparator.comparingInt(Player::getLastAssistantPlayedPriority).reversed())
                 .collect(Collectors.toList());
 
         currentGame.setActionPhaseOrder(actionPhaseOrder);
         Integer firstPlayerIndex = actionPhaseOrder.get(0).getPlayerId();
         List<Player> nextTurnOrder = new ArrayList<>();
 
-        for(int i = 0; i < players.size(); ){
+        for(int i = 0; i < players.size(); i++){
             //first player = who won the character phase. Next players selected clockwise (following players original list)
             nextTurnOrder.add(players.get( (firstPlayerIndex + i) % players.size() ));
         }
@@ -215,21 +217,23 @@ public class GameController {
         this.nextPlayer();
     }
 
-    public void playCharacter(String nickname, Integer characterNumber){
+    public void playCharacter(PlayCharacterRequest fullRequest){
 
-        Character playedCharacter =  currentGame.getCharacter(characterNumber);
-        //REMEMBER TO REVERT THIS AFTER ROUND ENDS
-        currentGame.getPlayerByNickname(nickname).setActiveCharacter(true);
-        //Potentially really bad
+        Character playedCharacter =  currentGame.getCharacter(fullRequest.getCharacterNumber());
+
+        currentGame.getPlayerByNickname(fullRequest.getNickname()).setActiveCharacter(true);
         playedCharacter.setGameController(this);
 
-        playedCharacter.effect();
+        playedCharacter.effect(fullRequest);
 
         if(playedCharacter.getHasIncreasedCost()){
             playedCharacter.setCost(playedCharacter.getCost() + 1);
         }
 
         playedCharacter.setHasBeenUsed(true);
+
+        //May be changed
+        //this.nextPlayer();
     }
 
     /*------*/

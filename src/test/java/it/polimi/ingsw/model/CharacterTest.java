@@ -15,8 +15,8 @@ public class CharacterTest {
     void actionsTest() {
         HashSet<Integer> students = new HashSet<>();
         Character characterTest = new Character(2,"path_to_image",false, students, 0);
-        characterTest.effect();
-        characterTest.move();
+        characterTest.effect(null);
+        characterTest.move(null, null);
         characterTest.add();
         GameController controller = new GameController();
         characterTest.setGameController(controller);

@@ -3,8 +3,10 @@ package it.polimi.ingsw.client.cli;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.model.Assistant;
+import it.polimi.ingsw.model.Character;
 import it.polimi.ingsw.model.GamePhase;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,7 +14,6 @@ public class CLI implements ClientView {
 
     Scanner scanner = new Scanner(System.in);
     String nickname;
-    Boolean firstRequest = true;
 
     /**
      * holds a reference to the Client's Controller
@@ -51,17 +52,13 @@ public class CLI implements ClientView {
         } while (nickname == null);
 
         choosePlayersNumber = clientController.setPlayerNickname(nickname);
-        //nickname = controller.setPlayerNickname(scanner.nextLine());
 
         if(choosePlayersNumber){
             System.out.print("Choose player number: ");
             Integer number = Integer.parseInt(scanner.nextLine());
-            System.out.print("Expert mode? (true/false)");
+            System.out.println("Expert mode? true (1) / false (2))");
             Boolean expertMode = Boolean.parseBoolean(scanner.nextLine());
             status = clientController.setPlayerNumber(number, expertMode);
-        }else{
-            System.out.println("No need to choose player number");
-            status = false;
         }
         if(status){
             //System.out.println("Game Created");
@@ -170,17 +167,26 @@ public class CLI implements ClientView {
 
             clientController.getModelInfo();
             if(!clientController.getGamePhase().equals(GamePhase.PLANNING)) {
-                System.out.println("\n\nGAME PHASE HAS CHANGED,\nmoving to Action phase...");
+
+                for (int i = 0; i < 30; i++) {
+                    System.out.println();
+                }
+                System.out.println("""
+                            --------------------------
+                            * GAME PHASE HAS CHANGED *\s
+                            moving to Action phase...
+                            --------------------------
+                            """);
                 break;
             }
 
             switch (action) {
                 case "PLAY_ASSISTANT" -> {
                     System.out.println("""
-                            -----------------
+                            -----------------------------------
                             Available assistants:\s
                             (format: turnPriority | motherMovs)
-                            -----------------
+                            -----------------------------------
                             """);
                     List<Assistant> deck = clientController.getPlayerInfo().getDeck();
                     for (Assistant assistant : deck) {
@@ -188,15 +194,15 @@ public class CLI implements ClientView {
                                 + assistant.getTurnPriority() + " | "
                                 + assistant.getMotherNatureMovements());
                     }
-                    System.out.println("\nInput assistant number: ");
+                    System.out.println("Input assistant number: ");
                     Integer assistantNumber = scanner.nextInt();
 
                     for (int i = 0; i < 30; i++) {
                         System.out.println();
                     }
 
-                    clientController.playAssistant(assistantNumber);
                     scanner.nextLine();
+                    clientController.playAssistant(assistantNumber);
                 }
                 case "INFO" -> {
                     System.out.println("""
@@ -241,21 +247,36 @@ public class CLI implements ClientView {
 
             switch (action) {
                 case "PLAY_CHARACTER" -> {
-                    System.out.println("\nInput character number: ");
-                    clientController.playCharacter(scanner.nextInt());
+                    System.out.println("""
+                            ---------------------
+                            Available characters:\s
+                            (format: name | cost)
+                            ---------------------
+                            """);
+                    ArrayList<Character> characters = clientController.getCharacters();
+                    for (Character character : characters) {
+                        if(!character.getHasBeenUsed()) {
+                            System.out.println(characters.indexOf(character) + ": "
+                                    + character.getImage() + " | "
+                                    + character.getCost());
+                        }
+                    }
+                    System.out.println("Input character number: ");
+                    Integer assistantNumber = scanner.nextInt();
+                    clientController.playCharacter(assistantNumber);
                     scanner.nextLine();
                 }
                 case "MOVE_MOTHERNATURE" -> {
-                    System.out.println("\nInput movements: ");
+                    System.out.println("Input movements: ");
                     clientController.moveMotherNature(scanner.nextInt());
                     scanner.nextLine();
                 }
                 case "MOVE_STUDENT" -> {
-                    System.out.println("\nInput student ID: ");
+                    System.out.println("Input student ID: ");
                     Integer student = scanner.nextInt();
-                    System.out.println("\nInput source ID: ");
+                    System.out.println("Input source ID: ");
                     Integer source = scanner.nextInt();
-                    System.out.println("\nInput target ID: ");
+                    System.out.println("Input target ID: ");
                     Integer target = scanner.nextInt();
                     clientController.moveStudent(student, source, target);
                     scanner.nextLine();
