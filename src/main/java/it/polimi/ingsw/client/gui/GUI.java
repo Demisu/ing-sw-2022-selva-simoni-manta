@@ -41,7 +41,7 @@ public class GUI extends Application implements ClientView {
     public void start(Stage primaryStage) throws IOException {
         this.changeRoot("start"); // start  -  players  -  action  -  realm
         primaryStage.setTitle("Eriantys");
-        primaryStage.getIcons().add(new Image("file:icon.png"));
+        primaryStage.getIcons().add(new Image("file:C:\\Users\\dario\\Desktop\\University\\Prog. di Ing. del Software\\ing-sw-2022-selva-simoni-manta\\src\\main\\resources\\assets\\icon.png"));
         primaryStage.setMaximized(false);
         primaryStage.setMinWidth(1295);
         //primaryStage.setMaxWidth(1295);
