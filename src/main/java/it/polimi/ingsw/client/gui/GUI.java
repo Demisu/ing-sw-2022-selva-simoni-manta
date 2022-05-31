@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class GUI extends Application implements ClientView {
     public void start(Stage primaryStage) throws IOException {
         this.changeRoot("start"); // start  -  players  -  action  -  realm
         primaryStage.setTitle("Eriantys");
+        primaryStage.getIcons().add(new Image("file:icon.png"));
         primaryStage.setMaximized(false);
         primaryStage.setMinWidth(1295);
         //primaryStage.setMaxWidth(1295);
