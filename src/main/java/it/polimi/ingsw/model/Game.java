@@ -81,6 +81,7 @@ public class Game implements Serializable {
         this.allCharacters = null;
         this.studentsForClouds = fullGame.studentsForClouds;
         this.studentsForBoards = fullGame.studentsForBoards;
+        this.students = fullGame.students;
     }
 
     public Game(int playerNumber, String nicknameOfCreator, Boolean expertMode) {

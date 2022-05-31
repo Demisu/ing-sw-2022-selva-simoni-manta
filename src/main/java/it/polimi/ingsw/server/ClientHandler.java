@@ -27,7 +27,8 @@ public class ClientHandler implements Runnable /*Listeners to the View*/{
     public void run() {
         try {
             do {
-                ServerResponse serverResponse = ((ClientRequest) in.readObject()).handle(controller);
+                ClientRequest request = ((ClientRequest) in.readUnshared());
+                ServerResponse serverResponse = request.handle(controller);
                  if (serverResponse != null) {
                     try {
                         System.out.println("-----------"
@@ -37,7 +38,8 @@ public class ClientHandler implements Runnable /*Listeners to the View*/{
                                             + "\nType: "
                                             + serverResponse.getClass()
                                             + "\n-----------\n");
-                        out.writeObject(serverResponse);
+                        out.reset();
+                        out.writeUnshared(serverResponse);
                         out.flush();
                         out.reset();
                     } catch (IOException e) {

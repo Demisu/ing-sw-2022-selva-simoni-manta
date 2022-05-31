@@ -1,11 +1,12 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * Abstract class that includes all pieces which can contain students (Islands, Clouds, etc.)
  */
-public abstract class StudentAccessiblePiece {
+public abstract class StudentAccessiblePiece implements Serializable {
 
     protected HashSet<Integer> students;
     private Integer pieceID;
@@ -152,5 +153,9 @@ public abstract class StudentAccessiblePiece {
      */
     public void setPieceID(Integer pieceID) {
         this.pieceID = pieceID;
+    }
+
+    public void setStudents(HashSet<Integer> students) {
+        this.students = students;
     }
 }

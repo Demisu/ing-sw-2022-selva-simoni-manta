@@ -24,6 +24,7 @@ public class ClientController implements ServerResponseHandler {
     String nickname = "";
 
     //Game info
+    Game gameInfo;
     GamePhase gamePhase;
     Player playerInfo;
     ArrayList<Character> characters;
@@ -64,6 +65,13 @@ public class ClientController implements ServerResponseHandler {
         receiver.interrupt();
     }
 
+    public void closeConnection() {
+        try {
+            client.closeConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Methods corresponding 1:1 to the Requests the Client can do
@@ -146,6 +154,12 @@ public class ClientController implements ServerResponseHandler {
         schoolBoards = new ArrayList<>();
         res.getGameInfo().getPlayers().forEach(player -> schoolBoards.add(player.getPlayerBoard()));
         gamePhase = res.getGameInfo().getCurrentPhase();
+        gameInfo = res.getGameInfo();
+
+        for (Cloud cloud : this.gameInfo.getClouds()) {
+            //Reload cloud students
+            cloud.setStudents(res.getStudentsOfClouds().get(cloud.getPieceID()));
+        }
     }
 
     public Player getPlayerInfo() {
@@ -174,5 +188,9 @@ public class ClientController implements ServerResponseHandler {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public Game getGameInfo() {
+        return gameInfo;
     }
 }

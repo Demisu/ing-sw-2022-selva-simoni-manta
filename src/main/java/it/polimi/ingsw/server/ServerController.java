@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.requests.*;
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.responses.GetUpdatedBoardResponse;
@@ -9,6 +10,9 @@ import it.polimi.ingsw.server.responses.OperationResultResponse;
 import it.polimi.ingsw.server.responses.SetNicknameResponse;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Controller used by the Server
@@ -134,7 +138,12 @@ public class ServerController implements ClientRequestHandler {
     @Override
     public ServerResponse handle(GetUpdatedBoardRequest req) {
 
-        return new GetUpdatedBoardResponse(gameController.getCurrentGame().getReducedModel());
+        HashMap<Integer, HashSet<Integer>> studentsOfClouds = new HashMap<>();
+        for (Cloud cloud : gameController.getCurrentGame().getClouds()){
+            studentsOfClouds.put(cloud.getPieceID(), new HashSet<>());
+            cloud.getStudents().forEach(student -> studentsOfClouds.get(cloud.getPieceID()).add(student));
+        }
+        return new GetUpdatedBoardResponse(gameController.getCurrentGame().getReducedModel(), studentsOfClouds);
     }
 
     @Override
