@@ -259,7 +259,7 @@ public class CLI implements ClientView {
                     if(infoNumber >= availableInfo.size()){
                         System.out.println("Invalid number");
                     } else {
-                        switch (availableInfo.get(infoNumber)) {
+                        switch (availableInfo.get(infoNumber - 1)) {
                             case infoISLANDS -> {
                                 showIslands();
                             }

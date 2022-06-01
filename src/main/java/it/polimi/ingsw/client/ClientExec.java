@@ -7,10 +7,17 @@ public class ClientExec {
     public static void main(String[] args) throws IOException {
 
         int port = 4567;
-        Client client = new Client("127.0.0.1", port);
+        String hostAddress;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Input IP of server");
+        hostAddress = scanner.nextLine();
+        if (hostAddress.equals("")){
+            hostAddress = "127.0.0.1";
+        }
+        Client client = new Client(hostAddress, port);
 
         String ui;
-        Scanner scanner = new Scanner(System.in);
 
         do {
             System.out.println("Select type:\nCLI (1) or GUI (2)?");
