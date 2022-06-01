@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.requests.*;
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Character;
 import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -81,16 +82,42 @@ public class ServerController implements ClientRequestHandler {
         return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to play assistant.");
 }
 
+    /**
+     * @param req Full request needed to activate character. Must include at least all the necessary info to activate
+     *            the effect
+     * @return OperationResultResponse with result true if the character was played correctly.
+     *         False will be returned in these cases:
+     *         - The player doesn't have enough coins to use it
+     *         - The character has already been used during this action phase
+     *         - The player's round has not yet startet
+     */
     @Override
     public ServerResponse handle(PlayCharacterRequest req) {
 
-        if(gameController.getCurrentGame().getCurrentPlayer().equals(req.getNickname())){
+        Game currentGame = gameController.getCurrentGame();
+        Character characterToPlay = gameController.getCurrentGame().getAllCharacters()[req.getCharacterNumber()];
+        if(currentGame.getCurrentPlayer().equals(req.getNickname())){
+
+            if(currentGame.getPlayerByNickname(req.getNickname()).getCoins() < characterToPlay.getCost()){
+                return new OperationResultResponse(false, req.getNickname() + " doesn't have enough coins, unable to play character.");
+            }
+
+            if(characterToPlay.getHasBeenUsed()){
+                return new OperationResultResponse(false, "Character already played during this round");
+            }
+
+            //Everything is ok, play character
             gameController.playCharacter(req);
             return new OperationResultResponse(true, "Played character " + req.getCharacterNumber());
         }
         return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to play character.");
     }
 
+    /**
+     * @param req Request needed to set the nickname. It must contain a nickname.
+     * @return SetNicknameResponse with result true if the user is the game creator (the first player to join).
+     *         False will be returned in case the game has already started and is waiting players
+     */
     @Override
     public ServerResponse handle(SetNicknameRequest req) {
 
@@ -109,6 +136,13 @@ public class ServerController implements ClientRequestHandler {
         }
     }
 
+    /**
+     * @param req Request needed to set the player number. It must contain the number of players, the nickname of the
+     *            game owner and a boolean flag for expert mode.
+     * @return OperationResultResponse with result true if the game is created successfully.
+     *         False in case the game has already started during this phase (in this case, the requesting user is set
+     *         as a normal player and is not the owner)
+     */
     @Override
     public ServerResponse handle(SetPlayerNumberRequest req) {
 
@@ -135,6 +169,12 @@ public class ServerController implements ClientRequestHandler {
         }
     }
 
+    /**
+     * @param req Request needed to get a reduced and updated game model. It must contain the nickname of the requesting
+     *            player
+     * @return GetUpdatedBoardResponse containing a reduced version of the game, in order to correctly visualize the
+     *         game status in the client view (CLI or GUI)
+     */
     @Override
     public ServerResponse handle(GetUpdatedBoardRequest req) {
 

@@ -69,8 +69,27 @@ public class Island extends StudentAccessiblePiece implements Serializable {
         if(won){
             //assumes index 0 is always populated with a player having the respective tower color, even in 4 player coop
             if(this.getTowersColor() != winningTeam.getTowerColor()){
+                //Takes the towers (1 or more, depending on the island towersNumber) from the winning team and moves them on the island
                 this.setTowersColor(winningTeam.getTowerColor());
-                winningTeam.setTowerNumber(winningTeam.getTowerNumber() - 1);
+                //If there are no towers on the island, move 1 tower. If there are 2 or more, exchange all the towers
+                if(this.towersNumber == 0){
+                    winningTeam.setTowerNumber(winningTeam.getTowerNumber() - 1);
+                } else {
+                    winningTeam.setTowerNumber(winningTeam.getTowerNumber() - this.towersNumber);
+                    //Gives back the losing team their towers
+                    for (Team team : teams){
+                        //If this team owns the towers
+                        if(team.getTowerColor().equals(this.towersColor)){
+                            team.setTowerNumber(team.getTowerNumber() + this.towersNumber);
+                        }
+                    }
+                }
+                //Check if winning team has no more towers, if so they win
+                if(winningTeam.getTowerNumber() <= 0){
+
+                    //TODO GAME ENDS
+
+                }
             }
         }
     }

@@ -42,7 +42,7 @@ public class Client {
      */
     public ServerResponse clientResponse() {
         try {
-            return (ServerResponse) in.readUnshared();
+            return (ServerResponse) in.readObject();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -59,7 +59,7 @@ public class Client {
      */
     public void clientRequest(ClientRequest req) {
         try {
-            out.writeUnshared(req);
+            out.writeObject(req);
             out.flush();
             out.reset();
         } catch (IOException e) {

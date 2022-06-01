@@ -94,7 +94,7 @@ public class ClientController implements ServerResponseHandler {
     public void getModelInfo() {
         client.clientRequest(new GetUpdatedBoardRequest(nickname));
         this.handle((GetUpdatedBoardResponse) client.clientResponse());
-        System.out.println("Objects updated!");
+        System.out.println();
     }
 
     /**
@@ -155,11 +155,6 @@ public class ClientController implements ServerResponseHandler {
         res.getGameInfo().getPlayers().forEach(player -> schoolBoards.add(player.getPlayerBoard()));
         gamePhase = res.getGameInfo().getCurrentPhase();
         gameInfo = res.getGameInfo();
-
-        for (Cloud cloud : this.gameInfo.getClouds()) {
-            //Reload cloud students
-            cloud.setStudents(res.getStudentsOfClouds().get(cloud.getPieceID()));
-        }
     }
 
     public Player getPlayerInfo() {

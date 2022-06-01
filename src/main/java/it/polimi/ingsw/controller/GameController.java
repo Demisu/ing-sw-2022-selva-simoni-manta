@@ -9,6 +9,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
+
 public class GameController {
 
     private static Game referenceGame;
@@ -36,17 +38,28 @@ public class GameController {
         //If movement is from school board entrance to dining room (same id)
         if(origin.getPieceID().equals(target.getPieceID())){
 
+            //Move student
             ( (SchoolBoard) origin).studentToDining(student);
+            //If this adds 3rd, 6th or 9th student, give the player a coin
+            if(((SchoolBoard) origin).getDiningRoomStudents(colorOfStudent(student)) % 3 == 0){
+                //Search the player
+                for (Player player : currentGame.getPlayers()){
+                    //If the player owns the origin school board, give him a coin
+                    if(player.getPlayerBoard().getPieceID().equals(originID)){
+                        player.setCoins(player.getCoins() + 1);
+                        break;
+                    }
+                }
+            }
+
             //Check if someone wins a professor
-            this.checkProfessorChange(StudentAccessiblePiece.colorOfStudent(student));
+            this.checkProfessorChange(colorOfStudent(student));
 
         }else{
 
             origin.removeStudent(student);
             target.addStudent(student);
-
         }
-
     }
 
     public void checkProfessorChange(Color color){
@@ -124,6 +137,12 @@ public class GameController {
         currentIsland.resolve(currentGame.getTeams());
 
         do {
+            //Check if there are 3 or less remaining islands. If true, game ends
+            if(currentGame.getIslands().size() <= 3){
+
+                //TODO GAME ENDS HERE
+
+            }
 
             refIndex = islands.indexOf(currentIsland);
             Island nextIsland = islands.get((refIndex + 1) % (islands.size()));
@@ -145,7 +164,6 @@ public class GameController {
             }
 
         } while(unified);
-
     }
 
     public void nextPlayer() {
@@ -166,6 +184,12 @@ public class GameController {
                 currentGame.setCurrentPhase(GamePhase.ACTION);
 
             } else {
+                //If the game bag is empty, the game ends
+                if(currentGame.getBagStudents().size() <= 0){
+
+                    //TODO GAME ENDS HERE
+
+                }
                 //Action phase ended, next turn starting
                 currentGame.setCurrentTurnOrder(currentGame.getNextTurnOrder());
                 currentGame.setCurrentPlayer(currentGame.getCurrentTurnOrder().get(0).getNickname());

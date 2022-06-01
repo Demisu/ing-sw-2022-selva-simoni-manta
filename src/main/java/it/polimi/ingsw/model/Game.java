@@ -226,7 +226,7 @@ public class Game implements Serializable {
 
         //Fill islands (except first one and last one)
         Integer student;
-        for (Island island : this.islands.subList(1, islands.size() - 2)) {
+        for (Island island : this.islands.subList(1, islands.size() - 1)) {
             student = studentsForIslands.get(0);
             studentsForIslands.remove(0);
             island.addStudent(student);
