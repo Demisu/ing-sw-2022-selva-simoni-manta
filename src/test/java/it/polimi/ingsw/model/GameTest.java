@@ -200,8 +200,8 @@ public class GameTest {
         assertEquals(gameController.getCurrentGame().getCurrentPhase(), GamePhase.ACTION);
 
         //Go to next turn
-        gameController.nextPlayer();
-        gameController.nextPlayer();
+        game.nextPlayer();
+        game.nextPlayer();
 
         assertEquals(gameController.getCurrentGame().getCurrentPhase(), GamePhase.PLANNING);
     }

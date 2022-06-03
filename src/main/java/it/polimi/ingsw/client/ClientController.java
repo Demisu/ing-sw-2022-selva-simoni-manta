@@ -78,17 +78,15 @@ public class ClientController implements ServerResponseHandler {
      * Responses are defined in the client.requests package, one Class for each
      */
 
-    public Boolean setPlayerNickname(String nickname) {
+    public Integer setPlayerNickname(String nickname) {
         this.nickname = nickname;
         client.clientRequest(new SetNicknameRequest(nickname));
         return this.handle((SetNicknameResponse) client.clientResponse());
-        //return ((SetNicknameResponse) client.clientResponse()).getNickname();
     }
 
     public Boolean setPlayerNumber(Integer number, Boolean expertMode) {
         client.clientRequest(new SetPlayerNumberRequest(nickname, number, expertMode));
         return this.handle((OperationResultResponse) client.clientResponse());
-        //return ((SetNicknameResponse) client.clientResponse()).getNickname();
     }
 
     public void getModelInfo() {
@@ -131,9 +129,22 @@ public class ClientController implements ServerResponseHandler {
         return this.handle((OperationResultResponse) client.clientResponse());
     }
 
+    /**
+     * @param res
+     * @return Integer: 0 if the server DOES NOT need player number
+     *                  1 if the server NEEDS player number
+     *                  2 if the action FAILED (game full or error)
+     */
     @Override
-    public Boolean handle(SetNicknameResponse res) {
-        return res.getNeedPlayerNumber();
+    public Integer handle(SetNicknameResponse res) {
+        //Failure
+        if(!res.getSuccess())
+            return 2;
+        //Need player number
+        if(res.getNeedPlayerNumber())
+            return 1;
+        //Does not need player number
+        return 0;
     }
 
     @Override

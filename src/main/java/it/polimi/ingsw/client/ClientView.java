@@ -12,8 +12,6 @@ public interface ClientView /*will have to implement listeners*/ {
 
     void setupPhase();
 
-    void testingPhase();
-
     void planningPhase();
 
     void actionPhase();

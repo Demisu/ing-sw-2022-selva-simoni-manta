@@ -4,10 +4,7 @@ import it.polimi.ingsw.client.requests.PlayCharacterRequest;
 import it.polimi.ingsw.model.Character;
 import it.polimi.ingsw.model.*;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 
@@ -109,15 +106,11 @@ public class GameController {
     public void moveMotherNature(Integer steps){
 
         List<Island> islands = currentGame.getIslands();
-        int currentID = 0;
+        Island motherNatureIsland = currentGame.getMotherNatureIsland();
+        int currentID;
 
-        for (Island island : islands) {
-            if(island.isMotherNature()){
-                currentID = islands.indexOf(island);
-                islands.get(currentID).setMotherNature(false);
-                break;
-            }
-        }
+        currentID = islands.indexOf(motherNatureIsland);
+        motherNatureIsland.setMotherNature(false);
 
         // Mod to number of island (default 12) + 1 in the game to avoid going out of boundaries
         int refIndex = (currentID+steps)%(islands.size());
@@ -130,97 +123,8 @@ public class GameController {
 
     public void resolveIsland(Integer islandID){
 
-        List<Island> islands = currentGame.getIslands();
-        boolean unified;
-        int refIndex;
-        Island currentIsland = currentGame.getIslandByID(islandID);
-        currentIsland.resolve(currentGame.getTeams());
-
-        do {
-            //Check if there are 3 or less remaining islands. If true, game ends
-            if(currentGame.getIslands().size() <= 3){
-
-                //TODO GAME ENDS HERE
-
-            }
-
-            refIndex = islands.indexOf(currentIsland);
-            Island nextIsland = islands.get((refIndex + 1) % (islands.size()));
-            Island previousIsland;
-            if(refIndex==0){
-                previousIsland = islands.get(islands.size() - 1);
-            }else{
-                previousIsland = islands.get((refIndex - 1) % (islands.size()));
-            }
-
-            if (currentIsland.getTowersColor() == nextIsland.getTowersColor()) {
-                currentGame.unifyIslands(currentIsland, nextIsland);
-                unified = true;
-            } else if (currentIsland.getTowersColor() == previousIsland.getTowersColor()) {
-                currentGame.unifyIslands(currentIsland, previousIsland);
-                unified = true;
-            } else {
-                unified = false;
-            }
-
-        } while(unified);
-    }
-
-    public void nextPlayer() {
-
-        currentGame.resetModifiers();
-        int currentIndex = currentGame.getCurrentTurnOrder().indexOf(
-                                                    currentGame.getPlayerByNickname(
-                                                            currentGame.getCurrentPlayer()));
-        //If current is the last element
-        if(currentIndex == currentGame.getCurrentTurnOrder().size() - 1){
-
-            //If all players played an assistant, change to action phase
-            if(currentGame.getCurrentPhase().equals(GamePhase.PLANNING)){
-
-                //Update order and move to action order
-                updateNextTurnOrder();
-                currentGame.setCurrentTurnOrder(currentGame.getActionPhaseOrder());
-                currentGame.setCurrentPhase(GamePhase.ACTION);
-
-            } else {
-                //If the game bag is empty, the game ends
-                if(currentGame.getBagStudents().size() <= 0){
-
-                    //TODO GAME ENDS HERE
-
-                }
-                //Action phase ended, next turn starting
-                currentGame.setCurrentTurnOrder(currentGame.getNextTurnOrder());
-                currentGame.setCurrentPlayer(currentGame.getCurrentTurnOrder().get(0).getNickname());
-                currentGame.setCurrentPhase(GamePhase.PLANNING);
-                //Refill clouds for new planning phase
-                currentGame.turnStartFill();
-            }
-
-        } else {
-            //Next player
-            currentGame.setCurrentPlayer(currentGame.getCurrentTurnOrder().get(currentIndex + 1).getNickname());
-        }
-    }
-
-    public void updateNextTurnOrder(){
-
-        List<Player> players = currentGame.getPlayers();
-        List<Player> actionPhaseOrder = players.stream()
-                .sorted(Comparator.comparingInt(Player::getLastAssistantPlayedPriority).reversed())
-                .collect(Collectors.toList());
-
-        currentGame.setActionPhaseOrder(actionPhaseOrder);
-        Integer firstPlayerIndex = actionPhaseOrder.get(0).getPlayerId();
-        List<Player> nextTurnOrder = new ArrayList<>();
-
-        for(int i = 0; i < players.size(); i++){
-            //first player = who won the character phase. Next players selected clockwise (following players original list)
-            nextTurnOrder.add(players.get( (firstPlayerIndex + i) % players.size() ));
-        }
-
-        currentGame.setNextTurnOrder(nextTurnOrder);
+        Island island = currentGame.getIslandByID(islandID);
+        currentGame.resolveIsland(island);
     }
 
     /*-------*/
@@ -238,7 +142,7 @@ public class GameController {
         p.removeAssistant(p.getDeck().get(assistantNumber)); //handles setting last assistant played property as well
 
         //May be changed
-        this.nextPlayer();
+        currentGame.nextPlayer();
     }
 
     public void playCharacter(PlayCharacterRequest fullRequest){

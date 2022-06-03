@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.responses.*;
 
 public interface ServerResponseHandler {
 
-    Boolean handle(SetNicknameResponse res);
+    Integer handle(SetNicknameResponse res);
 
     Boolean handle(OperationResultResponse res);
 

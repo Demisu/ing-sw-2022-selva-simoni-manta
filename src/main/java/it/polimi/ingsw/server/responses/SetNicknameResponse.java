@@ -5,17 +5,14 @@ import it.polimi.ingsw.client.ServerResponseHandler;
 
 public class SetNicknameResponse implements ServerResponse {
 
-    String nickname;
     Boolean needPlayerNumber;
+    Boolean success;
     String message;
 
-    public SetNicknameResponse(Boolean needPlayerNumber, String message) {
+    public SetNicknameResponse(Boolean needPlayerNumber, Boolean success, String message) {
         this.needPlayerNumber = needPlayerNumber;
         this.message = message;
-    }
-
-    public SetNicknameResponse(String nickname) {
-        this.nickname = nickname;
+        this.success = success;
     }
 
     @Override
@@ -23,12 +20,12 @@ public class SetNicknameResponse implements ServerResponse {
         handler.handle(this);
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
     public Boolean getNeedPlayerNumber() {
         return needPlayerNumber;
+    }
+
+    public Boolean getSuccess() {
+        return success;
     }
 
     public String getMessage() {

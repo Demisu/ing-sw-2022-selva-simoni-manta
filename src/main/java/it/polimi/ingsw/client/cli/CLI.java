@@ -80,35 +80,40 @@ public class CLI implements ClientView {
 
     public void setupPhase() {
 
-        Boolean choosePlayersNumber;
-        Boolean status = false;
+        Integer result;
 
         do {
             System.out.print("Choose your nickname: ");
             nickname = scanner.nextLine();
         } while (nickname == null);
 
-        choosePlayersNumber = clientController.setPlayerNickname(nickname);
+        result = clientController.setPlayerNickname(nickname);
 
-        if(choosePlayersNumber){
-            int number;
-            do {
-                System.out.println("Choose player number:\n[ 2 / 3 / 4 ]");
-                number = Integer.parseInt(scanner.nextLine());
-            } while (number > 4 || number < 2);
-            System.out.println("Expert mode?\n[ true (1) / false (2) ]");
-            String answer = scanner.nextLine();
-            if(answer.equals("1")) {
-                answer = "true";
-            }
-            Boolean expertMode = Boolean.parseBoolean(answer);
-            status = clientController.setPlayerNumber(number, expertMode);
-        }
-        if(!status){
-            System.out.println("""
+        switch(result){
+            case 0 -> {
+                System.out.println("""
                     Game already playing, added to lobby.
                     The game will start as soon as all players have joined.
                     """);
+            }
+            case 1 -> {
+                int number;
+                do {
+                    System.out.println("Choose player number:\n[ 2 / 3 / 4 ]");
+                    number = Integer.parseInt(scanner.nextLine());
+                } while (number > 4 || number < 2);
+                System.out.println("Expert mode?\n[ true (1) / false (2) ]");
+                String answer = scanner.nextLine();
+                if(answer.equals("1")) {
+                    answer = "true";
+                }
+                Boolean expertMode = Boolean.parseBoolean(answer);
+                clientController.setPlayerNumber(number, expertMode);
+            }
+            case 2 -> {
+                System.out.println("The game is full, quitting...");
+                clientController.closeConnection();
+            }
         }
     }
 
@@ -152,7 +157,8 @@ public class CLI implements ClientView {
     public void actionPhase() {
 
         availableActions = turnActions;
-        studentsToMove = clientController.getGameInfo().getPlayers().size() == 3 ? 4 : 3;
+        studentsToMove = 1;
+        //studentsToMove = clientController.getGameInfo().getPlayers().size() == 3 ? 4 : 3;
 
         System.out.println("Action phase has started!");
         String action;
@@ -172,7 +178,7 @@ public class CLI implements ClientView {
 
         } while(clientController.getGamePhase().equals(GamePhase.ACTION));
 
-        Boolean status = clientController.passTurn();
+        clientController.passTurn();
     }
 
     public void processAction(String action){
@@ -204,27 +210,45 @@ public class CLI implements ClientView {
 
                 case moveStudentAction -> {
 
-                    System.out.println("Input student ID: ");
-                    Integer student = scanner.nextInt();
-                    System.out.println("Input source ID: ");
-                    Integer source = scanner.nextInt();
-                    System.out.println("Input target ID: ");
-                    Integer target = scanner.nextInt();
+                    int student;
+                    int source;
+                    int target;
 
-                    scanner.nextLine();
-                    clientController.moveStudent(student, source, target);
-                    //after moving n students, mother nature can be moved
-                    if(movedStudents == studentsToMove) {
-                        availableActions.add(moveMotherNatureAction);
+                    do {
+                        System.out.println("Input student ID: ");
+                        student = scanner.nextInt();
+                        scanner.nextLine();
+                    } while(student < 0 || student > 130);
+                    do {
+                        System.out.println("Input source ID: ");
+                        source = scanner.nextInt();
+                        scanner.nextLine();
+                    } while(source < 0);
+                    do {
+                        System.out.println("Input target ID: ");
+                        target = scanner.nextInt();
+                        scanner.nextLine();
+                    } while(target < 0);
+
+                    Boolean success = clientController.moveStudent(student, source, target);
+                    if(success) {
+                        movedStudents++;
+                        //after moving n students, mother nature can be moved
+                        if (movedStudents == studentsToMove) {
+                            availableActions.add(moveMotherNatureAction);
+                        }
                     }
                 }
 
                 case moveMotherNatureAction -> {
 
-                    System.out.println("Input movements: ");
-                    Integer steps = scanner.nextInt();
+                    int steps;
+                    do {
+                        System.out.println("Input movements: ");
+                        steps = scanner.nextInt();
+                        scanner.nextLine();
+                    }while(steps <= 0 || steps > clientController.getPlayerInfo().getLastAssistantPlayed().getMotherNatureMovements());
 
-                    scanner.nextLine();
                     clientController.moveMotherNature(steps);
                     //Once mother nature is moved, the action cannot be repeated
                     availableActions.remove(moveMotherNatureAction);
@@ -367,15 +391,17 @@ public class CLI implements ClientView {
         clearConsole();
         printLongRow();
         System.out.println("School Boards:");
-        for (Player player : clientController.getGameInfo().getPlayers()){
+        for (Player player : clientController.getGameInfo().getPlayers()) {
             printShortRow();
             SchoolBoard schoolBoard = player.getPlayerBoard();
+            System.out.println("ID: " + schoolBoard.getPieceID());
             System.out.println("Player: " + player.getNickname());
             //Entrance
             System.out.println("Students in entrance: " + schoolBoard.getStudents().size());
             System.out.print("Colors: ");
             schoolBoard.getStudents().forEach(student -> {
                 System.out.print(colorOfStudent(student));
+                System.out.print("[" + student + "]");
                 System.out.print(" ");
             });
             System.out.println();
@@ -439,78 +465,5 @@ public class CLI implements ClientView {
         for (int i = 0; i < 30; i++) {
             System.out.println();
         }
-    }
-
-    public void testingPhase () {
-
-        /*Scanner scanner = new Scanner(System.in);
-        String action;
-
-        do {
-
-            System.out.println("Waiting your turn...");
-            clientController.getModelInfo();
-            firstRequest = false;
-
-            System.out.println("""
-                    -----------------
-                    Choose an action:\s
-                    -----------------
-                    Allowed:
-                    PLAY_ASSISTANT
-                    PLAY_CHARACTER
-                    MOVE_MOTHERNATURE
-                    MOVE_STUDENT
-                    PASS_TURN
-                    -----------------
-                    """);
-            System.out.println("Your choice: ");
-            action = scanner.nextLine();
-
-            switch (action) {
-                case "PLAY_ASSISTANT" -> {
-                    System.out.println("""
-                            -----------------
-                            Available assistants:\s
-                            (format: turnPriority | motherMovs)
-                            -----------------
-                            """);
-                    List<Assistant> deck = clientController.getPlayerInfo().getDeck();
-                    for (Assistant assistant : deck) {
-                        System.out.println(deck.indexOf(assistant) + ": "
-                                + assistant.getTurnPriority()+ " | "
-                                + assistant.getMotherNatureMovements());
-                    }
-                    System.out.println("\nInput assistant number: ");
-                    clientController.playAssistant(scanner.nextInt());
-                    scanner.nextLine();
-                }
-                case "PLAY_CHARACTER" -> {
-                    System.out.println("\nInput character number: ");
-                    clientController.playCharacter(scanner.nextInt());
-                    scanner.nextLine();
-                }
-                case "MOVE_MOTHERNATURE" -> {
-                    System.out.println("\nInput movements: ");
-                    clientController.moveMotherNature(scanner.nextInt());
-                    scanner.nextLine();
-                }
-                case "MOVE_STUDENT" -> {
-                    System.out.println("\nInput student ID: ");
-                    Integer student = scanner.nextInt();
-                    System.out.println("\nInput source ID: ");
-                    Integer source = scanner.nextInt();
-                    System.out.println("\nInput target ID: ");
-                    Integer target = scanner.nextInt();
-                    clientController.moveStudent(student, source, target);
-                    scanner.nextLine();
-                }
-                case "PASS_TURN" -> {
-                }
-                default -> System.out.println("Invalid action.");
-            }
-        } while(!action.equals("PASS_TURN"));
-
-        Boolean status = clientController.passTurn();*/
     }
 }

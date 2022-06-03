@@ -62,11 +62,6 @@ public class GUI extends Application implements ClientView {
     }
 
     @Override
-    public void testingPhase() {
-
-    }
-
-    @Override
     public void planningPhase() {
 
     }

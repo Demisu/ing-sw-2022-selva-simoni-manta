@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.model.GamePhase.*;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
@@ -30,6 +31,7 @@ public class Game implements Serializable {
     private ArrayList<Integer> students; //This is the game bag
     private final ArrayList<Team> teams;
     private List<Player> players;
+    private int turnNumber;
     private List<Player> currentTurnOrder; //contains players for the current round
     private List<Player> actionPhaseOrder; //contains players for the action phase
     private List<Player> nextTurnOrder; //contains players for the next round
@@ -122,6 +124,7 @@ public class Game implements Serializable {
             this.players.add(newPlayer);
             this.currentTurnOrder.add(newPlayer);
         }
+        turnNumber = 0;
 
         //Teams
         teams = new ArrayList<>();
@@ -268,6 +271,59 @@ public class Game implements Serializable {
         }
     }
 
+    public void nextPlayer() {
+
+        this.resetModifiers();
+        int currentIndex = currentTurnOrder.indexOf(this.getPlayerByNickname(currentPlayer));
+        //If current is the last element
+        if(currentIndex == currentTurnOrder.size() - 1){
+
+            //If all players played an assistant, change to action phase
+            if(currentPhase.equals(GamePhase.PLANNING)){
+
+                //Update order and move to action order
+                updateNextTurnOrder();
+                this.setCurrentTurnOrder(actionPhaseOrder);
+                this.setCurrentPhase(GamePhase.ACTION);
+
+            } else {
+                //If the game bag is empty, the game ends
+                if(students.size() <= 0){
+
+                    //TODO GAME ENDS HERE
+
+                }
+                //Action phase ended, next turn starting
+                this.setCurrentTurnOrder(nextTurnOrder);
+                this.setCurrentPlayer(currentTurnOrder.get(0).getNickname());
+                this.setCurrentPhase(GamePhase.PLANNING);
+                //Refill clouds for new planning phase
+                this.turnStartFill();
+            }
+
+        } else {
+            //Next player
+            this.setCurrentPlayer(currentTurnOrder.get(currentIndex + 1).getNickname());
+        }
+    }
+
+    public void updateNextTurnOrder(){
+
+        this.actionPhaseOrder = players.stream()
+                .sorted(Comparator.comparingInt(Player::getLastAssistantPlayedPriority).reversed())
+                .collect(Collectors.toList());
+
+        Integer firstPlayerIndex = actionPhaseOrder.get(0).getPlayerId();
+        List<Player> nextTurnOrder = new ArrayList<>();
+
+        for(int i = 0; i < players.size(); i++){
+            //first player = who won the character phase. Next players selected clockwise (following players original list)
+            nextTurnOrder.add(players.get( (firstPlayerIndex + i) % players.size() ));
+        }
+
+        this.setNextTurnOrder(nextTurnOrder);
+    }
+
     public void turnStartFill(){
 
         //Fill clouds
@@ -298,6 +354,42 @@ public class Game implements Serializable {
         this.students.remove(randomStudent);
         this.students.trimToSize();
         return studentToGet;
+    }
+
+    public void resolveIsland(Island island){
+
+        boolean unified;
+        int refIndex;
+        island.resolve(this.teams);
+
+        do {
+            //Check if there are 3 or less remaining islands. If true, game ends
+            if(islands.size() <= 3){
+
+                //TODO GAME ENDS HERE
+
+            }
+
+            refIndex = islands.indexOf(island);
+            Island nextIsland = islands.get((refIndex + 1) % (islands.size()));
+            Island previousIsland;
+            if(refIndex == 0){
+                previousIsland = islands.get(islands.size() - 1);
+            }else{
+                previousIsland = islands.get((refIndex - 1) % (islands.size()));
+            }
+
+            if (island.getTowersColor() == nextIsland.getTowersColor()) {
+                this.unifyIslands(island, nextIsland);
+                unified = true;
+            } else if (island.getTowersColor() == previousIsland.getTowersColor()) {
+                this.unifyIslands(island, previousIsland);
+                unified = true;
+            } else {
+                unified = false;
+            }
+
+        } while(unified);
     }
 
     public void unifyIslands(Island toKeep, Island toRemove){
@@ -519,7 +611,6 @@ public class Game implements Serializable {
         }
         System.out.println("Player " + playerNickname + " not found (Game.getPlayerByNickname)");
         return null;
-
     }
 
     public SchoolBoard getSchoolBoardByID(Integer boardID) {

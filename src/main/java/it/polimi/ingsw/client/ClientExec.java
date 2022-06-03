@@ -18,16 +18,19 @@ public class ClientExec {
         Client client = new Client(hostAddress, port);
 
         String ui;
-
-        do {
-            System.out.println("Select type:\nCLI (1) or GUI (2)?");
-            ui = scanner.nextLine().toUpperCase();
-            if(ui.equals("1")) {
-                ui = "CLI";
-            } else if (ui.equals("2")) {
-                ui = "GUI";
-            }
-        }while (!(ui.equals("GUI") || ui.equals("CLI")));
+        if(args.length == 0) {
+            do {
+                System.out.println("Select type:\nCLI (1) or GUI (2)?");
+                ui = scanner.nextLine().toUpperCase();
+                if (ui.equals("1")) {
+                    ui = "CLI";
+                } else if (ui.equals("2")) {
+                    ui = "GUI";
+                }
+            } while (!(ui.equals("GUI") || ui.equals("CLI")));
+        } else {
+            ui = args[0];
+        }
 
         ClientController controller = new ClientController(client, ui);
 
