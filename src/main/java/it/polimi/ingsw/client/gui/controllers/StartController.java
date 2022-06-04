@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.gui.GUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,10 +14,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class StartController {
+public class StartController implements GuiController {
 
     private Stage stage;
     private Scene scene;
+    private GUI gui;
 
     @FXML
     private Button playButton;
@@ -49,4 +51,8 @@ public class StartController {
         System.out.println("ciao");
     }
 
+    @Override
+    public void setGui(GUI gui) {
+        this.gui = gui;
+    }
 }

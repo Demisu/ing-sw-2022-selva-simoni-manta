@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.gui.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -9,10 +10,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class SchoolboardController {
+public class SchoolboardController implements GuiController {
 
     private Stage stage;
     private Scene scene;
+    private GUI gui;
 
     public void switchToRealmScene(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/realm.fxml"));
@@ -22,4 +24,8 @@ public class SchoolboardController {
         stage.show();
     }
 
+    @Override
+    public void setGui(GUI gui) {
+        this.gui = gui;
+    }
 }

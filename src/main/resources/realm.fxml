@@ -75,12 +75,12 @@
                   <Image url="@assets/island1.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="466.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView onMouseClicked="#switchToCloudScene" fitHeight="150.0" fitWidth="150.0" layoutX="466.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/cloud.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="681.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView onMouseClicked="#switchToCloudScene" fitHeight="150.0" fitWidth="150.0" layoutX="681.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/cloud.png" />
                </image>

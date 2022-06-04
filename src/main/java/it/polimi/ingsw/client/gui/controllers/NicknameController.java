@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.gui.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +13,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class NicknameController {
+public class NicknameController implements GuiController {
 
     private Stage stage;
     private Scene scene;
+    private GUI gui;
 
     @FXML
     private Button buttonConfirmNick;
@@ -23,24 +25,18 @@ public class NicknameController {
     @FXML
     private TextField textFieldNickname;
 
-    public void switchToRealmScene(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/realm.fxml"));
+    public void switchToPlayersScene(ActionEvent e) throws IOException {
+        System.out.println(textFieldNickname.getText());
+
+        Parent root = FXMLLoader.load(getClass().getResource("/players.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void setNickname() {
-
-        buttonConfirmNick.setOnAction(event -> {
-            System.out.println("confirmed");
-            String nickname = textFieldNickname.getText();
-            setNickname(nickname);
-        });
-    }
-
-    public void setNickname(String nickname){
-        System.out.println("Chosen:  " +  nickname);
+    @Override
+    public void setGui(GUI gui) {
+        this.gui = gui;
     }
 }

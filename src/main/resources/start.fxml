@@ -21,6 +21,16 @@
                   <Image url="@assets/background.png" />
                </image>
             </ImageView>
+            <ImageView fitHeight="107.0" fitWidth="83.0" layoutX="389.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/monkey1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="107.0" fitWidth="83.0" layoutX="818.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/monkey2.png" />
+               </image>
+            </ImageView>
             <Button layoutX="575.0" layoutY="405.0" mnemonicParsing="false" onAction="#switchToNicknameScene" prefHeight="7.0" prefWidth="150.0" text="Play">
                <font>
                   <Font name="Arial Rounded MT Bold" size="36.0" />
@@ -36,7 +46,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Text layoutX="364.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🧝‍♂️Eriantys🧝‍♂️" wrappingWidth="572.953125">
+            <Text layoutX="501.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Eriantys‍" wrappingWidth="298.953125">
                <font>
                   <Font name="Poor Richard" size="96.0" />
                </font>
