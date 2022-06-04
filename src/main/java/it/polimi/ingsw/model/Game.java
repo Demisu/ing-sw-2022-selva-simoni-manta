@@ -74,16 +74,17 @@ public class Game implements Serializable {
             }
         }
 
-        this.currentPhase = fullGame.getCurrentPhase();
-        this.players = fullGame.getPlayers();
-        this.playerNumber = fullGame.getPlayers().size();
-        this.teams = fullGame.getTeams();
-        this.islands = fullGame.getIslands();
-        this.clouds = fullGame.getClouds();
+        this.currentPhase = fullGame.currentPhase;
+        this.players = fullGame.players;
+        this.playerNumber = fullGame.players.size();
+        this.teams = fullGame.teams;
+        this.islands = fullGame.islands;
+        this.clouds = fullGame.clouds;
         this.allCharacters = null;
         this.studentsForClouds = fullGame.studentsForClouds;
         this.studentsForBoards = fullGame.studentsForBoards;
         this.students = fullGame.students;
+        this.turnNumber = fullGame.turnNumber;
     }
 
     public Game(int playerNumber, String nicknameOfCreator, Boolean expertMode) {
@@ -297,6 +298,7 @@ public class Game implements Serializable {
                 this.setCurrentTurnOrder(nextTurnOrder);
                 this.setCurrentPlayer(currentTurnOrder.get(0).getNickname());
                 this.setCurrentPhase(GamePhase.PLANNING);
+                this.turnNumber++;
                 //Refill clouds for new planning phase
                 this.turnStartFill();
             }

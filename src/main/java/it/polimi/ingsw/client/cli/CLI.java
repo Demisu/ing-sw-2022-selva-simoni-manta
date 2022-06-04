@@ -68,16 +68,6 @@ public class CLI implements ClientView {
         this.clientController = clientController;
     }
 
-    public void waitGameStartPhase() {
-
-        Boolean status = false;
-        System.out.println("Waiting for all players...");
-        while(!status){
-            status = clientController.waitGameStart();
-        }
-
-    }
-
     public void setupPhase() {
 
         Integer result;
@@ -115,6 +105,16 @@ public class CLI implements ClientView {
                 clientController.closeConnection();
             }
         }
+    }
+
+    public void waitGameStartPhase() {
+
+        Boolean status = false;
+        System.out.println("Waiting for all players...");
+        while(!status){
+            status = clientController.waitGameStart();
+        }
+
     }
 
     public void planningPhase() {

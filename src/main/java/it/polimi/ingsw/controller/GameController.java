@@ -117,8 +117,20 @@ public class GameController {
         Island currentIsland = islands.get(refIndex);
         currentIsland.setMotherNature(true);
 
-        // Resolve that island
-        this.resolveIsland(currentIsland.getPieceID());
+        // If there are no entry tiles, remove one of them and don't resolve the island
+        if(currentIsland.getNoEntry() > 0){
+            currentIsland.setNoEntry(currentIsland.getNoEntry() - 1);
+            for (Character character : currentGame.getAllCharacters()){
+                // Place the removed no entry on the owner character
+                if(character.getSetupObject().equals("no_entry")){
+                    character.setNoEntryNumber(character.getNoEntryNumber() + 1);
+                    break;
+                }
+            }
+        } else {
+            // Resolve that island
+            this.resolveIsland(currentIsland.getPieceID());
+        }
     }
 
     public void resolveIsland(Integer islandID){

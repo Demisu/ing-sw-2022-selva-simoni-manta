@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.requests.PlayCharacterRequest;
 import it.polimi.ingsw.controller.GameController;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -21,20 +22,19 @@ public class Character extends StudentAccessiblePiece implements Serializable {
     //Setup info
     private Boolean setup_required;
     private String setup_object;
-    //private Set<Integer> students; //Needs to be populated after reading the JSON
     private Integer setup_number;
 
     //Effect parameters
-    private String effect_type="???"; //This needs to be reverted to null when everything works (testing purposes)
+    private String effect_type;
     private String effect_scope;
-    private String effect_object="???"; //This needs to be reverted to null when everything works (testing purposes)
+    private String effect_object;
     private String effect_condition;
     private String effect_choose_condition;
 
     private String effect_source;
     private String effect_choose_source;
     private String effect_target;
-    private String effect_choose_target="???"; //This needs to be reverted to null when everything works (testing purposes)
+    private String effect_choose_target;
 
     private Integer effect_number_min;
     private Integer effect_number_max;
@@ -115,15 +115,10 @@ public class Character extends StudentAccessiblePiece implements Serializable {
     public void effect(PlayCharacterRequest req){
 
         switch (effect_type) {
-            case "move" -> this.move(req.getPiecesToMove(), req.getTargetPieces());
-            case "exchange" -> this.exchange(req.getExchangeOriginList(), req.getExchangeTargetList());
-            case "add" -> this.add();
-            case "resolve" -> this.resolve(req.getTargetID());
-
-            /*Extra cases...
-            case "???":
-                break;
-            */
+            case "move" -> this.move(req);
+            case "exchange" -> this.exchange(req);
+            case "add" -> this.add(req);
+            case "resolve" -> this.resolve(req);
             default -> System.out.println("Cannot determine effect type");
         }
 
@@ -132,14 +127,28 @@ public class Character extends StudentAccessiblePiece implements Serializable {
     /**
      * Used by move-type characters, performs the action
      */
-    public void move(List<Integer> piecesToMove, List<Integer> targetPieces){
+    public void move(PlayCharacterRequest req){
+
+        List<Integer> studentsToMove = req.getStudentsInOrigin();
+        List<Integer> originPieces = req.getOriginPieces();
+        List<Integer> targetPieces = req.getTargetPieces();
+
+        //If source is null, this character is the source for every movement
+        if(originPieces == null){
+            originPieces = new ArrayList<>();
+            for(Integer index : targetPieces){
+                originPieces.add(this.getPieceID());
+            }
+        }
 
         //All the original characters of type exchange ask a range
         //If more characters are added, other checks may be needed
 
         switch(effect_choose_target){
             case "player":
-                //ask player 
+                for(int i = 0; i < studentsToMove.size(); i++){
+                    gameController.moveStudent(studentsToMove.get(i), originPieces.get(i), targetPieces.get(i));
+                }
                 break;
             case "no":
                 //...
@@ -149,32 +158,39 @@ public class Character extends StudentAccessiblePiece implements Serializable {
                 break;
             */
         }
-        //gamecontroller.move(source, target)
 
     }
 
     /**
      * Used by exchange-type characters, performs the action
      */
-    public void exchange(List<Integer> exchangeOriginList, List<Integer> exchangeTargetList){
+    public void exchange(PlayCharacterRequest req){
+
+        List<Integer> studentsInOrigin = req.getStudentsInOrigin();
+        List<Integer> studentsInTarget = req.getStudentsInTarget();
+        List<Integer> exchangeOriginList = req.getOriginPieces();
+        List<Integer> exchangeTargetList = req.getTargetPieces();
 
         //Both the original characters of type exchange ask a range
         //If more characters are added, other checks may be needed
+        Integer studentOrigin, studentTarget, pieceOrigin, pieceTarget;
 
         for(int i = 0; i < effect_number_max; i++){
-            //Ask which student to select in (effect_source), or quit
-            //if(quit) -> break;
-            //else
-            //Ask for target student to select in (effect_target)
-            //Swap(source, target)
+            studentOrigin = studentsInOrigin.get(i);
+            studentTarget = studentsInTarget.get(i);
+            pieceOrigin = exchangeOriginList.get(i);
+            pieceTarget = exchangeTargetList.get(i);
+            //Origin to target
+            gameController.moveStudent(studentOrigin, pieceOrigin, pieceTarget);
+            //Target to origin
+            gameController.moveStudent(studentTarget, pieceTarget, pieceOrigin);
         }
-
     }
 
     /**
      * Used by add-type characters, adds a certain value to the game modifiers
      */
-    public void add(){
+    public void add(PlayCharacterRequest req){
 
         //Not implementing extra cases out of the original 12 Characters.
         //May need to add more if new characters are added.
@@ -190,10 +206,10 @@ public class Character extends StudentAccessiblePiece implements Serializable {
                 //Student (color?) influence += effect_number_min
                 switch(effect_condition){
                     case "color":
-                        //Should need more selection, but this is enough with only
-                        //The original characters
-                        //Ask the player for a color to change
-                        //Student COLOR influence += effect_number_min
+                        Color targetColor = req.getTargetColor();
+                        //Should need more selection, but this is enough with only The original characters
+                        Integer colorID = StudentAccessiblePiece.indexOfColor(targetColor);
+                        Game.setStudentValue(targetColor, Game.getStudentValue(colorID) + 1);
                         break;
                     /*Extra cases...
                     case "???":
@@ -219,22 +235,18 @@ public class Character extends StudentAccessiblePiece implements Serializable {
     /**
      * Used by resolve-type characters, resolves the target island
      */
-    public void resolve(Integer targetID){
+    public void resolve(PlayCharacterRequest req){
 
-        //TO BE CHANGED
-        targetID = 0;
-
+        List<Integer> targetPieces = req.getTargetPieces();
         if(effect_choose_target.equals("player")){
-            //Ask the player for the ID (e.g.: ID of target island)
-            //TO CHANGE
-            targetID = new Random().nextInt(gameController.getCurrentGame().getIslands().size());
+            for(Integer targetID : targetPieces){
+                gameController.resolveIsland(targetID);
+            }
         } else if(effect_choose_target.equals("random")){
             //Get a random ID (e.g.: ID of target island)
-            targetID = new Random().nextInt(gameController.getCurrentGame().getIslands().size());
+            Integer targetID = new Random().nextInt(gameController.getCurrentGame().getIslands().size());
+            gameController.resolveIsland(targetID);
         }
-
-        //Call controller to resolve the target (ID) (?)
-        gameController.resolveIsland(targetID);
     }
 
     /**

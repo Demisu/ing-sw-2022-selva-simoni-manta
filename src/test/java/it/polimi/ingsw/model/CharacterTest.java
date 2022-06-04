@@ -13,12 +13,6 @@ public class CharacterTest {
     @Test
     @DisplayName("General test for Character Class")
     void actionsTest() {
-        HashSet<Integer> students = new HashSet<>();
-        Character characterTest = new Character(2,"path_to_image",false, students, 0);
-        characterTest.effect(null);
-        characterTest.move(null, null);
-        characterTest.add();
-        GameController controller = new GameController();
-        characterTest.setGameController(controller);
+        // TODO
     }
 }
