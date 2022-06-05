@@ -7,21 +7,70 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
 <HBox alignment="CENTER" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.AssistantsController">
    <children>
-      <AnchorPane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0">
+      <AnchorPane maxHeight="720.0" maxWidth="1280.0" minHeight="475.0" minWidth="1280.0" prefHeight="475.0" prefWidth="887.0">
          <children>
-            <ImageView fitHeight="1080.0" fitWidth="1920.0" layoutX="-320.0" layoutY="-180.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="1044.0" fitWidth="1589.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/assistenti.png" />
                </image>
             </ImageView>
-            <Button onAction="#switchToRealmScene" layoutX="566.0" layoutY="649.0" mnemonicParsing="false" text="Return to the realm">
+            <Button layoutX="566.0" layoutY="649.0" mnemonicParsing="false" onAction="#switchToRealmScene" text="Return to the realm">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
+            <ImageView fx:id="assistant1" fitHeight="283.0" fitWidth="180.0" layoutX="172.0" layoutY="53.0" onMouseClicked="#onAssistant" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/Assistenti/2x/Assistente%20(1).png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="assistant2" fitHeight="283.0" fitWidth="180.0" layoutX="361.0" layoutY="53.0" onMouseClicked="#onAssistant" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/Assistenti/2x/Assistente%20(2).png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="assistant3" fitHeight="283.0" fitWidth="180.0" layoutX="550.0" layoutY="53.0" onMouseClicked="#onAssistant" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/Assistenti/2x/Assistente%20(3).png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="assistant4" fitHeight="283.0" fitWidth="180.0" layoutX="740.0" layoutY="53.0" onMouseClicked="#onAssistant" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/Assistenti/2x/Assistente%20(4).png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="assistant5" fitHeight="283.0" fitWidth="180.0" layoutX="929.0" layoutY="53.0" onMouseClicked="#onAssistant" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/Assistenti/2x/Assistente%20(5).png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="assistant6" fitHeight="283.0" fitWidth="180.0" layoutX="172.0" layoutY="328.0" onMouseClicked="#onAssistant" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/Assistenti/2x/Assistente%20(6).png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="assistant7" fitHeight="283.0" fitWidth="180.0" layoutX="361.0" layoutY="328.0" onMouseClicked="#onAssistant" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/Assistenti/2x/Assistente%20(7).png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="assistant8" fitHeight="283.0" fitWidth="180.0" layoutX="550.0" layoutY="328.0" onMouseClicked="#onAssistant" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/Assistenti/2x/Assistente%20(8).png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="assistant9" fitHeight="283.0" fitWidth="180.0" layoutX="740.0" layoutY="328.0" onMouseClicked="#onAssistant" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/Assistenti/2x/Assistente%20(9).png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="assistant10" fitHeight="283.0" fitWidth="180.0" layoutX="929.0" layoutY="328.0" onMouseClicked="#onAssistant" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/Assistenti/2x/Assistente%20(10).png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

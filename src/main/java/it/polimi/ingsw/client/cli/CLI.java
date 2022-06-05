@@ -107,6 +107,11 @@ public class CLI implements ClientView {
         }
     }
 
+    @Override
+    public void setClientController(ClientController clientController) {
+
+    }
+
     public void waitGameStartPhase() {
 
         Boolean status = false;

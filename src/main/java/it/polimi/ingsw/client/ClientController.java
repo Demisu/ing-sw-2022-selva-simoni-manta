@@ -41,6 +41,7 @@ public class ClientController implements ServerResponseHandler {
         this.client = client;
         if(ui.equals("GUI")) {
             this.view = new GUI(this);
+            this.view.setClientController(this);
         } else {
             this.view = new CLI(this);
         }

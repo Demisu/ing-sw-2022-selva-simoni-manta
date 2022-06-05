@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientView;
+import it.polimi.ingsw.client.gui.controllers.AssistantsController;
+import it.polimi.ingsw.client.gui.controllers.GuiController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +15,7 @@ import java.io.IOException;
 
 public class GUI extends Application implements ClientView {
 
-    private final ClientController clientController;
+    private ClientController clientController;
     private Parent root;
 
     public static void main(String[] args) throws IOException  {
@@ -32,6 +34,14 @@ public class GUI extends Application implements ClientView {
             e.printStackTrace();
         }
     }
+    
+    public void setClientController(ClientController clientController) {
+        this.clientController = clientController;
+    }
+
+    public ClientController getClientController() {
+        return clientController;
+    }
 
     public void changeRoot(String name) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/" + name + ".fxml"));
@@ -41,7 +51,9 @@ public class GUI extends Application implements ClientView {
     public void start(Stage primaryStage) throws IOException {
         this.changeRoot("start"); // start  -  players  -  action  -  realm
         primaryStage.setTitle("Eriantys");
-        primaryStage.getIcons().add(new Image("file:C:\\Users\\dario\\Desktop\\University\\Prog. di Ing. del Software\\ing-sw-2022-selva-simoni-manta\\src\\main\\resources\\assets\\icon.png"));
+        GuiController assistantsController = new AssistantsController();
+        assistantsController.setGui(this);
+        //primaryStage.getIcons().add(new Image("file:C:\\Users\\dario\\Desktop\\University\\Prog. di Ing. del Software\\ing-sw-2022-selva-simoni-manta\\src\\main\\resources\\assets\\icon.png"));
         primaryStage.setMaximized(false);
         primaryStage.setMinWidth(1295);
         //primaryStage.setMaxWidth(1295);
