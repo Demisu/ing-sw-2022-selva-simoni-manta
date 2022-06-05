@@ -34,12 +34,12 @@
                <font>
                   <Font size="16.0" />
                </font></CheckBox>
-            <Button fx:id="button2p1" layoutX="604.0" layoutY="330.0" mnemonicParsing="false" onAction="#twoPlayers" text="1 v 1 v 1">
+            <Button fx:id="button3p" layoutX="604.0" layoutY="330.0" mnemonicParsing="false" onAction="#treePlayers" text="1 v 1 v 1">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="button2p11" layoutX="748.0" layoutY="330.0" mnemonicParsing="false" onAction="#twoPlayers" text="2 v 2">
+            <Button fx:id="button4p" layoutX="748.0" layoutY="330.0" mnemonicParsing="false" onAction="#fourPlayers" text="2 v 2">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
