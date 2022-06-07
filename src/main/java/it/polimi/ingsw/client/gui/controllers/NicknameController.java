@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class NicknameController implements GuiController {
+public class NicknameController implements GUIController {
 
     private Stage stage;
     private Scene scene;

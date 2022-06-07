@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class SchoolboardController implements GuiController {
+public class SchoolboardController implements GUIController {
 
     private Stage stage;
     private Scene scene;

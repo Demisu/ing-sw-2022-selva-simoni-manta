@@ -13,10 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class AssistantsController implements GuiController {
+public class AssistantsController implements GUIController {
     private Stage stage;
     private Scene scene;
     private GUI gui;

@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class IslandController implements GuiController {
+public class IslandController implements GUIController {
     private Stage stage;
     private Scene scene;
     private GUI gui;

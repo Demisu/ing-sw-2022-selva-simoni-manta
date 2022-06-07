@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class StartController implements GuiController {
+public class StartController implements GUIController {
 
     private Stage stage;
     private Scene scene;
