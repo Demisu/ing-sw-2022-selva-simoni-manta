@@ -15,83 +15,83 @@
                   <Image url="@assets/bg-realm.png" />
                </image>
             </ImageView>
-            <ImageView onMouseClicked="#switchToIsland3Scene" fitHeight="150.0" fitWidth="150.0" layoutX="149.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="149.0" layoutY="97.0" onMouseClicked="#switchToIsland3Scene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/island3.png" />
                </image>
             </ImageView>
-            <ImageView onMouseClicked="#switchToIsland1Scene" fitHeight="150.0" fitWidth="150.0" layoutX="38.0" layoutY="270.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="38.0" layoutY="270.0" onMouseClicked="#switchToIsland1Scene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/island1.png" />
                </image>
             </ImageView>
-            <ImageView onMouseClicked="#switchToIsland2Scene" fitHeight="150.0" fitWidth="150.0" layoutX="989.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="989.0" layoutY="102.0" onMouseClicked="#switchToIsland2Scene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/island2.png" />
                </image>
             </ImageView>
-            <ImageView onMouseClicked="#switchToIsland3Scene" fitHeight="150.0" fitWidth="150.0" layoutX="346.0" layoutY="494.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="346.0" layoutY="494.0" onMouseClicked="#switchToIsland3Scene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/island3.png" />
                </image>
             </ImageView>
-            <ImageView onMouseClicked="#switchToIsland3Scene" fitHeight="150.0" fitWidth="150.0" layoutX="999.0" layoutY="442.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="999.0" layoutY="442.0" onMouseClicked="#switchToIsland3Scene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/island3.png" />
                </image>
             </ImageView>
-            <ImageView onMouseClicked="#switchToIsland2Scene" fitHeight="150.0" fitWidth="150.0" layoutX="346.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="346.0" layoutY="32.0" onMouseClicked="#switchToIsland2Scene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/island2.png" />
                </image>
             </ImageView>
-            <ImageView onMouseClicked="#switchToIsland2Scene" fitHeight="150.0" fitWidth="150.0" layoutX="149.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="149.0" layoutY="444.0" onMouseClicked="#switchToIsland2Scene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/island2.png" />
                </image>
             </ImageView>
-            <ImageView onMouseClicked="#switchToIsland1Scene" fitHeight="150.0" fitWidth="150.0" layoutX="574.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="574.0" layoutY="503.0" onMouseClicked="#switchToIsland1Scene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/island1.png" />
                </image>
             </ImageView>
-            <ImageView onMouseClicked="#switchToIsland3Scene" fitHeight="150.0" fitWidth="150.0" layoutX="793.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="793.0" layoutY="26.0" onMouseClicked="#switchToIsland3Scene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/island3.png" />
                </image>
             </ImageView>
-            <ImageView onMouseClicked="#switchToIsland2Scene" fitHeight="150.0" fitWidth="150.0" layoutX="793.0" layoutY="506.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="793.0" layoutY="506.0" onMouseClicked="#switchToIsland2Scene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/island2.png" />
                </image>
             </ImageView>
-            <ImageView onMouseClicked="#switchToIsland1Scene" fitHeight="150.0" fitWidth="150.0" layoutX="1107.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="1107.0" layoutY="284.0" onMouseClicked="#switchToIsland1Scene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/island1.png" />
                </image>
             </ImageView>
-            <ImageView onMouseClicked="#switchToIsland1Scene" fitHeight="150.0" fitWidth="150.0" layoutX="574.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="574.0" layoutY="29.0" onMouseClicked="#switchToIsland1Scene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/island1.png" />
                </image>
             </ImageView>
-            <ImageView onMouseClicked="#switchToCloudScene" fitHeight="150.0" fitWidth="150.0" layoutX="466.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="466.0" layoutY="288.0" onMouseClicked="#switchToCloudScene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/cloud.png" />
                </image>
             </ImageView>
-            <ImageView onMouseClicked="#switchToCloudScene" fitHeight="150.0" fitWidth="150.0" layoutX="681.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="681.0" layoutY="288.0" onMouseClicked="#switchToCloudScene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/cloud.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="615.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="615.0" layoutY="226.0" onMouseClicked="#openBag" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/bag.png" />
                </image>
             </ImageView>
             <Button layoutX="14.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToSchoolBoardScene" text="Show Schoolboard" />
-            <Button onAction="#switchToAssistantsScene" layoutX="180.0" layoutY="681.0" mnemonicParsing="false" text="Play assistant" />
+            <Button layoutX="180.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToAssistantsScene" text="Play assistant" />
             <Button layoutX="280.0" layoutY="681.0" mnemonicParsing="false" text="Play character" />
             <Button layoutX="523.0" layoutY="681.0" mnemonicParsing="false" text="Move mother nature" />
             <Button layoutX="421.0" layoutY="681.0" mnemonicParsing="false" text="Move student" />
