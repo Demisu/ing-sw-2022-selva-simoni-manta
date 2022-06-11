@@ -112,7 +112,7 @@ public class GUI extends Application implements ClientView {
     public void run() {
         stage.setTitle("Eriantys");
         stage.setScene(currentScene);
-        //stage.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icon.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icon.png")));
         stage.show();
         /*
         try {

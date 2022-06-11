@@ -32,7 +32,11 @@ public class StartController implements GUIController {
     public void switchToNicknameScene(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/nickname.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        double prevWidth = stage.getWidth();
+        double prevHeight = stage.getHeight();
         scene = new Scene(root);
+        stage.setHeight(prevHeight);
+        stage.setWidth(prevWidth);
         stage.setScene(scene);
         stage.show();
     }
