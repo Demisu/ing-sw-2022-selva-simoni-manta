@@ -8,13 +8,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class GUI extends Application implements ClientView {
 
@@ -107,18 +105,33 @@ public class GUI extends Application implements ClientView {
     @Override
     public void start(Stage primaryStage) throws IOException {
         setup();
-        this.changeRoot("start"); // start  -  players  -  action  -  realm
-        primaryStage.setTitle("Eriantys");
+        this.stage = primaryStage;
+        run();
+    }
+
+    public void run() {
+        stage.setTitle("Eriantys");
+        stage.setScene(currentScene);
+        //stage.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icon.png")));
+        stage.show();
+        /*
+        try {
+            this.changeRoot("start"); // start  -  players  -  action  -  realm
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Eriantys");
         GUIController assistantsController = new AssistantsController();
         assistantsController.setGui(this);
         //primaryStage.getIcons().add(new Image("file:C:\\Users\\dario\\Desktop\\University\\Prog. di Ing. del Software\\ing-sw-2022-selva-simoni-manta\\src\\main\\resources\\assets\\icon.png"));
-        primaryStage.setMaximized(false);
-        primaryStage.setMinWidth(1295);
+        stage.setMaximized(false);
+        stage.setMinWidth(1295);
         //primaryStage.setMaxWidth(1295);
-        primaryStage.setMinHeight(758);
+        stage.setMinHeight(758);
         //primaryStage.setMaxHeight(758);
-        primaryStage.setScene(new Scene(root, 1280, 720));
-        primaryStage.show();
+        stage.setScene(new Scene(root, 1280, 720));
+        stage.show();
+        */
     }
 
     /**
@@ -127,6 +140,16 @@ public class GUI extends Application implements ClientView {
     @Override
     public void stop() {
         System.exit(0);
+    }
+
+    /**
+     * Method getControllerFromName gets a scene controller based on inserted name from the dedicated hashmap.
+     *
+     * @param name of type String - the player's name.
+     * @return GUIController - the scene controller.
+     */
+    public GUIController getControllerFromName(String name) {
+        return nameMapController.get(name);
     }
 
     @Override
