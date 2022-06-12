@@ -91,7 +91,6 @@ public class RealmController implements GUIController {
     }
 
     public void openBag(MouseEvent e) throws IOException {
-        System.out.println("ciao");
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         final Stage dialog = new Stage();
         Pane bagRoot = new Pane();
