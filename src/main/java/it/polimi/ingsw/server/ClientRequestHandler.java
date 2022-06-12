@@ -26,4 +26,6 @@ public interface ClientRequestHandler {
     ServerResponse handle(GetUpdatedBoardRequest getUpdatedBoardRequest);
 
     ServerResponse handle(PassTurnRequest passTurnRequest);
+
+    ServerResponse handle(GameStartedRequest gameStartedRequest);
 }

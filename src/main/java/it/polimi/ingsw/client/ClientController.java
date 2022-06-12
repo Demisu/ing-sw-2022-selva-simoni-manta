@@ -125,6 +125,11 @@ public class ClientController implements ServerResponseHandler {
         return this.handle((OperationResultResponse) client.clientResponse());
     }
 
+    public Boolean isGameStarted(){
+        client.clientRequest(new GameStartedRequest());
+        return this.handle((OperationResultResponse) client.clientResponse());
+    }
+
     public Boolean passTurn(){
         client.clientRequest(new PassTurnRequest(nickname));
         return this.handle((OperationResultResponse) client.clientResponse());

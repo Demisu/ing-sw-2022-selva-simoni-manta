@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +27,26 @@ public class NicknameController implements GUIController {
     private TextField textFieldNickname;
 
     public void switchToPlayersScene(ActionEvent e) throws IOException {
-        gui.changeScene("players.fxml");
+        int result;
+        if(!textFieldNickname.getText().equals("")){
+            result = gui.getClientController().setPlayerNickname(textFieldNickname.getText());
+            switch(result){
+                case 0 -> {
+                    gui.changeScene("lobby.fxml");
+                }
+                case 1 -> {
+                    gui.changeScene("players.fxml");
+                }
+                case 2 -> {
+                    Platform.runLater(() -> {
+                        gui.getClientController().closeConnection();
+                    });
+                    Platform.exit();
+                }
+            }
+        }else{
+            System.out.println("Inserisci un nickname!");
+        }
         /*
         System.out.println(textFieldNickname.getText());
 

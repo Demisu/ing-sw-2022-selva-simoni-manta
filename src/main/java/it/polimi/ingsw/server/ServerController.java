@@ -230,4 +230,16 @@ public class ServerController implements ClientRequestHandler {
 
         return new OperationResultResponse(true, "Ready");
     }
+
+    @Override
+    public ServerResponse handle(GameStartedRequest req) {
+
+        if(gameController.getCurrentGame() == null || connectedPlayers < gameController.getPlayerNumber()) {
+            return new OperationResultResponse(false, "Waiting players");
+        }
+
+        System.out.println("ALL PLAYERS JOINED, GAME HAS STARTED");
+
+        return new OperationResultResponse(true, "Ready");
+    }
 }
