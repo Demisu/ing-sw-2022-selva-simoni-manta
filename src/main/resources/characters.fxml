@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox alignment="CENTER" maxHeight="953.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1436.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.CharactersController">
+   <children>
+      <AnchorPane maxHeight="300.0" maxWidth="500.0" minHeight="451.0" minWidth="918.0" prefHeight="708.0" prefWidth="923.0">
+         <children>
+            <ImageView fitHeight="1080.0" fitWidth="1920.0" layoutX="-320.0" layoutY="-180.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/assistenti.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="character1" fitHeight="283.0" fitWidth="180.0" layoutX="180.0" layoutY="52.0" onMouseClicked="#onCharacter" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/Personaggi/CarteTOT_front.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="character2" fitHeight="283.0" fitWidth="180.0" layoutX="369.0" layoutY="52.0" onMouseClicked="#onCharacter" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/Personaggi/CarteTOT_front2.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="character3" fitHeight="283.0" fitWidth="180.0" layoutX="558.0" layoutY="52.0" onMouseClicked="#onCharacter" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/Personaggi/CarteTOT_front3.jpg" />
+               </image>
+            </ImageView>
+            <Button layoutX="391.0" layoutY="348.0" mnemonicParsing="false" onAction="#switchToRealmScene" text="Return to Realm Board" />
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>

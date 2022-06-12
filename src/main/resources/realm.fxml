@@ -92,7 +92,7 @@
             </ImageView>
             <Button layoutX="14.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToSchoolBoardScene" text="Show Schoolboard" />
             <Button layoutX="180.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToAssistantsScene" text="Play assistant" />
-            <Button layoutX="280.0" layoutY="681.0" mnemonicParsing="false" text="Play character" />
+            <Button layoutX="280.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToCharactersScene" text="Play character" />
             <Button layoutX="523.0" layoutY="681.0" mnemonicParsing="false" text="Move mother nature" />
             <Button layoutX="421.0" layoutY="681.0" mnemonicParsing="false" text="Move student" />
             <Button layoutX="1074.0" layoutY="681.0" mnemonicParsing="false" text="Pass turn" />

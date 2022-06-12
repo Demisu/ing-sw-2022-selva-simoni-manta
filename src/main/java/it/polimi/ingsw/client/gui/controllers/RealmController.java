@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -61,6 +62,10 @@ public class RealmController implements GUIController {
         stage.show();*/
     }
 
+    public void switchToCharactersScene(ActionEvent e) throws IOException {
+         gui.changeScene("characters.fxml");
+    }
+
     public void switchToIsland1Scene(MouseEvent e) throws IOException {
         gui.changeScene("island1.fxml");
         /*Parent root = FXMLLoader.load(getClass().getResource("/island1.fxml"));
@@ -97,8 +102,8 @@ public class RealmController implements GUIController {
         stage.show();*/
     }
 
-    public void openBag(MouseEvent e) throws IOException {
-        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+    public void openBag(MouseEvent mouseEvent) throws IOException {
+        stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         final Stage dialog = new Stage();
         Pane bagRoot = new Pane();
         StackPane bagHolder = new StackPane();

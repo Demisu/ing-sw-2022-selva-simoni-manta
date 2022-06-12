@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.model.Assistant;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,7 +49,7 @@ public class AssistantsController implements GUIController {
     }
 
     public void onAssistant(MouseEvent event) {
-
+        Platform.runLater(() -> {
         //MainGUIController controller = (MainGUIController) gui.getControllerFromName("assistants.fxml");
         //conroller.dostuff...
         //controller.godTile(Card.parseInput(((Button) event.getSource()).getText()), choose);
@@ -101,6 +102,7 @@ public class AssistantsController implements GUIController {
         assistant10.setOnMouseClicked(mouseEvent -> {
             gui.getClientController().playAssistant(getIndexOfAssistant(10,5));
 
+        });
         });
     }
 
