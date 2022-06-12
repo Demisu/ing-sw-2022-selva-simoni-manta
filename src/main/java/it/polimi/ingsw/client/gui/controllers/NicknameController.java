@@ -26,13 +26,15 @@ public class NicknameController implements GUIController {
     private TextField textFieldNickname;
 
     public void switchToPlayersScene(ActionEvent e) throws IOException {
+        gui.changeScene("assistants.fxml");
+        /*
         System.out.println(textFieldNickname.getText());
 
         Parent root = FXMLLoader.load(getClass().getResource("/players.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
-        stage.show();
+        stage.show();*/
     }
 
     @Override

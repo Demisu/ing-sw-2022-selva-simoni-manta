@@ -47,7 +47,7 @@ public class AssistantsController implements GUIController {
 
     public void onAssistant(ActionEvent event) {
 
-        MainGUIController controller = (MainGUIController) gui.getControllerFromName("assistants.fxml");
+        //MainGUIController controller = (MainGUIController) gui.getControllerFromName("assistants.fxml");
         //conroller.dostuff...
         //controller.godTile(Card.parseInput(((Button) event.getSource()).getText()), choose);
 

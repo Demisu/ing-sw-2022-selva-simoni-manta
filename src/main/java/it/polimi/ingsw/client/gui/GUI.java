@@ -75,6 +75,16 @@ public class GUI extends Application implements ClientView {
         root = FXMLLoader.load(getClass().getResource("/" + name + ".fxml"));
     }
 
+    public void changeScene(String scene){
+        currentScene = nameMapScene.get(scene);
+        double prevWidth = stage.getWidth();
+        double prevHeight = stage.getHeight();
+        stage.setScene(currentScene);
+        stage.setHeight(prevHeight);
+        stage.setWidth(prevWidth);
+        stage.show();
+    }
+
     /**
      * Method setup creates all the stage phases which will be updated in other methods, in particular:
      * - MENU: the game's main menu with Play and Quit buttons;
