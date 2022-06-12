@@ -45,17 +45,21 @@ public class GUI extends Application implements ClientView {
 
     private ClientController clientController;
     private Parent root;
+    private static ClientController staticClientController;
 
     public static void main(String[] args) throws IOException  {
         launch(args);
     }
 
     public GUI(){
-        this.clientController = null;
+        System.out.println("SBALGIATO");
+        this.clientController = staticClientController;
     }
 
     public GUI(ClientController clientController){
+        System.out.println("GIUSTOP");
         this.clientController = clientController;
+        staticClientController = clientController;
         try {
             main(new String[]{});
         } catch (Exception e) {

@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
@@ -28,11 +29,12 @@ public class AssistantsController implements GUIController {
 
 
     public void switchToRealmScene(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/realm.fxml"));
+        gui.changeScene("realm.fxml");
+        /*Parent root = FXMLLoader.load(getClass().getResource("/realm.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
-        stage.show();
+        stage.show();*/
     }
 
     public int getIndexOfAssistant(int priority, int movement) {
@@ -45,6 +47,11 @@ public class AssistantsController implements GUIController {
         return 0;
     }
 
+    public void print(MouseEvent e) throws IOException {
+        System.out.println("CIAO");
+        gui.getClientController().playAssistant(getIndexOfAssistant(1,1));
+    }
+
     public void onAssistant(ActionEvent event) {
 
         //MainGUIController controller = (MainGUIController) gui.getControllerFromName("assistants.fxml");
@@ -54,6 +61,7 @@ public class AssistantsController implements GUIController {
         //RIMPIAZZABILI CON UN BUTTON DA CLICKARE PER OGNUNO CON IL TEXT CONTENENTE IL LORO NUMERO
         //E POI TIPO: controller.godTile(Card.parseInput(((Button) event.getSource()).getText()), choose);
         assistant1.setOnMouseClicked(mouseEvent -> {
+            System.out.println("CIAO");
             gui.getClientController().playAssistant(getIndexOfAssistant(1,1));
         });
 

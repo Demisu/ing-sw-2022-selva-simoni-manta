@@ -26,7 +26,7 @@ public class NicknameController implements GUIController {
     private TextField textFieldNickname;
 
     public void switchToPlayersScene(ActionEvent e) throws IOException {
-        gui.changeScene("assistants.fxml");
+        gui.changeScene("players.fxml");
         /*
         System.out.println(textFieldNickname.getText());
 
