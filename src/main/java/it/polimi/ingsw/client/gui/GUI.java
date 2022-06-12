@@ -52,12 +52,10 @@ public class GUI extends Application implements ClientView {
     }
 
     public GUI(){
-        System.out.println("SBALGIATO");
         this.clientController = staticClientController;
     }
 
     public GUI(ClientController clientController){
-        System.out.println("GIUSTOP");
         this.clientController = clientController;
         staticClientController = clientController;
         try {

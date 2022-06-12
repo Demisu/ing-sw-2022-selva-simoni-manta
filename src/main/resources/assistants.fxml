@@ -21,7 +21,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <ImageView fx:id="assistant1" fitHeight="283.0" fitWidth="180.0" layoutX="172.0" layoutY="53.0" onMouseClicked="#print" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="assistant1" fitHeight="283.0" fitWidth="180.0" layoutX="172.0" layoutY="53.0" onMouseClicked="#onAssistant" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/Assistenti/2x/Assistente (1).png" />
                </image>

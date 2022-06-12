@@ -47,12 +47,7 @@ public class AssistantsController implements GUIController {
         return 0;
     }
 
-    public void print(MouseEvent e) throws IOException {
-        System.out.println("CIAO");
-        gui.getClientController().playAssistant(getIndexOfAssistant(1,1));
-    }
-
-    public void onAssistant(ActionEvent event) {
+    public void onAssistant(MouseEvent event) {
 
         //MainGUIController controller = (MainGUIController) gui.getControllerFromName("assistants.fxml");
         //conroller.dostuff...
@@ -61,7 +56,6 @@ public class AssistantsController implements GUIController {
         //RIMPIAZZABILI CON UN BUTTON DA CLICKARE PER OGNUNO CON IL TEXT CONTENENTE IL LORO NUMERO
         //E POI TIPO: controller.godTile(Card.parseInput(((Button) event.getSource()).getText()), choose);
         assistant1.setOnMouseClicked(mouseEvent -> {
-            System.out.println("CIAO");
             gui.getClientController().playAssistant(getIndexOfAssistant(1,1));
         });
 
