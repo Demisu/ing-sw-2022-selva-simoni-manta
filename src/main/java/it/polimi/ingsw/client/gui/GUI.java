@@ -23,6 +23,10 @@ public class GUI extends Application implements ClientView {
     private static final String REALM = "realm.fxml";
     private static final String SCHOOLBOARD = "schoolboard.fxml";
     private static final String ASSISTANTS = "assistants.fxml";
+    private static final String ISLAND1 = "island1.fxml";
+    private static final String ISLAND2 = "island2.fxml";
+    private static final String ISLAND3 = "island3.fxml";
+    private static final String CLOUD = "cloud.fxml";
 
     /**
      * Maps each scene name to the effective scene object, in order to easily find it during scene changing operations.
@@ -81,9 +85,9 @@ public class GUI extends Application implements ClientView {
         currentScene = nameMapScene.get(scene);
         double prevWidth = stage.getWidth();
         double prevHeight = stage.getHeight();
-        stage.setScene(currentScene);
         stage.setHeight(prevHeight);
         stage.setWidth(prevWidth);
+        stage.setScene(currentScene);
         stage.show();
     }
 
@@ -96,7 +100,7 @@ public class GUI extends Application implements ClientView {
      * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
      */
     public void setup() {
-        List<String> fxmList = new ArrayList<>(Arrays.asList(MENU, NICKNAME, PLAYERS, REALM, SCHOOLBOARD, ASSISTANTS));
+        List<String> fxmList = new ArrayList<>(Arrays.asList(MENU, NICKNAME, PLAYERS, REALM, SCHOOLBOARD, ASSISTANTS, ISLAND1, ISLAND2, ISLAND3, CLOUD));
         try {
             for (String name : fxmList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + name));
