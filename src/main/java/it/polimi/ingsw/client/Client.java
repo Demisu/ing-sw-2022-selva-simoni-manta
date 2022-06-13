@@ -41,7 +41,7 @@ public class Client {
      * Repeatedly processes the next Response received by the client
      * @return supertype Response type, or null
      */
-    public ServerResponse clientResponse() {
+    public synchronized ServerResponse clientResponse() {
         try {
             return (ServerResponse) in.readObject();
         } catch (IOException e) {
@@ -58,7 +58,7 @@ public class Client {
      * Wraps the Request in its supertype to send it out to the Server
      * @param req the Request object to send
      */
-    public void clientRequest(ClientRequest req) {
+    public synchronized void clientRequest(ClientRequest req) {
         try {
             out.writeObject(req);
             out.flush();

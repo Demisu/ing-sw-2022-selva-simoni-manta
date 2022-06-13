@@ -30,7 +30,7 @@ public class RealmController implements GUIController {
     private GUI gui;
 
     @FXML
-    private Button button1, button2, button3, button4, button5, button6, menuButton;
+    private Button button1, button2, button3, button4, button5, charsButton, menuButton;
 
     @FXML
     private ImageView island;
@@ -55,6 +55,7 @@ public class RealmController implements GUIController {
 
     public void switchToAssistantsScene(ActionEvent e) throws IOException {
         gui.changeScene("assistants.fxml");
+        ((AssistantsController) gui.getControllerFromName("assistants.fxml")).onRun();
         /*Parent root = FXMLLoader.load(getClass().getResource("/assistants.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -122,6 +123,10 @@ public class RealmController implements GUIController {
         Scene dialogScene = new Scene(dialogVbox, 300, 200);
         dialog.setScene(dialogScene);
         dialog.show();
+    }
+
+    public void noExpertMode(){
+        charsButton.setVisible(false);
     }
 
     @Override

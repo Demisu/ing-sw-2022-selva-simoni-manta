@@ -13,6 +13,9 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class LobbyController implements GUIController {
     private Stage stage;
@@ -26,6 +29,9 @@ public class LobbyController implements GUIController {
         Platform.runLater(() -> {
             if(gui.getClientController().isGameStarted()){
                 gui.getClientController().getModelInfo();
+                if(!gui.getClientController().getGameInfo().isExpertMode()){
+                    ((RealmController) gui.getControllerFromName("realm.fxml")).noExpertMode();
+                }
                 gui.changeScene("realm.fxml");
             }
         });
