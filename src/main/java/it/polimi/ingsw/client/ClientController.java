@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Controller used by the Client
@@ -52,9 +55,9 @@ public class ClientController implements ServerResponseHandler {
         //Setup
         view.setupPhase();
         view.waitGameStartPhase();
-        //do{
-        //    view.testingPhase();
-        //} while(client.isConnected());
+
+        ScheduledExecutorService modelUpdater = Executors.newSingleThreadScheduledExecutor();
+        modelUpdater.scheduleAtFixedRate( () -> client.clientRequest(new GetUpdatedBoardRequest(nickname)), 0, 2, TimeUnit.SECONDS);
 
         //Game phases
         do{

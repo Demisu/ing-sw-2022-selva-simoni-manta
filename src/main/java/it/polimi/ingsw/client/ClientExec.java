@@ -36,11 +36,12 @@ public class ClientExec {
 
         try {
             client.initConnection();
-            ClientController controller = new ClientController(client, ui);
-            controller.run(); //batch of methods to call from the controller when starting the game
         } catch(IOException e) {
             System.out.println("failed initiating client connection");
             e.printStackTrace();
         }
+
+        ClientController clientController = new ClientController(client, ui);
+        clientController.run(); //batch of methods to call from the controller when starting the game
     }
 }
