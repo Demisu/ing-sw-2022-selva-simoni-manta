@@ -27,7 +27,7 @@ public class Client {
         connection = new Socket(hostAddress, port);
         in = new ObjectInputStream(connection.getInputStream());
         out = new ObjectOutputStream(connection.getOutputStream());
-        listener = new SocketListener(connection, modelView, input, actionHandler);
+        //listener = new SocketListener(connection, modelView, input, actionHandler);
         Thread thread = new Thread(listener);
         thread.start();
         isConnected = true;
