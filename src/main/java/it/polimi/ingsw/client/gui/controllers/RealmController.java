@@ -64,6 +64,7 @@ public class RealmController implements GUIController {
 
     public void switchToCharactersScene(ActionEvent e) throws IOException {
          gui.changeScene("characters.fxml");
+         ((CharactersController) gui.getControllerFromName("characters.fxml")).onRun();
     }
 
     public void switchToIsland1Scene(MouseEvent e) throws IOException {

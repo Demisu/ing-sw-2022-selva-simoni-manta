@@ -25,6 +25,7 @@ public class LobbyController implements GUIController {
     public void switchToRealmScene(ActionEvent e) throws IOException {
         Platform.runLater(() -> {
             if(gui.getClientController().isGameStarted()){
+                gui.getClientController().getModelInfo();
                 gui.changeScene("realm.fxml");
             }
         });
