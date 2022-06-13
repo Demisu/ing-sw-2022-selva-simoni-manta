@@ -205,4 +205,8 @@ public class ClientController implements ServerResponseHandler {
     public Game getGameInfo() {
         return gameInfo;
     }
+
+    public Client getClient() {
+        return client;
+    }
 }

@@ -15,6 +15,7 @@ public class Client {
     private Socket connection;
     private ObjectInputStream in;
     private ObjectOutputStream out;
+    SocketListener listener;
     private Boolean isConnected = false;
 
     public Client(String hostAddress, Integer port) {
@@ -26,6 +27,9 @@ public class Client {
         connection = new Socket(hostAddress, port);
         in = new ObjectInputStream(connection.getInputStream());
         out = new ObjectOutputStream(connection.getOutputStream());
+        listener = new SocketListener(connection, modelView, input, actionHandler);
+        Thread thread = new Thread(listener);
+        thread.start();
         isConnected = true;
     }
 
