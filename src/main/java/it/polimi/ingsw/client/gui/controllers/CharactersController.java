@@ -62,26 +62,28 @@ public class CharactersController implements GUIController {
             ArrayList<Character> characters = gui.getClientController().getCharacters();
             int count=0;
             for (Character character : characters) {
-                switch (count){
-                    case 0 -> {
-                        Image image = new Image(getClass().getResourceAsStream("/assets/Personaggi/CarteTOT_front"+character.getImage()+".jpg"));
-                        character1.setImage(image);
-                        if(character.getHasIncreasedCost()){
-                            coin1.setImage(coinImage);
+                if(!character.getHasBeenUsed()) {
+                    switch (count) {
+                        case 0 -> {
+                            Image image = new Image(getClass().getResourceAsStream("/assets/Personaggi/CarteTOT_front" + character.getImage() + ".jpg"));
+                            character1.setImage(image);
+                            if (character.getHasIncreasedCost()) {
+                                coin1.setImage(coinImage);
+                            }
                         }
-                    }
-                    case 1 -> {
-                        Image image = new Image(getClass().getResourceAsStream("/assets/Personaggi/CarteTOT_front"+character.getImage()+".jpg"));
-                        character2.setImage(image);
-                        if(character.getHasIncreasedCost()){
-                            coin2.setImage(coinImage);
+                        case 1 -> {
+                            Image image = new Image(getClass().getResourceAsStream("/assets/Personaggi/CarteTOT_front" + character.getImage() + ".jpg"));
+                            character2.setImage(image);
+                            if (character.getHasIncreasedCost()) {
+                                coin2.setImage(coinImage);
+                            }
                         }
-                    }
-                    case 2 -> {
-                        Image image = new Image(getClass().getResourceAsStream("/assets/Personaggi/CarteTOT_front"+character.getImage()+".jpg"));
-                        character3.setImage(coinImage);
-                        if(character.getHasIncreasedCost()){
-                            coin3.setImage(coinImage);
+                        case 2 -> {
+                            Image image = new Image(getClass().getResourceAsStream("/assets/Personaggi/CarteTOT_front" + character.getImage() + ".jpg"));
+                            character3.setImage(image);
+                            if (character.getHasIncreasedCost()) {
+                                coin3.setImage(coinImage);
+                            }
                         }
                     }
                 }
