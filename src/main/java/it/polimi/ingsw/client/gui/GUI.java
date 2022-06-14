@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.gui.controllers.AssistantsController;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -79,11 +80,11 @@ public class GUI extends Application implements ClientView {
         return clientController;
     }
 
-    public void changeRoot(String name) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("/" + name + ".fxml"));
-    }
-
     public void changeScene(String scene){
+        //If setup is completed, start updating the model
+        if(! (scene.equals(MENU) ||  scene.equals(NICKNAME) || scene.equals(PLAYERS))) {
+            Platform.runLater(() -> clientController.getModelInfo());
+        }
         currentScene = nameMapScene.get(scene);
         double prevWidth = stage.getWidth();
         double prevHeight = stage.getHeight();

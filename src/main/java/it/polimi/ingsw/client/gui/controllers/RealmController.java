@@ -35,73 +35,38 @@ public class RealmController implements GUIController {
     @FXML
     private ImageView island;
 
-        public void switchToSchoolBoardScene(ActionEvent e) throws IOException {
+    public void switchToSchoolBoardScene(ActionEvent e) throws IOException {
         gui.changeScene("schoolboard.fxml");
-        /*Parent root = FXMLLoader.load(getClass().getResource("/schoolboard.fxml"));
-        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
     }
 
     public void switchToGameSetupScene(ActionEvent e) throws IOException {
         gui.changeScene("start.fxml");
-        /*Parent root = FXMLLoader.load(getClass().getResource("/start.fxml"));
-        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
     }
 
     public void switchToAssistantsScene(ActionEvent e) throws IOException {
         gui.changeScene("assistants.fxml");
         ((AssistantsController) gui.getControllerFromName("assistants.fxml")).onRun();
-        /*Parent root = FXMLLoader.load(getClass().getResource("/assistants.fxml"));
-        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
     }
 
     public void switchToCharactersScene(ActionEvent e) throws IOException {
-         gui.changeScene("characters.fxml");
-         ((CharactersController) gui.getControllerFromName("characters.fxml")).onRun();
+        gui.changeScene("characters.fxml");
+        ((CharactersController) gui.getControllerFromName("characters.fxml")).onRun();
     }
 
     public void switchToIsland1Scene(MouseEvent e) throws IOException {
         gui.changeScene("island1.fxml");
-        /*Parent root = FXMLLoader.load(getClass().getResource("/island1.fxml"));
-        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
     }
 
     public void switchToCloudScene(MouseEvent e) throws IOException {
         gui.changeScene("cloud.fxml");
-        /*Parent root = FXMLLoader.load(getClass().getResource("/cloud.fxml"));
-        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
     }
 
     public void switchToIsland2Scene(MouseEvent e) throws IOException {
         gui.changeScene("island2.fxml");
-        /*Parent root = FXMLLoader.load(getClass().getResource("/island2.fxml"));
-        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
     }
 
     public void switchToIsland3Scene(MouseEvent e) throws IOException {
         gui.changeScene("island3.fxml");
-        /*Parent root = FXMLLoader.load(getClass().getResource("/island3.fxml"));
-        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
     }
 
     public void openBag(MouseEvent mouseEvent) throws IOException {

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Character;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -32,67 +33,62 @@ public class CharactersController implements GUIController {
 
     @FXML
     private ImageView character1, character2, character3, coin1, coin2, coin3;
+    private ArrayList<ImageView> guiCharacter, coins;
 
     public void switchToRealmScene(ActionEvent e) throws IOException {
         gui.changeScene("realm.fxml");
     }
 
-    /**
-     * Plays the selected character. Note the character to call is uniquely identified by the AccessibleText that was
-     * set when randomly chosen during game setup.
-     * @param event
-     */
-    public void onCharacter(MouseEvent event) {
-        Platform.runLater(() -> {
-            character1.setOnMouseClicked(mouseEvent -> {
-                gui.getClientController().playCharacter(1);
-            });
-            character2.setOnMouseClicked(mouseEvent -> {
-                gui.getClientController().playCharacter(2);
-            });
-            character3.setOnMouseClicked(mouseEvent -> {
-                gui.getClientController().playCharacter(3);
-            });
-
-        });
-    }
-
     public void onRun() {
+
+         guiCharacter = new ArrayList<>(){
+            {
+                add(character1);
+                add(character2);
+                add(character3);
+            }
+         };
+        coins = new ArrayList<>(){
+            {
+                add(coin1);
+                add(coin2);
+                add(coin3);
+            }
+        };
+
+        //All face down
+        guiCharacter.forEach(character ->
+                character.setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg"))));
+
         Platform.runLater(() -> {
+
             ArrayList<Character> characters = gui.getClientController().getCharacters();
-            int count=0;
-            for (Character character : characters) {
-                if(!character.getHasBeenUsed()) {
-                    switch (count) {
-                        case 0 -> {
-                            Image image = new Image(getClass().getResourceAsStream("/assets/Personaggi/CarteTOT_front" + character.getImage() + ".jpg"));
-                            character1.setImage(image);
-                            if (character.getHasIncreasedCost()) {
-                                coin1.setImage(coinImage);
-                            }
-                        }
-                        case 1 -> {
-                            Image image = new Image(getClass().getResourceAsStream("/assets/Personaggi/CarteTOT_front" + character.getImage() + ".jpg"));
-                            character2.setImage(image);
-                            if (character.getHasIncreasedCost()) {
-                                coin2.setImage(coinImage);
-                            }
-                        }
-                        case 2 -> {
-                            Image image = new Image(getClass().getResourceAsStream("/assets/Personaggi/CarteTOT_front" + character.getImage() + ".jpg"));
-                            character3.setImage(image);
-                            if (character.getHasIncreasedCost()) {
-                                coin3.setImage(coinImage);
-                            }
-                        }
+            for (Character character : characters){
+                //Available character face up
+                if(!character.getHasBeenUsed()){
+                    int index = characters.indexOf(character);
+                    guiCharacter.get(index)
+                            .setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/CarteTOT_front" + character.getImage() + ".jpg")));
+                    guiCharacter.get(index)
+                            .setOnMouseClicked(mouseEvent -> {
+                                //Play it
+                                Platform.runLater(() -> {
+                                    if(gui.getClientController().playCharacter(index)){
+                                        //Turn the card face down
+                                        guiCharacter.get(index)
+                                                .setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
+                                    } else {
+                                        System.out.println("No");
+                                    }
+                                });
+                            });
+                    if (character.getHasIncreasedCost()) {
+                        coins.get(index).setImage(coinImage);
                     }
                 }
-                count++;
             }
-
         });
     }
-
 
     @Override
     public void setGui(GUI gui) {
