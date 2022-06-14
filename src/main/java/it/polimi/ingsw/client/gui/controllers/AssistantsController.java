@@ -68,26 +68,25 @@ public class AssistantsController implements GUIController {
 
             //All face down
             guiAssistants.forEach(assistant ->
-                    assistant.setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/retro/player" + playerId + ".png"))));
+                    assistant.setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/retro/player" + playerId + ".jpg"))));
 
             for (Assistant assistant : deck){
                 //Available assistant face up
                 guiAssistants.get(assistant.getAssistantId() - 1)
                         .setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/2x/Assistente (" + assistant.getAssistantId() + ").png")));
                 //Available assistant setOnClick
-                guiAssistants.get(assistant.getAssistantId() - 1)
-                        .setOnMouseClicked(mouseEvent -> {
-                            //Play it
-                            Platform.runLater(() -> {
-                                    if(gui.getClientController().playAssistant(getIndexOfAssistant(assistant.getTurnPriority(),assistant.getMotherNatureMovements()))){
-                                        //Turn the card face down
-                                        guiAssistants.get(assistant.getAssistantId() - 1)
-                                                .setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/retro/player" + playerId + ".png")));
-                                    } else {
-                                        System.out.println("No");
-                                    }
-                                });
-                        });
+                guiAssistants.get(assistant.getAssistantId() - 1).setOnMouseClicked(mouseEvent -> {
+                    //Play it
+                    Platform.runLater(() -> {
+                        if(gui.getClientController().playAssistant(getIndexOfAssistant(assistant.getTurnPriority(),assistant.getMotherNatureMovements()))){
+                            //Turn the card face down
+                            guiAssistants.get(assistant.getAssistantId() - 1)
+                                    .setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/retro/player" + playerId + ".jpg")));
+                        } else {
+                            System.out.println("No");
+                        }
+                    });
+                });
             }
         });
     }

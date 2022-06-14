@@ -67,21 +67,18 @@ public class CharactersController implements GUIController {
                 //Available character face up
                 if(!character.getHasBeenUsed()){
                     int index = characters.indexOf(character);
-                    guiCharacter.get(index)
-                            .setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/CarteTOT_front" + character.getImage() + ".jpg")));
-                    guiCharacter.get(index)
-                            .setOnMouseClicked(mouseEvent -> {
-                                //Play it
-                                Platform.runLater(() -> {
-                                    if(gui.getClientController().playCharacter(index)){
-                                        //Turn the card face down
-                                        guiCharacter.get(index)
-                                                .setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
-                                    } else {
-                                        System.out.println("No");
-                                    }
-                                });
-                            });
+                    guiCharacter.get(index).setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/CarteTOT_front" + character.getImage() + ".jpg")));
+                    guiCharacter.get(index).setOnMouseClicked(mouseEvent -> {
+                        //Play it
+                        Platform.runLater(() -> {
+                            if(gui.getClientController().playCharacter(index)){
+                                //Turn the card face down
+                                guiCharacter.get(index).setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
+                            } else {
+                                System.out.println("No");
+                            }
+                        });
+                    });
                     if (character.getHasIncreasedCost()) {
                         coins.get(index).setImage(coinImage);
                     }
