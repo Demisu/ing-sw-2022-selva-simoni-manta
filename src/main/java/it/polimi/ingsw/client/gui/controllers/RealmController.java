@@ -58,6 +58,11 @@ public class RealmController implements GUIController {
         ((CharactersController) gui.getControllerFromName("characters.fxml")).onRun();
     }
 
+    public void switchToProfiles(ActionEvent e) throws IOException {
+        gui.changeScene("profiles.fxml");
+        ((ProfilesController) gui.getControllerFromName("profiles.fxml")).onRun();
+    }
+
     public void switchToIsland1Scene(MouseEvent e) throws IOException {
         gui.changeScene("island1.fxml");
     }
@@ -72,11 +77,6 @@ public class RealmController implements GUIController {
 
     public void switchToIsland3Scene(MouseEvent e) throws IOException {
         gui.changeScene("island3.fxml");
-    }
-
-    public void switchToProfiles(MouseEvent e) throws IOException {
-        gui.changeScene("profiles.fxml");
-        ((ProfilesController) gui.getControllerFromName("profiles.fxml")).onRun();
     }
 
     public void openBag(MouseEvent mouseEvent) throws IOException {

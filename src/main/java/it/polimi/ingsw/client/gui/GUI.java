@@ -30,6 +30,7 @@ public class GUI extends Application implements ClientView {
     private static final String CLOUD = "cloud.fxml";
     private static final String LOBBY = "lobby.fxml";
     private static final String CHARACTERS = "characters.fxml";
+    private static final String PROFILES = "profiles.fxml";
 
     /**
      * Maps each scene name to the effective scene object, in order to easily find it during scene changing operations.
@@ -103,7 +104,7 @@ public class GUI extends Application implements ClientView {
      * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
      */
     public void setup() {
-        List<String> fxmList = new ArrayList<>(Arrays.asList(MENU, NICKNAME, PLAYERS, REALM, SCHOOLBOARD, ASSISTANTS, ISLAND1, ISLAND2, ISLAND3, CLOUD, LOBBY, CHARACTERS));
+        List<String> fxmList = new ArrayList<>(Arrays.asList(MENU, NICKNAME, PLAYERS, REALM, SCHOOLBOARD, ASSISTANTS, ISLAND1, ISLAND2, ISLAND3, CLOUD, LOBBY, CHARACTERS, PROFILES));
         try {
             for (String name : fxmList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + name));

@@ -23,195 +23,195 @@
                         <Font name="System Bold" size="14.0" />
                     </font>
                 </Button>
-            <ImageView fx:id="playerImage1" fitHeight="321.0" fitWidth="212.0" layoutX="28.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@assets/Assistenti/retro/player1.jpg" />
-               </image>
-            </ImageView>
-            <Text fx:id="nickname1" fill="WHITE" layoutX="28.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname" textAlignment="CENTER" wrappingWidth="212.3738250732422">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Text fx:id="team1" fill="WHITE" layoutX="247.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Team X" textAlignment="CENTER" wrappingWidth="80.37382507324219">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Text fx:id="emoji1" fill="WHITE" layoutX="247.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="💰" textAlignment="CENTER" wrappingWidth="36.37382507324219">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Text fx:id="coins1" fill="WHITE" layoutX="280.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y" textAlignment="CENTER" wrappingWidth="30.373825073242188">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Button fx:id="showSchoolboard1" layoutX="249.0" layoutY="90.0" mnemonicParsing="false" text="Show schoolboard">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-            <ImageView fx:id="assistant1" fitHeight="208.0" fitWidth="148.0" layoutX="248.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@assets/Assistenti/2x/Assistente (2).png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="playerImage2" fitHeight="321.0" fitWidth="212.0" layoutX="1044.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@assets/Assistenti/retro/player2.jpg" />
-               </image>
-            </ImageView>
-            <Text fx:id="nickname2" fill="WHITE" layoutX="1044.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname" textAlignment="CENTER" wrappingWidth="212.3738250732422">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Text fx:id="team2" fill="WHITE" layoutX="957.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Team X" textAlignment="CENTER" wrappingWidth="80.37382507324219">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Text fx:id="emoji2" fill="WHITE" layoutX="1005.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="💰" textAlignment="CENTER" wrappingWidth="30.373825073242188">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Text fx:id="coins2" fill="WHITE" layoutX="974.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y" textAlignment="CENTER" wrappingWidth="30.373825073242188">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Button fx:id="showSchoolboard2" layoutX="895.0" layoutY="90.0" mnemonicParsing="false" text="Show schoolboard">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-            <ImageView fx:id="assistant2" fitHeight="208.0" fitWidth="148.0" layoutX="894.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@assets/Assistenti/2x/Assistente (2).png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="playerImage3" fitHeight="322.0" fitWidth="212.0" layoutX="28.0" layoutY="371.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@assets/Assistenti/retro/player3.jpg" />
-               </image>
-            </ImageView>
-            <Text fx:id="nickname3" fill="WHITE" layoutX="28.0" layoutY="394.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname" textAlignment="CENTER" wrappingWidth="212.3738250732422">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Text fx:id="team3" fill="WHITE" layoutX="247.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Team X" textAlignment="CENTER" wrappingWidth="80.37382507324219">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Text fx:id="emoji3" fill="WHITE" layoutX="250.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="💰" textAlignment="CENTER" wrappingWidth="30.373825073242188">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Text fx:id="coins3" fill="WHITE" layoutX="280.0" layoutY="425.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y" textAlignment="CENTER" wrappingWidth="30.373825073242188">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Button fx:id="showSchoolboard3" layoutX="249.0" layoutY="438.0" mnemonicParsing="false" text="Show schoolboard">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-            <ImageView fx:id="assistant3" fitHeight="208.0" fitWidth="148.0" layoutX="248.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@assets/Assistenti/2x/Assistente (2).png" />
-               </image>
-            </ImageView>
+                <ImageView fx:id="playerImage1" fitHeight="321.0" fitWidth="212.0" layoutX="28.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                      <Image url="@assets/Assistenti/retro/player1.jpg" />
+                   </image>
+                </ImageView>
+                <Text fx:id="nickname1" fill="WHITE" layoutX="28.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname" textAlignment="CENTER" wrappingWidth="212.3738250732422">
+                   <font>
+                      <Font name="System Bold" size="21.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Text fx:id="team1" fill="WHITE" layoutX="247.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Team X" textAlignment="CENTER" wrappingWidth="80.37382507324219">
+                   <font>
+                      <Font name="System Bold" size="21.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Text fx:id="emoji1" fill="WHITE" layoutX="247.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="💰" textAlignment="CENTER" wrappingWidth="36.37382507324219">
+                   <font>
+                      <Font name="System Bold" size="28.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Text fx:id="coins1" fill="WHITE" layoutX="280.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y" textAlignment="CENTER" wrappingWidth="30.373825073242188">
+                   <font>
+                      <Font name="System Bold" size="21.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Button fx:id="showSchoolboard1" layoutX="249.0" layoutY="90.0" mnemonicParsing="false" text="Show schoolboard">
+                   <font>
+                      <Font name="System Bold" size="14.0" />
+                   </font>
+                </Button>
+                <ImageView fx:id="assistant1" fitHeight="208.0" fitWidth="148.0" layoutX="248.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                      <Image url="@assets/Assistenti/2x/Assistente (2).png" />
+                   </image>
+                </ImageView>
+                <ImageView fx:id="playerImage2" fitHeight="321.0" fitWidth="212.0" layoutX="1044.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                      <Image url="@assets/Assistenti/retro/player2.jpg" />
+                   </image>
+                </ImageView>
+                <Text fx:id="nickname2" fill="WHITE" layoutX="1044.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname" textAlignment="CENTER" wrappingWidth="212.3738250732422">
+                   <font>
+                      <Font name="System Bold" size="21.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Text fx:id="team2" fill="WHITE" layoutX="957.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Team X" textAlignment="CENTER" wrappingWidth="80.37382507324219">
+                   <font>
+                      <Font name="System Bold" size="21.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Text fx:id="emoji2" fill="WHITE" layoutX="1005.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="💰" textAlignment="CENTER" wrappingWidth="30.373825073242188">
+                   <font>
+                      <Font name="System Bold" size="28.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Text fx:id="coins2" fill="WHITE" layoutX="974.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y" textAlignment="CENTER" wrappingWidth="30.373825073242188">
+                   <font>
+                      <Font name="System Bold" size="21.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Button fx:id="showSchoolboard2" layoutX="895.0" layoutY="90.0" mnemonicParsing="false" text="Show schoolboard">
+                   <font>
+                      <Font name="System Bold" size="14.0" />
+                   </font>
+                </Button>
+                <ImageView fx:id="assistant2" fitHeight="208.0" fitWidth="148.0" layoutX="894.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                      <Image url="@assets/Assistenti/2x/Assistente (2).png" />
+                   </image>
+                </ImageView>
+                <ImageView fx:id="playerImage3" fitHeight="322.0" fitWidth="212.0" layoutX="28.0" layoutY="371.0" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                      <Image url="@assets/Assistenti/retro/player3.jpg" />
+                   </image>
+                </ImageView>
+                <Text fx:id="nickname3" fill="WHITE" layoutX="28.0" layoutY="394.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname" textAlignment="CENTER" wrappingWidth="212.3738250732422">
+                   <font>
+                      <Font name="System Bold" size="21.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Text fx:id="team3" fill="WHITE" layoutX="247.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Team X" textAlignment="CENTER" wrappingWidth="80.37382507324219">
+                   <font>
+                      <Font name="System Bold" size="21.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Text fx:id="emoji3" fill="WHITE" layoutX="250.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="💰" textAlignment="CENTER" wrappingWidth="30.373825073242188">
+                   <font>
+                      <Font name="System Bold" size="28.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Text fx:id="coins3" fill="WHITE" layoutX="280.0" layoutY="425.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y" textAlignment="CENTER" wrappingWidth="30.373825073242188">
+                   <font>
+                      <Font name="System Bold" size="21.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Button fx:id="showSchoolboard3" layoutX="249.0" layoutY="438.0" mnemonicParsing="false" text="Show schoolboard">
+                   <font>
+                      <Font name="System Bold" size="14.0" />
+                   </font>
+                </Button>
+                <ImageView fx:id="assistant3" fitHeight="208.0" fitWidth="148.0" layoutX="248.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                      <Image url="@assets/Assistenti/2x/Assistente (2).png" />
+                   </image>
+                </ImageView>
 
-                <ImageView fx:id="playerImage4" fitHeight="321.0" fitWidth="212.0" layoutX="1044.0" layoutY="371.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@assets/Assistenti/retro/player4.jpg" />
-               </image>
-            </ImageView>
-            <Text fx:id="nickname4" fill="WHITE" layoutX="1044.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname" textAlignment="CENTER" wrappingWidth="212.3738250732422">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Text fx:id="team4" fill="WHITE" layoutX="957.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Team X" textAlignment="CENTER" wrappingWidth="80.37382507324219">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Text fx:id="emoji4" fill="WHITE" layoutX="1005.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="💰" textAlignment="CENTER" wrappingWidth="30.373825073242188">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Text fx:id="coins4" fill="WHITE" layoutX="974.0" layoutY="426.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y" textAlignment="CENTER" wrappingWidth="30.373825073242188">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Button fx:id="showSchoolboard4" layoutX="895.0" layoutY="438.0" mnemonicParsing="false" text="Show schoolboard">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-            <ImageView fx:id="assistant4" fitHeight="208.0" fitWidth="148.0" layoutX="894.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@assets/Assistenti/2x/Assistente (2).png" />
-               </image>
-            </ImageView>
+                    <ImageView fx:id="playerImage4" fitHeight="321.0" fitWidth="212.0" layoutX="1044.0" layoutY="371.0" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                      <Image url="@assets/Assistenti/retro/player4.jpg" />
+                   </image>
+                </ImageView>
+                <Text fx:id="nickname4" fill="WHITE" layoutX="1044.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname" textAlignment="CENTER" wrappingWidth="212.3738250732422">
+                   <font>
+                      <Font name="System Bold" size="21.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Text fx:id="team4" fill="WHITE" layoutX="957.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Team X" textAlignment="CENTER" wrappingWidth="80.37382507324219">
+                   <font>
+                      <Font name="System Bold" size="21.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Text fx:id="emoji4" fill="WHITE" layoutX="1005.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="💰" textAlignment="CENTER" wrappingWidth="30.373825073242188">
+                   <font>
+                      <Font name="System Bold" size="28.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Text fx:id="coins4" fill="WHITE" layoutX="974.0" layoutY="426.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y" textAlignment="CENTER" wrappingWidth="30.373825073242188">
+                   <font>
+                      <Font name="System Bold" size="21.0" />
+                   </font>
+                   <effect>
+                      <DropShadow />
+                   </effect>
+                </Text>
+                <Button fx:id="showSchoolboard4" layoutX="895.0" layoutY="438.0" mnemonicParsing="false" text="Show schoolboard">
+                   <font>
+                      <Font name="System Bold" size="14.0" />
+                   </font>
+                </Button>
+                <ImageView fx:id="assistant4" fitHeight="208.0" fitWidth="148.0" layoutX="894.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                      <Image url="@assets/Assistenti/2x/Assistente (2).png" />
+                   </image>
+                </ImageView>
             </children>
         </AnchorPane>
     </children>

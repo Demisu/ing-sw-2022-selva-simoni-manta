@@ -100,7 +100,7 @@
                   <Image url="@assets/bag.png" />
                </image>
             </ImageView>
-            <Button fx:id="profiles" layoutX="14.0" layoutY="14.0" onMouseClicked="#switchToProfiles" mnemonicParsing="false" text="Game status" />
+            <Button fx:id="profiles" layoutX="14.0" layoutY="14.0" onAction="#switchToProfiles" mnemonicParsing="false" text="Game status" />
             <Button layoutX="14.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToSchoolBoardScene" text="Show Schoolboard" />
             <Button layoutX="180.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToAssistantsScene" text="Play assistant" />
             <Button fx:id="charsButton" layoutX="280.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToCharactersScene" text="Play character" />
