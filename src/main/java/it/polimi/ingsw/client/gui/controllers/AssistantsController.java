@@ -47,25 +47,23 @@ public class AssistantsController implements GUIController {
     }
 
     public void onRun() {
+        guiAssistants = new ArrayList<>(){
+            {
+                add(assistant1);
+                add(assistant2);
+                add(assistant3);
+                add(assistant4);
+                add(assistant5);
+                add(assistant6);
+                add(assistant7);
+                add(assistant8);
+                add(assistant9);
+                add(assistant10);
+            }
+        };
         Platform.runLater(() -> {
             List<Assistant> deck = gui.getClientController().getPlayerInfo().getDeck();
             int playerId = gui.getClientController().getPlayerInfo().getPlayerId() + 1;
-
-            guiAssistants = new ArrayList<>(){
-                {
-                    add(assistant1);
-                    add(assistant2);
-                    add(assistant3);
-                    add(assistant4);
-                    add(assistant5);
-                    add(assistant6);
-                    add(assistant7);
-                    add(assistant8);
-                    add(assistant9);
-                    add(assistant10);
-                }
-            };
-
             //All face down
             guiAssistants.forEach(assistant ->
                     assistant.setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/retro/player" + playerId + ".jpg"))));

@@ -56,10 +56,6 @@ public class CharactersController implements GUIController {
             }
         };
 
-        //All face down
-        guiCharacter.forEach(character ->
-                character.setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg"))));
-
         Platform.runLater(() -> {
 
             ArrayList<Character> characters = gui.getClientController().getCharacters();
@@ -82,6 +78,9 @@ public class CharactersController implements GUIController {
                     if (character.getHasIncreasedCost()) {
                         coins.get(index).setImage(coinImage);
                     }
+                }else{
+                    int index = characters.indexOf(character);
+                    guiCharacter.get(index).setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
                 }
             }
         });

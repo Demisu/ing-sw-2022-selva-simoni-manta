@@ -230,10 +230,16 @@ public class Game implements Serializable {
 
         //Fill islands (except first one and last one)
         Integer student;
-        for (Island island : this.islands.subList(1, islands.size() - 1)) {
+        int count = 1;
+        for (Island island : this.islands.subList(1, islands.size())) {
+            if(count==(islands.size()/2)){
+                count++;
+                continue;
+            }
             student = studentsForIslands.get(0);
             studentsForIslands.remove(0);
             island.addStudent(student);
+            count++;
         }
 
         //Fill clouds

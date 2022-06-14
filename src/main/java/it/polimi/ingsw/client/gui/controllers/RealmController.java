@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.model.Character;
+import it.polimi.ingsw.model.Island;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,6 +24,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RealmController implements GUIController {
 
@@ -30,10 +34,11 @@ public class RealmController implements GUIController {
     private GUI gui;
 
     @FXML
-    private Button button1, button2, button3, button4, button5, charsButton, menuButton;
+    private Button button1, button2, button3, button4, button5, charsButton, menuButton, profiles;
 
     @FXML
-    private ImageView island;
+    private ImageView island1, island2, island3, island4, island5, island6, island7, island8, island9, island10, island11, island12, cloud1, cloud2, cloud3, cloud4;
+    private ArrayList<ImageView> guiIslands;
 
     public void switchToSchoolBoardScene(ActionEvent e) throws IOException {
         gui.changeScene("schoolboard.fxml");
@@ -69,6 +74,11 @@ public class RealmController implements GUIController {
         gui.changeScene("island3.fxml");
     }
 
+    public void switchToProfiles(MouseEvent e) throws IOException {
+        gui.changeScene("profiles.fxml");
+        ((ProfilesController) gui.getControllerFromName("profiles.fxml")).onRun();
+    }
+
     public void openBag(MouseEvent mouseEvent) throws IOException {
         stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         final Stage dialog = new Stage();
@@ -88,6 +98,30 @@ public class RealmController implements GUIController {
         Scene dialogScene = new Scene(dialogVbox, 300, 200);
         dialog.setScene(dialogScene);
         dialog.show();
+    }
+
+    public void onRun(){
+        guiIslands = new ArrayList<>(){
+            {
+                add(island1);
+                add(island2);
+                add(island3);
+                add(island4);
+                add(island5);
+                add(island6);
+                add(island7);
+                add(island8);
+                add(island9);
+                add(island10);
+                add(island11);
+                add(island12);
+            }
+        };
+        guiIslands.forEach(island -> island.setVisible(false));
+        Platform.runLater(() -> {
+            List<Island> islands = gui.getClientController().getIslands();
+            islands.forEach(island -> guiIslands.get(island.getPieceID()).setVisible(true));
+        });
     }
 
     public void noExpertMode(){
