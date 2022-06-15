@@ -37,30 +37,28 @@ public class ProfilesController implements GUIController {
     private List<Text> guiTeams;
     private List<Text> guiEmojis;
     private List<Text> guiCoins;
+    private List<Text> guiClickToPlay;
     private List<ImageView> guiAssistants;
     private List<Button> guiShowSchoolBoards;
 
     @FXML
     private ImageView playerImage1, playerImage2, playerImage3, playerImage4;
-
     @FXML
     private ImageView assistant1, assistant2, assistant3, assistant4;
 
     @FXML
     private Text nickname1, nickname2, nickname3, nickname4;
-
     @FXML
     private Text team1, team2, team3, team4;
-
     @FXML
     private Text emoji1, emoji2, emoji3, emoji4;
-
     @FXML
     private Text coins1, coins2, coins3, coins4;
+    @FXML
+    private Text clickToPlay1, clickToPlay2, clickToPlay3, clickToPlay4;
 
     @FXML
     private Button showSchoolboard1, showSchoolboard2, showSchoolboard3, showSchoolboard4;
-
     @FXML
     private Button realm;
 
@@ -105,6 +103,14 @@ public class ProfilesController implements GUIController {
                 add(coins4);
             }
         };
+        guiClickToPlay = new ArrayList<>(){
+            {
+                add(clickToPlay1);
+                add(clickToPlay2);
+                add(clickToPlay3);
+                add(clickToPlay4);
+            }
+        };
         guiAssistants = new ArrayList<>(){
             {
                 add(assistant1);
@@ -126,7 +132,7 @@ public class ProfilesController implements GUIController {
         guiShowSchoolBoards.forEach(btn -> btn.setVisible(false));
 
         realm.setOnAction(e -> {
-            gui.changeScene("realm.fxml");
+            gui.changeScene(GUI.REALM);
         });
 
         Platform.runLater(() -> {
@@ -140,6 +146,7 @@ public class ProfilesController implements GUIController {
     public void drawPlayer(Player player){
 
         int id = player.getPlayerId();
+        boolean sameAsClient = player.getNickname().equals(gui.getClientController().getPlayerInfo().getNickname());
 
         //Player Image
         guiPlayers.get(id).setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/retro/player" + (id + 1) + ".jpg")));
@@ -148,20 +155,31 @@ public class ProfilesController implements GUIController {
         if(player.getLastAssistantPlayed() != null){
             //Played assistant, show it
             guiAssistants.get(id).setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/2x/Assistente (" + player.getLastAssistantPlayed().getAssistantId() + ").png")));
+            //Remove hint text
+            guiClickToPlay.get(id).setText("");
         } else {
             //Still need to play assistant, show generic back
             guiAssistants.get(id).setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
             //If this is the current player, he can click on it to play an assistant
             guiAssistants.get(id).setOnMouseClicked(e -> {
-                gui.changeScene("assistants.fxml");
+                gui.changeScene(GUI.ASSISTANTS);
             });
+            //Add hint text, if this is the client player
+            if(sameAsClient) {
+                guiClickToPlay.get(id).setText("Click to play");
+                //Clickable hint, to avoid unresponsive parts
+                guiClickToPlay.get(id).setOnMouseClicked(e -> {
+                    gui.changeScene(GUI.ASSISTANTS);
+                    ((AssistantsController) gui.getControllerFromName(GUI.ASSISTANTS)).onRun();
+                });
+            }
         }
 
         //Nickname
-        guiNicknames.get(id).setText(player.getNickname());
+        guiNicknames.get(id).setText(player.getNickname() + (sameAsClient ? "[YOU]" : ""));
 
         //Team
-        guiTeams.get(id).setText("Team " + teams.get(id).getTeamId().toString());
+        guiTeams.get(id).setText("Team " + player.getTeamID().toString());
 
         //Coins
         guiEmojis.get(id).setText("💰");
@@ -170,7 +188,8 @@ public class ProfilesController implements GUIController {
         //School board button
         guiShowSchoolBoards.get(id).setVisible(true);
         guiShowSchoolBoards.get(id).setOnAction(e -> {
-            gui.changeScene("schoolboard.fxml");
+            gui.changeScene(GUI.SCHOOLBOARD);
+            ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(player);
             System.out.println("ANCORA DA FINIRE PER BENE, DA METTERE OGNI SCHOOLBOARD");
         });
     }

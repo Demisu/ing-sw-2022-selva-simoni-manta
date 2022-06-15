@@ -30,16 +30,7 @@ public class StartController implements GUIController {
     private Button volumeButton;
 
     public void switchToNicknameScene(ActionEvent e) throws IOException {
-
-        gui.changeScene("nickname.fxml");
-        /*
-        Parent root = FXMLLoader.load(getClass().getResource("/nickname.fxml"));
-        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setHeight(prevHeight);
-        stage.setWidth(prevWidth);
-        stage.setScene(scene);
-        stage.show();*/
+        gui.changeScene(GUI.NICKNAME);
     }
 
     public void closeApplication(ActionEvent e) throws IOException {

@@ -21,12 +21,7 @@ public class IslandController implements GUIController {
     private Button button;
 
     public void switchToRealmScene(ActionEvent e) throws IOException {
-        gui.changeScene("realm.fxml");
-        /*Parent root = FXMLLoader.load(getClass().getResource("/realm.fxml"));
-        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
+        gui.changeScene(GUI.REALM);
     }
 
     @Override

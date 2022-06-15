@@ -30,9 +30,9 @@ public class LobbyController implements GUIController {
             if(gui.getClientController().isGameStarted()){
                 gui.getClientController().getModelInfo();
                 if(!gui.getClientController().getGameInfo().isExpertMode()){
-                    ((RealmController) gui.getControllerFromName("realm.fxml")).noExpertMode();
+                    ((RealmController) gui.getControllerFromName(GUI.REALM)).noExpertMode();
                 }
-                gui.changeScene("realm.fxml");
+                gui.changeScene(GUI.REALM);
             }
         });
         /*Parent root = FXMLLoader.load(getClass().getResource("/realm.fxml"));

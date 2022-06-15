@@ -18,19 +18,19 @@ import java.util.*;
 public class GUI extends Application implements ClientView {
 
     public static final String END_OF_THE_GAME = "End of the game";
-    private static final String MENU = "start.fxml";
-    private static final String NICKNAME = "nickname.fxml";
-    private static final String PLAYERS = "players.fxml";
-    private static final String REALM = "realm.fxml";
-    private static final String SCHOOLBOARD = "schoolboard.fxml";
-    private static final String ASSISTANTS = "assistants.fxml";
-    private static final String ISLAND1 = "island1.fxml";
-    private static final String ISLAND2 = "island2.fxml";
-    private static final String ISLAND3 = "island3.fxml";
-    private static final String CLOUD = "cloud.fxml";
-    private static final String LOBBY = "lobby.fxml";
-    private static final String CHARACTERS = "characters.fxml";
-    private static final String PROFILES = "profiles.fxml";
+    public static final String MENU = "start.fxml";
+    public static final String NICKNAME = "nickname.fxml";
+    public static final String PLAYERS = "players.fxml";
+    public static final String REALM = "realm.fxml";
+    public static final String SCHOOLBOARD = "schoolboard.fxml";
+    public static final String ASSISTANTS = "assistants.fxml";
+    public static final String ISLAND1 = "island1.fxml";
+    public static final String ISLAND2 = "island2.fxml";
+    public static final String ISLAND3 = "island3.fxml";
+    public static final String CLOUD = "cloud.fxml";
+    public static final String LOBBY = "lobby.fxml";
+    public static final String CHARACTERS = "characters.fxml";
+    public static final String PROFILES = "profiles.fxml";
 
     /**
      * Maps each scene name to the effective scene object, in order to easily find it during scene changing operations.

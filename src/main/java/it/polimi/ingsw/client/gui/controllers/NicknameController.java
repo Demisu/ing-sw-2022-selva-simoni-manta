@@ -36,10 +36,10 @@ public class NicknameController implements GUIController {
             result = gui.getClientController().setPlayerNickname(textFieldNickname.getText());
             switch(result){
                 case 0 -> {
-                    gui.changeScene("lobby.fxml");
+                    gui.changeScene(GUI.LOBBY);
                 }
                 case 1 -> {
-                    gui.changeScene("players.fxml");
+                    gui.changeScene(GUI.PLAYERS);
                 }
                 case 2 -> {
                     Platform.runLater(() -> {
@@ -51,14 +51,6 @@ public class NicknameController implements GUIController {
         }else{
             System.out.println("Inserisci un nickname!");
         }
-        /*
-        System.out.println(textFieldNickname.getText());
-
-        Parent root = FXMLLoader.load(getClass().getResource("/players.fxml"));
-        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
     }
 
     @Override

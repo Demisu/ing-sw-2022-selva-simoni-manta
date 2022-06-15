@@ -33,7 +33,7 @@ public class AssistantsController implements GUIController {
     private ArrayList<ImageView> guiAssistants;
 
     public void switchToRealmScene(ActionEvent e) throws IOException {
-        gui.changeScene("realm.fxml");
+        gui.changeScene(GUI.REALM);
     }
 
     public int getIndexOfAssistant(int priority, int movement) {

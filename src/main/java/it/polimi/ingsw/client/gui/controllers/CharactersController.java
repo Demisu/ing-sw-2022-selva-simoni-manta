@@ -36,7 +36,7 @@ public class CharactersController implements GUIController {
     private ArrayList<ImageView> guiCharacter, coins;
 
     public void switchToRealmScene(ActionEvent e) throws IOException {
-        gui.changeScene("realm.fxml");
+        gui.changeScene(GUI.REALM);
     }
 
     public void onRun() {

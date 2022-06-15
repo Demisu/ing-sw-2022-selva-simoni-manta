@@ -11,6 +11,7 @@ public class Player implements Serializable {
     private Integer coins;
 
     private String nickname;
+    private Integer teamID;
     private Boolean isActive;
     
     private ArrayList<Assistant> deck;
@@ -95,6 +96,14 @@ public class Player implements Serializable {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public Integer getTeamID() {
+        return teamID;
+    }
+
+    public void setTeamID(Integer teamID) {
+        this.teamID = teamID;
     }
 
     public Assistant getAssistantById(Integer assistantId) {

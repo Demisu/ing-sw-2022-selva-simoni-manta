@@ -41,42 +41,42 @@ public class RealmController implements GUIController {
     private ArrayList<ImageView> guiIslands;
 
     public void switchToSchoolBoardScene(ActionEvent e) throws IOException {
-        gui.changeScene("schoolboard.fxml");
+        gui.changeScene(GUI.SCHOOLBOARD);
     }
 
     public void switchToGameSetupScene(ActionEvent e) throws IOException {
-        gui.changeScene("start.fxml");
+        gui.changeScene(GUI.MENU);
     }
 
     public void switchToAssistantsScene(ActionEvent e) throws IOException {
-        gui.changeScene("assistants.fxml");
-        ((AssistantsController) gui.getControllerFromName("assistants.fxml")).onRun();
+        gui.changeScene(GUI.ASSISTANTS);
+        ((AssistantsController) gui.getControllerFromName(GUI.ASSISTANTS)).onRun();
     }
 
     public void switchToCharactersScene(ActionEvent e) throws IOException {
-        gui.changeScene("characters.fxml");
-        ((CharactersController) gui.getControllerFromName("characters.fxml")).onRun();
+        gui.changeScene(GUI.CHARACTERS);
+        ((CharactersController) gui.getControllerFromName(GUI.CHARACTERS)).onRun();
     }
 
     public void switchToProfiles(ActionEvent e) throws IOException {
-        gui.changeScene("profiles.fxml");
-        ((ProfilesController) gui.getControllerFromName("profiles.fxml")).onRun();
-    }
-
-    public void switchToIsland1Scene(MouseEvent e) throws IOException {
-        gui.changeScene("island1.fxml");
+        gui.changeScene(GUI.PROFILES);
+        ((ProfilesController) gui.getControllerFromName(GUI.PROFILES)).onRun();
     }
 
     public void switchToCloudScene(MouseEvent e) throws IOException {
-        gui.changeScene("cloud.fxml");
+        gui.changeScene(GUI.CLOUD);
+    }
+
+    public void switchToIsland1Scene(MouseEvent e) throws IOException {
+        gui.changeScene(GUI.ISLAND1);
     }
 
     public void switchToIsland2Scene(MouseEvent e) throws IOException {
-        gui.changeScene("island2.fxml");
+        gui.changeScene(GUI.ISLAND2);
     }
 
     public void switchToIsland3Scene(MouseEvent e) throws IOException {
-        gui.changeScene("island3.fxml");
+        gui.changeScene(GUI.ISLAND3);
     }
 
     public void openBag(MouseEvent mouseEvent) throws IOException {

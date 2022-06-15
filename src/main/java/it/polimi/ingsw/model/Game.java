@@ -157,9 +157,8 @@ public class Game implements Serializable {
             }
         }
 
-        // DEBUG TO REMOVE
-        //teams.get(0).addPlayer(players.get(0));
-        //teams.get(1).addPlayer(players.get(1));
+        //Set player's team id in their class
+        updateTeams();
 
         //Bag setup
         this.students = new ArrayList<>();
@@ -276,6 +275,11 @@ public class Game implements Serializable {
                 }
             }
         }
+    }
+
+    public void updateTeams(){
+        teams.forEach(team ->team.getPlayers()
+                .forEach(player -> player.setTeamID(team.getTeamId())));
     }
 
     public void nextPlayer() {
