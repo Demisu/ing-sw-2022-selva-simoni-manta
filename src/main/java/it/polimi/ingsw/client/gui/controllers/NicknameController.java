@@ -24,9 +24,11 @@ public class NicknameController implements GUIController {
                 switch(result){
                     case 0 -> {
                         gui.changeScene(GUI.LOBBY);
+                        ((LobbyController) gui.getControllerFromName(GUI.LOBBY)).onLoad();
                     }
                     case 1 -> {
                         gui.changeScene(GUI.PLAYERS);
+                        ((PlayersController) gui.getControllerFromName(GUI.PLAYERS)).onLoad();
                     }
                     case 2 -> {
                         Platform.runLater(() -> {

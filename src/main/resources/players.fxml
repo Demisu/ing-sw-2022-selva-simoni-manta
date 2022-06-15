@@ -25,21 +25,21 @@
                   <Font name="System Bold" size="30.0" />
                </font>
             </Text>
-            <Button fx:id="button2p" layoutX="483.0" layoutY="330.0" mnemonicParsing="false" onAction="#twoPlayers" text="1 v 1">
+            <Button fx:id="button2p" layoutX="483.0" layoutY="330.0" mnemonicParsing="false" text="1 v 1">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Button>
             <Polygon fill="#515151" layoutX="-66.0" layoutY="156.0" points="640.888916015625, 132.0, 770.888916015625, 132.0, 770.888916015625, 100.0, 640.888916015625, 100.0" stroke="BLACK" strokeType="INSIDE" />
-            <CheckBox fx:id="checkBoxExpertMode" layoutX="580.0" layoutY="259.0" mnemonicParsing="false" text="Expert mode" textFill="WHITE">
+            <CheckBox fx:id="expertMode" layoutX="580.0" layoutY="259.0" mnemonicParsing="false" text="Expert mode" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font></CheckBox>
-            <Button fx:id="button3p" layoutX="604.0" layoutY="330.0" mnemonicParsing="false" onAction="#treePlayers" text="1 v 1 v 1">
+            <Button fx:id="button3p" layoutX="604.0" layoutY="330.0" mnemonicParsing="false" text="1 v 1 v 1">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="button4p" layoutX="748.0" layoutY="330.0" mnemonicParsing="false" onAction="#fourPlayers" text="2 v 2">
+            <Button fx:id="button4p" layoutX="748.0" layoutY="330.0" mnemonicParsing="false" text="2 v 2">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>

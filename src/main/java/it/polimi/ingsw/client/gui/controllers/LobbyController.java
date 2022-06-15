@@ -1,32 +1,18 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
-import it.polimi.ingsw.model.GamePhase;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class LobbyController implements GUIController {
-    private Stage stage;
-    private Scene scene;
     private GUI gui;
 
     @FXML
-    private Button button;
+    private Button refresh;
 
-    public void switchToRealmScene(ActionEvent e) throws IOException {
-        Platform.runLater(() -> {
+    public void onLoad(){
+        refresh.setOnAction(e -> Platform.runLater(() -> {
             if(gui.getClientController().isGameStarted()){
                 gui.getClientController().getModelInfo();
                 if(!gui.getClientController().getGameInfo().isExpertMode()){
@@ -34,12 +20,7 @@ public class LobbyController implements GUIController {
                 }
                 gui.changeScene(GUI.REALM);
             }
-        });
-        /*Parent root = FXMLLoader.load(getClass().getResource("/realm.fxml"));
-        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
+        }));
     }
 
     @Override
