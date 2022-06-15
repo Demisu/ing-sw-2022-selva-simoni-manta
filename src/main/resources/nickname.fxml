@@ -25,12 +25,12 @@
                   <Font name="System Bold" size="30.0" />
                </font>
             </Text>
-            <Button fx:id="buttonConfirmNick" layoutX="617.0" layoutY="388.0" mnemonicParsing="false" onAction="#switchToPlayersScene" prefHeight="46.0" prefWidth="46.0" text="✅">
+            <Button fx:id="confirm" layoutX="617.0" layoutY="388.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="46.0" text="✅">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <TextField fx:id="textFieldNickname" layoutX="528.0" layoutY="321.0">
+            <TextField fx:id="nickname" layoutX="528.0" layoutY="321.0">
                <font>
                   <Font size="18.0" />
                </font>

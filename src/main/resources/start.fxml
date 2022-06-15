@@ -41,7 +41,7 @@
                   <Font name="Arial Rounded MT Bold" size="35.0" />
                </font>
             </Button>
-            <Button fx:id="volumeButton" layoutX="1224.0" layoutY="667.0" mnemonicParsing="false" text="🔊">
+            <Button fx:id="sound" layoutX="1224.0" layoutY="667.0" mnemonicParsing="false" onAction="#switchVolume" text="🔊">
                <font>
                   <Font size="18.0" />
                </font>

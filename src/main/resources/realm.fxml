@@ -75,17 +75,17 @@
                   <Image url="@assets/island1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cloud2" fitHeight="150.0" fitWidth="150.0" layoutX="466.0" layoutY="341.0" onMouseClicked="#switchToCloudScene" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="cloud1" fitHeight="150.0" fitWidth="150.0" layoutX="466.0" layoutY="341.0" onMouseClicked="#switchToCloudScene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/cloud.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cloud1" fitHeight="150.0" fitWidth="150.0" layoutX="340.0" layoutY="212.0" onMouseClicked="#switchToCloudScene" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="cloud3" fitHeight="150.0" fitWidth="150.0" layoutX="340.0" layoutY="212.0" onMouseClicked="#switchToCloudScene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/cloud.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cloud3" fitHeight="150.0" fitWidth="150.0" layoutX="684.0" layoutY="341.0" onMouseClicked="#switchToCloudScene" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="cloud2" fitHeight="150.0" fitWidth="150.0" layoutX="684.0" layoutY="341.0" onMouseClicked="#switchToCloudScene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/cloud.png" />
                </image>
@@ -100,7 +100,7 @@
                   <Image url="@assets/bag.png" />
                </image>
             </ImageView>
-            <Button fx:id="profiles" layoutX="14.0" layoutY="14.0" onAction="#switchToProfiles" mnemonicParsing="false" text="Game status" />
+            <Button fx:id="profiles" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToProfiles" text="Game status" />
             <Button layoutX="14.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToSchoolBoardScene" text="Show Schoolboard" />
             <Button layoutX="180.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToAssistantsScene" text="Play assistant" />
             <Button fx:id="charsButton" layoutX="280.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToCharactersScene" text="Play character" />

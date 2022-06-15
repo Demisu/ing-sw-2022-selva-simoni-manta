@@ -4,47 +4,44 @@ import it.polimi.ingsw.client.gui.GUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class StartController implements GUIController {
-
-    private Stage stage;
-    private Scene scene;
     private GUI gui;
+    private boolean muted;
 
     @FXML
-    private Button playButton;
-
-    @FXML
-    private Button quitButton;
-
-    @FXML
-    private Button volumeButton;
+    private Button sound;
 
     public void switchToNicknameScene(ActionEvent e) throws IOException {
         gui.changeScene(GUI.NICKNAME);
+        ((NicknameController) gui.getControllerFromName(GUI.NICKNAME)).onLoad();
     }
 
     public void closeApplication(ActionEvent e) throws IOException {
         Platform.exit();
     }
 
-    public void muteVolume(ActionEvent e) throws IOException {
-        volumeButton.setOnAction(event -> {
-        });
-    }
-
-    public void alignButton(ActionEvent e) throws IOException {
-        volumeButton.setAlignment(Pos.BOTTOM_RIGHT);
-        System.out.println("ciao");
+    public void switchVolume(ActionEvent e) throws IOException {
+        if(muted){// 42 39
+            gui.getMusicPlayer().play();
+            sound.setText("\uD83D\uDD0A");
+            sound.setMaxHeight(39);
+            sound.setMinHeight(39);
+            sound.setMaxWidth(42);
+            sound.setMinWidth(42);
+            muted = false;
+        }else{
+            gui.getMusicPlayer().stop();
+            sound.setText("\uD83D\uDD08");
+            sound.setMaxHeight(39);
+            sound.setMinHeight(39);
+            sound.setMaxWidth(42);
+            sound.setMinWidth(42);
+            muted = true;
+        }
     }
 
     @Override

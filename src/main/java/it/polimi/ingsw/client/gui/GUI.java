@@ -10,7 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.*;
@@ -50,6 +53,8 @@ public class GUI extends Application implements ClientView {
     private Stage stage;
     //private MediaPlayer player;
     //private boolean[] actionCheckers;
+
+    private MediaPlayer musicPlayer;
 
     private ClientController clientController;
     private Parent root;
@@ -152,6 +157,20 @@ public class GUI extends Application implements ClientView {
         stage.setScene(new Scene(root, 1280, 720));
         stage.show();
         */
+        Media music = new Media(Objects.requireNonNull(getClass().getClassLoader()
+                .getResource("assets/media/Epic_Orchestral_Music.mp3")).toExternalForm());
+        musicPlayer = new MediaPlayer(music);
+        musicPlayer.setAutoPlay(true);
+        musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        musicPlayer.setVolume(25);
+        musicPlayer.setOnEndOfMedia(() -> {
+            musicPlayer.seek(Duration.ZERO);
+            musicPlayer.play();
+        });
+    }
+
+    public MediaPlayer getMusicPlayer() {
+        return musicPlayer;
     }
 
     /**

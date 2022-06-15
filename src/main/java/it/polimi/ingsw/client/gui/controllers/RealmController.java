@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.model.Character;
 import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -39,6 +40,7 @@ public class RealmController implements GUIController {
     @FXML
     private ImageView island1, island2, island3, island4, island5, island6, island7, island8, island9, island10, island11, island12, cloud1, cloud2, cloud3, cloud4;
     private ArrayList<ImageView> guiIslands;
+    private ArrayList<ImageView> guiClouds;
 
     public void switchToSchoolBoardScene(ActionEvent e) throws IOException {
         gui.changeScene(GUI.SCHOOLBOARD);
@@ -92,6 +94,7 @@ public class RealmController implements GUIController {
         dialog.initModality(Modality.NONE);
         dialog.initOwner(stage);
         dialog.getIcons().add(new Image(getClass().getResourceAsStream("/assets/bag.png")));
+        dialog.setTitle("Bag");
         VBox dialogVbox = new VBox(20);
         dialogVbox.setBackground(new Background(new BackgroundFill(Color.BURLYWOOD, CornerRadii.EMPTY, Insets.EMPTY)));
         dialogVbox.getChildren().add(new Text("\t [INFO TO BE ADDED..]"));
@@ -117,10 +120,23 @@ public class RealmController implements GUIController {
                 add(island12);
             }
         };
+        guiClouds = new ArrayList<>(){
+            {
+                add(cloud1);
+                add(cloud2);
+                add(cloud3);
+                add(cloud4);
+            }
+        };
         guiIslands.forEach(island -> island.setVisible(false));
+        guiClouds.forEach(cloud -> cloud.setVisible(false));
         Platform.runLater(() -> {
             List<Island> islands = gui.getClientController().getIslands();
+            List<Player> players= gui.getClientController().getGameInfo().getPlayers();
             islands.forEach(island -> guiIslands.get(island.getPieceID()).setVisible(true));
+            for(int i=0;i<players.size();i++){
+                guiClouds.get(i).setVisible(true);
+            }
         });
     }
 

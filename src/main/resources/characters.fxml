@@ -45,6 +45,21 @@
             <ImageView fx:id="coin2" fitHeight="100.0" fitWidth="100.0" layoutX="713.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
 
             </ImageView>
+            <Button fx:id="info1" layoutX="263.0" layoutY="512.0" mnemonicParsing="false" text="Info">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="info2" layoutX="628.0" layoutY="512.0" mnemonicParsing="false" text="Info">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="info3" layoutX="993.0" layoutY="512.0" mnemonicParsing="false" text="Info">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </children>

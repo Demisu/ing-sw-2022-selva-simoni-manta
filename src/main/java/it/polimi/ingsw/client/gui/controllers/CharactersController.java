@@ -7,11 +7,18 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -29,7 +36,8 @@ public class CharactersController implements GUIController {
     private GUI gui;
 
     @FXML
-    private Button button;
+    private Button info1, info2, info3;
+    private ArrayList<Button> info;
 
     @FXML
     private ImageView character1, character2, character3, coin1, coin2, coin3;
@@ -41,13 +49,20 @@ public class CharactersController implements GUIController {
 
     public void onRun() {
 
-         guiCharacter = new ArrayList<>(){
+        guiCharacter = new ArrayList<>(){
+           {
+               add(character1);
+               add(character2);
+               add(character3);
+           }
+        };
+        info = new ArrayList<>(){
             {
-                add(character1);
-                add(character2);
-                add(character3);
+                add(info1);
+                add(info2);
+                add(info3);
             }
-         };
+        };
         coins = new ArrayList<>(){
             {
                 add(coin1);
@@ -59,6 +74,30 @@ public class CharactersController implements GUIController {
         Platform.runLater(() -> {
 
             ArrayList<Character> characters = gui.getClientController().getCharacters();
+            for(int i=0;i<3;i++){
+                //characters.get(i).getEffect() //This needs to be implemented in Character Class
+                info.forEach(info -> info.setOnAction(e -> {
+                    stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+                    final Stage dialog = new Stage();
+                    Pane bagRoot = new Pane();
+                    StackPane bagHolder = new StackPane();
+                    Canvas canvas = new Canvas(2000,2000);
+                    bagHolder.getChildren().add(canvas);
+                    bagRoot.getChildren().add(bagHolder);
+                    Scene bagScene = new Scene(bagRoot, 600, 400);
+                    dialog.setScene(bagScene);
+                    dialog.initModality(Modality.NONE);
+                    dialog.initOwner(stage);
+                    dialog.getIcons().add(new Image(getClass().getResourceAsStream("/assets/coin.png")));
+                    dialog.setTitle("[CHARACTER NAME TO BE ADDED..]");
+                    VBox dialogVbox = new VBox(20);
+                    dialogVbox.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+                    dialogVbox.getChildren().add(new Text("\t [INFO TO BE ADDED..]"));
+                    Scene dialogScene = new Scene(dialogVbox, 300, 200);
+                    dialog.setScene(dialogScene);
+                    dialog.show();
+                }));
+            }
             for (Character character : characters){
                 //Available character face up
                 if(!character.getHasBeenUsed()){
