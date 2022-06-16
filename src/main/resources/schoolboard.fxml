@@ -16,7 +16,7 @@
                   <Image url="@assets/plancia.png" />
                </image>
             </ImageView>
-            <Button layoutX="551.0" layoutY="676.0" mnemonicParsing="false" onAction="#switchToRealmScene" text="Return to Islands' Board">
+            <Button fx:id="realm" layoutX="551.0" layoutY="676.0" mnemonicParsing="false" text="Return to Islands' Board">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Button>

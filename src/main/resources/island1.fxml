@@ -16,7 +16,7 @@
                   <Image url="@assets/island1-zoomed.png" />
                </image>
             </ImageView>
-            <Button layoutX="870.0" layoutY="846.0" mnemonicParsing="false" onAction="#switchToRealmScene" prefHeight="0.0" prefWidth="181.0" text="Return to the realm">
+            <Button fx:id="realm" layoutX="870.0" layoutY="846.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="181.0" text="Return to the realm">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>

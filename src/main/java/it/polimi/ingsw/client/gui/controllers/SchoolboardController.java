@@ -2,27 +2,29 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.model.Player;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
-import java.io.IOException;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
 public class SchoolboardController implements GUIController {
-
-    private Stage stage;
-    private Scene scene;
     private GUI gui;
 
-    public void switchToRealmScene(ActionEvent e) throws IOException {
-        gui.changeScene(GUI.REALM);
-    }
+    @FXML
+    private Button realm;
 
-    public void drawSchoolBoard(Player player){
-        System.out.println("TO BE IMPLEMENTED");
+    public void drawSchoolBoard(Player player){// This schoolBoard is just to show, without functionality
+        realm.setOnAction(e -> {
+            gui.changeScene(GUI.REALM);
+            ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
+        });
+        //[TO BE IMPLEMENTED..]
+    }
+//These two functions might not be enough to reset the old state of the FXML between them!
+    public void onLoad(){
+        realm.setOnAction(e -> {
+            gui.changeScene(GUI.REALM);
+            ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
+        });
+        //[TO BE IMPLEMENTED..]
     }
 
     @Override

@@ -7,11 +7,17 @@ import it.polimi.ingsw.client.gui.controllers.GUIController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -171,6 +177,27 @@ public class GUI extends Application implements ClientView {
 
     public MediaPlayer getMusicPlayer() {
         return musicPlayer;
+    }
+
+    public void createModal(Stage stage, String title, String asset, Color color, String info){
+        final Stage dialog = new Stage();
+        Pane bagRoot = new Pane();
+        StackPane bagHolder = new StackPane();
+        Canvas canvas = new Canvas(2000,2000);
+        bagHolder.getChildren().add(canvas);
+        bagRoot.getChildren().add(bagHolder);
+        Scene bagScene = new Scene(bagRoot, 600, 400);
+        dialog.setScene(bagScene);
+        dialog.initModality(Modality.NONE);
+        dialog.initOwner(stage);
+        dialog.getIcons().add(new Image(getClass().getResourceAsStream("/assets/"+asset)));
+        dialog.setTitle(title);
+        VBox dialogVbox = new VBox(20);
+        dialogVbox.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+        dialogVbox.getChildren().add(new Text(info));
+        Scene dialogScene = new Scene(dialogVbox, 300, 200);
+        dialog.setScene(dialogScene);
+        dialog.show();
     }
 
     /**

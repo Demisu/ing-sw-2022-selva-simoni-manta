@@ -2,35 +2,47 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Team;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class ProfilesController implements GUIController {
-    private Stage stage;
-    private Scene scene;
     private GUI gui;
-
     List<Team> teams;
+
+    @FXML
+    private ImageView playerImage1, playerImage2, playerImage3, playerImage4;
+
+    @FXML
+    private ImageView assistant1, assistant2, assistant3, assistant4;
+
+    @FXML
+    private Text nickname1, nickname2, nickname3, nickname4;
+
+    @FXML
+    private Text team1, team2, team3, team4;
+
+    @FXML
+    private Text emoji1, emoji2, emoji3, emoji4;
+
+    @FXML
+    private Text coins1, coins2, coins3, coins4;
+
+    @FXML
+    private Text clickToPlay1, clickToPlay2, clickToPlay3, clickToPlay4;
+
+    @FXML
+    private Button showSchoolboard1, showSchoolboard2, showSchoolboard3, showSchoolboard4;
+
+    @FXML
+    private Button realm;
 
     private List<ImageView> guiPlayers;
     private List<Text> guiNicknames;
@@ -41,28 +53,7 @@ public class ProfilesController implements GUIController {
     private List<ImageView> guiAssistants;
     private List<Button> guiShowSchoolBoards;
 
-    @FXML
-    private ImageView playerImage1, playerImage2, playerImage3, playerImage4;
-    @FXML
-    private ImageView assistant1, assistant2, assistant3, assistant4;
-
-    @FXML
-    private Text nickname1, nickname2, nickname3, nickname4;
-    @FXML
-    private Text team1, team2, team3, team4;
-    @FXML
-    private Text emoji1, emoji2, emoji3, emoji4;
-    @FXML
-    private Text coins1, coins2, coins3, coins4;
-    @FXML
-    private Text clickToPlay1, clickToPlay2, clickToPlay3, clickToPlay4;
-
-    @FXML
-    private Button showSchoolboard1, showSchoolboard2, showSchoolboard3, showSchoolboard4;
-    @FXML
-    private Button realm;
-
-    public void onRun() {
+    public void onLoad() {
         guiPlayers = new ArrayList<>(){
             {
                 add(playerImage1);
@@ -127,14 +118,11 @@ public class ProfilesController implements GUIController {
                 add(showSchoolboard4);
             }
         };
-
-        //Hide everything on first draw
         guiShowSchoolBoards.forEach(btn -> btn.setVisible(false));
-
         realm.setOnAction(e -> {
             gui.changeScene(GUI.REALM);
+            ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
         });
-
         Platform.runLater(() -> {
             Game currentGame = gui.getClientController().getGameInfo();
             List<Player> players = currentGame.getPlayers();
@@ -144,7 +132,6 @@ public class ProfilesController implements GUIController {
     }
 
     public void drawPlayer(Player player){
-
         int id = player.getPlayerId();
         boolean sameAsClient = player.getNickname().equals(gui.getClientController().getPlayerInfo().getNickname());
 
@@ -163,6 +150,7 @@ public class ProfilesController implements GUIController {
             //If this is the current player, he can click on it to play an assistant
             guiAssistants.get(id).setOnMouseClicked(e -> {
                 gui.changeScene(GUI.ASSISTANTS);
+                ((AssistantsController) gui.getControllerFromName(GUI.ASSISTANTS)).onLoad();
             });
             //Add hint text, if this is the client player
             if(sameAsClient) {
@@ -170,7 +158,7 @@ public class ProfilesController implements GUIController {
                 //Clickable hint, to avoid unresponsive parts
                 guiClickToPlay.get(id).setOnMouseClicked(e -> {
                     gui.changeScene(GUI.ASSISTANTS);
-                    ((AssistantsController) gui.getControllerFromName(GUI.ASSISTANTS)).onRun();
+                    ((AssistantsController) gui.getControllerFromName(GUI.ASSISTANTS)).onLoad();
                 });
             }
         }
@@ -179,7 +167,7 @@ public class ProfilesController implements GUIController {
         guiNicknames.get(id).setText(player.getNickname() + (sameAsClient ? "[YOU]" : ""));
 
         //Team
-        guiTeams.get(id).setText("Team " + player.getTeamID().toString());
+        guiTeams.get(id).setText("Team "+(player.getTeamID() + 1));
 
         //Coins
         guiEmojis.get(id).setText("💰");
@@ -190,7 +178,7 @@ public class ProfilesController implements GUIController {
         guiShowSchoolBoards.get(id).setOnAction(e -> {
             gui.changeScene(GUI.SCHOOLBOARD);
             ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(player);
-            System.out.println("ANCORA DA FINIRE PER BENE, DA METTERE OGNI SCHOOLBOARD");
+            //[TO BE IMPLEMENTED..]
         });
     }
 

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<HBox alignment="CENTER" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.ProfilesController">
+<HBox alignment="CENTER" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.ProfilesController">
     <children>
         <AnchorPane maxHeight="720.0" maxWidth="1280.0" minHeight="475.0" minWidth="1280.0" prefHeight="475.0" prefWidth="887.0">
             <children>
@@ -59,6 +62,14 @@
                    </font>
                 </Button>
                 <ImageView fx:id="assistant1" fitHeight="208.0" fitWidth="148.0" layoutX="248.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true" />
+            <Text fx:id="clickToPlay1" fill="WHITE" layoutX="248.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="142.0487823486328">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Text>
                 <ImageView fx:id="playerImage2" fitHeight="321.0" fitWidth="212.0" layoutX="1044.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" />
                 <Text fx:id="nickname2" fill="WHITE" layoutX="1044.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="212.3738250732422">
                    <font>
@@ -98,6 +109,14 @@
                    </font>
                 </Button>
                 <ImageView fx:id="assistant2" fitHeight="208.0" fitWidth="148.0" layoutX="894.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true" />
+            <Text fx:id="clickToPlay2" fill="WHITE" layoutX="894.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="142.0487823486328">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Text>
                 <ImageView fx:id="playerImage3" fitHeight="322.0" fitWidth="212.0" layoutX="28.0" layoutY="371.0" pickOnBounds="true" preserveRatio="true" />
                 <Text fx:id="nickname3" fill="WHITE" layoutX="28.0" layoutY="394.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="212.3738250732422">
                    <font>
@@ -137,6 +156,14 @@
                    </font>
                 </Button>
                 <ImageView fx:id="assistant3" fitHeight="208.0" fitWidth="148.0" layoutX="248.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true" />
+            <Text fx:id="clickToPlay3" fill="WHITE" layoutX="248.0" layoutY="671.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="142.0487823486328">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Text>
 
                     <ImageView fx:id="playerImage4" fitHeight="321.0" fitWidth="212.0" layoutX="1044.0" layoutY="371.0" pickOnBounds="true" preserveRatio="true" />
                 <Text fx:id="nickname4" fill="WHITE" layoutX="1044.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="212.3738250732422">
@@ -177,31 +204,7 @@
                    </font>
                 </Button>
                 <ImageView fx:id="assistant4" fitHeight="208.0" fitWidth="148.0" layoutX="894.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true" />
-            <Text fx:id="clickToPlay1" fill="WHITE" layoutX="248.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="142.0487823486328">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Text fx:id="clickToPlay3" fill="WHITE" layoutX="248.0" layoutY="671.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="142.0487823486328">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
             <Text fx:id="clickToPlay4" fill="WHITE" layoutX="894.0" layoutY="670.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="142.0487823486328">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <Text fx:id="clickToPlay2" fill="WHITE" layoutX="894.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="142.0487823486328">
                <font>
                   <Font name="System Bold" size="21.0" />
                </font>

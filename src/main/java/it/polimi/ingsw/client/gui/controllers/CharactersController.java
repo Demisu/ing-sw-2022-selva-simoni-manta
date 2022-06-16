@@ -1,54 +1,35 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
-import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Character;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 public class CharactersController implements GUIController {
-
-
     private final Image coinImage = new Image(getClass().getResourceAsStream("/assets/coin.png"));
     private Stage stage;
-    private Scene scene;
     private GUI gui;
 
     @FXML
+    private Button realm;
+
+    @FXML
     private Button info1, info2, info3;
-    private ArrayList<Button> info;
 
     @FXML
     private ImageView character1, character2, character3, coin1, coin2, coin3;
+
+    private ArrayList<Button> info;
     private ArrayList<ImageView> guiCharacter, coins;
 
-    public void switchToRealmScene(ActionEvent e) throws IOException {
-        gui.changeScene(GUI.REALM);
-    }
-
-    public void onRun() {
-
+    public void onLoad() {
         guiCharacter = new ArrayList<>(){
            {
                add(character1);
@@ -70,32 +51,17 @@ public class CharactersController implements GUIController {
                 add(coin3);
             }
         };
-
+        realm.setOnAction(e -> {
+            gui.changeScene(GUI.REALM);
+            ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
+        });
         Platform.runLater(() -> {
-
             ArrayList<Character> characters = gui.getClientController().getCharacters();
             for(int i=0;i<3;i++){
                 //characters.get(i).getEffect() //This needs to be implemented in Character Class
                 info.forEach(info -> info.setOnAction(e -> {
                     stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-                    final Stage dialog = new Stage();
-                    Pane bagRoot = new Pane();
-                    StackPane bagHolder = new StackPane();
-                    Canvas canvas = new Canvas(2000,2000);
-                    bagHolder.getChildren().add(canvas);
-                    bagRoot.getChildren().add(bagHolder);
-                    Scene bagScene = new Scene(bagRoot, 600, 400);
-                    dialog.setScene(bagScene);
-                    dialog.initModality(Modality.NONE);
-                    dialog.initOwner(stage);
-                    dialog.getIcons().add(new Image(getClass().getResourceAsStream("/assets/coin.png")));
-                    dialog.setTitle("[CHARACTER NAME TO BE ADDED..]");
-                    VBox dialogVbox = new VBox(20);
-                    dialogVbox.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-                    dialogVbox.getChildren().add(new Text("\t [INFO TO BE ADDED..]"));
-                    Scene dialogScene = new Scene(dialogVbox, 300, 200);
-                    dialog.setScene(dialogScene);
-                    dialog.show();
+                    gui.createModal(stage, "[CHARACTER NAME TO BE ADDED..]", "coin.png", Color.DARKGRAY, "\t [INFO TO BE ADDED..]");
                 }));
             }
             for (Character character : characters){

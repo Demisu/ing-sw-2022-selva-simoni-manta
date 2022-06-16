@@ -16,7 +16,7 @@
                   <Image url="@assets/assistenti.jpg" />
                </image>
             </ImageView>
-            <Button layoutX="566.0" layoutY="649.0" mnemonicParsing="false" onAction="#switchToRealmScene" text="Return to the realm">
+            <Button fx:id="realm" layoutX="566.0" layoutY="649.0" mnemonicParsing="false" text="Return to the realm">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -41,7 +41,7 @@
                   <Image url="@assets/Assistenti/2x/Assistente (4).png" />
                </image>
             </ImageView>
-            <ImageView fx:id="assistant5" fitHeight="283.0" fitWidth="180.0" layoutX="929.0" layoutY="53.0"  pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="assistant5" fitHeight="283.0" fitWidth="180.0" layoutX="929.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/Assistenti/2x/Assistente (5).png" />
                </image>

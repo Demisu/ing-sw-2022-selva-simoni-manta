@@ -31,7 +31,7 @@
                   <Image url="@assets/Personaggi/Personaggi_retro.jpg" />
                </image>
             </ImageView>
-            <Button layoutX="566.0" layoutY="649.0" mnemonicParsing="false" onAction="#switchToRealmScene" text="Return to the realm">
+            <Button fx:id="realm" layoutX="566.0" layoutY="649.0" mnemonicParsing="false" text="Return to the realm">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>

@@ -16,9 +16,10 @@ public class LobbyController implements GUIController {
             if(gui.getClientController().isGameStarted()){
                 gui.getClientController().getModelInfo();
                 if(!gui.getClientController().getGameInfo().isExpertMode()){
-                    ((RealmController) gui.getControllerFromName(GUI.REALM)).noExpertMode();
+                    ((RealmController) gui.getControllerFromName(GUI.REALM)).expertMode = false;
                 }
                 gui.changeScene(GUI.REALM);
+                ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
             }
         }));
     }

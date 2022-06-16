@@ -2,51 +2,26 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.model.Assistant;
-import it.polimi.ingsw.model.Character;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AssistantsController implements GUIController {
-    private Stage stage;
-    private Scene scene;
     private GUI gui;
 
     @FXML
-    private Button button;
+    private Button realm;
 
     @FXML
-    private ImageView assistant1, assistant2, assistant3, assistant4, assistant5,
-            assistant6, assistant7, assistant8, assistant9, assistant10;
+    private ImageView assistant1, assistant2, assistant3, assistant4, assistant5, assistant6, assistant7, assistant8, assistant9, assistant10;
+
     private ArrayList<ImageView> guiAssistants;
 
-    public void switchToRealmScene(ActionEvent e) throws IOException {
-        gui.changeScene(GUI.REALM);
-    }
-
-    public int getIndexOfAssistant(int priority, int movement) {
-        List<Assistant> assistants = gui.getClientController().getPlayerInfo().getDeck();
-        for(Assistant assistant : assistants) {
-            if (assistant.getTurnPriority() == priority && assistant.getMotherNatureMovements() == movement) {
-                return assistants.indexOf(assistant);
-            }
-        }
-        return 0;
-    }
-
-    public void onRun() {
+    public void onLoad() {
         guiAssistants = new ArrayList<>(){
             {
                 add(assistant1);
@@ -61,6 +36,10 @@ public class AssistantsController implements GUIController {
                 add(assistant10);
             }
         };
+        realm.setOnAction(e -> {
+            gui.changeScene(GUI.REALM);
+            ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
+        });
         Platform.runLater(() -> {
             List<Assistant> deck = gui.getClientController().getPlayerInfo().getDeck();
             int playerId = gui.getClientController().getPlayerInfo().getPlayerId() + 1;
@@ -68,7 +47,7 @@ public class AssistantsController implements GUIController {
             guiAssistants.forEach(assistant ->
                     assistant.setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/retro/player" + playerId + ".jpg"))));
 
-            for (Assistant assistant : deck){
+            for (Assistant assistant : deck){ //Need to remove from the deck the cards already played by someone else in this turn
                 //Available assistant face up
                 guiAssistants.get(assistant.getAssistantId() - 1)
                         .setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/2x/Assistente (" + assistant.getAssistantId() + ").png")));
@@ -81,12 +60,22 @@ public class AssistantsController implements GUIController {
                             guiAssistants.get(assistant.getAssistantId() - 1)
                                     .setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/retro/player" + playerId + ".jpg")));
                         } else {
-                            System.out.println("No");
+                            System.out.println("No");//Might want to add a popup here with an error
                         }
                     });
                 });
             }
         });
+    }
+
+    public int getIndexOfAssistant(int priority, int movement) {
+        List<Assistant> assistants = gui.getClientController().getPlayerInfo().getDeck();
+        for(Assistant assistant : assistants) {
+            if (assistant.getTurnPriority() == priority && assistant.getMotherNatureMovements() == movement) {
+                return assistants.indexOf(assistant);
+            }
+        }
+        return 0;
     }
 
     @Override

@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class IslandController implements GUIController {
+public class CloudController implements GUIController {
     private Stage stage;
     private GUI gui;
 
