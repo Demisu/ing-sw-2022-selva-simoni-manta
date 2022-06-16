@@ -29,7 +29,9 @@ public class Game implements Serializable {
     private List<Island> islands;
     private final Set<Cloud> clouds;
     private ArrayList<Integer> students; //This is the game bag
+    private Boolean emptyBag;
     private final ArrayList<Team> teams;
+    private Team winnerTeam;
     private List<Player> players;
     private int turnNumber;
     private List<Player> currentTurnOrder; //contains players for the current round
@@ -75,6 +77,7 @@ public class Game implements Serializable {
         }
 
         this.currentPhase = fullGame.currentPhase;
+        this.currentPlayer = currentPlayer;
         this.players = fullGame.players;
         this.playerNumber = fullGame.players.size();
         this.teams = fullGame.teams;
@@ -284,6 +287,10 @@ public class Game implements Serializable {
 
     public void nextPlayer() {
 
+        if(students.isEmpty() || anyWinner()){
+            endGame();
+        }
+
         this.resetModifiers();
         int currentIndex = currentTurnOrder.indexOf(this.getPlayerByNickname(currentPlayer));
         //If current is the last element
@@ -300,9 +307,7 @@ public class Game implements Serializable {
             } else {
                 //If the game bag is empty, the game ends
                 if(students.size() <= 0){
-
-                    //TODO GAME ENDS HERE
-
+                    endGame();
                 }
                 //Action phase ended, next turn starting
                 this.setCurrentTurnOrder(nextTurnOrder);
@@ -340,7 +345,10 @@ public class Game implements Serializable {
 
         //Fill clouds
         for (Cloud cloud : this.clouds) {
-            for(int i = 0; i < studentsForClouds; i++){
+            for(int i = cloud.getStudents().size(); i < studentsForClouds; i++){
+                if(students.isEmpty()){
+                    return;
+                }
                 cloud.addStudent(getAStudent());
             }
         }
@@ -373,13 +381,14 @@ public class Game implements Serializable {
         boolean unified;
         int refIndex;
         island.resolve(this.teams);
+        if(anyWinner()){
+            endGame();
+        }
 
         do {
             //Check if there are 3 or less remaining islands. If true, game ends
             if(islands.size() <= 3){
-
-                //TODO GAME ENDS HERE
-
+                endGame();
             }
 
             refIndex = islands.indexOf(island);
@@ -519,6 +528,50 @@ public class Game implements Serializable {
 
     }
 
+    public void endGame(){
+
+        //If there is not yet a winner
+        if(!anyWinner()){
+            processTheWinner();
+        }
+        currentPhase = END;
+    }
+
+    public Boolean anyWinner(){
+
+        if(winnerTeam != null){
+            return true;
+        }
+
+        for(Team team : this.teams){
+            if(team.isWinner()) {
+                winnerTeam = team;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void processTheWinner(){
+
+        //Way higher than max available towers
+        Integer minTowers = 10;
+        Team tempWinner = new Team();
+        for (Team team : teams) {
+            if(team.getTowerNumber() < minTowers){
+                minTowers = team.getTowerNumber();
+                tempWinner = team;
+            } else if (team.getTowerNumber().equals(minTowers)) {
+                //If there is a draw, check who has more professors
+                tempWinner = team.getProfessorsNumber() > tempWinner.getProfessorsNumber()
+                        ? team
+                        : tempWinner;
+            }
+        }
+        winnerTeam = tempWinner;
+    }
+
     public Character getCharacter(int index) {
         return availableCharacters[index];
     }
@@ -539,8 +592,16 @@ public class Game implements Serializable {
         return expertMode;
     }
 
+    public int getTurnNumber() {
+        return turnNumber;
+    }
+
     public Game getReducedModel(){
         return new Game(this);
+    }
+
+    public Team getWinnerTeam() {
+        return winnerTeam;
     }
 
     // STATIC SECTION --------------------------------------------------------------------------------------------------

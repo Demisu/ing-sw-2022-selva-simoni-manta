@@ -47,6 +47,7 @@ public class CLI implements ClientView {
         {
             add(playCharacterAction);
             add(moveStudentAction);
+            add(chooseCloudAction);
             add(infoAction);
             add(quitAction);
         }
@@ -136,6 +137,9 @@ public class CLI implements ClientView {
                 availableInfo.remove(infoCHARACTERS);
             }
             if(!clientController.getGamePhase().equals(GamePhase.PLANNING)) {
+                if (clientController.getGamePhase().equals(GamePhase.END)) {
+                    endingPhase();
+                }
                 break;
             }
 
@@ -145,7 +149,9 @@ public class CLI implements ClientView {
 
             clientController.getModelInfo();
             if(!clientController.getGamePhase().equals(GamePhase.PLANNING)) {
-
+                if (clientController.getGamePhase().equals(GamePhase.END)) {
+                    endingPhase();
+                }
                 clearConsole();
                 printLongRow();
                 System.out.println("* GAME PHASE HAS CHANGED *");
@@ -172,7 +178,10 @@ public class CLI implements ClientView {
 
             clientController.getModelInfo();
 
-            if(!clientController.getGamePhase().equals(GamePhase.ACTION)) {
+            if (!clientController.getGamePhase().equals(GamePhase.ACTION)) {
+                if (clientController.getGamePhase().equals(GamePhase.END)) {
+                    endingPhase();
+                }
                 break;
             }
 
@@ -182,8 +191,23 @@ public class CLI implements ClientView {
             processAction(action);
 
         } while(clientController.getGamePhase().equals(GamePhase.ACTION));
+    }
 
-        clientController.passTurn();
+    public void endingPhase() {
+
+        clientController.getModelInfo();
+        Team winner = clientController.getGameInfo().getWinnerTeam();
+
+        System.out.println("*** THE GAME HAS ENDED ***");
+        System.out.print("WINNER: Team " + (winner.getTeamId() + 1) + " [ ");
+        for (Player player : winner.getPlayers()){
+            System.out.print(player.getNickname() + " ");
+        }
+        System.out.println("]");
+
+        System.out.println("Press any key to exit");
+        scanner.nextLine();
+        System.exit(0);
     }
 
     public void processAction(String action){
@@ -191,6 +215,7 @@ public class CLI implements ClientView {
         if(!availableActions.contains(action)){
             System.out.println("Invalid action.");
         } else {
+            clientController.getModelInfo();
             switch(action){
 
                 case playCharacterAction -> {
@@ -324,6 +349,10 @@ public class CLI implements ClientView {
         printLongRow();
         System.out.println("Available clouds:");
         for (Cloud cloud : clientController.getClouds()){
+            //Don't print empty clouds
+            if(cloud.getStudents().size() == 0){
+                continue;
+            }
             printShortRow();
             System.out.println("ID: " + cloud.getPieceID());
             System.out.print("Students: " + cloud.getStudents().size() + " [ ");

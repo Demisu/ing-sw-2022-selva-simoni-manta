@@ -56,8 +56,8 @@ public class ClientController implements ServerResponseHandler {
         view.setupPhase();
         view.waitGameStartPhase();
 
-        ScheduledExecutorService modelUpdater = Executors.newSingleThreadScheduledExecutor();
-        modelUpdater.scheduleAtFixedRate( () -> client.clientRequest(new GetUpdatedBoardRequest(nickname)), 0, 2, TimeUnit.SECONDS);
+        //ScheduledExecutorService modelUpdater = Executors.newSingleThreadScheduledExecutor();
+        //modelUpdater.scheduleAtFixedRate( () -> client.clientRequest(new GetUpdatedBoardRequest(nickname)), 0, 2, TimeUnit.SECONDS);
 
         //Game phases
         do{

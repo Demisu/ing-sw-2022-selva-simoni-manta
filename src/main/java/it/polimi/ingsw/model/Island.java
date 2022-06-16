@@ -86,9 +86,7 @@ public class Island extends StudentAccessiblePiece implements Serializable {
                 }
                 //Check if winning team has no more towers, if so they win
                 if(winningTeam.getTowerNumber() <= 0){
-
-                    //TODO GAME ENDS
-
+                    winningTeam.setWinner(true);
                 }
             }
         }

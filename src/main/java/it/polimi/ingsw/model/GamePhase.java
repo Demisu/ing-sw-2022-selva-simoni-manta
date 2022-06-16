@@ -6,5 +6,5 @@ public enum GamePhase {
     SETUP,
     PLANNING,
     ACTION,
-    END
+    END;
 }

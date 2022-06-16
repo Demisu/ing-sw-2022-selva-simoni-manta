@@ -13,6 +13,7 @@ public class Team implements Serializable {
     //Check that the number doesn't go below zero.
     private List<Player> players;
     private final Integer teamId;
+    private Boolean isWinner = false;
 
     /**
      * @param towerColor tower color of the team
@@ -81,5 +82,23 @@ public class Team implements Serializable {
      */
     public void setTowerNumber(Integer towerNumber) {
         this.towerNumber = towerNumber;
+    }
+
+    public void setWinner(boolean isWinner) {
+        this.isWinner = isWinner;
+    }
+
+    public Boolean isWinner(){
+        return isWinner;
+    }
+
+    public Integer getProfessorsNumber(){
+
+        Integer profNumber = 0;
+        for (Player player : players) {
+            profNumber += player.getPlayerBoard().getOwnedProfessors();
+        }
+
+        return profNumber;
     }
 }

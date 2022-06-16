@@ -9,7 +9,7 @@ public class SchoolboardController implements GUIController {
     private GUI gui;
 
     @FXML
-    private Button realm;
+    private Button realm, gameStatus;
 
     public void drawSchoolBoard(Player player){// This schoolBoard is just to show, without functionality
         realm.setOnAction(e -> {
@@ -23,6 +23,10 @@ public class SchoolboardController implements GUIController {
         realm.setOnAction(e -> {
             gui.changeScene(GUI.REALM);
             ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
+        });
+        gameStatus.setOnAction(e -> {
+            gui.changeScene(GUI.PROFILES);
+            ((ProfilesController) gui.getControllerFromName(GUI.PROFILES)).onLoad();
         });
         //[TO BE IMPLEMENTED..]
     }

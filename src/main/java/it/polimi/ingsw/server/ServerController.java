@@ -67,11 +67,11 @@ public class ServerController implements ClientRequestHandler {
                 return new OperationResultResponse(false, "Cannot take a student from an island");
             }
             //If source is a schoolboard, but is not owned by the player
-            if(game.getSchoolBoardByID(req.getSourceId()) != null && !player.getPlayerBoard().equals(game.getSchoolBoardByID(req.getSourceId()))){
+            if(game.getSchoolBoardByID(req.getSourceId()) != null && !player.getPlayerBoard().getPieceID().equals(req.getSourceId())){
                 return new OperationResultResponse(false, "Cannot take a student from another schoolboard");
             }
             //If target is a schoolboard, but is not owned by the player
-            if(game.getSchoolBoardByID(req.getTargetId()) != null && !player.getPlayerBoard().equals(game.getSchoolBoardByID(req.getSourceId()))){
+            if(game.getSchoolBoardByID(req.getTargetId()) != null && !player.getPlayerBoard().getPieceID().equals(req.getTargetId())){
                 return new OperationResultResponse(false, "Cannot move a student to another schoolboard");
             }
             //Ok
@@ -99,7 +99,7 @@ public class ServerController implements ClientRequestHandler {
             return new OperationResultResponse(true, "Played assistant " + req.getAssistantNumber() + " of player " + req.getNickname());
         }
         return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to play assistant.");
-}
+    }
 
     /**
      * @param req Full request needed to activate character. Must include at least all the necessary info to activate

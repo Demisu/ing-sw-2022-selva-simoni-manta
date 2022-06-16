@@ -6,7 +6,10 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Team;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -19,28 +22,24 @@ public class ProfilesController implements GUIController {
 
     @FXML
     private ImageView playerImage1, playerImage2, playerImage3, playerImage4;
-
     @FXML
     private ImageView assistant1, assistant2, assistant3, assistant4;
 
     @FXML
+    private Text roundDisplay, phaseDisplay, currentPlayerDisplay;
+    @FXML
     private Text nickname1, nickname2, nickname3, nickname4;
-
     @FXML
     private Text team1, team2, team3, team4;
-
     @FXML
     private Text emoji1, emoji2, emoji3, emoji4;
-
     @FXML
     private Text coins1, coins2, coins3, coins4;
-
     @FXML
     private Text clickToPlay1, clickToPlay2, clickToPlay3, clickToPlay4;
 
     @FXML
     private Button showSchoolboard1, showSchoolboard2, showSchoolboard3, showSchoolboard4;
-
     @FXML
     private Button realm;
 
@@ -125,6 +124,9 @@ public class ProfilesController implements GUIController {
         });
         Platform.runLater(() -> {
             Game currentGame = gui.getClientController().getGameInfo();
+            roundDisplay.setText("Round " + (currentGame.getTurnNumber() + 1));
+            phaseDisplay.setText("Phase: " + currentGame.getCurrentPhase());
+            currentPlayerDisplay.setText("Current Player: " + currentGame.getCurrentPlayer());
             List<Player> players = currentGame.getPlayers();
             teams = currentGame.getTeams();
             players.forEach(this::drawPlayer);
@@ -134,37 +136,46 @@ public class ProfilesController implements GUIController {
     public void drawPlayer(Player player){
         int id = player.getPlayerId();
         boolean sameAsClient = player.getNickname().equals(gui.getClientController().getPlayerInfo().getNickname());
+        ImageView playerToRender = guiPlayers.get(id);
+        ImageView assistantToRender = guiAssistants.get(id);
 
         //Player Image
-        guiPlayers.get(id).setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/retro/player" + (id + 1) + ".jpg")));
+        playerToRender.setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/retro/player" + (id + 1) + ".jpg")));
+        //Add inner shadow
+        playerToRender.setEffect(new InnerShadow());
 
         //Assistant played
         if(player.getLastAssistantPlayed() != null){
             //Played assistant, show it
-            guiAssistants.get(id).setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/2x/Assistente (" + player.getLastAssistantPlayed().getAssistantId() + ").png")));
+            assistantToRender.setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/2x/Assistente (" + player.getLastAssistantPlayed().getAssistantId() + ").png")));
+            assistantToRender.setCursor(Cursor.DEFAULT);
             //Remove hint text
             guiClickToPlay.get(id).setText("");
         } else {
             //Still need to play assistant, show generic back
-            guiAssistants.get(id).setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
+            assistantToRender.setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
             //If this is the current player, he can click on it to play an assistant
-            guiAssistants.get(id).setOnMouseClicked(e -> {
-                gui.changeScene(GUI.ASSISTANTS);
-                ((AssistantsController) gui.getControllerFromName(GUI.ASSISTANTS)).onLoad();
-            });
-            //Add hint text, if this is the client player
             if(sameAsClient) {
+                assistantToRender.setOnMouseClicked(e -> {
+                    gui.changeScene(GUI.ASSISTANTS);
+                    ((AssistantsController) gui.getControllerFromName(GUI.ASSISTANTS)).onLoad();
+                });
+                assistantToRender.setCursor(Cursor.HAND);
+                //Add hint text, if this is the client player
                 guiClickToPlay.get(id).setText("Click to play");
                 //Clickable hint, to avoid unresponsive parts
                 guiClickToPlay.get(id).setOnMouseClicked(e -> {
                     gui.changeScene(GUI.ASSISTANTS);
                     ((AssistantsController) gui.getControllerFromName(GUI.ASSISTANTS)).onLoad();
                 });
+                guiClickToPlay.get(id).setCursor(Cursor.HAND);
             }
         }
+        //Add outer shadow to assistant
+        assistantToRender.setEffect(new DropShadow());
 
         //Nickname
-        guiNicknames.get(id).setText(player.getNickname() + (sameAsClient ? "[YOU]" : ""));
+        guiNicknames.get(id).setText(player.getNickname() + (sameAsClient ? " [YOU]" : ""));
 
         //Team
         guiTeams.get(id).setText("Team "+(player.getTeamID() + 1));

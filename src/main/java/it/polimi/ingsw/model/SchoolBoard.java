@@ -87,4 +87,16 @@ public class SchoolBoard extends StudentAccessiblePiece implements Serializable 
     public Boolean[] getProfessors() {
         return this.professors;
     }
+
+    public Integer getOwnedProfessors(){
+
+        Integer owned = 0;
+        for (Boolean flag : professors) {
+            if(flag){
+                owned++;
+            }
+        }
+
+        return owned;
+    }
 }

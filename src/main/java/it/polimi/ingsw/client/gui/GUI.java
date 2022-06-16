@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
@@ -53,17 +54,12 @@ public class GUI extends Application implements ClientView {
      * @see it.polimi.ingsw.client.gui.controllers for more details.
      */
     private final HashMap<String, GUIController> nameMapController = new HashMap<>();
-    //private ConnectionSocket connectionSocket = null;
-    //private boolean activeGame;
     private Scene currentScene;
     private Stage stage;
-    //private MediaPlayer player;
-    //private boolean[] actionCheckers;
 
     private MediaPlayer musicPlayer;
 
     private ClientController clientController;
-    private Parent root;
     private static ClientController staticClientController;
 
     public static void main(String[] args) throws IOException  {
@@ -112,7 +108,7 @@ public class GUI extends Application implements ClientView {
      * - SETUP: small windows containing player's inserted nickname, the server IP and port;
      * - LOADER: the game loader containing player's chosen color, god power and places their workers;
      * - GUI: the effective game GUI (island board).
-     * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
+     * Each stage scene is put inside a hashmap, which links their name to their fxml filename.
      */
     public void setup() {
         List<String> fxmList = new ArrayList<>(Arrays.asList(MENU, NICKNAME, PLAYERS, REALM, SCHOOLBOARD, ASSISTANTS, ISLAND1, ISLAND2, ISLAND3, CLOUD, LOBBY, CHARACTERS, PROFILES));
@@ -145,24 +141,7 @@ public class GUI extends Application implements ClientView {
         stage.setScene(currentScene);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icon.png")));
         stage.show();
-        /*
-        try {
-            this.changeRoot("start"); // start  -  players  -  action  -  realm
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle("Eriantys");
-        GUIController assistantsController = new AssistantsController();
-        assistantsController.setGui(this);
-        //primaryStage.getIcons().add(new Image("file:C:\\Users\\dario\\Desktop\\University\\Prog. di Ing. del Software\\ing-sw-2022-selva-simoni-manta\\src\\main\\resources\\assets\\icon.png"));
-        stage.setMaximized(false);
-        stage.setMinWidth(1295);
-        //primaryStage.setMaxWidth(1295);
-        stage.setMinHeight(758);
-        //primaryStage.setMaxHeight(758);
-        stage.setScene(new Scene(root, 1280, 720));
-        stage.show();
-        */
+
         Media music = new Media(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("assets/media/Epic_Orchestral_Music.mp3")).toExternalForm());
         musicPlayer = new MediaPlayer(music);
