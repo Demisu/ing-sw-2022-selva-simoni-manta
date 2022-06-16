@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -86,6 +87,7 @@ public class AssistantsController implements GUIController {
                     assistantToRender.setEffect(darken);
                 } else {
                     assistantToRender.setEffect(resetBrightness);
+                    assistantToRender.setEffect(new DropShadow());
                     //Set hand cursor
                     assistantToRender.setCursor(Cursor.HAND);
                     //Available assistant setOnClick

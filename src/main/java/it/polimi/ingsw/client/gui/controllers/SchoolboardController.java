@@ -16,6 +16,10 @@ public class SchoolboardController implements GUIController {
             gui.changeScene(GUI.REALM);
             ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
         });
+        gameStatus.setOnAction(e -> {
+            gui.changeScene(GUI.PROFILES);
+            ((ProfilesController) gui.getControllerFromName(GUI.PROFILES)).onLoad();
+        });
         //[TO BE IMPLEMENTED..]
     }
 //These two functions might not be enough to reset the old state of the FXML between them!

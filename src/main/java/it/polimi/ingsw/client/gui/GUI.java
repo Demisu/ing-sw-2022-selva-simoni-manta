@@ -176,7 +176,7 @@ public class GUI extends Application implements ClientView {
         dialogVbox.getChildren().add(new Text(info));
         Scene dialogScene = new Scene(dialogVbox, 300, 200);
         dialog.setScene(dialogScene);
-        dialog.show();
+        dialog.showAndWait();
     }
 
     /**

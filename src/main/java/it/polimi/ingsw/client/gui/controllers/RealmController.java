@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Player;
 import javafx.application.Platform;
@@ -11,7 +12,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RealmController implements GUIController {
 
@@ -97,38 +100,52 @@ public class RealmController implements GUIController {
         guiClouds.forEach(cloud -> cloud.setVisible(false));
         Platform.runLater(() -> {
             List<Island> islands = gui.getClientController().getIslands();
-            List<Player> players= gui.getClientController().getGameInfo().getPlayers();
-            islands.forEach(island -> {
-                guiIslands.get(island.getPieceID()).setVisible(true);
-                guiIslands.get(island.getPieceID()).setOnMouseClicked(e ->{
-                    switch ((island.getPieceID()+1) % 3){
-                        case 1 -> {
-                            gui.changeScene(GUI.ISLAND1);
-                            ((IslandController) gui.getControllerFromName(GUI.ISLAND1)).onLoad();
-                        }
-                        case 2 -> {
-                            gui.changeScene(GUI.ISLAND3);
-                            ((IslandController) gui.getControllerFromName(GUI.ISLAND3)).onLoad();
-                        }
-                        case 0 -> {
-                            gui.changeScene(GUI.ISLAND2);
-                            ((IslandController) gui.getControllerFromName(GUI.ISLAND2)).onLoad();
-                        }
-                    }
-                });
-            });
-            for(int i=0;i<players.size();i++){
-                guiClouds.get(i).setVisible(true);
-                guiClouds.get(i).setOnMouseClicked(e -> {
-                    gui.changeScene(GUI.CLOUD);
-                    ((CloudController) gui.getControllerFromName(GUI.CLOUD)).onLoad();
-                });
-            }
+            Set<Cloud> cloud = gui.getClientController().getClouds();
+            List<Player> players = gui.getClientController().getGameInfo().getPlayers();
+            islands.forEach(this::drawIsland);
+            cloud.forEach(this::drawCloud);
         });
         bag.setOnMouseClicked(e -> {
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             gui.createModal(stage, "Bag", "bag.png", Color.BURLYWOOD, "\t [INFO TO BE ADDED..]");
         });
+    }
+
+    public void drawIsland(Island island){
+        ImageView islandToRender = guiIslands.get(island.getPieceID());
+        islandToRender.setVisible(true);
+        islandToRender.setOnMouseClicked(e -> {
+            switch ((island.getPieceID()+1) % 3){
+                case 1 -> {
+                    gui.changeScene(GUI.ISLAND1);
+                    ((IslandController) gui.getControllerFromName(GUI.ISLAND1)).onLoad();
+                }
+                case 2 -> {
+                    gui.changeScene(GUI.ISLAND3);
+                    ((IslandController) gui.getControllerFromName(GUI.ISLAND3)).onLoad();
+                }
+                case 0 -> {
+                    gui.changeScene(GUI.ISLAND2);
+                    ((IslandController) gui.getControllerFromName(GUI.ISLAND2)).onLoad();
+                }
+            }
+        });
+        drawStudents(islandToRender, island.getStudents());
+    }
+
+    public void drawCloud(Cloud cloud){
+        ImageView cloudToRender = guiClouds.get((cloud.getPieceID() - 12 ) / 2);
+        cloudToRender.setVisible(true);
+        cloudToRender.setOnMouseClicked(e -> {
+            gui.changeScene(GUI.CLOUD);
+            ((CloudController) gui.getControllerFromName(GUI.CLOUD)).onLoad();
+        });
+        drawStudents(cloudToRender, cloud.getStudents());
+    }
+
+    public void drawStudents(ImageView guiElement, HashSet<Integer> students){
+        //TODO
+        System.out.println("!!!!!!!!!!!!!!!!!!!");
     }
 
     @Override

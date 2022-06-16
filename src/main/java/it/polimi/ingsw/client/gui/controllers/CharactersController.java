@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 
@@ -18,8 +19,10 @@ public class CharactersController implements GUIController {
     private GUI gui;
 
     @FXML
-    private Button realm;
+    private Text coinsDisplay;
 
+    @FXML
+    private Button realm;
     @FXML
     private Button info1, info2, info3;
 
@@ -56,6 +59,7 @@ public class CharactersController implements GUIController {
             ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
         });
         Platform.runLater(() -> {
+            coinsDisplay.setText("💰 " + gui.getClientController().getPlayerInfo().getCoins());
             ArrayList<Character> characters = gui.getClientController().getCharacters();
             for(int i=0;i<3;i++){
                 //characters.get(i).getEffect() //This needs to be implemented in Character Class

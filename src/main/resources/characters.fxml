@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<HBox alignment="CENTER" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.CharactersController">
+<HBox alignment="CENTER" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.CharactersController">
    <children>
       <AnchorPane maxHeight="720.0" maxWidth="1280.0" minHeight="475.0" minWidth="1280.0" prefHeight="475.0" prefWidth="887.0">
          <children>
@@ -20,45 +19,83 @@
                <image>
                   <Image url="@assets/Personaggi/Personaggi_retro.jpg" />
                </image>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
             <ImageView fx:id="character2" fitHeight="349.0" fitWidth="300.0" layoutX="533.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/Personaggi/Personaggi_retro.jpg" />
                </image>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
             <ImageView fx:id="character1" fitHeight="349.0" fitWidth="300.0" layoutX="168.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/Personaggi/Personaggi_retro.jpg" />
                </image>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
+            <Text fx:id="coinsDisplay" fill="WHITE" layoutX="42.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="💰 0" wrappingWidth="173.3738250732422">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Text>
             <Button fx:id="realm" layoutX="566.0" layoutY="649.0" mnemonicParsing="false" text="Return to the realm">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Button>
             <ImageView fx:id="coin1" fitHeight="100.0" fitWidth="100.0" layoutX="348.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
 
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
             <ImageView fx:id="coin3" fitHeight="100.0" fitWidth="100.0" layoutX="1078.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
 
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
             <ImageView fx:id="coin2" fitHeight="100.0" fitWidth="100.0" layoutX="713.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
 
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
-            <Button fx:id="info1" layoutX="263.0" layoutY="512.0" mnemonicParsing="false" text="Info">
+            <Button fx:id="info1" layoutX="263.0" layoutY="109.0" mnemonicParsing="false" text="Info">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Button>
-            <Button fx:id="info2" layoutX="628.0" layoutY="512.0" mnemonicParsing="false" text="Info">
+            <Button fx:id="info2" layoutX="618.0" layoutY="109.0" mnemonicParsing="false" text="Info">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Button>
-            <Button fx:id="info3" layoutX="993.0" layoutY="512.0" mnemonicParsing="false" text="Info">
+            <Button fx:id="info3" layoutX="993.0" layoutY="109.0" mnemonicParsing="false" text="Info">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Button>
          </children>
       </AnchorPane>
