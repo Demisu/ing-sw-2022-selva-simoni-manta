@@ -13,7 +13,6 @@ import it.polimi.ingsw.server.responses.SetNicknameResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 /**
  * Controller used by the Server
@@ -34,7 +33,9 @@ public class ServerController implements ClientRequestHandler {
         this.clientHandlerList.add(clientHandler);
     }
 
-    //return new constructors to be updated
+    public void playerDisconnected(String nickname){
+        gameController.setInactive(nickname);
+    }
 
     /**
      * Properly dispatches the received response to the correct method
@@ -147,6 +148,12 @@ public class ServerController implements ClientRequestHandler {
             if(connectedPlayers >= gameController.getPlayerNumber()
                     && gameController.getCurrentGame().getPlayerByNickname(req.getNickname()) == null){
                 return new SetNicknameResponse(false, false, "Game is full");
+            }
+            //If the client is reconnecting to an active player
+            if(gameController.getCurrentGame().getPlayerByNickname(req.getNickname()) != null
+                    && gameController.getCurrentGame().getPlayerByNickname(req.getNickname()).isActive()){
+                System.out.println("Client tried to connect to active player " + req.getNickname());
+                return new SetNicknameResponse(false, false, "Player is already connected");
             }
             Boolean success = gameController.addPlayer(req.getNickname());
             if(!success){

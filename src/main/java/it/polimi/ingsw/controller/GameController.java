@@ -202,4 +202,12 @@ public class GameController {
     public Integer getPlayerNumber() {
         return currentGame.getPlayers().size();
     }
+
+    public void setInactive(String nickname){
+        if(nickname == null || currentGame.getPlayerByNickname(nickname) == null){
+            //Invalid player
+            return;
+        }
+        currentGame.getPlayerByNickname(nickname).setActive(false);
+    }
 }

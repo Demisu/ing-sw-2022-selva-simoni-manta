@@ -104,6 +104,7 @@ public class CLI implements ClientView {
             case 2 -> {
                 System.out.println("The game is full, quitting...");
                 clientController.closeConnection();
+                System.exit(0);
             }
         }
     }
@@ -310,7 +311,7 @@ public class CLI implements ClientView {
 
                     scanner.nextLine();
 
-                    if(infoNumber >= availableInfo.size()){
+                    if(infoNumber > availableInfo.size()){
                         System.out.println("Invalid number");
                     } else {
                         switch (availableInfo.get(infoNumber - 1)) {
