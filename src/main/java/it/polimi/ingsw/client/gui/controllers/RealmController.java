@@ -2,10 +2,12 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.model.Cloud;
+import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Player;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -77,15 +79,15 @@ public class RealmController implements GUIController {
         schoolboard.setOnAction(e -> {
             gui.changeScene(GUI.SCHOOLBOARD);
             ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).onLoad();
+            ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(gui.getClientController().getPlayerInfo());
         });
-        menu.setOnAction(e -> {
-            gui.changeScene(GUI.MENU);
-            //Might want to remove this Button
-        });
+        menu.setOnAction(e -> gui.changeScene(GUI.MENU));
         profiles.setOnAction(e -> {
             gui.changeScene(GUI.PROFILES);
             ((ProfilesController) gui.getControllerFromName(GUI.PROFILES)).onLoad();
         });
+        //Show student button only during action phase
+        students.setVisible(gui.getClientController().getGamePhase().equals(GamePhase.ACTION));
         students.setOnAction(e -> {
             //[TO BE IMPLEMENTED..]
         });
@@ -93,7 +95,9 @@ public class RealmController implements GUIController {
             //[TO BE IMPLEMENTED..]
         });
         pass.setOnAction(e -> {
-            //[TO BE IMPLEMENTED..]
+            Platform.runLater(() -> {
+                gui.getClientController().passTurn();
+            });
         });
 
         guiIslands.forEach(island -> island.setVisible(false));
@@ -114,21 +118,11 @@ public class RealmController implements GUIController {
     public void drawIsland(Island island){
         ImageView islandToRender = guiIslands.get(island.getPieceID());
         islandToRender.setVisible(true);
+        islandToRender.setCursor(Cursor.HAND);
         islandToRender.setOnMouseClicked(e -> {
-            switch ((island.getPieceID()+1) % 3){
-                case 1 -> {
-                    gui.changeScene(GUI.ISLAND1);
-                    ((IslandController) gui.getControllerFromName(GUI.ISLAND1)).onLoad();
-                }
-                case 2 -> {
-                    gui.changeScene(GUI.ISLAND3);
-                    ((IslandController) gui.getControllerFromName(GUI.ISLAND3)).onLoad();
-                }
-                case 0 -> {
-                    gui.changeScene(GUI.ISLAND2);
-                    ((IslandController) gui.getControllerFromName(GUI.ISLAND2)).onLoad();
-                }
-            }
+            gui.changeScene(GUI.ISLAND);
+            ((IslandController) gui.getControllerFromName(GUI.ISLAND)).onLoad();
+            ((IslandController) gui.getControllerFromName(GUI.ISLAND)).drawZoomedIsland(island);
         });
         drawStudents(islandToRender, island.getStudents());
     }
@@ -136,16 +130,17 @@ public class RealmController implements GUIController {
     public void drawCloud(Cloud cloud){
         ImageView cloudToRender = guiClouds.get((cloud.getPieceID() - 12 ) / 2);
         cloudToRender.setVisible(true);
+        cloudToRender.setCursor(Cursor.HAND);
         cloudToRender.setOnMouseClicked(e -> {
             gui.changeScene(GUI.CLOUD);
             ((CloudController) gui.getControllerFromName(GUI.CLOUD)).onLoad();
+            ((CloudController) gui.getControllerFromName(GUI.CLOUD)).drawZoomedCloud(cloud);
         });
         drawStudents(cloudToRender, cloud.getStudents());
     }
 
     public void drawStudents(ImageView guiElement, HashSet<Integer> students){
         //TODO
-        System.out.println("!!!!!!!!!!!!!!!!!!!");
     }
 
     @Override

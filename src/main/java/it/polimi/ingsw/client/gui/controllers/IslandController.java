@@ -1,9 +1,25 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.StudentAccessiblePiece;
+import it.polimi.ingsw.model.TowerColor;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
+import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
+import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
 
 public class IslandController implements GUIController {
     private Stage stage;
@@ -12,11 +28,87 @@ public class IslandController implements GUIController {
     @FXML
     private Button realm;
 
+    @FXML
+    private ImageView guiIsland;
+    @FXML
+    private ImageView yellowStudent, redStudent, blueStudent, pinkStudent, greenStudent, tower, motherNature;
+
+    @FXML
+    private Text yellowNumber, redNumber, blueNumber, pinkNumber, greenNumber, towerNumber;
+
+    private Map<Color, ImageView> colorToImage;
+    private Map<Color, Text> colorToText;
+
     public void onLoad(){
+        colorToImage = new HashMap<>(){
+            {
+                put(Color.YELLOW, yellowStudent);
+                put(Color.RED, redStudent);
+                put(Color.BLUE, blueStudent);
+                put(Color.PURPLE, pinkStudent);
+                put(Color.GREEN, greenStudent);
+            }
+        };
+        colorToText = new HashMap<>(){
+            {
+                put(Color.YELLOW, yellowNumber);
+                put(Color.RED, redNumber);
+                put(Color.BLUE, blueNumber);
+                put(Color.PURPLE, pinkNumber);
+                put(Color.GREEN, greenNumber);
+            }
+        };
         realm.setOnAction(e -> {
             gui.changeScene(GUI.REALM);
             ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
         });
+    }
+
+    public void drawZoomedIsland(Island island){
+        guiIsland.setImage(new Image(getClass().getResourceAsStream("/assets/island" + ((island.getPieceID()) % 3 + 1) + "-zoomed.png")));
+        drawStudents(island.getStudents());
+        //If mother nature is present, show her
+        motherNature.setVisible(island.isMotherNature());
+        //If there are towers, show them
+        drawTowers(island);
+    }
+
+    public void drawStudents(HashSet<Integer> students){
+
+        Integer[] studentsNumber = new Integer[5];
+        Arrays.fill(studentsNumber, 0);
+        //Count each color
+        students.forEach(student -> studentsNumber[indexOfColor(colorOfStudent(student))]++);
+        //Draw each color
+        for (Color color : Color.values()) {
+            Integer tempStudentNumber = studentsNumber[indexOfColor(color)];
+            colorToImage.get(color).setVisible(tempStudentNumber > 0);
+            colorToText.get(color).setVisible(tempStudentNumber > 0);
+            //Set text to number of students of that color
+            colorToText.get(color).setText(tempStudentNumber.toString());
+        }
+    }
+
+    public void drawTowers(Island island){
+        boolean hasTowers = island.getTowersNumber() > 0;
+        tower.setVisible(hasTowers);
+        towerNumber.setVisible(hasTowers);
+        if(hasTowers){
+            tower.setEffect(colorTowerEffect(island.getTowersColor()));
+            towerNumber.setText(island.getTowersNumber().toString());
+        }
+    }
+
+    public ColorAdjust colorTowerEffect(TowerColor towerColor){
+        ColorAdjust colorAdjust = new ColorAdjust();
+        double brightness = 0;
+        switch (towerColor) {
+            case BLACK -> brightness = 0;
+            case WHITE -> brightness = 1;
+            case GREY -> brightness = 0.5;
+        }
+        colorAdjust.setBrightness(brightness);
+        return colorAdjust;
     }
 
     @Override

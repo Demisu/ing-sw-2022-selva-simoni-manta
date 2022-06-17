@@ -2,16 +2,13 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientView;
-import it.polimi.ingsw.client.gui.controllers.AssistantsController;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
@@ -34,9 +31,7 @@ public class GUI extends Application implements ClientView {
     public static final String REALM = "realm.fxml";
     public static final String SCHOOLBOARD = "schoolboard.fxml";
     public static final String ASSISTANTS = "assistants.fxml";
-    public static final String ISLAND1 = "island1.fxml";
-    public static final String ISLAND2 = "island2.fxml";
-    public static final String ISLAND3 = "island3.fxml";
+    public static final String ISLAND = "island.fxml";
     public static final String CLOUD = "cloud.fxml";
     public static final String LOBBY = "lobby.fxml";
     public static final String CHARACTERS = "characters.fxml";
@@ -111,7 +106,7 @@ public class GUI extends Application implements ClientView {
      * Each stage scene is put inside a hashmap, which links their name to their fxml filename.
      */
     public void setup() {
-        List<String> fxmList = new ArrayList<>(Arrays.asList(MENU, NICKNAME, PLAYERS, REALM, SCHOOLBOARD, ASSISTANTS, ISLAND1, ISLAND2, ISLAND3, CLOUD, LOBBY, CHARACTERS, PROFILES));
+        List<String> fxmList = new ArrayList<>(Arrays.asList(MENU, NICKNAME, PLAYERS, REALM, SCHOOLBOARD, ASSISTANTS, ISLAND, CLOUD, LOBBY, CHARACTERS, PROFILES));
         try {
             for (String name : fxmList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + name));

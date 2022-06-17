@@ -77,7 +77,7 @@ public class Game implements Serializable {
         }
 
         this.currentPhase = fullGame.currentPhase;
-        this.currentPlayer = currentPlayer;
+        this.currentPlayer = fullGame.currentPlayer;
         this.players = fullGame.players;
         this.playerNumber = fullGame.players.size();
         this.teams = fullGame.teams;
