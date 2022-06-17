@@ -7,7 +7,7 @@ import static it.polimi.ingsw.model.Color.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SchoolBoardTest {
-    /* Check off getDiningRoomStudents */
+
     @Test
     @DisplayName("Testing Students")
     void testSchoolBoardStudents() {
@@ -38,5 +38,8 @@ class SchoolBoardTest {
         assertEquals(2,board.getDiningRoomStudents(GREEN));
         assertEquals(2,board.getDiningRoomStudents(RED));
         assertEquals(1,board.getDiningRoomStudents(PURPLE));
+
+        board.setProfessor(GREEN, true);
+        assertEquals(board.getOwnedProfessors(), 1);
     }
 }

@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import static it.polimi.ingsw.model.Color.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -144,6 +147,28 @@ public class GameControllerTest {
         controller.checkProfessorChange(GREEN);
         controller.checkProfessorChange(RED);
         controller.checkProfessorChange(PURPLE);
+    }
+
+    @Test
+    @DisplayName("Testing movement in schoolboard")
+    void checkMovementSchoolboard(){
+        GameController gameController = new GameController();
+        gameController.startGame(2, "test", true);
+        Game game = gameController.getCurrentGame();
+        Player creator = game.getPlayers().get(0);
+        int amount = creator.getPlayerBoard().getStudents().size();
+        while(!creator.getPlayerBoard().getStudents().isEmpty()) {
+            Integer student = creator.getPlayerBoard().getStudents().stream().toList().get(0);
+            Integer playerboard = creator.getPlayerBoard().getPieceID();
+            System.out.println("Moving student " + student + " in schoolboard " + playerboard);
+            gameController.moveStudent(student, playerboard, playerboard);
+        }
+        int numberOfMovedStudents = 0;
+        for(Color color : Color.values()){
+            numberOfMovedStudents += creator.getPlayerBoard().getDiningRoomStudents(color);
+        }
+        assertTrue(numberOfMovedStudents > 0);
+        assertEquals(amount, numberOfMovedStudents);
     }
 
     @Test

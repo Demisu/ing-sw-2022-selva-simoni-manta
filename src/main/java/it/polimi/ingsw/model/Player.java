@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Player implements Serializable {
 
-    private final Integer initialCoins = 10;
+    private final Integer initialCoins = 1;
     private Integer playerId;
     private Integer coins;
 
@@ -32,6 +32,7 @@ public class Player implements Serializable {
 
         this.playerBoard = new SchoolBoard();
         this.activeCharacter = false;
+        this.isActive = true;
     }
 
     public Integer getCoins(){
@@ -95,7 +96,7 @@ public class Player implements Serializable {
     }
 
     public void setActive(Boolean active) {
-        isActive = active;
+        this.isActive = active;
     }
 
     public Integer getTeamID() {

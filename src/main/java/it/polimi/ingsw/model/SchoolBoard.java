@@ -65,6 +65,16 @@ public class SchoolBoard extends StudentAccessiblePiece implements Serializable 
         };
     }
 
+    public ArrayList<Integer> getAllDiningRoomStudents(Color color){
+        return switch (color) {
+            case YELLOW -> this.yellowDiningRoomStudents;
+            case BLUE -> this.blueDiningRoomStudents;
+            case GREEN -> this.greenDiningRoomStudents;
+            case RED -> this.redDiningRoomStudents;
+            case PURPLE -> this.purpleDiningRoomStudents;
+        };
+    }
+
     /**
      * Sets professor status on the school board
      *

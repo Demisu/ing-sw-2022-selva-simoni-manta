@@ -32,7 +32,7 @@ public class ClientController implements ServerResponseHandler {
     Player playerInfo;
     ArrayList<Character> characters;
     List<Island> islands;
-    Set<Cloud> clouds;
+    List<Cloud> clouds;
     ArrayList<SchoolBoard> schoolBoards;
 
     /**
@@ -188,7 +188,7 @@ public class ClientController implements ServerResponseHandler {
         return islands;
     }
 
-    public Set<Cloud> getClouds() {
+    public List<Cloud> getClouds() {
         return clouds;
     }
 

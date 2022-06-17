@@ -9,6 +9,9 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static it.polimi.ingsw.model.Game.getStudentValue;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
@@ -223,6 +226,42 @@ public class GameTest {
         assertEquals(originalGame.getIslands(), copyGame.getIslands());
         assertEquals(originalGame.getClouds(), copyGame.getClouds());
         assertEquals(originalGame.isExpertMode(), copyGame.isExpertMode());
+    }
+
+    @Test
+    @DisplayName("Testing end of the game")
+    void testEndGame(){
+
+        Game game = new Game(2, "test", true);
+        Team test = game.getTeamByID(0);
+        game.endGame();
+        assertEquals(game.getCurrentPhase(), GamePhase.END);
+    }
+
+    @Test
+    @DisplayName("Testing player disconnection")
+    void testDisconnect(){
+
+        GameController controller = new GameController();
+        controller.startGame(2, "test", true);
+        Game game = controller.getCurrentGame();
+        controller.addPlayer("test2");
+        controller.setInactive("test2");
+        assertFalse(game.getPlayers().get(1).isActive());
+        assertEquals(game.connectedPlayersNumber(), 1);
+    }
+
+    @Test
+    @DisplayName("Testing retrieval by id")
+    void getStudentAccessiblePieceByIDTest(){
+
+        GameController controller = new GameController();
+        controller.startGame(2, "test", true);
+        Game game = controller.getCurrentGame();
+        StudentAccessiblePiece cloud = game.getStudentAccessiblePieceByID(game.getClouds().get(0).getPieceID());
+        StudentAccessiblePiece character = game.getStudentAccessiblePieceByID(game.getAllCharacters()[0].getPieceID());
+        assertTrue(cloud instanceof Cloud);
+        assertTrue(character instanceof Character);
     }
 
 }

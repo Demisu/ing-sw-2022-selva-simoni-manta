@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.model.GamePhase.*;
@@ -23,13 +26,13 @@ public class Game implements Serializable {
     private final String charactersJSONPath = ".\\src\\Characters\\";
 
     private final Boolean expertMode;
+    private Boolean startedTimer = false;
     private String currentPlayer;
     private Integer emptyPlayerNumber = 1;
     private final Integer playerNumber;
     private List<Island> islands;
-    private final Set<Cloud> clouds;
+    private final List<Cloud> clouds;
     private ArrayList<Integer> students; //This is the game bag
-    private Boolean emptyBag;
     private final ArrayList<Team> teams;
     private Team winnerTeam;
     private List<Player> players;
@@ -88,6 +91,7 @@ public class Game implements Serializable {
         this.studentsForBoards = fullGame.studentsForBoards;
         this.students = fullGame.students;
         this.turnNumber = fullGame.turnNumber;
+        this.winnerTeam = fullGame.winnerTeam;
     }
 
     public Game(int playerNumber, String nicknameOfCreator, Boolean expertMode) {
@@ -118,7 +122,7 @@ public class Game implements Serializable {
         this.islands.get(0).setMotherNature(true);
 
         //Clouds and Players setup
-        clouds = new HashSet<>();
+        clouds = new ArrayList<>();
         players = new ArrayList<>();
         currentTurnOrder = new ArrayList<>();
         nextTurnOrder = new ArrayList<>();
@@ -287,58 +291,100 @@ public class Game implements Serializable {
 
     public void nextPlayer() {
 
-        if(students.isEmpty() || anyWinner()){
-            endGame();
-        }
-
-        this.resetModifiers();
-        int currentIndex = currentTurnOrder.indexOf(this.getPlayerByNickname(currentPlayer));
-        //If current is the last element
-        if(currentIndex == currentTurnOrder.size() - 1){
-
-            //If all players played an assistant, change to action phase
-            if(currentPhase.equals(GamePhase.PLANNING)){
-
-                //Update order and move to action order
-                updateNextTurnOrder();
-                this.setCurrentTurnOrder(actionPhaseOrder);
-                this.setCurrentPhase(GamePhase.ACTION);
-
-            } else {
-                //If the game bag is empty, the game ends
-                if(students.size() <= 0){
-                    endGame();
-                }
-                //Action phase ended, next turn starting
-                this.setCurrentTurnOrder(nextTurnOrder);
-                this.setCurrentPlayer(currentTurnOrder.get(0).getNickname());
-                this.setCurrentPhase(GamePhase.PLANNING);
-                this.turnNumber++;
-                //Refill clouds for new planning phase
-                this.turnStartFill();
+        //Only progress if there isn't any active timer. If there is, just wait
+        if(!startedTimer) {
+            if (students.isEmpty() || anyWinner()) {
+                endGame();
             }
 
+            this.resetModifiers();
+            int currentIndex = currentTurnOrder.indexOf(this.getPlayerByNickname(currentPlayer));
+            //If current is the last element
+            if (currentIndex == currentTurnOrder.size() - 1) {
+
+                //If all players played an assistant, change to action phase
+                if (currentPhase.equals(GamePhase.PLANNING)) {
+
+                    //Update order and move to action order
+                    updateNextTurnOrder();
+                    this.setCurrentTurnOrder(actionPhaseOrder);
+                    this.setCurrentPhase(GamePhase.ACTION);
+
+                } else {
+                    //If the game bag is empty, the game ends
+                    if (students.size() <= 0) {
+                        endGame();
+                    }
+                    //Action phase ended, next turn starting
+                    this.setCurrentTurnOrder(nextTurnOrder);
+                    this.setCurrentPlayer(currentTurnOrder.get(0).getNickname());
+                    this.setCurrentPhase(GamePhase.PLANNING);
+                    this.turnNumber++;
+                    //Reset last assistant played
+                    this.players.forEach(player -> player.setLastAssistantPlayed(null));
+                    //Refill clouds for new planning phase
+                    this.turnStartFill();
+                }
+
+            } else {
+                //Next player
+                this.setCurrentPlayer(currentTurnOrder.get(currentIndex + 1).getNickname());
+            }
+            //If there is only 1 player connected, start timer
+            if (connectedPlayersNumber().equals(1) && !startedTimer) {
+                System.out.println("Started 10sec timer because only 1 or less players are still connected");
+                startedTimer = true;
+                ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();
+                timer.schedule(() -> {
+                    if (connectedPlayersNumber().equals(1)) {
+                        System.out.println("Timer ended, the players did not reconnect. Ending the game");
+                        Player winner = players.stream()
+                                .filter(Player::isActive)
+                                .findFirst()
+                                .orElse(players.get(0));
+                        winnerTeam = this.getTeamByID(winner.getTeamID());
+                        endGame();
+                    } else {
+                        startedTimer = false;
+                    }
+                }, 10, TimeUnit.SECONDS);
+            }
+            //If the player is disconnected, skip his turn
+            Player newNextPlayer = getPlayerByNickname(currentPlayer);
+            if (!newNextPlayer.isActive()) {
+                newNextPlayer.setLastAssistantPlayed(new Assistant(11, 0, -1));
+                nextPlayer();
+            }
         } else {
-            //Next player
-            this.setCurrentPlayer(currentTurnOrder.get(currentIndex + 1).getNickname());
+            nextPlayer();
         }
+    }
+
+    public Integer connectedPlayersNumber(){
+        Integer counter = 0;
+        for(Player player : players){
+            if(player.isActive()){
+                counter++;
+            }
+        }
+        return counter;
     }
 
     public void updateNextTurnOrder(){
 
         this.actionPhaseOrder = players.stream()
-                .sorted(Comparator.comparingInt(Player::getLastAssistantPlayedPriority).reversed())
+                .sorted(Comparator.comparingInt(Player::getLastAssistantPlayedPriority))
                 .collect(Collectors.toList());
 
         Integer firstPlayerIndex = actionPhaseOrder.get(0).getPlayerId();
-        List<Player> nextTurnOrder = new ArrayList<>();
+        List<Player> newNextTurnOrder = new ArrayList<>();
 
         for(int i = 0; i < players.size(); i++){
             //first player = who won the character phase. Next players selected clockwise (following players original list)
-            nextTurnOrder.add(players.get( (firstPlayerIndex + i) % players.size() ));
+            newNextTurnOrder.add(players.get( (firstPlayerIndex + i) % players.size() ));
         }
 
-        this.setNextTurnOrder(nextTurnOrder);
+        this.setNextTurnOrder(newNextTurnOrder);
     }
 
     public void turnStartFill(){
@@ -444,7 +490,7 @@ public class Game implements Serializable {
         return islands;
     }
 
-    public Set<Cloud> getClouds() {
+    public List<Cloud> getClouds() {
         return clouds;
     }
 
@@ -473,14 +519,6 @@ public class Game implements Serializable {
 
     public void setNextTurnOrder(List<Player> nextTurnOrder) {
         this.nextTurnOrder = nextTurnOrder;
-    }
-
-    public List<Player> getActionPhaseOrder() {
-        return actionPhaseOrder;
-    }
-
-    public void setActionPhaseOrder(List<Player> actionPhaseOrder) {
-        this.actionPhaseOrder = actionPhaseOrder;
     }
 
     public Boolean addPlayer(String nickname){
@@ -741,5 +779,13 @@ public class Game implements Serializable {
         }
         System.out.println("Island with id " + islandID + " not found (Game.getIslandByID)");
         return null;
+    }
+
+    public Team getTeamByID(Integer teamID){
+        return teams.stream()
+                .filter(team -> team.getTeamId()
+                .equals(teamID))
+                .findAny()
+                .orElse(null);
     }
 }

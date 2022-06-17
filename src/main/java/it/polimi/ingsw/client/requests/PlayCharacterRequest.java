@@ -17,7 +17,7 @@ public class PlayCharacterRequest implements ClientRequest {
     private List<Integer> originPieces; //Id of origin island/schoolboard/ecc
     private List<Integer> targetPieces; //Id of target island/schoolboard/ecc
 
-    //Used for character 2, 4, 6, 8
+    //Used for character 2, 4, 5, 6, 8
     public PlayCharacterRequest(Integer characterNumber, String nickname) {
         this.characterNumber = characterNumber;
         this.nickname = nickname;
@@ -38,12 +38,23 @@ public class PlayCharacterRequest implements ClientRequest {
         this.targetPieces = targetPieces;
     }
 
-    //Used for character 7, 10
+    //Used for character 7
     public PlayCharacterRequest(Integer characterNumber, String nickname, List<Integer> studentsInOrigin,
                                 List<Integer> originPieces, List<Integer> targetPieces) {
         this.characterNumber = characterNumber;
         this.nickname = nickname;
         this.studentsInOrigin = studentsInOrigin;
+        this.originPieces = originPieces;
+        this.targetPieces = targetPieces;
+    }
+
+    //Used for character 10
+    public PlayCharacterRequest(Integer characterNumber, String nickname, List<Integer> studentsInOrigin, List<Integer> studentsInTarget,
+                                List<Integer> originPieces, List<Integer> targetPieces) {
+        this.characterNumber = characterNumber;
+        this.nickname = nickname;
+        this.studentsInOrigin = studentsInOrigin;
+        this.studentsInTarget = studentsInTarget;
         this.originPieces = originPieces;
         this.targetPieces = targetPieces;
     }

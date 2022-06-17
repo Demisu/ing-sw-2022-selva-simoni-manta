@@ -95,12 +95,12 @@ public class Island extends StudentAccessiblePiece implements Serializable {
     public Integer getPlayerInfluence(Player player, TowerColor towerColor){
         Boolean[] professors = player.getPlayerBoard().getProfessors();
         int influence = 0;
-        for(int i = 0; i < 5; i++){
-            if(professors[i]){
-                influence += Game.getStudentValue(i)*this.getStudentNumber(colorOfStudent(i));
+        for(Color color : Color.values()){
+            if(professors[indexOfColor(color)]){
+                influence += Game.getStudentValue(indexOfColor(color))*this.getStudentNumber(color);
             }
         }
-        if(towerColor == this.getTowersColor()){//check if this thing works
+        if(towerColor == this.getTowersColor()){
             influence += Game.getTowerValue()*this.getTowersNumber();
         }
         return influence;

@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
@@ -134,6 +135,9 @@ public class ProfilesController implements GUIController {
     }
 
     public void drawPlayer(Player player){
+        ColorAdjust darken = new ColorAdjust();
+        darken.setBrightness(-0.6);
+
         int id = player.getPlayerId();
         boolean sameAsClient = player.getNickname().equals(gui.getClientController().getPlayerInfo().getNickname());
         ImageView playerToRender = guiPlayers.get(id);
@@ -146,11 +150,20 @@ public class ProfilesController implements GUIController {
 
         //Assistant played
         if(player.getLastAssistantPlayed() != null){
-            //Played assistant, show it
-            assistantToRender.setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/2x/Assistente (" + player.getLastAssistantPlayed().getAssistantId() + ").png")));
-            assistantToRender.setCursor(Cursor.DEFAULT);
-            //Remove hint text
-            guiClickToPlay.get(id).setText("");
+            //Jolly assistant, used when the player is disconnected
+            if(player.getLastAssistantPlayed().getAssistantId() == -1){
+                //Show generic back
+                assistantToRender.setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
+                guiClickToPlay.get(id).setText("AFK");
+                guiAssistants.get(id).setEffect(darken);
+            } else {
+                //Played assistant, show it
+                assistantToRender.setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/2x/Assistente (" + player.getLastAssistantPlayed().getAssistantId() + ").png")));
+                assistantToRender.setCursor(Cursor.DEFAULT);
+                assistantToRender.setEffect(new DropShadow());
+                //Remove hint text
+                guiClickToPlay.get(id).setText("");
+            }
         } else {
             //Still need to play assistant, show generic back
             assistantToRender.setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
@@ -171,11 +184,18 @@ public class ProfilesController implements GUIController {
                 guiClickToPlay.get(id).setCursor(Cursor.HAND);
             }
         }
-        //Add outer shadow to assistant
-        assistantToRender.setEffect(new DropShadow());
+        //Add outer shadow to assistant, if the player is not AFK
+        if(assistantToRender.getEffect() == null) {
+            assistantToRender.setEffect(new DropShadow());
+        }
 
         //Nickname
-        guiNicknames.get(id).setText(player.getNickname() + (sameAsClient ? " [YOU]" : ""));
+        if(player.isActive()){
+            guiNicknames.get(id).setText(player.getNickname() + (sameAsClient ? " [YOU]" : ""));
+        } else {
+            guiNicknames.get(id).setText(player.getNickname() + "[AFK]");
+            guiPlayers.get(id).setEffect(darken);
+        }
 
         //Team
         guiTeams.get(id).setText("Team "+(player.getTeamID() + 1));

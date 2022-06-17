@@ -78,7 +78,7 @@ public class AssistantsController implements GUIController {
                 }
             }
 
-            for (Assistant assistant : deck){ //Need to remove from the deck the cards already played by someone else in this turn
+            for (Assistant assistant : deck){
                 //Available assistant face up
                 ImageView assistantToRender = guiAssistants.get(assistant.getAssistantId() - 1);
                 assistantToRender.setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/2x/Assistente (" + assistant.getAssistantId() + ").png")));

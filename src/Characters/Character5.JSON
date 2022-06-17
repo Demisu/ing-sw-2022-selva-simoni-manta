@@ -6,7 +6,7 @@
     "setup_object": "no_entry",
     "setup_number": "4",
 
-    "effect_type": "move",
+    "effect_type": "add",
     
     "effect_scope": "NA",
     "effect_object": "no_entry",

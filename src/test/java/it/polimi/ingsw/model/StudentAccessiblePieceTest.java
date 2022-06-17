@@ -3,11 +3,15 @@ package it.polimi.ingsw.model;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class StudentAccessiblePieceTest {
+
     @Test
     @DisplayName("Testing the appropriate return index of colors")
     void testIndexOfColor() {
@@ -17,6 +21,7 @@ class StudentAccessiblePieceTest {
         assertEquals(3, indexOfColor(Color.RED), "Index 3 should correspond to red");
         assertEquals(4, indexOfColor(Color.PURPLE), "Index 4 should correspond to purple");
     }
+
     @Test
     @DisplayName("Testing the appropriate return color of students")
     void testColorOfStudent() {
@@ -31,5 +36,13 @@ class StudentAccessiblePieceTest {
         }catch(IllegalArgumentException exe){
             System.out.println("Exception verificata correttamente (StudentAccessiblePieceTest.testColorOfStudent)");
         }
+    }
+
+    @Test
+    @DisplayName("Miscellanea")
+    void testMiscellanea(){
+        StudentAccessiblePiece piece = new Cloud();
+        piece.setStudents(new HashSet<>());
+        assertNotNull(piece.getStudents());
     }
 }

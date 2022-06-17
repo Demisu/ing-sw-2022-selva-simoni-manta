@@ -16,7 +16,7 @@ public class Character extends StudentAccessiblePiece implements Serializable {
 
     //General
     private Integer cost;
-    private final String image;
+    private String image;
     private Integer noEntryNumber;
 
     //Setup info
@@ -42,7 +42,7 @@ public class Character extends StudentAccessiblePiece implements Serializable {
 
     //Game
     private boolean hasBeenUsed;
-    private final boolean hasIncreasedCost;
+    private boolean hasIncreasedCost;
 
     //Utility
     private transient GameController gameController;
@@ -66,6 +66,10 @@ public class Character extends StudentAccessiblePiece implements Serializable {
         this.students = students;
         this.noEntryNumber = noEntryNumber;
 
+    }
+
+    public Character(){
+        super();
     }
 
     //DO NOT DELETE, CONTAINS OLD BIG CONSTRUCTOR
@@ -141,7 +145,7 @@ public class Character extends StudentAccessiblePiece implements Serializable {
             }
         }
 
-        //All the original characters of type exchange ask a range
+        //All the original characters of type move ask a range
         //If more characters are added, other checks may be needed
 
         switch(effect_choose_target){
@@ -223,6 +227,14 @@ public class Character extends StudentAccessiblePiece implements Serializable {
             case "professor":
                 //When counting DiningRoom students, consider count++
                 Game.setStudentsInDiningModifier(effect_number_min);
+                break;
+            case "no_entry":
+                for(Integer target : req.getTargetPieces()){
+                    Island targetIsland = gameController.getCurrentGame().getIslandByID(target);
+                    if(!(targetIsland == null)){
+                        targetIsland.setNoEntry(targetIsland.getNoEntry() + 1);
+                    }
+                }
                 break;
             /*Extra cases...
             case "???":
@@ -315,5 +327,29 @@ public class Character extends StudentAccessiblePiece implements Serializable {
 
     public void setNoEntryNumber(Integer noEntryNumber) {
         this.noEntryNumber = noEntryNumber;
+    }
+
+    public String getEffectType() {
+        return effect_type;
+    }
+
+    public String getEffectSource() {
+        return effect_source;
+    }
+
+    public String getEffectTarget() {
+        return effect_target;
+    }
+
+    public String getEffectChooseCondition() {
+        return effect_choose_condition;
+    }
+
+    public String getEffectCondition() {
+        return effect_condition;
+    }
+
+    public String getEffectObject() {
+        return effect_object;
     }
 }

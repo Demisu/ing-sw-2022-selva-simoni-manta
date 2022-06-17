@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.Character;
 import it.polimi.ingsw.model.*;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 
@@ -12,6 +15,7 @@ public class GameController {
 
     private static Game referenceGame;
     private Game currentGame;
+    private Boolean timerOn = false;
 
     /*------*/
     /* GAME */
@@ -203,11 +207,29 @@ public class GameController {
         return currentGame.getPlayers().size();
     }
 
+    public Boolean getTimerOn() {
+        return timerOn;
+    }
+
     public void setInactive(String nickname){
         if(nickname == null || currentGame.getPlayerByNickname(nickname) == null){
             //Invalid player
             return;
         }
         currentGame.getPlayerByNickname(nickname).setActive(false);
+        currentGame.getPlayerByNickname(nickname).setLastAssistantPlayed(new Assistant(11, 0, -1));
+
+        //5sec timer after the player left, then his turn is passed
+        System.out.println("Started 5sec timer for player " + nickname + " (Disconnected)");
+        timerOn = true;
+        ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();
+        timer.schedule(() -> {
+            if (!currentGame.getPlayerByNickname(nickname).isActive()) {
+                System.out.println("Timer ended, the player did not reconnect. Skipping his turn in case");
+                if(currentGame.getCurrentPlayer().equals(nickname)){
+                    timerOn = false;
+                    currentGame.nextPlayer();
+                }
+            }}, 5, TimeUnit.SECONDS);
     }
 }

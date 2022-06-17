@@ -63,6 +63,10 @@ public class PlayerTest {
 
         player1.removeAssistant(player1.getAssistantById(1));
         assertFalse(player1.getDeck().contains(assistant2));
+
+        assertNull(player1.getAssistantById(-1));
+        player1.setTeamID(0);
+        assertEquals(0, (int) player1.getTeamID());
     }
 
     @Test

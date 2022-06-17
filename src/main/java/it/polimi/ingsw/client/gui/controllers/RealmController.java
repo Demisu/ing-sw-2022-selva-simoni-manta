@@ -104,7 +104,7 @@ public class RealmController implements GUIController {
         guiClouds.forEach(cloud -> cloud.setVisible(false));
         Platform.runLater(() -> {
             List<Island> islands = gui.getClientController().getIslands();
-            Set<Cloud> cloud = gui.getClientController().getClouds();
+            List<Cloud> cloud = gui.getClientController().getClouds();
             List<Player> players = gui.getClientController().getGameInfo().getPlayers();
             islands.forEach(this::drawIsland);
             cloud.forEach(this::drawCloud);
