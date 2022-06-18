@@ -138,7 +138,7 @@ public class Character extends StudentAccessiblePiece implements Serializable {
         List<Integer> targetPieces = req.getTargetPieces();
 
         //If source is null, this character is the source for every movement
-        if(originPieces == null){
+        if(originPieces == null || originPieces.isEmpty()){
             originPieces = new ArrayList<>();
             for(Integer index : targetPieces){
                 originPieces.add(this.getPieceID());
@@ -203,7 +203,7 @@ public class Character extends StudentAccessiblePiece implements Serializable {
             case "influence":
                 Game.setInfluenceModifier(Game.getInfluenceModifier() + effect_number_min); //(no range ATM)
                 break;
-            case "mother_nature_movement":
+            case "mother_nature":
                 Game.setMotherNatureMovements(Game.getMotherNatureMovements() + effect_number_min); //(no range ATM)
                 break;
             case "student":
@@ -224,7 +224,7 @@ public class Character extends StudentAccessiblePiece implements Serializable {
             case "tower":
                 Game.setTowerValue(Game.getTowerValue() + effect_number_min); //(no range ATM)
                 break;
-            case "professor":
+            case "student_dining":
                 //When counting DiningRoom students, consider count++
                 Game.setStudentsInDiningModifier(effect_number_min);
                 break;
@@ -254,11 +254,14 @@ public class Character extends StudentAccessiblePiece implements Serializable {
             for(Integer targetID : targetPieces){
                 gameController.resolveIsland(targetID);
             }
-        } else if(effect_choose_target.equals("random")){
+        }
+        /* Extra case, for example:
+        else if(effect_choose_target.equals("random")){
             //Get a random ID (e.g.: ID of target island)
             Integer targetID = new Random().nextInt(gameController.getCurrentGame().getIslands().size());
             gameController.resolveIsland(targetID);
         }
+        */
     }
 
     /**

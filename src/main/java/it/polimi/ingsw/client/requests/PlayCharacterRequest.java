@@ -17,6 +17,18 @@ public class PlayCharacterRequest implements ClientRequest {
     private List<Integer> originPieces; //Id of origin island/schoolboard/ecc
     private List<Integer> targetPieces; //Id of target island/schoolboard/ecc
 
+    //General constructor
+    public PlayCharacterRequest(Integer characterNumber, String nickname, Color targetColor, List<Integer> studentsInOrigin,
+                                List<Integer> studentsInTarget, List<Integer> originPieces, List<Integer> targetPieces) {
+        this.characterNumber = characterNumber;
+        this.nickname = nickname;
+        this.targetColor = targetColor;
+        this.studentsInOrigin = studentsInOrigin;
+        this.studentsInTarget = studentsInTarget;
+        this.originPieces = originPieces;
+        this.targetPieces = targetPieces;
+    }
+
     //Used for character 2, 4, 5, 6, 8
     public PlayCharacterRequest(Integer characterNumber, String nickname) {
         this.characterNumber = characterNumber;
