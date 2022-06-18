@@ -9,14 +9,14 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 
 public class RealmController implements GUIController {
 
@@ -92,7 +92,7 @@ public class RealmController implements GUIController {
             //[TO BE IMPLEMENTED..]
         });
         motherNature.setOnAction(e -> {
-            //[TO BE IMPLEMENTED..]
+            motherNatureDialog(gui.getClientController().getPlayerInfo().getLastAssistantPlayed().getMotherNatureMovements());
         });
         pass.setOnAction(e -> {
             Platform.runLater(() -> {
@@ -112,6 +112,26 @@ public class RealmController implements GUIController {
         bag.setOnMouseClicked(e -> {
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             gui.createModal(stage, "Bag", "bag.png", Color.BURLYWOOD, "\t [INFO TO BE ADDED..]");
+        });
+    }
+
+    /**
+     * Shows a dialog window to move Mother Nature by the defined number of steps
+     *
+     * @param max_steps the maximum number of steps that are to be allowed
+     */
+    public void motherNatureDialog(int max_steps) {
+        TextInputDialog dialog = new TextInputDialog(String.valueOf(max_steps));
+        dialog.setTitle("Move Mother Nature");
+        dialog.setHeaderText("Maximum steps allowed: " + max_steps);
+        dialog.setGraphic(null);
+        Optional<String> movements = dialog.showAndWait();
+        movements.ifPresent(string -> {
+            if(Integer.parseInt(string) <= max_steps) {
+                gui.getClientController().moveMotherNature(Integer.parseInt(string));
+            } else {
+                motherNatureDialog(max_steps);
+            }
         });
     }
 
