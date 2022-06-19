@@ -52,17 +52,20 @@ public class ClientController implements ServerResponseHandler {
 
     public void run() throws IOException {
 
-        //Setup
-        view.setupPhase();
-        view.waitGameStartPhase();
+        //Setup (from now on, only CLI)
+        CLI cli = (CLI) view;
+        cli.setupPhase();
+        cli.waitGameStartPhase();
 
-        //ScheduledExecutorService modelUpdater = Executors.newSingleThreadScheduledExecutor();
-        //modelUpdater.scheduleAtFixedRate( () -> client.clientRequest(new GetUpdatedBoardRequest(nickname)), 0, 2, TimeUnit.SECONDS);
+        getModelInfo();
+        if(gamePhase.equals(GamePhase.ACTION)){
+            cli.actionPhase();
+        }
 
         //Game phases
         do{
-            view.planningPhase();
-            view.actionPhase();
+            cli.planningPhase();
+            cli.actionPhase();
         } while(client.isConnected());
 
         //Game ended
@@ -114,6 +117,11 @@ public class ClientController implements ServerResponseHandler {
 
     public Boolean playCharacter(Integer number){
         client.clientRequest(new PlayCharacterRequest(number, nickname));
+        return this.handle((OperationResultResponse) client.clientResponse());
+    }
+
+    public Boolean playCharacter(PlayCharacterRequest requestBody){
+        client.clientRequest(requestBody);
         return this.handle((OperationResultResponse) client.clientResponse());
     }
 

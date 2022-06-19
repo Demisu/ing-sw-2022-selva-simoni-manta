@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.cli;
 
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientView;
+import it.polimi.ingsw.client.requests.PlayCharacterRequest;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Character;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
+import static it.polimi.ingsw.model.Color.*;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
 
@@ -47,7 +49,6 @@ public class CLI implements ClientView {
         {
             add(playCharacterAction);
             add(moveStudentAction);
-            add(chooseCloudAction);
             add(infoAction);
             add(quitAction);
         }
@@ -169,8 +170,7 @@ public class CLI implements ClientView {
     public void actionPhase() {
 
         availableActions = turnActions;
-        studentsToMove = 1;
-        //studentsToMove = clientController.getGameInfo().getPlayers().size() == 3 ? 4 : 3;
+        studentsToMove = clientController.getGameInfo().getPlayers().size() == 3 ? 4 : 3;
 
         System.out.println("Action phase has started!");
         String action;
@@ -226,7 +226,9 @@ public class CLI implements ClientView {
                     Integer characterNumber = scanner.nextInt();
 
                     scanner.nextLine();
-                    clientController.playCharacter(characterNumber);
+
+                    //req = new PlayCharacterRequest(characterNumber, nickname, targetColor, studentsInOrigin, studentsInTarget, originPieces, targetPieces);
+                    clientController.playCharacter(generateCharacterRequest(characterNumber));
                 }
 
                 case playAssistantAction -> {
@@ -268,6 +270,8 @@ public class CLI implements ClientView {
                         if (movedStudents == studentsToMove) {
                             availableActions.add(moveMotherNatureAction);
                         }
+                    } else {
+                        System.out.println("Error moving student, please try again");
                     }
                 }
 
@@ -283,8 +287,14 @@ public class CLI implements ClientView {
                     clientController.moveMotherNature(steps);
                     //Once mother nature is moved, the action cannot be repeated
                     availableActions.remove(moveMotherNatureAction);
+                    //Removes these to avoid adding cloud in the last spot
+                    availableActions.remove(infoAction);
+                    availableActions.remove(quitAction);
                     //Adds turn-ending action, equivalent to "pass turn"
                     availableActions.add(chooseCloudAction);
+                    //Add them again
+                    availableActions.add(infoAction);
+                    availableActions.add(quitAction);
                 }
 
                 case chooseCloudAction -> {
@@ -385,14 +395,16 @@ public class CLI implements ClientView {
         clearConsole();
         printLongRow();
         System.out.println("Available characters:");
-        System.out.println("(index: id | cost)");
+        System.out.println("(index: id | cost | description)");
         printShortRow();
         ArrayList<Character> characters = clientController.getCharacters();
         for (Character character : characters) {
             if(!character.getHasBeenUsed()) {
                 System.out.println(characters.indexOf(character) + ":\t"
                         + character.getImage() + "\t|\t"
-                        + character.getCost());
+                        + character.getCost() + "\t|\t"
+                        + character.getEffectType() + " " + character.getEffectNumberMax() + " " + character.getEffectObject() + " "
+                        + "from " + character.getEffectSource() + " to " + character.getEffectTarget());
             }
         }
         printLongRow();
@@ -486,6 +498,168 @@ public class CLI implements ClientView {
         printLongRow();
     }
 
+    public PlayCharacterRequest generateCharacterRequest(Integer characterNumber){
+
+        Character character = clientController.getCharacters().get(characterNumber);
+        //REQUEST PARAMETERS
+        Color targetColor = null;
+        List<Integer> studentsInOrigin = new ArrayList<>();
+        List<Integer> studentsInTarget = new ArrayList<>();
+        List<Integer> originPieces = new ArrayList<>();
+        List<Integer> targetPieces = new ArrayList<>();
+
+        switch (character.getEffectType()) {
+
+            case "move" -> {
+
+                //Source
+                if (character.getEffectSource().equals("character")) {
+                    //from character [char 1, 11]
+                    if (character.getSetupObject().equals("student")) {
+                        //[char 1, 11]
+                        System.out.print("Select a student: [ ");
+                        for (Integer student : character.getStudents()){
+                            System.out.print(student + " ");
+                        }
+                        System.out.println("] to move to " + character.getEffectTarget());
+                        studentsInOrigin.add(scanner.nextInt());
+                        scanner.nextLine();
+                    }
+                } else if(character.getEffectSource().equals("dining_room")) {
+                    //[char 12]
+                    System.out.println("Input target color:");
+                    int i = 1;
+                    for (Color color : Color.values()){
+                        System.out.println(i + ") " + color);
+                        i++;
+                    }
+                    String inputColor = scanner.nextLine();
+                    targetColor = parseColor(inputColor);
+                }
+
+                //Target
+                if (character.getEffectTarget().equals("island")) {
+                    //[char 1]
+                    showIslands();
+                    System.out.println("Input target island id:");
+                    targetPieces.add(scanner.nextInt());
+                    scanner.nextLine();
+                } else if (character.getEffectTarget().equals("dining_room")) {
+                    //[char 11]
+                    targetPieces.add(clientController.getPlayerInfo().getPlayerBoard().getPieceID());
+                }
+            }
+
+            case "exchange" -> {
+
+                int targetSelected = 0;
+
+                if (character.getEffectObject().equals("student")) {
+                    //[char 10]
+                    if (character.getEffectSource().equals("entrance")) {
+                        System.out.println("Choose up to " + character.getEffectNumberMax() + "students to exchange between "
+                                + character.getEffectSource() + " and " + character.getEffectTarget());
+
+                        for(int i = 0; i < character.getEffectNumberMax(); i++){
+                            System.out.print("Select a student: [ ");
+                            for (Integer student : clientController.getPlayerInfo().getPlayerBoard().getStudents()){
+                                System.out.print(student + " ");
+                            }
+                            System.out.println("] from your schoolboard");
+                            System.out.println("(input . to stop)");
+                            String input = scanner.nextLine();
+                            if(input.equals(".")){
+                                break;
+                            }
+                            originPieces.add(clientController.getPlayerInfo().getPlayerBoard().getPieceID());
+                            studentsInOrigin.add(Integer.parseInt(input));
+                            targetSelected++;
+                        }
+
+                    } else if(character.getEffectSource().equals("character")) {
+                        //[char 7]
+                        for(int i = 0; i < character.getEffectNumberMax(); i++){
+                            System.out.print("Select a student: [ ");
+                            for (Integer student : character.getStudents()){
+                                System.out.print(student + " ");
+                            }
+                            System.out.println("] from this card");
+                            System.out.println("(input . to stop)");
+                            String input = scanner.nextLine();
+                            if(input.equals(".")){
+                                break;
+                            }
+                            originPieces.add(character.getPieceID());
+                            studentsInOrigin.add(Integer.parseInt(input));
+                            targetSelected++;
+                        }
+                    }
+                    if (character.getEffectTarget().equals("dining_room")) {
+                        //[char 10]
+                        //Select targetSelected students
+                        for(int i = 0; i < targetSelected; i++){
+                            System.out.print("Select a student: [ ");
+                            for (Integer student : clientController.getPlayerInfo().getPlayerBoard().getStudents()){
+                                System.out.print(student + " ");
+                            }
+                            System.out.println("] from your dining room");
+                            String input = scanner.nextLine();
+                            targetPieces.add(clientController.getPlayerInfo().getPlayerBoard().getPieceID());
+                            studentsInTarget.add(Integer.parseInt(input));
+                        }
+                    } else if(character.getEffectTarget().equals("entrance")) {
+                        //[char 7]
+                        //Select targetSelected students
+                        for(int i = 0; i < targetSelected; i++){
+                            System.out.print("Select a student: [ ");
+                            for (Integer student : clientController.getPlayerInfo().getPlayerBoard().getStudents()){
+                                System.out.print(student + " ");
+                            }
+                            System.out.println("] from your entrance");
+                            String input = scanner.nextLine();
+                            targetPieces.add(clientController.getPlayerInfo().getPlayerBoard().getPieceID());
+                            studentsInTarget.add(Integer.parseInt(input));
+                        }
+                    }
+                }
+            }
+            case "add" -> {
+                if (character.getEffectCondition().equals("any")) {
+                    //If nothing more is needed [char 2, 4, 5, 6, 8]
+                    if (character.getEffectTarget().equals("island")) {
+                        //[char 5]
+                        showIslands();
+                        System.out.println("Input target island ID (adds 1 noEntry tile):");
+                        targetPieces.add(scanner.nextInt());
+                    } else {
+                        //[char 2, 4, 6, 8]
+                        System.out.println("Nothing more needed");
+                    }
+                } else if (character.getEffectCondition().equals("color")) {
+                    //If color is needed [char 9]
+                    System.out.println("Input target color:");
+                    int i = 1;
+                    for (Color color : Color.values()){
+                        System.out.println(i + ") " + color);
+                        i++;
+                    }
+                    String inputColor = scanner.nextLine();
+                    targetColor = parseColor(inputColor);
+                }
+            }
+            case "resolve" -> {
+                if (character.getEffectTarget().equals("island")) {
+                    //[char 3]
+                    showIslands();
+                    System.out.println("Input island ID to resolve:");
+                    targetPieces.add(scanner.nextInt());
+                }
+            }
+        }
+
+        return new PlayCharacterRequest(characterNumber, nickname, targetColor, studentsInOrigin, studentsInTarget, originPieces, targetPieces);
+    }
+
     // UTILITY
 
     public void printLongRow(){
@@ -500,5 +674,16 @@ public class CLI implements ClientView {
         for (int i = 0; i < 30; i++) {
             System.out.println();
         }
+    }
+
+    public Color parseColor(String color){
+        switch (color) {
+            case "YELLOW", "1" -> {return YELLOW;}
+            case "BLUE", "2" -> {return BLUE;}
+            case "GREEN", "3" -> {return GREEN;}
+            case "RED", "4" -> {return RED;}
+            case "PURPLE", "5" -> {return PURPLE;}
+        }
+        return null;
     }
 }

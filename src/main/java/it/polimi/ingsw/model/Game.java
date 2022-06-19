@@ -44,7 +44,7 @@ public class Game implements Serializable {
     private final int studentsForClouds;
     private final int studentsForBoards;
 
-    private final Character[] availableCharacters;
+    private Character[] availableCharacters;
 
     //Modifiers
     private static Integer[] studentValue = {1, 1, 1, 1, 1}; //defaults to 1
@@ -60,23 +60,9 @@ public class Game implements Serializable {
     private Game(Game fullGame){
 
         this.expertMode = fullGame.isExpertMode();
-        this.availableCharacters = new Character[availableCharactersNumber];
 
         if(this.expertMode) {
-
-            int i = 0;
-
-            for (Character character : fullGame.getAllCharacters()) {
-
-                Integer cost = character.getCost();
-                String image = character.getImage();
-                Boolean hasIncreasedCost = character.getHasIncreasedCost();
-                HashSet<Integer> characterStudents = character.getStudents();
-                Integer noEntryNumber = character.getNoEntryNumber();
-
-                this.availableCharacters[i] = new Character(cost, image, hasIncreasedCost, characterStudents, noEntryNumber);
-                i++;
-            }
+            this.availableCharacters = fullGame.availableCharacters;
         }
 
         this.currentPhase = fullGame.currentPhase;
@@ -120,6 +106,9 @@ public class Game implements Serializable {
         }
         //Place mother nature on the first island
         this.islands.get(0).setMotherNature(true);
+
+        //TODO REMOVE THIS
+        islands.get(1).setNoEntry(1);
 
         //Clouds and Players setup
         clouds = new ArrayList<>();

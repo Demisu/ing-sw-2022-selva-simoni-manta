@@ -231,24 +231,4 @@ public class GUI extends Application implements ClientView {
     public Scene getCurrentScene() {
         return currentScene;
     }
-
-    @Override
-    public void waitGameStartPhase() {
-
-    }
-
-    @Override
-    public void setupPhase() {
-
-    }
-
-    @Override
-    public void planningPhase() {
-
-    }
-
-    @Override
-    public void actionPhase() {
-
-    }
 }

@@ -2,10 +2,8 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.requests.*;
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Character;
-import it.polimi.ingsw.model.Cloud;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.responses.GetUpdatedBoardResponse;
 import it.polimi.ingsw.server.responses.OperationResultResponse;
 import it.polimi.ingsw.server.responses.SetNicknameResponse;
@@ -223,6 +221,10 @@ public class ServerController implements ClientRequestHandler {
 
         Game currentGame = gameController.getCurrentGame();
         if(currentGame.getCurrentPlayer().equals(req.getNickname())){
+            //If he didn't play an assistant
+            if(currentGame.getPlayerByNickname(req.getNickname()).getLastAssistantPlayed() == null){
+                currentGame.getPlayerByNickname(req.getNickname()).setLastAssistantPlayed(new Assistant(11, 0, -1));
+            }
             currentGame.nextPlayer();
             return new OperationResultResponse(true, req.getNickname() + "'s turn ended.\n" +
                                                             currentGame.getCurrentPlayer() +

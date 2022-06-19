@@ -355,4 +355,8 @@ public class Character extends StudentAccessiblePiece implements Serializable {
     public String getEffectObject() {
         return effect_object;
     }
+
+    public Integer getEffectNumberMax() {
+        return effect_number_max;
+    }
 }

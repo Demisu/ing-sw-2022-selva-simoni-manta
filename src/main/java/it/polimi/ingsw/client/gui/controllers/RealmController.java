@@ -310,6 +310,15 @@ public class RealmController implements GUIController {
             } else {
                 motherNature.setCursor(Cursor.WAIT);
             }
+        }else if(island.getNoEntry() > 0){
+            //Draw no entry on mother nature's place
+            ImageView motherNature = new ImageView();
+            motherNature.setImage(new Image(getClass().getResourceAsStream("/assets/noEntry.png")));
+            islandPane.get(index).getChildren().add(motherNature);
+            motherNature.setLayoutX(counterX);
+            motherNature.setLayoutY(counterY);
+            motherNature.setFitHeight(studentSize);
+            motherNature.setFitWidth(studentSize);
         }
         if(island.getTowersNumber() > 0) {
             //Draw tower

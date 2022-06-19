@@ -181,7 +181,7 @@ public class CharacterTest {
 
             notAllTested = false;
             for(Boolean tested : testedCharacters){
-                //If a character hasn't been teste, repeat the process
+                //If a character hasn't been tested, repeat the process
                 if(!tested){
                     notAllTested = true;
                     break;
