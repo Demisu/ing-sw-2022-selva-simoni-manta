@@ -10,11 +10,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -158,7 +161,7 @@ public class GUI extends Application implements ClientView {
         return musicPlayer;
     }
 
-    public void createModal(Stage stage, String title, String asset, Color color, String info){
+    public void createModal(Stage stage, String title, String asset, Color color, ArrayList<Text> info){
         final Stage dialog = new Stage();
         Pane bagRoot = new Pane();
         StackPane bagHolder = new StackPane();
@@ -171,10 +174,10 @@ public class GUI extends Application implements ClientView {
         dialog.initOwner(stage);
         dialog.getIcons().add(new Image(getClass().getResourceAsStream("/assets/"+asset)));
         dialog.setTitle(title);
-        VBox dialogVbox = new VBox(20);
-        dialogVbox.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-        dialogVbox.getChildren().add(new Text(info));
-        Scene dialogScene = new Scene(dialogVbox, 300, 200);
+        TextFlow dialogTflow = new TextFlow();
+        dialogTflow.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+        dialogTflow.getChildren().addAll(info);
+        Scene dialogScene = new Scene(dialogTflow, 300, 200);
         dialog.setScene(dialogScene);
         dialog.showAndWait();
     }

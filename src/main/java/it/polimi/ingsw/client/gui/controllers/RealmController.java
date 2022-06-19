@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -36,6 +37,8 @@ public class RealmController implements GUIController {
     private Stage stage;
     private GUI gui;
     public Boolean expertMode = true; //Might want to make this Static
+    public ArrayList<Integer> studentsInBag;
+    public String bagInfo;
     public final int studentSize = 40;
     public final int oddX = 30;
     public final int evenX = 10;
@@ -79,6 +82,7 @@ public class RealmController implements GUIController {
     private ArrayList<ImageView> guiClouds;
     private ArrayList<Pane> islandPane;
     private ArrayList<Pane> cloudPane;
+    private ArrayList<String> colors;
 
     public void onLoad(){
         guiIslands = new ArrayList<>(){
@@ -119,6 +123,15 @@ public class RealmController implements GUIController {
                 add(stackPane10);
                 add(stackPane11);
                 add(stackPane12);
+            }
+        };
+        colors = new ArrayList<>(){
+            {
+                add("YELLOW");
+                add("BLUE");
+                add("GREEN");
+                add("RED");
+                add("PURPLE");
             }
         };
         cloudPane = new ArrayList<>(){
@@ -182,8 +195,44 @@ public class RealmController implements GUIController {
         });
         bag.setOnMouseClicked(e -> {
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-            gui.createModal(stage, "Bag", "bag.png", Color.BURLYWOOD, "\t [INFO TO BE ADDED..]");
+            ArrayList<Text> info = new ArrayList<>();
+            studentsInBag = gui.getClientController().getGameInfo().getBagStudents();
+            bagInfo = "Students remaining: "+studentsInBag.size()+"\n\n";
+            info.add(new Text(bagInfo));
+            Text emoji;
+            for (it.polimi.ingsw.model.Color color : it.polimi.ingsw.model.Color.values()) {
+                emoji = new Text();
+                emoji.setText("\uD83D\uDD34");
+                emoji.setFill(parseColor(color));
+                bagInfo = color+": "+studentsInBag.stream().filter(s -> colorOfStudent(s).equals(color)).count()+" students\n";
+                info.add(emoji);
+                info.add(new Text(bagInfo));
+            }
+            gui.createModal(stage, "Bag", "bag.png", Color.BURLYWOOD, info);
         });
+    }
+
+    public Paint parseColor(it.polimi.ingsw.model.Color color){
+        switch(color){
+            case YELLOW -> {
+                return Color.YELLOW;
+            }
+            case BLUE -> {
+                return Color.BLUE;
+            }
+            case GREEN -> {
+                return Color.GREEN;
+            }
+            case RED -> {
+                return Color.RED;
+            }
+            case PURPLE -> {
+                return Color.PURPLE;
+            }
+            default -> {
+                return Color.BLACK;
+            }
+        }
     }
 
     /**

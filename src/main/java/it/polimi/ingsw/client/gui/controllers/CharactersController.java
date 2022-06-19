@@ -65,7 +65,12 @@ public class CharactersController implements GUIController {
                 //characters.get(i).getEffect() //This needs to be implemented in Character Class
                 info.forEach(info -> info.setOnAction(e -> {
                     stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-                    gui.createModal(stage, "[CHARACTER NAME TO BE ADDED..]", "coin.png", Color.DARKGRAY, "\t [INFO TO BE ADDED..]");
+                    ArrayList<Text> infoChars = new ArrayList<>(){
+                        {
+                            add(new Text("\t [INFO TO BE ADDED..]"));
+                        }
+                    };
+                    gui.createModal(stage, "[CHARACTER NAME TO BE ADDED..]", "coin.png", Color.DARKGRAY, infoChars);
                 }));
             }
             for (Character character : characters){
