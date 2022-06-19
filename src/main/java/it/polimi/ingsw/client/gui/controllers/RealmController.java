@@ -394,7 +394,7 @@ public class RealmController implements GUIController {
                 colorImage.setLayoutY(counterY);
                 colorImage.setFitHeight(studentSize);
                 colorImage.setFitWidth(studentSize);
-                colorImage.setEffect(getColorEffect(color));
+                colorImage.setEffect(gui.getColorEffect(color));
 
                 //Text
                 studentWrapper.getChildren().add(colorNumber);
@@ -427,29 +427,6 @@ public class RealmController implements GUIController {
                 counterX += studentSize;
             }
         }
-    }
-
-    public ColorAdjust getColorEffect(it.polimi.ingsw.model.Color color){
-        ColorAdjust colorAdjust = new ColorAdjust();
-        colorAdjust.setBrightness(0.14);
-        colorAdjust.setContrast(1.0);
-        colorAdjust.setSaturation(1.0);
-        switch (color) {
-            case YELLOW -> {
-                colorAdjust.setHue(0.21);
-            }
-            case RED -> {}
-            case GREEN -> {
-                colorAdjust.setHue(0.47);
-            }
-            case BLUE -> {
-                colorAdjust.setHue(1.0);
-            }
-            case PURPLE -> {
-                colorAdjust.setHue(-0.36);
-            }
-        }
-        return colorAdjust;
     }
 
     public void selectCloud(Cloud cloud){

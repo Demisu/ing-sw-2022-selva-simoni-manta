@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<HBox alignment="CENTER" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SchoolboardController">
+<HBox alignment="CENTER" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SchoolboardController">
    <children>
       <AnchorPane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0">
          <children>
@@ -23,6 +26,331 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
+            <ImageView fx:id="greenStudent1" fitHeight="61.0" fitWidth="61.0" layoutX="236.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="greenStudent2" fitHeight="61.0" fitWidth="61.0" layoutX="297.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="greenStudent3" fitHeight="61.0" fitWidth="61.0" layoutX="358.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="greenStudent4" fitHeight="61.0" fitWidth="61.0" layoutX="419.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="greenStudent5" fitHeight="61.0" fitWidth="61.0" layoutX="480.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="greenStudent6" fitHeight="61.0" fitWidth="61.0" layoutX="541.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="greenStudent7" fitHeight="61.0" fitWidth="61.0" layoutX="602.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="greenStudent8" fitHeight="61.0" fitWidth="61.0" layoutX="663.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="greenStudent9" fitHeight="61.0" fitWidth="61.0" layoutX="724.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="greenStudent10" fitHeight="61.0" fitWidth="61.0" layoutX="785.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redStudent1" fitHeight="61.0" fitWidth="61.0" layoutX="236.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redStudent2" fitHeight="61.0" fitWidth="61.0" layoutX="297.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redStudent3" fitHeight="61.0" fitWidth="61.0" layoutX="358.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redStudent4" fitHeight="61.0" fitWidth="61.0" layoutX="419.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redStudent5" fitHeight="61.0" fitWidth="61.0" layoutX="480.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redStudent6" fitHeight="61.0" fitWidth="61.0" layoutX="541.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redStudent7" fitHeight="61.0" fitWidth="61.0" layoutX="602.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redStudent8" fitHeight="61.0" fitWidth="61.0" layoutX="663.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redStudent9" fitHeight="61.0" fitWidth="61.0" layoutX="724.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redStudent10" fitHeight="61.0" fitWidth="61.0" layoutX="785.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="yellowStudent1" fitHeight="61.0" fitWidth="61.0" layoutX="236.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="yellowStudent2" fitHeight="61.0" fitWidth="61.0" layoutX="297.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="yellowStudent3" fitHeight="61.0" fitWidth="61.0" layoutX="358.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="yellowStudent4" fitHeight="61.0" fitWidth="61.0" layoutX="419.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="yellowStudent5" fitHeight="61.0" fitWidth="61.0" layoutX="480.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="yellowStudent6" fitHeight="61.0" fitWidth="61.0" layoutX="541.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="yellowStudent7" fitHeight="61.0" fitWidth="61.0" layoutX="602.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="yellowStudent8" fitHeight="61.0" fitWidth="61.0" layoutX="663.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="yellowStudent9" fitHeight="61.0" fitWidth="61.0" layoutX="724.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="yellowStudent10" fitHeight="61.0" fitWidth="61.0" layoutX="785.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pinkStudent1" fitHeight="61.0" fitWidth="61.0" layoutX="236.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pinkStudent2" fitHeight="61.0" fitWidth="61.0" layoutX="297.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pinkStudent3" fitHeight="61.0" fitWidth="61.0" layoutX="358.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pinkStudent4" fitHeight="61.0" fitWidth="61.0" layoutX="419.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pinkStudent5" fitHeight="61.0" fitWidth="61.0" layoutX="480.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pinkStudent6" fitHeight="61.0" fitWidth="61.0" layoutX="541.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pinkStudent7" fitHeight="61.0" fitWidth="61.0" layoutX="602.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pinkStudent8" fitHeight="61.0" fitWidth="61.0" layoutX="663.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pinkStudent9" fitHeight="61.0" fitWidth="61.0" layoutX="724.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pinkStudent10" fitHeight="61.0" fitWidth="61.0" layoutX="785.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="blueStudent1" fitHeight="61.0" fitWidth="61.0" layoutX="236.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="blueStudent2" fitHeight="61.0" fitWidth="61.0" layoutX="297.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="blueStudent3" fitHeight="61.0" fitWidth="61.0" layoutX="358.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="blueStudent4" fitHeight="61.0" fitWidth="61.0" layoutX="419.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="blueStudent5" fitHeight="61.0" fitWidth="61.0" layoutX="480.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="blueStudent6" fitHeight="61.0" fitWidth="61.0" layoutX="541.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="blueStudent7" fitHeight="61.0" fitWidth="61.0" layoutX="602.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="blueStudent8" fitHeight="61.0" fitWidth="61.0" layoutX="663.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="blueStudent9" fitHeight="61.0" fitWidth="61.0" layoutX="724.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="blueStudent10" fitHeight="61.0" fitWidth="61.0" layoutX="785.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="yellowStudent" fitHeight="61.0" fitWidth="61.0" layoutX="116.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redStudent" fitHeight="61.0" fitWidth="61.0" layoutX="116.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pinkStudent" fitHeight="61.0" fitWidth="161.0" layoutX="116.0" layoutY="329.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="greenStudent" fitHeight="61.0" fitWidth="61.0" layoutX="116.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="blueStudent" fitHeight="61.0" fitWidth="61.0" layoutX="116.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="yellowNumber" fill="WHITE" layoutX="136.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="20.70703125">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <Text fx:id="redNumber" fill="WHITE" layoutX="136.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="20.70703125">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <Text fx:id="pinkNumber" fill="WHITE" layoutX="136.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="20.70703125">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <Text fx:id="greenNumber" fill="WHITE" layoutX="136.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="20.70703125">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <Text fx:id="blueNumber" fill="WHITE" layoutX="136.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="20.70703125">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <ImageView fx:id="greenProfessor" fitHeight="61.0" fitWidth="61.0" layoutX="905.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redProfessor" fitHeight="61.0" fitWidth="61.0" layoutX="905.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="yellowProfessor" fitHeight="61.0" fitWidth="61.0" layoutX="905.0" layoutY="238.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pinkProfessor" fitHeight="61.0" fitWidth="61.0" layoutX="905.0" layoutY="329.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="blueProfessor" fitHeight="61.0" fitWidth="61.0" layoutX="905.0" layoutY="420.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/coin.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

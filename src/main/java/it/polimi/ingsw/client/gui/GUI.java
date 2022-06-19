@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -180,6 +181,29 @@ public class GUI extends Application implements ClientView {
         Scene dialogScene = new Scene(dialogTflow, 300, 200);
         dialog.setScene(dialogScene);
         dialog.showAndWait();
+    }
+
+    public ColorAdjust getColorEffect(it.polimi.ingsw.model.Color color){
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setBrightness(0.14);
+        colorAdjust.setContrast(1.0);
+        colorAdjust.setSaturation(1.0);
+        switch (color) {
+            case YELLOW -> {
+                colorAdjust.setHue(0.21);
+            }
+            case RED -> {}
+            case GREEN -> {
+                colorAdjust.setHue(0.47);
+            }
+            case BLUE -> {
+                colorAdjust.setHue(1.0);
+            }
+            case PURPLE -> {
+                colorAdjust.setHue(-0.36);
+            }
+        }
+        return colorAdjust;
     }
 
     /**
