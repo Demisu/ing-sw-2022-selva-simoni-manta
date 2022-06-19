@@ -75,7 +75,7 @@ public class Player implements Serializable {
         return LastAssistantPlayed;
     }
 
-    public int getLastAssistantPlayedPriority() {
+    public Integer getLastAssistantPlayedPriority() {
         return LastAssistantPlayed.getTurnPriority();
     }
 
@@ -110,7 +110,7 @@ public class Player implements Serializable {
     public Assistant getAssistantById(Integer assistantId) {
 
         for (Assistant assistant: deck) {
-            if(assistant.getAssistantId() == assistantId) {
+            if(assistant.getAssistantId().equals(assistantId)) {
                 return assistant;
             }
         }

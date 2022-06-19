@@ -26,7 +26,7 @@ public class Island extends StudentAccessiblePiece implements Serializable {
      * @param teams teams of the game, needed for influence calculations
      */
     public void resolve(ArrayList<Team> teams) {
-        Integer maxInfluence = -2;
+        Integer maxInfluence = 0;
         Team winningTeam = new Team();
         boolean won = false;
         Integer provisionalInfluence;
@@ -50,6 +50,7 @@ public class Island extends StudentAccessiblePiece implements Serializable {
                 //If there are no towers on the island, move 1 tower. If there are 2 or more, exchange all the towers
                 if(this.towersNumber == 0){
                     winningTeam.setTowerNumber(winningTeam.getTowerNumber() - 1);
+                    this.towersNumber++;
                 } else {
                     winningTeam.setTowerNumber(winningTeam.getTowerNumber() - this.towersNumber);
                     //Gives back the losing team their towers

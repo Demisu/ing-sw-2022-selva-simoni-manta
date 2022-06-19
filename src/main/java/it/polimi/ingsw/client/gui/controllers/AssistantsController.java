@@ -99,8 +99,11 @@ public class AssistantsController implements GUIController {
                                 assistantToRender.setImage(new Image(getClass().getResourceAsStream("/assets/Assistenti/retro/player" + playerId + ".jpg")));
                                 //Set default cursor
                                 assistantToRender.setCursor(Cursor.DEFAULT);
+                                gui.getClientController().getModelInfo();
+                                gui.changeScene(GUI.PROFILES);
+                                ((ProfilesController) gui.getControllerFromName(GUI.PROFILES)).onLoad();
                             } else {
-                                System.out.println("No");//Might want to add a popup here with an error
+                                //Might want to add a popup here with an error
                             }
                         });
                     });

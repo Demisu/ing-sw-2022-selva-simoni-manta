@@ -96,9 +96,10 @@ public class ClientController implements ServerResponseHandler {
         return this.handle((OperationResultResponse) client.clientResponse());
     }
 
-    public void getModelInfo() {
+    public boolean getModelInfo() {
         client.clientRequest(new GetUpdatedBoardRequest(nickname));
         this.handle((GetUpdatedBoardResponse) client.clientResponse());
+        return true;
     }
 
     /**

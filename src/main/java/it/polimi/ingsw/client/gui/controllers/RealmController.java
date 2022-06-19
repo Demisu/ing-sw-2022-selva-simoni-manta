@@ -85,6 +85,15 @@ public class RealmController implements GUIController {
     private ArrayList<String> colors;
 
     public void onLoad(){
+        colors = new ArrayList<>(){
+            {
+                add("YELLOW");
+                add("BLUE");
+                add("GREEN");
+                add("RED");
+                add("PURPLE");
+            }
+        };
         guiIslands = new ArrayList<>(){
             {
                 add(island1);
@@ -125,15 +134,6 @@ public class RealmController implements GUIController {
                 add(stackPane12);
             }
         };
-        colors = new ArrayList<>(){
-            {
-                add("YELLOW");
-                add("BLUE");
-                add("GREEN");
-                add("RED");
-                add("PURPLE");
-            }
-        };
         cloudPane = new ArrayList<>(){
             {
                 add(cloudStackPane1);
@@ -142,6 +142,12 @@ public class RealmController implements GUIController {
                 add(cloudStackPane4);
             }
         };
+
+        //Clear islands
+        islandPane.forEach(pane -> pane.getChildren().clear());
+        //Clear clouds
+        cloudPane.forEach(pane -> pane.getChildren().clear());
+
         if(!expertMode){
             characters.setVisible(false);
         }else{
@@ -267,6 +273,10 @@ public class RealmController implements GUIController {
                     //Move mother nature
                     gui.getClientController().moveMotherNature(targetIslandIndex - originIslandIndex);
                     resetStatus();
+                    //Reload realm
+                    gui.getClientController().getModelInfo();
+                    gui.changeScene(GUI.REALM);
+                    ((ProfilesController) gui.getControllerFromName(GUI.REALM)).onLoad();
                 });
             } else {
                 gui.changeScene(GUI.ISLAND);
@@ -278,6 +288,7 @@ public class RealmController implements GUIController {
 
         counterX = oddX;
         if(island.isMotherNature()) {
+            //Delete old mother nature
             //Draw mother nature
             ImageView motherNature = new ImageView();
             motherNature.setImage(new Image(getClass().getResourceAsStream("/assets/coin.png")));
@@ -354,12 +365,22 @@ public class RealmController implements GUIController {
         int index = (cloud.getPieceID() - 12 ) / 2;
         ImageView cloudToRender = guiClouds.get(index);
         cloudToRender.setVisible(true);
-        cloudToRender.setCursor(Cursor.HAND);
-        cloudToRender.setOnMouseClicked(e -> {
-            gui.changeScene(GUI.CLOUD);
-            ((CloudController) gui.getControllerFromName(GUI.CLOUD)).onLoad();
-            ((CloudController) gui.getControllerFromName(GUI.CLOUD)).drawZoomedCloud(cloud);
-        });
+        if(gui.getClientController().getGamePhase().equals(ACTION)){
+            //Click to move students
+            cloudToRender.setOnMouseClicked(e -> selectCloud(cloud));
+            cloudPane.get(index).setOnMouseClicked(e -> selectCloud(cloud));
+            cloudToRender.setCursor(Cursor.HAND);
+            cloudPane.get(index).setCursor(Cursor.HAND);
+        } else {
+            //Click to zoom
+            cloudPane.get(index).setCursor(Cursor.HAND);
+            cloudToRender.setCursor(Cursor.HAND);
+            cloudToRender.setOnMouseClicked(e -> {
+                gui.changeScene(GUI.CLOUD);
+                ((CloudController) gui.getControllerFromName(GUI.CLOUD)).onLoad();
+                ((CloudController) gui.getControllerFromName(GUI.CLOUD)).drawZoomedCloud(cloud);
+            });
+        }
         drawStudents(cloudPane.get(index), cloud.getStudents(), cloud);
     }
 
@@ -431,11 +452,13 @@ public class RealmController implements GUIController {
 
     public void selectCloud(Cloud cloud){
         Player currentPlayer = gui.getClientController().getGameInfo().getPlayerByNickname(gui.getClientController().getPlayerInfo().getNickname());
-        cloud.getStudents().forEach(student -> {
-            Platform.runLater(() -> {
+        Platform.runLater(() -> {
+            for(Integer student : cloud.getStudents()){
                 gui.getClientController().moveStudent(student, cloud.getPieceID(), currentPlayer.getPlayerBoard().getPieceID());
-                gui.getClientController().passTurn();
-            });
+            }
+            gui.getClientController().getModelInfo();
+            gui.changeScene(GUI.REALM);
+            gui.getClientController().passTurn();
         });
     }
 

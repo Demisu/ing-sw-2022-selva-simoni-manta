@@ -354,7 +354,7 @@ public class Game implements Serializable {
                 startedTimer = true;
                 ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();
                 timer.schedule(() -> {
-                    if (connectedPlayersNumber().equals(1)) {
+                    if (connectedPlayersNumber() <= 1) {
                         System.out.println("Timer ended, the players did not reconnect. Ending the game");
                         Player winner = players.stream()
                                 .filter(Player::isActive)
@@ -370,7 +370,9 @@ public class Game implements Serializable {
             //If the player is disconnected, skip his turn
             Player newNextPlayer = getPlayerByNickname(currentPlayer);
             if (!newNextPlayer.isActive()) {
-                newNextPlayer.setLastAssistantPlayed(new Assistant(11, 0, -1));
+                if(currentPhase.equals(PLANNING)) {
+                    newNextPlayer.setLastAssistantPlayed(new Assistant(11, 0, -1));
+                }
                 nextPlayer();
             }
         } else {
@@ -397,7 +399,7 @@ public class Game implements Serializable {
     public void updateNextTurnOrder(){
 
         this.actionPhaseOrder = players.stream()
-                .sorted(Comparator.comparingInt(Player::getLastAssistantPlayedPriority))
+                .sorted(Comparator.comparingInt(Player::getLastAssistantPlayedPriority).reversed())
                 .collect(Collectors.toList());
 
         Integer firstPlayerIndex = actionPhaseOrder.get(0).getPlayerId();
@@ -491,7 +493,8 @@ public class Game implements Serializable {
                 previousIsland = islands.get((refIndex - 1) % (islands.size()));
             }
 
-            if (island.getTowersColor() == nextIsland.getTowersColor()) {
+            if (island.getTowersColor() != null
+                    && island.getTowersColor() == nextIsland.getTowersColor()) {
                 this.unifyIslands(island, nextIsland);
                 unified = true;
             } else if (island.getTowersColor() == previousIsland.getTowersColor()) {
