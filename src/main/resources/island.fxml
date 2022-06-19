@@ -21,7 +21,8 @@
                </image>
                <effect>
                   <ColorAdjust brightness="0.14" contrast="1.0" hue="0.21" saturation="1.0" />
-               </effect></ImageView>
+               </effect>
+            </ImageView>
             <Button fx:id="realm" layoutX="870.0" layoutY="846.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="181.0" text="Return to the realm">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -40,7 +41,7 @@
                   <Image url="@assets/coin.png" />
                </image>
                <effect>
-                  <ColorAdjust brightness="-0.88" contrast="1.0" saturation="-1.0" />
+                  <ColorAdjust brightness="-0.9" contrast="1.0" saturation="-1.0" />
                </effect>
             </ImageView>
             <ImageView fx:id="redStudent" fitHeight="142.0" fitWidth="146.0" layoutX="785.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true">

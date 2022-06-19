@@ -139,6 +139,43 @@
                   <DropShadow />
                </effect>
             </Button>
+            <Pane fx:id="stackPane1" layoutX="38.0" layoutY="260.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="stackPane2" layoutX="148.0" layoutY="90.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="stackPane3" layoutX="346.0" layoutY="15.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="stackPane4" layoutX="574.0" layoutY="15.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="stackPane5" layoutX="793.0" layoutY="15.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="stackPane6" layoutX="989.0" layoutY="83.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="stackPane7" layoutX="1107.0" layoutY="266.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="stackPane8" layoutX="999.0" layoutY="438.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="stackPane9" layoutX="793.0" layoutY="493.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="stackPane10" layoutX="574.0" layoutY="487.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="stackPane11" layoutX="340.0" layoutY="487.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="stackPane12" layoutX="154.0" layoutY="428.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="cloudStackPane1" layoutX="466.0" layoutY="346.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="cloudStackPane2" layoutX="684.0" layoutY="346.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="cloudStackPane3" layoutX="340.0" layoutY="217.0" prefHeight="1.0" prefWidth="1.0">
+            </Pane>
+            <Pane fx:id="cloudStackPane4" layoutX="793.0" layoutY="217.0" prefHeight="135.0" prefWidth="150.0">
+            </Pane>
+            <Button fx:id="undo" layoutX="805.0" layoutY="681.0" mnemonicParsing="false" text="Undo">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
          </children>
       </AnchorPane>
    </children>

@@ -47,11 +47,11 @@ public class Game implements Serializable {
     private final Character[] availableCharacters;
 
     //Modifiers
-    private static Integer[] studentValue; //defaults to 1
-    private static Integer towerValue; //defaults to 1
-    private static Integer influenceModifier; //defaults to 0
-    private static Integer motherNatureMovements; //defaults to 0
-    private static Integer studentsInDiningModifier; //defaults to 0
+    private static Integer[] studentValue = {1, 1, 1, 1, 1}; //defaults to 1
+    private static Integer towerValue = 1; //defaults to 1
+    private static Integer influenceModifier = 0; //defaults to 0
+    private static Integer motherNatureMovements = 0; //defaults to 0
+    private static Integer studentsInDiningModifier = 0; //defaults to 0
 
     //Needed for Piece ID
     private static Integer nextPieceID = 0;

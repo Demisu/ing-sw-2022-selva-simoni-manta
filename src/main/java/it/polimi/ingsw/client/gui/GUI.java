@@ -37,6 +37,11 @@ public class GUI extends Application implements ClientView {
     public static final String CHARACTERS = "characters.fxml";
     public static final String PROFILES = "profiles.fxml";
 
+    //Used for student movement
+    private Integer studentToMove;
+    private Integer studentSource;
+    private Integer studentTarget;
+
     /**
      * Maps each scene name to the effective scene object, in order to easily find it during scene changing operations.
      */
@@ -190,6 +195,38 @@ public class GUI extends Application implements ClientView {
      */
     public GUIController getControllerFromName(String name) {
         return nameMapController.get(name);
+    }
+
+    public void setStudentToMove(Integer studentToMove) {
+        this.studentToMove = studentToMove;
+    }
+
+    public void setStudentSource(Integer studentSource) {
+        this.studentSource = studentSource;
+    }
+
+    public void setStudentTarget(Integer studentTarget) {
+        this.studentTarget = studentTarget;
+    }
+
+    public Integer getStudentToMove() {
+        return studentToMove;
+    }
+
+    public Integer getStudentSource() {
+        return studentSource;
+    }
+
+    public Integer getStudentTarget() {
+        return studentTarget;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public Scene getCurrentScene() {
+        return currentScene;
     }
 
     @Override
