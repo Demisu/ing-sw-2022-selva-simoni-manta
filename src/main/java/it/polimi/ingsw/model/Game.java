@@ -15,6 +15,10 @@ import java.util.stream.Collectors;
 import static it.polimi.ingsw.model.GamePhase.*;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 
+/**
+ * Class containing all the game info needed to play. COntains also the reference to all players, teams, islands, clouds,
+ * characters, and so on.
+ */
 public class Game implements Serializable {
 
     //Constants
@@ -53,10 +57,16 @@ public class Game implements Serializable {
     private static Integer motherNatureMovements = 0; //defaults to 0
     private static Integer studentsInDiningModifier = 0; //defaults to 0
 
-    //Needed for Piece ID
+    /**
+     * Needed for unique Piece ID generation
+     */
     private static Integer nextPieceID = 0;
 
-    //Custom constructor for small model for the view
+    /**
+     * Custom constructor for small model for the view
+     *
+     * @param fullGame mainGame to minify
+     */
     private Game(Game fullGame){
 
         this.expertMode = fullGame.isExpertMode();
@@ -80,7 +90,17 @@ public class Game implements Serializable {
         this.winnerTeam = fullGame.winnerTeam;
     }
 
+    /**
+     * Main constructor for the game. Handles setup of modifies, islands, players, bag, clouds and all the game board.
+     * Picks random characters, fills the pieces if needed, updates teams.
+     *
+     * @param playerNumber number of players
+     * @param nicknameOfCreator nickname of the creator
+     * @param expertMode boolean flag for expert mode (i.e.: characters)
+     */
     public Game(int playerNumber, String nicknameOfCreator, Boolean expertMode) {
+
+        setCurrentPhase(GamePhase.SETUP);
 
         //Piece values setup
         towerValue = 1;
@@ -106,9 +126,6 @@ public class Game implements Serializable {
         }
         //Place mother nature on the first island
         this.islands.get(0).setMotherNature(true);
-
-        //TODO REMOVE THIS
-        islands.get(1).setNoEntry(1);
 
         //Clouds and Players setup
         clouds = new ArrayList<>();
@@ -210,6 +227,9 @@ public class Game implements Serializable {
         this.setupFill();
     }
 
+    /**
+     * Fills all the pieces that need a setup at the start of the game
+     */
     public void setupFill(){
 
         //Get 10 students, 2 of each color
@@ -273,11 +293,20 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Sets team ID in player objects
+     */
     public void updateTeams(){
         teams.forEach(team ->team.getPlayers()
                 .forEach(player -> player.setTeamID(team.getTeamId())));
     }
 
+    /**
+     * Changes current player, resets modifiers. If planning phase ends, moves to action. If action phase ends,
+     * skips to next turn. Updates turn orders accordingly.
+     * If there is only 1 player connected, start a 10 sec timer, if nobody reconnects, sends the game (the winner is
+     * the last online player).
+     */
     public void nextPlayer() {
 
         //Only progress if there isn't any active timer. If there is, just wait
@@ -349,6 +378,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * @return the number of active (connected) players
+     */
     public Integer connectedPlayersNumber(){
         Integer counter = 0;
         for(Player player : players){
@@ -359,6 +391,9 @@ public class Game implements Serializable {
         return counter;
     }
 
+    /**
+     * Updates the order of the next turn, depending on the assistants played
+     */
     public void updateNextTurnOrder(){
 
         this.actionPhaseOrder = players.stream()
@@ -376,6 +411,9 @@ public class Game implements Serializable {
         this.setNextTurnOrder(newNextTurnOrder);
     }
 
+    /**
+     * Same as SetupFill(), but done every start of turn to refill empty clouds
+     */
     public void turnStartFill(){
 
         //Fill clouds
@@ -389,7 +427,12 @@ public class Game implements Serializable {
         }
     }
 
-    public Integer getAStudent() { //get (and remove) a student from the game bag
+    /**
+     * Gets (and removes) a random student from the game bag
+     *
+     * @return a random student from the bag
+     */
+    public Integer getAStudent() {
         int studentSize = this.students.size();
         int randomStudent = new Random().nextInt(studentSize);
         int studentToGet = this.students.get(randomStudent);
@@ -398,6 +441,13 @@ public class Game implements Serializable {
         return studentToGet;
     }
 
+    /**
+     * Gets (and removes) a random student (of input color) from the game bag.
+     * Used only in the game setup, for the islands.
+     *
+     * @param color color of the student to get
+     * @return a random student (of input color) from the bag
+     */
     public Integer getAStudent(Color color) { //get (and remove) a certain color student from the game bag
         int studentSize = this.students.size();
         int randomStudent = new Random().nextInt(studentSize);
@@ -411,6 +461,12 @@ public class Game implements Serializable {
         return studentToGet;
     }
 
+    /**
+     * Handles resolving the island and unifying it with adjacent ones accordingly to the rules.
+     * Loops until all unifiable islands are merged. For unifying, see Game.unifyIsland(Island, Island)
+     *
+     * @param island island to resolve
+     */
     public void resolveIsland(Island island){
 
         boolean unified;
@@ -448,6 +504,12 @@ public class Game implements Serializable {
         } while(unified);
     }
 
+    /**
+     * Merges 2 islands. The first one is kept, the second one is deleted after adding all its content to the first one
+     *
+     * @param toKeep island to be kept
+     * @param toRemove island to be deleted
+     */
     public void unifyIslands(Island toKeep, Island toRemove){
 
         toKeep.getStudents().addAll(toRemove.getStudents());
@@ -457,57 +519,6 @@ public class Game implements Serializable {
             toKeep.setMotherNature(true);
         }
         islands.remove(toRemove);
-    }
-
-    public GamePhase getCurrentPhase() {
-        return currentPhase;
-    }
-
-    public void setCurrentPhase(GamePhase currentPhase) {
-        this.currentPhase = currentPhase;
-    }
-
-    public ArrayList<Team> getTeams() {
-        return teams;
-    }
-
-    public ArrayList<Integer> getBagStudents(){
-        return students;
-    }
-
-    public List<Island> getIslands() {
-        return islands;
-    }
-
-    public List<Cloud> getClouds() {
-        return clouds;
-    }
-
-    public Island getMotherNatureIsland(){
-
-        Island requestedIsland = new Island();
-        for(Island island : islands){
-            if(island.isMotherNature()){
-                requestedIsland = island;
-            }
-        }
-        return requestedIsland;
-    }
-
-    public List<Player> getCurrentTurnOrder() {
-        return currentTurnOrder;
-    }
-
-    public void setCurrentTurnOrder(List<Player> currentTurnOrder) {
-        this.currentTurnOrder = currentTurnOrder;
-    }
-
-    public List<Player> getNextTurnOrder() {
-        return nextTurnOrder;
-    }
-
-    public void setNextTurnOrder(List<Player> nextTurnOrder) {
-        this.nextTurnOrder = nextTurnOrder;
     }
 
     public Boolean addPlayer(String nickname){
@@ -543,16 +554,6 @@ public class Game implements Serializable {
                 character.setHasBeenUsed(false);
             }
         }
-    }
-
-    public List<Player> getPlayers() {
-
-        List<Player> playerList = new ArrayList<>();
-        for (Team team: teams) {
-            playerList.addAll(team.getPlayers());
-        }
-        return playerList;
-
     }
 
     public void endGame(){
@@ -599,95 +600,261 @@ public class Game implements Serializable {
         winnerTeam = tempWinner;
     }
 
+    //Getters
+
+    public Island getMotherNatureIsland(){
+
+        Island requestedIsland = new Island();
+        for(Island island : islands){
+            if(island.isMotherNature()){
+                requestedIsland = island;
+            }
+        }
+        return requestedIsland;
+    }
+
+    public List<Player> getPlayers() {
+
+        List<Player> playerList = new ArrayList<>();
+        for (Team team: teams) {
+            playerList.addAll(team.getPlayers());
+        }
+        return playerList;
+
+    }
+
+    /**
+     * @return current game phase
+     */
+    public GamePhase getCurrentPhase() {
+        return currentPhase;
+    }
+
+    /**
+     * @return teams
+     */
+    public ArrayList<Team> getTeams() {
+        return teams;
+    }
+
+    /**
+     * @return bag students
+     */
+    public ArrayList<Integer> getBagStudents(){
+        return students;
+    }
+
+    /**
+     * @return islands
+     */
+    public List<Island> getIslands() {
+        return islands;
+    }
+
+    /**
+     * @return clouds
+     */
+    public List<Cloud> getClouds() {
+        return clouds;
+    }
+
+    /**
+     * @return nextTurnOrder
+     */
+    public List<Player> getNextTurnOrder() {
+        return nextTurnOrder;
+    }
+
+    /**
+     * @return currentTurnOrder
+     */
+    public List<Player> getCurrentTurnOrder() {
+        return currentTurnOrder;
+    }
+
+    /**
+     * @param index index of character to get
+     * @return the requested character
+     */
     public Character getCharacter(int index) {
         return availableCharacters[index];
     }
 
+    /**
+     * @return all available Characters
+     */
     public Character[] getAllCharacters(){
         return this.availableCharacters;
     }
 
+    /**
+     * @return currentPlayer
+     */
     public String getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public void setCurrentPlayer(String currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
+    /**
+     * @return expertMode
+     */
     public Boolean isExpertMode() {
         return expertMode;
     }
 
+    /**
+     * @return turnNumber
+     */
     public int getTurnNumber() {
         return turnNumber;
     }
 
-    public Game getReducedModel(){
+    /**
+     * @return a reduced model for the view
+     */
+    public Game getReducedModel() {
         return new Game(this);
     }
 
+    /**
+     * @return winnerTeam
+     */
     public Team getWinnerTeam() {
         return winnerTeam;
     }
 
+    //Setters
+
+    /**
+     * @param currentTurnOrder the current turn order
+     */
+    public void setCurrentTurnOrder(List<Player> currentTurnOrder) {
+        this.currentTurnOrder = currentTurnOrder;
+    }
+
+    /**
+     * @param currentPhase the current phase
+     */
+    public void setCurrentPhase(GamePhase currentPhase) {
+        this.currentPhase = currentPhase;
+    }
+
+    /**
+     * @param nextTurnOrder the next turn order
+     */
+    public void setNextTurnOrder(List<Player> nextTurnOrder) {
+        this.nextTurnOrder = nextTurnOrder;
+    }
+
+    /**
+     * @param currentPlayer the current player
+     */
+    public void setCurrentPlayer(String currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     // STATIC SECTION --------------------------------------------------------------------------------------------------
 
+    //Getters
+
+    /**
+     * @param colorID ID of the color
+     * @return value of the student color
+     */
     public static Integer getStudentValue(int colorID){
         return studentValue[colorID];
     }
 
+    /**
+     * @return towerValue
+     */
     public static Integer getTowerValue(){
         return towerValue;
     }
 
+    /**
+     * @return influenceModifier
+     */
+    public static Integer getInfluenceModifier() {
+        return influenceModifier;
+    }
+
+    /**
+     * @return motherNatureMovements
+     */
+    public static Integer getMotherNatureMovements() {
+        return motherNatureMovements;
+    }
+
+    /**
+     * @return studentsInDiningModifier
+     */
+    public static Integer getStudentsInDiningModifier() {
+        return studentsInDiningModifier;
+    }
+
+    /**
+     * @return a unique id of StudentAccessiblePieces
+     */
+    public static Integer getNextPieceID(){
+        nextPieceID++;
+        return nextPieceID-1;
+    }
+
+    //Setters
+
+    /**
+     * @param towerValue tower value to be set
+     */
     public static void setTowerValue(Integer towerValue) {
         Game.towerValue = towerValue;
     }
 
+    /**
+     * @param color color of the student
+     * @param studentValue value of the student
+     */
     public static void setStudentValue(Color color, Integer studentValue) {
         Game.studentValue[StudentAccessiblePiece.indexOfColor(color)] = studentValue;
     }
 
+    /**
+     * @param studentValue value of all students
+     */
     public static void setAllStudentsValue(Integer studentValue) {
         for (int i = 0; i < 5; i++){
             Game.studentValue[i] = studentValue;
         }
     }
 
-    public static Integer getInfluenceModifier() {
-        return influenceModifier;
-    }
-
+    /**
+     * @param newInfluenceModifier influence modifier
+     */
     public static void setInfluenceModifier(Integer newInfluenceModifier) {
         influenceModifier = newInfluenceModifier;
     }
 
-    public static Integer getMotherNatureMovements() {
-        return motherNatureMovements;
-    }
-
+    /**
+     * @param newMotherNatureMovements Mother nature movements modifier
+     */
     public static void setMotherNatureMovements(Integer newMotherNatureMovements) {
         motherNatureMovements = newMotherNatureMovements;
     }
 
+    /**
+     * @param studentsInDiningModifier Students in dining number modifier
+     */
     public static void setStudentsInDiningModifier(Integer studentsInDiningModifier) {
         Game.studentsInDiningModifier = studentsInDiningModifier;
-    }
-
-    public static Integer getStudentsInDiningModifier() {
-        return studentsInDiningModifier;
-    }
-
-    public static Integer getNextPieceID(){
-        nextPieceID++;
-        return nextPieceID-1;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
 
     // GET BY ID SECTION, USED BY THE CONTROLLER -----------------------------------------------------------------------
 
+    /**
+     * @param playerId ID of player to get
+     * @return Player reference corresponding to te id
+     */
     public Player getPlayerById(Integer playerId) {
 
         for (Team team : teams) {
@@ -696,11 +863,14 @@ public class Game implements Serializable {
                     return player;
             }
         }
-        System.out.println("Player " + playerId + " not found (Game.getPlayerById)");
         return null;
 
     }
 
+    /**
+     * @param playerNickname nickname of player to get
+     * @return Player reference corresponding to the nickname, null if not found
+     */
     public Player getPlayerByNickname(String playerNickname) {
 
         for (Team team : teams) {
@@ -709,10 +879,13 @@ public class Game implements Serializable {
                     return player;
             }
         }
-        System.out.println("Player " + playerNickname + " not found (Game.getPlayerByNickname)");
         return null;
     }
 
+    /**
+     * @param boardID ID of the school board needed
+     * @return SchoolBoard reference corresponding to the ID, null if not found
+     */
     public SchoolBoard getSchoolBoardByID(Integer boardID) {
         for (Team team : teams) {
             for (Player player : team.getPlayers()) {
@@ -720,16 +893,30 @@ public class Game implements Serializable {
                     return player.getPlayerBoard();
             }
         }
-        System.out.println("SchoolBoard with id " + boardID + " not found (Game.getSchoolBoardByID)");
         return null;
     }
 
+    /**
+     * @param islandID ID of the islandID needed
+     * @return Island reference corresponding to the ID, null if not found
+     */
+    public Island getIslandByID(Integer islandID) {
+        for (Island island : islands) {
+            if(Objects.equals(island.getPieceID(), islandID))
+                return island;
+        }
+        return null;
+    }
+
+    /**
+     * @param pieceID ID of the piece needed
+     * @return StudentAccessiblePiece reference corresponding to the ID, null if not found
+     */
     public StudentAccessiblePiece getStudentAccessiblePieceByID(Integer pieceID) {
         //SchoolBoards
         for (Team team : teams) {
             for (Player player : team.getPlayers()) {
                 if(Objects.equals(player.getPlayerBoard().getPieceID(), pieceID)) {
-                    System.out.println("Found playerBoard: " + player.getPlayerBoard().getPieceID() + " searching for pieceID:" + pieceID);
                     return player.getPlayerBoard();
                 }
             }
@@ -737,39 +924,30 @@ public class Game implements Serializable {
         //Characters
         for (Character character : availableCharacters) {
             if(Objects.equals(character.getPieceID(), pieceID)){
-                System.out.println("Found character: " + character.getPieceID() + " searching for pieceID:" + pieceID);
                 return character;
             }
         }
         //Clouds
         for (Cloud cloud : clouds) {
             if(Objects.equals(cloud.getPieceID(), pieceID)){
-                System.out.println("Found cloud: " + cloud.getPieceID() + " searching for pieceID:" + pieceID);
                 return cloud;
             }
         }
         //Islands
         for (Island island : islands) {
             if(Objects.equals(island.getPieceID(), pieceID)){
-                System.out.println("Found island: " + island.getPieceID() + " searching for pieceID:" + pieceID);
                 return island;
             }
         }
 
         //No piece found
-        System.out.println("StudentAccessiblePiece with id " + pieceID + " not found (Game.getStudentAccessiblePieceByID)");
         return null;
     }
 
-    public Island getIslandByID(Integer islandID) {
-        for (Island island : islands) {
-            if(Objects.equals(island.getPieceID(), islandID))
-                return island;
-        }
-        System.out.println("Island with id " + islandID + " not found (Game.getIslandByID)");
-        return null;
-    }
-
+    /**
+     * @param teamID ID of the team needed
+     * @return Team reference corresponding to the ID, null if not found
+     */
     public Team getTeamByID(Integer teamID){
         return teams.stream()
                 .filter(team -> team.getTeamId()

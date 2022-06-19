@@ -68,49 +68,12 @@ public class Character extends StudentAccessiblePiece implements Serializable {
 
     }
 
+    /**
+     * Constructor used by JSON parsing of the character
+     */
     public Character(){
         super();
     }
-
-    //DO NOT DELETE, CONTAINS OLD BIG CONSTRUCTOR
-    /*public Character(Integer cost, String image,                                                                    //General
-                     Boolean setup_required, String setup_object, Integer setup_number,                                  //Setup
-                     String effect_type, String effect_scope, String effect_object, String effect_condition,                //Effect
-                     String effect_choose_condition,                                                                      //Effect
-                     String effect_source, String effect_choose_source, String effect_target, String effect_choose_target,    //Effect source/target
-                     Integer effect_number_min, Integer effect_number_max, String effect_choose_number) {                     //Effect number
-
-        this.cost = cost;
-        this.image = image;
-
-        this.setup_required = setup_required;
-        this.setup_object = setup_object;
-        this.setup_number = setup_number;
-
-        //Populates the character if needed
-        if(setup_object.equals("student")){
-            students = new HashSet<Integer>();
-            for(int i = 0; i < setup_number; i++){
-                students.add(GameController.getReferenceGame().getAStudent());
-            }
-        }
-
-        this.effect_type = effect_type;
-        this.effect_scope = effect_scope;
-        this.effect_object = effect_object;
-        this.effect_condition = effect_condition;
-        this.effect_choose_condition = effect_choose_condition;
-        this.effect_source = effect_source;
-        this.effect_choose_source = effect_choose_source;
-        this.effect_target = effect_target;
-        this.effect_choose_target = effect_choose_target;
-
-        this.effect_number_min = effect_number_min;
-        this.effect_number_max = effect_number_max;
-        this.effect_choose_number = effect_choose_number;
-        
-    }
-    */
 
     /**
      * Depending on the character type,
@@ -320,42 +283,65 @@ public class Character extends StudentAccessiblePiece implements Serializable {
         this.gameController = gameController;
     }
 
+    /**
+     * @return setup_object
+     */
     public String getSetupObject() {
         return setup_object;
     }
 
+    /**
+     * @return setup_number
+     */
     public Integer getSetupNumber() {
         return setup_number;
     }
 
+    /**
+     * @param noEntryNumber noEntryNumber to be set (used when moving noEntry tiles)
+     */
     public void setNoEntryNumber(Integer noEntryNumber) {
         this.noEntryNumber = noEntryNumber;
     }
 
+    /**
+     * @return effect_type
+     */
     public String getEffectType() {
         return effect_type;
     }
 
+    /**
+     * @return effect_source
+     */
     public String getEffectSource() {
         return effect_source;
     }
 
+    /**
+     * @return effect_target
+     */
     public String getEffectTarget() {
         return effect_target;
     }
 
-    public String getEffectChooseCondition() {
-        return effect_choose_condition;
-    }
-
+    /**
+     * @return effect_condition
+     */
     public String getEffectCondition() {
         return effect_condition;
     }
 
+    /**
+     * @return effect_object
+     */
     public String getEffectObject() {
         return effect_object;
     }
 
+    /**
+     * @return effect_number_max
+     */
     public Integer getEffectNumberMax() {
         return effect_number_max;
     }

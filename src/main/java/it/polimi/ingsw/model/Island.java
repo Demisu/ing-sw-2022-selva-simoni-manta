@@ -10,22 +10,9 @@ public class Island extends StudentAccessiblePiece implements Serializable {
     private Integer towersNumber;
     private TowerColor towersColor; //check initiation value
 
-    public Integer getTowersNumber() {
-        return towersNumber;
-    }
-
-    public void setTowersNumber(Integer towersNumber) {
-        this.towersNumber = towersNumber;
-    }
-
-    public TowerColor getTowersColor() {
-        return towersColor;
-    }
-
-    public void setTowersColor(TowerColor towersColor) {
-        this.towersColor = towersColor;
-    }
-
+    /**
+     * Main constructor for Islands. Sets every variable. See also StudentAccessiblePiece.StudentAccessiblePiece()
+     */
     public Island(){
         this.motherNature = false;
         this.noEntry = 0;
@@ -33,22 +20,11 @@ public class Island extends StudentAccessiblePiece implements Serializable {
         this.students = new HashSet<>();
     }
 
-    public boolean isMotherNature() {
-        return motherNature;
-    }
-
-    public void setMotherNature(boolean motherNature) {
-        this.motherNature = motherNature;
-    }
-
-    public Integer getNoEntry() {
-        return noEntry;
-    }
-
-    public void setNoEntry(Integer noEntry) {
-        this.noEntry = noEntry;
-    }
-
+    /**
+     * Resolves the island, calculating the max influence and moving towers if needed
+     *
+     * @param teams teams of the game, needed for influence calculations
+     */
     public void resolve(ArrayList<Team> teams) {
         Integer maxInfluence = -2;
         Team winningTeam = new Team();
@@ -92,6 +68,13 @@ public class Island extends StudentAccessiblePiece implements Serializable {
         }
     }
 
+    /**
+     * Calculates the player influence and returns it. Also considers modifiers.
+     *
+     * @param player player to be counted as owner of the influence
+     * @param towerColor color of the tower of the player (team)
+     * @return The calculated player influence
+     */
     public Integer getPlayerInfluence(Player player, TowerColor towerColor){
         Boolean[] professors = player.getPlayerBoard().getProfessors();
         int influence = 0;
@@ -104,6 +87,62 @@ public class Island extends StudentAccessiblePiece implements Serializable {
             influence += Game.getTowerValue()*this.getTowersNumber();
         }
         return influence;
+    }
+
+    /**
+     * @return towersNumber
+     */
+    public Integer getTowersNumber() {
+        return towersNumber;
+    }
+
+    /**
+     * @return noEntry number
+     */
+    public Integer getNoEntry() {
+        return noEntry;
+    }
+
+    /**
+     * @return motherNature flag
+     */
+    public boolean isMotherNature() {
+        return motherNature;
+    }
+
+    /**
+     * @return towersColor
+     */
+    public TowerColor getTowersColor() {
+        return towersColor;
+    }
+
+    /**
+     * @param towersColor towers color to be set
+     */
+    public void setTowersColor(TowerColor towersColor) {
+        this.towersColor = towersColor;
+    }
+
+    /**
+     * @param motherNature sets mother nature presence
+     */
+    public void setMotherNature(boolean motherNature) {
+        this.motherNature = motherNature;
+    }
+
+    /**
+     * @param towersNumber towers number to be set
+     */
+    public void setTowersNumber(Integer towersNumber) {
+        this.towersNumber = towersNumber;
+    }
+
+    /**
+     * @param noEntry noEntry number to be set
+     */
+    public void setNoEntry(Integer noEntry) {
+        this.noEntry = noEntry;
     }
     
 }

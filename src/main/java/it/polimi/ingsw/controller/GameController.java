@@ -21,9 +21,15 @@ public class GameController {
     /* GAME */
     /*------*/
 
+    /**
+     * Starts a new game and saves a static reference
+     *
+     * @param playerNumber Number of players of the game
+     * @param nicknameOfCreator Creator of the game
+     * @param expertMode Set to true if expert mode needs to be on (i.e.: adds characters)
+     */
     public void startGame(Integer playerNumber, String nicknameOfCreator, Boolean expertMode){
         currentGame = new Game(playerNumber, nicknameOfCreator, expertMode);
-        currentGame.setCurrentPhase(GamePhase.SETUP);
         referenceGame = currentGame;
     }
 
@@ -31,6 +37,16 @@ public class GameController {
     /* MOVEMENT */
     /*----------*/
 
+
+    /**
+     * Moves the student from the origin to the target, can handle movement between all StudentAccessiblePiece objects.
+     * Automatically understands if both the source and the target are the same school board, and in this case moves
+     * the student from the entrance to the dining room.
+     *
+     * @param student The student to move
+     * @param originID The origin piece ID
+     * @param targetID The target piece ID
+     */
     public void moveStudent(Integer student, Integer originID, Integer targetID) {
 
         StudentAccessiblePiece origin = currentGame.getStudentAccessiblePieceByID(originID);
@@ -63,6 +79,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Checks if a professor must change owner, depending on the number of students in the dining rooms
+     *
+     * @param color color of the professor to check
+     */
     public void checkProfessorChange(Color color){
 
         SchoolBoard winningBoard = null;
@@ -99,6 +120,13 @@ public class GameController {
         }
     }
 
+    /**
+     * Moves the professor from the origin to the target, can only handle movement between school boards.
+     *
+     * @param professorColor The professor to move
+     * @param originID The origin piece ID
+     * @param targetID The target piece ID
+     */
     public void moveProfessor(Color professorColor, Integer originID, Integer targetID){
 
         SchoolBoard origin = currentGame.getSchoolBoardByID(originID);
@@ -107,6 +135,11 @@ public class GameController {
         target.setProfessor(professorColor, true);
     }
 
+    /**
+     * Moves mother nature of n steps. Handles no entry tiles on target island (if present).
+     *
+     * @param steps number of steps (aka islands) that mother nature must move
+     */
     public void moveMotherNature(Integer steps){
 
         List<Island> islands = currentGame.getIslands();
@@ -137,6 +170,12 @@ public class GameController {
         }
     }
 
+
+    /**
+     * Handles getting the island reference by ID, then calls Game.resolveIsland(Island)
+     *
+     * @param islandID ID of the island to be resolved
+     */
     public void resolveIsland(Integer islandID){
 
         Island island = currentGame.getIslandByID(islandID);
@@ -147,11 +186,24 @@ public class GameController {
     /* CARDS */
     /*-------*/
 
+    /**
+     * Parses the playerID to its nickname and calls playAssistant(String, Integer)
+     *
+     * @param playerID ID of the player that is playing th assistant
+     * @param assistantNumber Number (index of deck) of the assistant tu be played
+     */
     public void playAssistant(Integer playerID, Integer assistantNumber){
 
         playAssistant(currentGame.getPlayerById(playerID).getNickname(), assistantNumber);
     }
 
+    /**
+     * Handles getting the player reference by nickname (unique), then calls Player.removeAssistant(Assistant)
+     * which handles the rest
+     *
+     * @param playerNickname Nickname of the player that is playing th assistant
+     * @param assistantNumber Number (index of deck) of the assistant tu be played
+     */
     public void playAssistant(String playerNickname, Integer assistantNumber){
 
         Player p = currentGame.getPlayerByNickname(playerNickname);
@@ -161,6 +213,12 @@ public class GameController {
         currentGame.nextPlayer();
     }
 
+    /**
+     * Prepares the character to be played, sets its cost (if increased) and calls his effect.
+     * The Request is automatically interpreted by the character.
+     *
+     * @param fullRequest Body of the full request
+     */
     public void playCharacter(PlayCharacterRequest fullRequest){
 
         Character playedCharacter =  currentGame.getCharacter(fullRequest.getCharacterNumber());
@@ -175,15 +233,18 @@ public class GameController {
         }
 
         playedCharacter.setHasBeenUsed(true);
-
-        //May be changed
-        //this.nextPlayer();
     }
 
     /*------*/
     /* MISC */
     /*------*/
 
+    /**
+     * Adds the player to the game, or reconnects him to his inactive account
+     *
+     * @param nickname nickname of the player to be added
+     * @return success boolean
+     */
     public Boolean addPlayer(String nickname){
         for (Player player : currentGame.getPlayers()) {
             if(player.getNickname().equals(nickname)){
@@ -195,29 +256,42 @@ public class GameController {
         return currentGame.addPlayer(nickname);
     }
 
+    /**
+     * @return currentGame
+     */
     public synchronized Game getCurrentGame() {
         return currentGame;
     }
 
+    /**
+     * @return currentGame static reference
+     */
     public static Game getReferenceGame() {
         return referenceGame;
     } //Might be deleted in the future
 
+    /**
+     * @return the number of players
+     */
     public Integer getPlayerNumber() {
         return currentGame.getPlayers().size();
     }
 
-    public Boolean getTimerOn() {
-        return timerOn;
-    }
-
+    /**
+     * Sets the player status to inactive. Starts a timer of 5 seconds to wait his reconnection,
+     * otherwise skips his turn (if he is the current player). If the player did not play an assistant during the
+     * planning phase, this sets a dummy assistant to avoid null pointer exceptions
+     *
+     * @param nickname nickname of the player to be set inactive
+     */
     public void setInactive(String nickname){
         if(nickname == null || currentGame.getPlayerByNickname(nickname) == null){
             //Invalid player
             return;
         }
-        currentGame.getPlayerByNickname(nickname).setActive(false);
-        currentGame.getPlayerByNickname(nickname).setLastAssistantPlayed(new Assistant(11, 0, -1));
+
+        Player player = currentGame.getPlayerByNickname(nickname);
+        player.setActive(false);
 
         //5sec timer after the player left, then his turn is passed
         System.out.println("Started 5sec timer for player " + nickname + " (Disconnected)");
@@ -228,6 +302,9 @@ public class GameController {
                 System.out.println("Timer ended, the player did not reconnect. Skipping his turn in case");
                 if(currentGame.getCurrentPlayer().equals(nickname)){
                     timerOn = false;
+                    if(player.getLastAssistantPlayed() == null) {
+                        currentGame.getPlayerByNickname(nickname).setLastAssistantPlayed(new Assistant(11, 0, -1));
+                    }
                     currentGame.nextPlayer();
                 }
             }}, 5, TimeUnit.SECONDS);
