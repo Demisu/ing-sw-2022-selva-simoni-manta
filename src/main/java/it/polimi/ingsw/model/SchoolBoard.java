@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.fill;
 
@@ -73,6 +75,10 @@ public class SchoolBoard extends StudentAccessiblePiece implements Serializable 
             case RED -> this.redDiningRoomStudents;
             case PURPLE -> this.purpleDiningRoomStudents;
         };
+    }
+
+    public List<Integer> getStudents(Color color) {
+        return students.stream().filter(student -> colorOfStudent(student).equals(color)).collect(Collectors.toList());
     }
 
     /**

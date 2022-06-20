@@ -3,6 +3,9 @@ package it.polimi.ingsw.client.gui;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
+import it.polimi.ingsw.client.gui.controllers.RealmController;
+import it.polimi.ingsw.model.Assistant;
+import it.polimi.ingsw.model.TowerColor;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +28,9 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class GUI extends Application implements ClientView {
 
@@ -41,15 +47,27 @@ public class GUI extends Application implements ClientView {
     public static final String CHARACTERS = "characters.fxml";
     public static final String PROFILES = "profiles.fxml";
 
+    //Status for actions
+    public static final String NONE = "NONE";
+    public static final String MOTHER_NATURE = "MOTHER_NATURE";
+    public static final String STUDENT = "STUDENT";
+    //Status
+    private String status = NONE;
+
     //Used for student movement
     private Integer studentToMove;
     private Integer studentSource;
     private Integer studentTarget;
 
+    //Variables for mother nature movement
+    Integer originIslandIndex;
+    Integer targetIslandIndex;
+
     /**
      * Maps each scene name to the effective scene object, in order to easily find it during scene changing operations.
      */
     private final HashMap<String, Scene> nameMapScene = new HashMap<>();
+    private final HashMap<Scene, String> sceneMapName = new HashMap<>();
 
     /**
      * Maps each scene controller's name to the effective controller object, in order to get the correct controller
@@ -65,6 +83,8 @@ public class GUI extends Application implements ClientView {
 
     private ClientController clientController;
     private static ClientController staticClientController;
+
+    private ScheduledExecutorService updater;
 
     public static void main(String[] args) throws IOException  {
         launch(args);
@@ -119,7 +139,9 @@ public class GUI extends Application implements ClientView {
         try {
             for (String name : fxmList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + name));
-                nameMapScene.put(name, new Scene(loader.load()));
+                Scene scene = new Scene(loader.load());
+                nameMapScene.put(name, scene);
+                sceneMapName.put(scene, name);
                 GUIController controller = loader.getController();
                 controller.setGui(this);
                 nameMapController.put(name, controller);
@@ -156,10 +178,25 @@ public class GUI extends Application implements ClientView {
             musicPlayer.seek(Duration.ZERO);
             musicPlayer.play();
         });
+
+        updater = Executors.newSingleThreadScheduledExecutor();
+        updater.scheduleAtFixedRate(this::reloadScene, 0, 1, TimeUnit.SECONDS);
     }
 
     public MediaPlayer getMusicPlayer() {
         return musicPlayer;
+    }
+
+    public void reloadScene(){
+        //Update the scene only when needed
+        if(currentScene.equals(nameMapScene.get(LOBBY))
+                || currentScene.equals(nameMapScene.get(REALM))
+                || currentScene.equals(nameMapScene.get(PROFILES))) {
+            Platform.runLater(() -> {
+                changeScene(sceneMapName.get(currentScene));
+                this.getControllerFromName(sceneMapName.get(currentScene)).onLoad();
+            });
+        }
     }
 
     public void createModal(Stage stage, String title, String asset, Color color, ArrayList<Text> info){
@@ -206,6 +243,44 @@ public class GUI extends Application implements ClientView {
         return colorAdjust;
     }
 
+    public ColorAdjust getColorEffect(TowerColor towerColor){
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setContrast(1);
+        colorAdjust.setSaturation(-1.0);
+        colorAdjust.setHue(0);
+        switch (towerColor) {
+            case BLACK -> {
+                colorAdjust.setBrightness(-0.9);
+            }
+            case GREY -> {
+                colorAdjust.setBrightness(-0.6);
+            }
+            case WHITE -> {
+                colorAdjust.setBrightness(0.5);
+            }
+        }
+        return colorAdjust;
+    }
+
+    public void studentActionReset(){
+        studentToMove = null;
+        studentSource = null;
+        studentTarget = null;
+    }
+
+    public void motherNatureActionReset(){
+        originIslandIndex = 0;
+        targetIslandIndex = 0;
+    }
+
+    public void resetStatus(){
+        switch (status) {
+            case STUDENT -> studentActionReset();
+            case MOTHER_NATURE -> motherNatureActionReset();
+        }
+        status = NONE;
+    }
+
     /**
      * @see Application#stop()
      */
@@ -223,6 +298,26 @@ public class GUI extends Application implements ClientView {
     public GUIController getControllerFromName(String name) {
         return nameMapController.get(name);
     }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public Scene getCurrentScene() {
+        return currentScene;
+    }
+
+    //STATUS
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    //STUDENTS MOVEMENT
 
     public void setStudentToMove(Integer studentToMove) {
         this.studentToMove = studentToMove;
@@ -248,11 +343,21 @@ public class GUI extends Application implements ClientView {
         return studentTarget;
     }
 
-    public Stage getStage() {
-        return stage;
+    //MOTHER NATURE
+
+    public Integer getOriginIslandIndex() {
+        return originIslandIndex;
     }
 
-    public Scene getCurrentScene() {
-        return currentScene;
+    public Integer getTargetIslandIndex() {
+        return targetIslandIndex;
+    }
+
+    public void setOriginIslandIndex(Integer originIslandIndex) {
+        this.originIslandIndex = originIslandIndex;
+    }
+
+    public void setTargetIslandIndex(Integer targetIslandIndex) {
+        this.targetIslandIndex = targetIslandIndex;
     }
 }

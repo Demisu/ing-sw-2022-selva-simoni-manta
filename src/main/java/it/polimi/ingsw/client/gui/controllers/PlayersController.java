@@ -19,17 +19,17 @@ public class PlayersController implements GUIController {
         button2p.setOnAction(e -> {
             setPlayerNumber(2);
             gui.changeScene(GUI.LOBBY);
-            ((LobbyController) gui.getControllerFromName(GUI.LOBBY)).onLoad();
+            gui.getControllerFromName(GUI.LOBBY).onLoad();
         });
         button3p.setOnAction(e -> {
             setPlayerNumber(3);
             gui.changeScene(GUI.LOBBY);
-            ((LobbyController) gui.getControllerFromName(GUI.LOBBY)).onLoad();
+            gui.getControllerFromName(GUI.LOBBY).onLoad();
         });
         button4p.setOnAction(e -> {
             setPlayerNumber(4);
             gui.changeScene(GUI.LOBBY);
-            ((LobbyController) gui.getControllerFromName(GUI.LOBBY)).onLoad();
+            gui.getControllerFromName(GUI.LOBBY).onLoad();
         });
     }
 

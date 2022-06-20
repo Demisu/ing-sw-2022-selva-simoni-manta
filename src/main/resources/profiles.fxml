@@ -57,6 +57,9 @@
                    <font>
                       <Font name="System Bold" size="14.0" />
                    </font>
+                    <effect>
+                        <DropShadow />
+                    </effect>
                 </Button>
                 <ImageView fx:id="assistant1" fitHeight="208.0" fitWidth="148.0" layoutX="248.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true" />
             <Text fx:id="clickToPlay1" fill="WHITE" layoutX="248.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="142.0487823486328">
@@ -104,6 +107,9 @@
                    <font>
                       <Font name="System Bold" size="14.0" />
                    </font>
+                    <effect>
+                        <DropShadow />
+                    </effect>
                 </Button>
                 <ImageView fx:id="assistant2" fitHeight="208.0" fitWidth="148.0" layoutX="894.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true" />
             <Text fx:id="clickToPlay2" fill="WHITE" layoutX="894.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="142.0487823486328">
@@ -151,6 +157,9 @@
                    <font>
                       <Font name="System Bold" size="14.0" />
                    </font>
+                    <effect>
+                        <DropShadow />
+                    </effect>
                 </Button>
                 <ImageView fx:id="assistant3" fitHeight="208.0" fitWidth="148.0" layoutX="248.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true" />
             <Text fx:id="clickToPlay3" fill="WHITE" layoutX="248.0" layoutY="671.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="142.0487823486328">
@@ -199,6 +208,9 @@
                    <font>
                       <Font name="System Bold" size="14.0" />
                    </font>
+                    <effect>
+                        <DropShadow />
+                    </effect>
                 </Button>
                 <ImageView fx:id="assistant4" fitHeight="208.0" fitWidth="148.0" layoutX="894.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true" />
             <Text fx:id="clickToPlay4" fill="WHITE" layoutX="894.0" layoutY="670.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="142.0487823486328">

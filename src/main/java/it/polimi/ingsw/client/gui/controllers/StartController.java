@@ -17,7 +17,7 @@ public class StartController implements GUIController {
 
     public void switchToNicknameScene(ActionEvent e) throws IOException {
         gui.changeScene(GUI.NICKNAME);
-        ((NicknameController) gui.getControllerFromName(GUI.NICKNAME)).onLoad();
+        gui.getControllerFromName(GUI.NICKNAME).onLoad();
     }
 
     public void closeApplication(ActionEvent e) throws IOException {
@@ -47,5 +47,10 @@ public class StartController implements GUIController {
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
+    }
+
+    @Override
+    public void onLoad() {
+
     }
 }

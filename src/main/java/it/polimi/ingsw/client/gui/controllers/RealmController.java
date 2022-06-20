@@ -46,25 +46,13 @@ public class RealmController implements GUIController {
     public final int textOffsetX = 15;
     public final int textOffsetY = 27;
 
-    //Statuses
-    private final String NONE = "NONE";
-    private final String MOTHER_NATURE = "MOTHER_NATURE";
-    private final String STUDENT = "STUDENT";
-
-    //Status for actions like mother nature movement
-    private String status = NONE;
-
     //Variables for positioning
     int counterX = oddX;
     int counterY = startingY;
     int colorCounter = 0;
 
-    //Variables for mother nature movement
-    Integer originIslandIndex;
-    Integer targetIslandIndex;
-
     @FXML
-    private Button characters, assistants, schoolboard, menu, profiles, students, motherNature, pass, undo;
+    private Button characters, assistants, schoolboard, menu, profiles, students, pass, undo;
 
     @FXML
     private Pane stackPane1, stackPane2, stackPane3, stackPane4, stackPane5, stackPane6, stackPane7, stackPane8, stackPane9, stackPane10, stackPane11, stackPane12;
@@ -156,8 +144,11 @@ public class RealmController implements GUIController {
                 ((CharactersController) gui.getControllerFromName(GUI.CHARACTERS)).onLoad();
             });
         }
-        undo.setVisible(false);
+
+        //Show undo if an action is in progress
+        undo.setVisible(!gui.getStatus().equals(GUI.NONE));
         undo.setOnAction(e -> resetStatus());
+
         assistants.setOnAction(e -> {
             gui.changeScene(GUI.ASSISTANTS);
             ((AssistantsController) gui.getControllerFromName(GUI.ASSISTANTS)).onLoad();
@@ -267,16 +258,29 @@ public class RealmController implements GUIController {
         islandToRender.setVisible(true);
         islandToRender.setCursor(Cursor.HAND);
         islandToRender.setOnMouseClicked(e -> {
-            if(status.equals(MOTHER_NATURE)){
-                targetIslandIndex = gui.getClientController().getIslands().indexOf(island);
+            if(gui.getStatus().equals(GUI.MOTHER_NATURE)){
+                gui.setTargetIslandIndex(gui.getClientController().getIslands().indexOf(island));
                 Platform.runLater(() -> {
                     //Move mother nature
-                    gui.getClientController().moveMotherNature(targetIslandIndex - originIslandIndex);
+                    gui.getClientController().moveMotherNature(gui.getTargetIslandIndex() - gui.getOriginIslandIndex());
                     resetStatus();
                     //Reload realm
                     gui.getClientController().getModelInfo();
                     gui.changeScene(GUI.REALM);
-                    ((ProfilesController) gui.getControllerFromName(GUI.REALM)).onLoad();
+                    ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
+                });
+            } else if(gui.getStatus().equals(GUI.STUDENT)){
+                //Student action
+                gui.setStudentTarget(island.getPieceID());
+                //Move student
+                Platform.runLater(() -> {
+                    //Move student
+                    gui.getClientController().moveStudent(gui.getStudentToMove(), gui.getStudentSource(), gui.getStudentTarget());
+                    resetStatus();
+                    //Reload realm
+                    gui.getClientController().getModelInfo();
+                    gui.changeScene(GUI.REALM);
+                    ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
                 });
             } else {
                 gui.changeScene(GUI.ISLAND);
@@ -311,9 +315,9 @@ public class RealmController implements GUIController {
                 //Add movement on click
                 motherNature.setOnMouseClicked(e -> {
                     //Set origin
-                    originIslandIndex = gui.getClientController().getIslands().indexOf(island);
+                    gui.setOriginIslandIndex(gui.getClientController().getIslands().indexOf(island));
                     //Update status
-                    status = MOTHER_NATURE;
+                    gui.setStatus(GUI.MOTHER_NATURE);
                     undo.setVisible(true);
                 });
                 motherNature.setCursor(Cursor.MOVE);
@@ -342,22 +346,7 @@ public class RealmController implements GUIController {
             tower.setLayoutY(counterY);
             tower.setFitHeight(studentSize);
             tower.setFitWidth(studentSize);
-            ColorAdjust effect = new ColorAdjust();
-            switch (island.getTowersColor()) {
-                case WHITE -> {
-                    effect.setBrightness(0.5);
-                }
-                case BLACK -> {
-                    effect.setBrightness(-0.9);
-                }
-                case GREY -> {
-                    effect.setBrightness(-0.6);
-                }
-            }
-            effect.setContrast(1);
-            effect.setSaturation(-1.0);
-            effect.setHue(0);
-            tower.setEffect(effect);
+            tower.setEffect(gui.getColorEffect(island.getTowersColor()));
         }
     }
 
@@ -458,16 +447,12 @@ public class RealmController implements GUIController {
             }
             gui.getClientController().getModelInfo();
             gui.changeScene(GUI.REALM);
-            gui.getClientController().passTurn();
         });
     }
 
     public void resetStatus(){
 
-        status = NONE;
-        originIslandIndex = 0;
-        targetIslandIndex = 0;
-
+        gui.resetStatus();
         //Hide undo
         undo.setVisible(false);
     }

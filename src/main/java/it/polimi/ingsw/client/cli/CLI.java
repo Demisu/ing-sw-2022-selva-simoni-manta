@@ -20,7 +20,6 @@ public class CLI implements ClientView {
     Scanner scanner = new Scanner(System.in);
     String nickname;
     int movedStudents;
-    int studentsToMove;
 
     final String playCharacterAction = "PLAY CHARACTER";
     final String playAssistantAction = "PLAY ASSISTANT";
@@ -170,7 +169,6 @@ public class CLI implements ClientView {
     public void actionPhase() {
 
         availableActions = turnActions;
-        studentsToMove = clientController.getGameInfo().getPlayers().size() == 3 ? 4 : 3;
 
         System.out.println("Action phase has started!");
         String action;
@@ -267,7 +265,7 @@ public class CLI implements ClientView {
                     if(success) {
                         movedStudents++;
                         //after moving n students, mother nature can be moved
-                        if (movedStudents == studentsToMove) {
+                        if (movedStudents == clientController.getGameInfo().getStudentsToMove()) {
                             availableActions.add(moveMotherNatureAction);
                         }
                     } else {

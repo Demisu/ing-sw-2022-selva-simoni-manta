@@ -121,7 +121,7 @@ public class ProfilesController implements GUIController {
         guiShowSchoolBoards.forEach(btn -> btn.setVisible(false));
         realm.setOnAction(e -> {
             gui.changeScene(GUI.REALM);
-            ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
+            gui.getControllerFromName(GUI.REALM).onLoad();
         });
         Platform.runLater(() -> {
             Game currentGame = gui.getClientController().getGameInfo();
@@ -171,7 +171,7 @@ public class ProfilesController implements GUIController {
             if(sameAsClient) {
                 assistantToRender.setOnMouseClicked(e -> {
                     gui.changeScene(GUI.ASSISTANTS);
-                    ((AssistantsController) gui.getControllerFromName(GUI.ASSISTANTS)).onLoad();
+                    gui.getControllerFromName(GUI.ASSISTANTS).onLoad();
                 });
                 assistantToRender.setCursor(Cursor.HAND);
                 //Add hint text, if this is the client player
@@ -179,7 +179,7 @@ public class ProfilesController implements GUIController {
                 //Clickable hint, to avoid unresponsive parts
                 guiClickToPlay.get(id).setOnMouseClicked(e -> {
                     gui.changeScene(GUI.ASSISTANTS);
-                    ((AssistantsController) gui.getControllerFromName(GUI.ASSISTANTS)).onLoad();
+                    gui.getControllerFromName(GUI.ASSISTANTS).onLoad();
                 });
                 guiClickToPlay.get(id).setCursor(Cursor.HAND);
             }
@@ -208,8 +208,8 @@ public class ProfilesController implements GUIController {
         guiShowSchoolBoards.get(id).setVisible(true);
         guiShowSchoolBoards.get(id).setOnAction(e -> {
             gui.changeScene(GUI.SCHOOLBOARD);
+            gui.getControllerFromName(GUI.SCHOOLBOARD).onLoad();
             ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(player);
-            //[TO BE IMPLEMENTED..]
         });
     }
 
