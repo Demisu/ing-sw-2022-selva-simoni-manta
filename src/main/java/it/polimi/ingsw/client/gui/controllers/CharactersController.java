@@ -56,7 +56,7 @@ public class CharactersController implements GUIController {
         };
         realm.setOnAction(e -> {
             gui.changeScene(GUI.REALM);
-            ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
+            gui.getControllerFromName(GUI.REALM).onLoad();
         });
         Platform.runLater(() -> {
             coinsDisplay.setText("💰 " + gui.getClientController().getPlayerInfo().getCoins());

@@ -60,7 +60,7 @@ public class IslandController implements GUIController {
         };
         realm.setOnAction(e -> {
             gui.changeScene(GUI.REALM);
-            ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
+            gui.getControllerFromName(GUI.REALM).onLoad();
         });
     }
 

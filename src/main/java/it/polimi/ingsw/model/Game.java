@@ -47,6 +47,8 @@ public class Game implements Serializable {
     private GamePhase currentPhase = OFF; //Game phase
     private final int studentsForClouds;
     private final int studentsForBoards;
+    private final int studentsToMove;
+    private int movedStudentsInTurn;
 
     private Character[] availableCharacters;
 
@@ -85,6 +87,7 @@ public class Game implements Serializable {
         this.allCharacters = null;
         this.studentsForClouds = fullGame.studentsForClouds;
         this.studentsForBoards = fullGame.studentsForBoards;
+        this.studentsToMove = fullGame.studentsToMove;
         this.students = fullGame.students;
         this.turnNumber = fullGame.turnNumber;
         this.winnerTeam = fullGame.winnerTeam;
@@ -118,6 +121,8 @@ public class Game implements Serializable {
 
         studentsForClouds = playerNumber == 3 ? 4 : 3;
         studentsForBoards = playerNumber == 3 ? 9 : 7;
+        studentsToMove = playerNumber == 3 ? 4 : 3;
+        movedStudentsInTurn = 0;
 
         //Islands setup
         islands = new ArrayList<>();
@@ -476,12 +481,14 @@ public class Game implements Serializable {
         island.resolve(this.teams);
         if(anyWinner()){
             endGame();
+            return;
         }
 
         do {
             //Check if there are 3 or less remaining islands. If true, game ends
             if(islands.size() <= 3){
                 endGame();
+                return;
             }
 
             refIndex = islands.indexOf(island);
@@ -497,7 +504,8 @@ public class Game implements Serializable {
                     && island.getTowersColor() == nextIsland.getTowersColor()) {
                 this.unifyIslands(island, nextIsland);
                 unified = true;
-            } else if (island.getTowersColor() == previousIsland.getTowersColor()) {
+            } else if (island.getTowersColor() != null
+                    && island.getTowersColor() == previousIsland.getTowersColor()) {
                 this.unifyIslands(island, previousIsland);
                 unified = true;
             } else {
@@ -541,6 +549,9 @@ public class Game implements Serializable {
 
     public void resetModifiers(){
 
+        //Reset moved students
+        this.movedStudentsInTurn = 0;
+
         Game.setAllStudentsValue(1);
         Game.setTowerValue(1);
         Game.setInfluenceModifier(0);
@@ -566,6 +577,12 @@ public class Game implements Serializable {
             processTheWinner();
         }
         currentPhase = END;
+        System.out.println("----------------------------");
+        System.out.println("THE GAME HAS ENDED. WINNER: " + winnerTeam.getTeamId());
+        for (Player player : winnerTeam.getPlayers()){
+            System.out.println(player.getNickname() + " ");
+        }
+        System.out.println("----------------------------");
     }
 
     public Boolean anyWinner(){
@@ -725,6 +742,13 @@ public class Game implements Serializable {
         return winnerTeam;
     }
 
+    /**
+     * @return students that can be moved in the round
+     */
+    public int getStudentsToMove() {
+        return studentsToMove;
+    }
+
     //Setters
 
     /**
@@ -803,7 +827,21 @@ public class Game implements Serializable {
         return nextPieceID-1;
     }
 
+    /**
+     * @return students moved in this turn
+     */
+    public int getMovedStudentsInTurn() {
+        return movedStudentsInTurn;
+    }
+
     //Setters
+
+    /**
+     * @param movedStudentsInTurn students moved in this turn
+     */
+    public void setMovedStudentsInTurn(int movedStudentsInTurn) {
+        this.movedStudentsInTurn = movedStudentsInTurn;
+    }
 
     /**
      * @param towerValue tower value to be set
@@ -900,13 +938,25 @@ public class Game implements Serializable {
     }
 
     /**
-     * @param islandID ID of the islandID needed
+     * @param islandID ID of the island needed
      * @return Island reference corresponding to the ID, null if not found
      */
     public Island getIslandByID(Integer islandID) {
         for (Island island : islands) {
             if(Objects.equals(island.getPieceID(), islandID))
                 return island;
+        }
+        return null;
+    }
+
+    /**
+     * @param cloudID ID of the cloud needed
+     * @return cloud reference corresponding to the ID, null if not found
+     */
+    public Cloud getCloudByID(Integer cloudID) {
+        for (Cloud cloud : clouds) {
+            if(Objects.equals(cloud.getPieceID(), cloudID))
+                return cloud;
         }
         return null;
     }

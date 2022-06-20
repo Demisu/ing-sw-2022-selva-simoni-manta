@@ -54,6 +54,14 @@ public class ServerController implements ClientRequestHandler {
         return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to move mother nature.");
     }
 
+    /**
+     * Handle for MoveStudentRequests, checks all possible bad requests (source is an island, trying to steal students
+     * from other schoolboards, etc) and in case sends back a KO result.
+     * If the request is correct and valid, moves the student and send back a OK result with a confirmation message
+     *
+     * @param req MoveStudentRequest to handle
+     * @return ServerResponse with result and message, depending on the success
+     */
     @Override
     public ServerResponse handle(MoveStudentRequest req) {
 
@@ -76,8 +84,14 @@ public class ServerController implements ClientRequestHandler {
             if(game.getSchoolBoardByID(req.getTargetId()) != null && !player.getPlayerBoard().getPieceID().equals(req.getTargetId())){
                 return new OperationResultResponse(false, "Cannot move a student to another schoolboard");
             }
+            //If the player already moved all the students for this turn, and the student isn't moved from a cloud
+            if(game.getStudentsToMove() == game.getMovedStudentsInTurn() && game.getCloudByID(req.getSourceId()) == null){
+                return new OperationResultResponse(false, "Moved all students for this turn");
+            }
             //Ok
             gameController.moveStudent(req.getStudentId(), req.getSourceId(), req.getTargetId());
+            //Adds 1 moved student
+            game.setMovedStudentsInTurn(game.getMovedStudentsInTurn() + 1);
             return new OperationResultResponse(true, "Moved student " + req.getStudentId() + " from " + req.getSourceId() + " to " + req.getTargetId());
         }
         return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to move student.");

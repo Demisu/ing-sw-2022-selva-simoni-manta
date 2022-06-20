@@ -51,11 +51,11 @@ public class AssistantsController implements GUIController {
 
         realm.setOnAction(e -> {
             gui.changeScene(GUI.REALM);
-            ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
+            gui.getControllerFromName(GUI.REALM).onLoad();
         });
         gameStatus.setOnAction(e -> {
             gui.changeScene(GUI.PROFILES);
-            ((ProfilesController) gui.getControllerFromName(GUI.PROFILES)).onLoad();
+            gui.getControllerFromName(GUI.PROFILES).onLoad();
         });
 
         Platform.runLater(() -> {
@@ -101,7 +101,7 @@ public class AssistantsController implements GUIController {
                                 assistantToRender.setCursor(Cursor.DEFAULT);
                                 gui.getClientController().getModelInfo();
                                 gui.changeScene(GUI.PROFILES);
-                                ((ProfilesController) gui.getControllerFromName(GUI.PROFILES)).onLoad();
+                                gui.getControllerFromName(GUI.PROFILES).onLoad();
                             } else {
                                 //Might want to add a popup here with an error
                             }
