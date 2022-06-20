@@ -52,7 +52,9 @@ public class RealmController implements GUIController {
     int colorCounter = 0;
 
     @FXML
-    private Button characters, assistants, schoolboard, menu, profiles, students, pass, undo;
+    private Button characters, assistants, schoolboard, menu, profiles, pass, undo;
+    @FXML
+    private Button colorBtn, sourceStudentsBtn, sourcePiecesBtn, targetStudentsBtn, targetPiecesBtn;
 
     @FXML
     private Pane stackPane1, stackPane2, stackPane3, stackPane4, stackPane5, stackPane6, stackPane7, stackPane8, stackPane9, stackPane10, stackPane11, stackPane12;
@@ -70,6 +72,7 @@ public class RealmController implements GUIController {
     private ArrayList<ImageView> guiClouds;
     private ArrayList<Pane> islandPane;
     private ArrayList<Pane> cloudPane;
+    private ArrayList<Button> characterButtons;
     private ArrayList<String> colors;
 
     public void onLoad(){
@@ -130,11 +133,25 @@ public class RealmController implements GUIController {
                 add(cloudStackPane4);
             }
         };
+        characterButtons = new ArrayList<>(){
+            {
+                add(colorBtn);
+                add(sourceStudentsBtn);
+                add(sourcePiecesBtn);
+                add(targetStudentsBtn);
+                add(targetPiecesBtn);
+            }
+        };
 
         //Clear islands
         islandPane.forEach(pane -> pane.getChildren().clear());
         //Clear clouds
         cloudPane.forEach(pane -> pane.getChildren().clear());
+        //Hide/Show needed characters buttons
+        for(int i = 0; i < characterButtons.size(); i++){
+            characterButtons.get(i).setVisible(gui.listOfCharacterButtons().get(i));
+            //TODO ADD ONCLICK
+        }
 
         if(!expertMode){
             characters.setVisible(false);

@@ -406,7 +406,7 @@ public class Game implements Serializable {
     public void updateNextTurnOrder(){
 
         this.actionPhaseOrder = players.stream()
-                .sorted(Comparator.comparingInt(Player::getLastAssistantPlayedPriority).reversed())
+                .sorted(Comparator.comparingInt(Player::getLastAssistantPlayedPriority))
                 .collect(Collectors.toList());
 
         Integer firstPlayerIndex = actionPhaseOrder.get(0).getPlayerId();

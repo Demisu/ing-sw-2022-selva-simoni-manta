@@ -245,6 +245,9 @@ public class CLI implements ClientView {
                     int source;
                     int target;
 
+                    showIslands();
+                    showSchoolBoards();
+
                     do {
                         System.out.println("Input student ID: ");
                         student = scanner.nextInt();
@@ -266,7 +269,14 @@ public class CLI implements ClientView {
                         movedStudents++;
                         //after moving n students, mother nature can be moved
                         if (movedStudents == clientController.getGameInfo().getStudentsToMove()) {
+                            availableActions.remove(moveStudentAction);
+                            //Removes these to avoid adding cloud in the last spot
+                            availableActions.remove(infoAction);
+                            availableActions.remove(quitAction);
                             availableActions.add(moveMotherNatureAction);
+                            //Add them again
+                            availableActions.add(infoAction);
+                            availableActions.add(quitAction);
                         }
                     } else {
                         System.out.println("Error moving student, please try again");
@@ -440,7 +450,9 @@ public class CLI implements ClientView {
             printShortRow();
             SchoolBoard schoolBoard = player.getPlayerBoard();
             System.out.println("ID: " + schoolBoard.getPieceID());
-            System.out.println("Player: " + player.getNickname());
+            System.out.println("Player: " + player.getNickname()
+                    + (clientController.getGameInfo().getCurrentPlayer().equals(player.getNickname()) ? " [CURRENT]" : ""
+                    + (clientController.getPlayerInfo().getNickname().equals(player.getNickname()) ? " [YOU]" : "")));
             //Entrance
             System.out.println("Students in entrance: " + schoolBoard.getStudents().size());
             System.out.print("Colors: ");

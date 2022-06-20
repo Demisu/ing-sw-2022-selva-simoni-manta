@@ -36,9 +36,11 @@ public class CharactersController implements GUIController {
     private Text coinsDisplay;
 
     @FXML
-    private Button realm;
+    private Button realm, undo;
     @FXML
     private Button info1, info2, info3;
+    @FXML
+    private Button colorBtn, sourceStudentsBtn, sourcePiecesBtn, targetStudentsBtn, targetPiecesBtn;
 
     @FXML
     private ImageView character1, character2, character3, coin1, coin2, coin3;
@@ -49,6 +51,7 @@ public class CharactersController implements GUIController {
     private ArrayList<Button> info;
     private ArrayList<ImageView> guiCharacter, coins;
     private ArrayList<Pane> contents;
+    private ArrayList<Button> characterButtons;
 
     //Variables for positioning
     public final int studentSize = 46;
@@ -85,10 +88,37 @@ public class CharactersController implements GUIController {
                 add(coin3);
             }
         };
+        characterButtons = new ArrayList<>(){
+            {
+                add(colorBtn);
+                add(sourceStudentsBtn);
+                add(sourcePiecesBtn);
+                add(targetStudentsBtn);
+                add(targetPiecesBtn);
+            }
+        };
+
         realm.setOnAction(e -> {
             gui.changeScene(GUI.REALM);
             gui.getControllerFromName(GUI.REALM).onLoad();
         });
+
+        //Show undo if an action is in progress
+        undo.setVisible(!gui.getStatus().equals(GUI.NONE));
+        undo.setOnAction(e -> {
+            resetStatus();
+            gui.changeScene(GUI.CHARACTERS);
+            gui.getControllerFromName(GUI.CHARACTERS).onLoad();
+        });
+
+        //Hide/Show needed characters buttons
+        for(int i = 0; i < characterButtons.size(); i++){
+            characterButtons.get(i).setVisible(gui.listOfCharacterButtons().get(i));
+            //TODO ADD ONCLICK
+        }
+
+        //Remove old images
+        contents.forEach(pane -> pane.getChildren().clear());
 
         coinsDisplay.setText("💰 " + gui.getClientController().getPlayerInfo().getCoins());
         ArrayList<Character> characters = gui.getClientController().getCharacters();
@@ -111,18 +141,35 @@ public class CharactersController implements GUIController {
         });
 
         //Character
-        if(!character.getHasBeenUsed()){
+        //If it hasn't been used this round and the player is the current turn owner
+        if(!character.getHasBeenUsed()
+                && gui.getClientController().getGameInfo().getCurrentPlayer().equals(gui.getClientController().getPlayerInfo().getNickname())){
+
             guiCharacter.get(index).setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/CarteTOT_front" + character.getImage() + ".jpg")));
             guiCharacter.get(index).setOnMouseClicked(mouseEvent -> {
-                //Play it
-                Platform.runLater(() -> {
-                    if(gui.getClientController().playCharacter(index)){
-                        //Turn the card face down
-                        guiCharacter.get(index).setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
-                    } else {
-                        System.out.println("No");
-                    }
-                });
+                //If a character was already selected
+                if(gui.getStatus().equals(GUI.CHARACTER)){
+                    Platform.runLater(() -> {
+                        //Play it
+                        if(gui.getClientController().playCharacter(gui.getCharacterRequest())) {
+                            //Turn the card face down
+                            guiCharacter.get(index).setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
+                        }
+                        resetStatus();
+                        gui.changeScene(GUI.CHARACTERS);
+                        gui.getControllerFromName(GUI.CHARACTERS).onLoad();
+                    });
+                } else {
+                    //Start building character request
+                    gui.setStatus(GUI.CHARACTER);
+                    gui.setCharacterIndex(index);
+
+                    //Show buttons needed
+                    readCharacterParameters(character);
+
+                    gui.changeScene(GUI.CHARACTERS);
+                    gui.getControllerFromName(GUI.CHARACTERS).onLoad();
+                }
             });
             if (character.getHasIncreasedCost()) {
                 coins.get(index).setImage(coinImage);
@@ -192,38 +239,97 @@ public class CharactersController implements GUIController {
 
     public void drawNoEntry(Pane studentWrapper, Character character){
 
-        counterX = 0;
+        for(int i = 0, counterX = 0; i < character.getNoEntryNumber(); i++, counterX += studentSize){
+            ImageView noEntryImage = new ImageView();
+            noEntryImage.setImage(new Image(getClass().getResourceAsStream("/assets/noEntry.png")));
+            studentWrapper.getChildren().add(noEntryImage);
+            noEntryImage.setLayoutX(counterX);
+            noEntryImage.setFitHeight(studentSize);
+            noEntryImage.setFitWidth(studentSize);
+        }
+    }
 
-        HashSet<Integer> students = character.getStudents();
+    public void resetStatus(){
 
-        Integer[] studentsNumber = new Integer[5];
-        Arrays.fill(studentsNumber, 0);
-        //Count each color
-        students.forEach(student -> studentsNumber[indexOfColor(colorOfStudent(student))]++);
+        gui.resetStatus();
+        //Hide undo
+        undo.setVisible(false);
+        gui.reloadScene();
+    }
 
-        //Draw each color
-        for(it.polimi.ingsw.model.Color color : it.polimi.ingsw.model.Color.values()){
+    public void readCharacterParameters(Character character){
 
-            Integer tempStudentNumber = studentsNumber[indexOfColor(color)];
-            ImageView colorImage = new ImageView();
-            Text colorNumber = new Text();
+        switch (character.getEffectType()) {
 
-            //If there are no students of this color, skip it
-            if(tempStudentNumber == 0){
-                colorImage.setVisible(false);
-                colorNumber.setVisible(false);
-            } else {
-                colorImage.setImage(new Image(getClass().getResourceAsStream("/assets/noEntry.png")));
-                studentWrapper.getChildren().add(colorImage);
+            case "move" -> {
+                //Source
+                if (character.getEffectSource().equals("character")) {
+                    //from character [char 1, 11]
+                    if (character.getSetupObject().equals("student")) {
+                        //[char 1, 11]
+                        gui.setSourceStudentsBtnVisible(true);
+                    }
+                } else if(character.getEffectSource().equals("dining_room")) {
+                    //[char 12]
+                    gui.setColorBtnVisible(true);
+                }
 
-                //Image
-                colorImage.setLayoutX(counterX);
-                colorImage.setFitHeight(studentSize);
-                colorImage.setFitWidth(studentSize);
+                //Target
+                if (character.getEffectTarget().equals("island")) {
+                    //[char 1]
+                    gui.setTargetPiecesBtnVisible(true);
+                } else if (character.getEffectTarget().equals("dining_room")) {
+                    //[char 11]
+                    gui.setTargetPiecesBtnVisible(true);
+                }
             }
 
-            //Setup next
-            counterX += studentSize;
+            case "exchange" -> {
+                if (character.getEffectObject().equals("student")) {
+                    gui.setSourceStudentsBtnVisible(true);
+
+                    //[char 10]
+
+                    //Source
+                    if (character.getEffectSource().equals("entrance")) {
+                        gui.setSourcePiecesBtnVisible(true);
+                    } else if(character.getEffectSource().equals("character")) {
+                        //[char 7]
+                    }
+
+                    //Target
+                    if (character.getEffectTarget().equals("dining_room")) {
+                        //[char 10]
+                        gui.setTargetPiecesBtnVisible(true);
+                    } else if(character.getEffectTarget().equals("entrance")) {
+                        //[char 7]
+                        gui.setTargetPiecesBtnVisible(true);
+                    }
+                }
+            }
+
+            case "add" -> {
+                if (character.getEffectCondition().equals("any")) {
+                    //If nothing more is needed [char 2, 4, 5, 6, 8]
+                    if (character.getEffectTarget().equals("island")) {
+                        //[char 5]
+                        gui.setTargetPiecesBtnVisible(true);
+                    } else {
+                        //[char 2, 4, 6, 8]
+                        //Nothing more needed
+                    }
+                } else if (character.getEffectCondition().equals("color")) {
+                    //If color is needed [char 9]
+                    gui.setColorBtnVisible(true);
+                }
+            }
+
+            case "resolve" -> {
+                if (character.getEffectTarget().equals("island")) {
+                    //[char 3]
+                    gui.setTargetPiecesBtnVisible(true);
+                }
+            }
         }
     }
 

@@ -9,6 +9,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -194,9 +195,9 @@ public class GameTest {
         gameTest.getCloudByID(gameTest.getClouds().get(0).getPieceID());
         gameTest.setMovedStudentsInTurn(gameTest.getMovedStudentsInTurn());
 
+        gameTest.getClouds().get(0).setStudents(new HashSet<>());
         gameTest.getTeams().forEach(t -> t.getPlayers().forEach(p -> p.setActive(false)));
         gameTest.nextPlayer();
-
     }
 
     @Test

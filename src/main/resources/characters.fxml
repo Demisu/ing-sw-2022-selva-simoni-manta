@@ -100,6 +100,39 @@
             <Pane fx:id="content1" layoutX="168.0" layoutY="448.0" prefHeight="50.0" prefWidth="236.0" />
             <Pane fx:id="content2" layoutX="533.0" layoutY="448.0" prefHeight="50.0" prefWidth="236.0" />
             <Pane fx:id="content3" layoutX="898.0" layoutY="448.0" prefHeight="50.0" prefWidth="236.0" />
+            <Button fx:id="undo" layoutX="614.0" layoutY="596.0" mnemonicParsing="false" text="Undo">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="colorBtn" layoutX="317.0" layoutY="544.0" mnemonicParsing="false" text="Choose color">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="sourceStudentsBtn" layoutX="415.0" layoutY="544.0" mnemonicParsing="false" text="Choose source students">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="sourcePiecesBtn" layoutX="568.0" layoutY="544.0" mnemonicParsing="false" text="Choose source pieces">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="targetStudentsBtn" layoutX="708.0" layoutY="544.0" mnemonicParsing="false" text="Choose target students">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="targetPiecesBtn" layoutX="858.0" layoutY="544.0" mnemonicParsing="false" text="Choose target pieces">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
          </children>
       </AnchorPane>
    </children>

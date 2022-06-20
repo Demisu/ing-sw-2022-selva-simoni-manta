@@ -264,13 +264,6 @@ public class GameController {
     }
 
     /**
-     * @return currentGame static reference
-     */
-    public static Game getReferenceGame() {
-        return referenceGame;
-    } //Might be deleted in the future
-
-    /**
      * @return the number of players
      */
     public Integer getPlayerNumber() {

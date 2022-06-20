@@ -20,6 +20,8 @@ public class SchoolboardController implements GUIController {
 
     @FXML
     private Button realm, gameStatus, undo;
+    @FXML
+    private Button colorBtn, sourceStudentsBtn, sourcePiecesBtn, targetStudentsBtn, targetPiecesBtn;
 
     @FXML
     private ImageView greenProfessor, redProfessor, yellowProfessor, pinkProfessor, blueProfessor;
@@ -53,6 +55,7 @@ public class SchoolboardController implements GUIController {
     private HashMap<Color, List<ImageView>> studentsDining;
     private HashMap<Color, Text> studentNumberTexts;
     private HashMap<Color, ImageView> studentImages;
+    private ArrayList<Button> characterButtons;
 
     public void drawSchoolBoard(Player player){
         drawStudentsEntrance(player.getPlayerBoard());
@@ -73,6 +76,9 @@ public class SchoolboardController implements GUIController {
                     gui.getControllerFromName(GUI.SCHOOLBOARD).onLoad();
                     ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(player);
                 });
+                gui.changeScene(GUI.SCHOOLBOARD);
+                gui.getControllerFromName(GUI.SCHOOLBOARD).onLoad();
+                ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(player);
             }
         });
     }
@@ -232,6 +238,15 @@ public class SchoolboardController implements GUIController {
                 add(tower8);
             }
         };
+        characterButtons = new ArrayList<>(){
+            {
+                add(colorBtn);
+                add(sourceStudentsBtn);
+                add(sourcePiecesBtn);
+                add(targetStudentsBtn);
+                add(targetPiecesBtn);
+            }
+        };
 
         for(Color color : Color.values()){
             //Hide students in entrance before drawing them
@@ -257,6 +272,16 @@ public class SchoolboardController implements GUIController {
             gui.changeScene(GUI.PROFILES);
             gui.getControllerFromName(GUI.PROFILES).onLoad();
         });
+
+        //Show undo if an action is in progress
+        undo.setVisible(!gui.getStatus().equals(GUI.NONE));
+        undo.setOnAction(e -> resetStatus());
+
+        //Hide/Show needed characters buttons
+        for(int i = 0; i < characterButtons.size(); i++){
+            characterButtons.get(i).setVisible(gui.listOfCharacterButtons().get(i));
+            //TODO ADD ONCLICK
+        }
     }
 
     public void resetStatus(){

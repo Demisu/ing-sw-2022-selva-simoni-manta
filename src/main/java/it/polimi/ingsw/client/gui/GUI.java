@@ -4,7 +4,9 @@ import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
 import it.polimi.ingsw.client.gui.controllers.RealmController;
+import it.polimi.ingsw.client.requests.PlayCharacterRequest;
 import it.polimi.ingsw.model.Assistant;
+import it.polimi.ingsw.model.Character;
 import it.polimi.ingsw.model.TowerColor;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -51,6 +53,7 @@ public class GUI extends Application implements ClientView {
     public static final String NONE = "NONE";
     public static final String MOTHER_NATURE = "MOTHER_NATURE";
     public static final String STUDENT = "STUDENT";
+    public static final String CHARACTER = "CHARACTER";
     //Status
     private String status = NONE;
 
@@ -64,6 +67,20 @@ public class GUI extends Application implements ClientView {
     //Variables for mother nature movement
     Integer originIslandIndex;
     Integer targetIslandIndex;
+
+    //Variables for character buttons visibility
+    private Boolean colorBtnVisible = false;
+    private Boolean sourceStudentsBtnVisible = false;
+    private Boolean sourcePiecesBtnVisible = false;
+    private Boolean targetStudentsBtnVisible = false;
+    private Boolean targetPiecesBtnVisible = false;
+    //Variables for character requests
+    int characterIndex = 0;
+    it.polimi.ingsw.model.Color characterTargetColor = null;
+    List<Integer> characterStudentsInOrigin = new ArrayList<>();
+    List<Integer> characterStudentsInTarget = new ArrayList<>();
+    List<Integer> characterOriginPieces = new ArrayList<>();
+    List<Integer> characterTargetPieces = new ArrayList<>();
 
     /**
      * Maps each scene name to the effective scene object, in order to easily find it during scene changing operations.
@@ -279,10 +296,25 @@ public class GUI extends Application implements ClientView {
         targetIslandIndex = 0;
     }
 
+    public void characterActionReset(){
+        characterIndex = 0;
+        characterTargetColor = null;
+        characterStudentsInOrigin = new ArrayList<>();
+        characterStudentsInTarget = new ArrayList<>();
+        characterOriginPieces = new ArrayList<>();
+        characterTargetPieces = new ArrayList<>();
+        colorBtnVisible = false;
+        sourceStudentsBtnVisible = false;
+        sourcePiecesBtnVisible = false;
+        targetStudentsBtnVisible = false;
+        targetPiecesBtnVisible = false;
+    }
+
     public void resetStatus(){
         switch (status) {
             case STUDENT -> studentActionReset();
             case MOTHER_NATURE -> motherNatureActionReset();
+            case CHARACTER -> characterActionReset();
         }
         status = NONE;
     }
@@ -369,5 +401,118 @@ public class GUI extends Application implements ClientView {
 
     public void setTargetIslandIndex(Integer targetIslandIndex) {
         this.targetIslandIndex = targetIslandIndex;
+    }
+
+    //CHARACTERS
+
+    public int getCharacterIndex() {
+        return characterIndex;
+    }
+
+    public void setCharacterIndex(int characterIndex) {
+        this.characterIndex = characterIndex;
+    }
+
+    public it.polimi.ingsw.model.Color getCharacterTargetColor() {
+        return characterTargetColor;
+    }
+
+    public void setCharacterTargetColor(it.polimi.ingsw.model.Color characterTargetColor) {
+        this.characterTargetColor = characterTargetColor;
+    }
+
+    public List<Integer> getCharacterStudentsInOrigin() {
+        return characterStudentsInOrigin;
+    }
+
+    public void addCharacterStudentsInOrigin(Integer characterStudentsInOrigin) {
+        this.characterStudentsInOrigin.add(characterStudentsInOrigin);
+    }
+
+    public List<Integer> getCharacterStudentsInTarget() {
+        return characterStudentsInTarget;
+    }
+
+    public void addCharacterStudentsInTarget(Integer characterStudentsInTarget) {
+        this.characterStudentsInTarget.add(characterStudentsInTarget);
+    }
+
+    public List<Integer> getCharacterOriginPieces() {
+        return characterOriginPieces;
+    }
+
+    public void addCharacterOriginPieces(Integer characterOriginPieces) {
+        this.characterOriginPieces.add(characterOriginPieces);
+    }
+
+    public List<Integer> getCharacterTargetPieces() {
+        return characterTargetPieces;
+    }
+
+    public void addCharacterTargetPieces(Integer characterTargetPieces) {
+        this.characterTargetPieces.add(characterTargetPieces);
+    }
+
+    public Boolean isColorBtnVisible() {
+        return colorBtnVisible;
+    }
+
+    public void setColorBtnVisible(boolean colorBtnVisible) {
+        this.colorBtnVisible = colorBtnVisible;
+    }
+
+    public Boolean isSourceStudentsBtnVisible() {
+        return sourceStudentsBtnVisible;
+    }
+
+    public void setSourceStudentsBtnVisible(boolean sourceStudentsBtnVisible) {
+        this.sourceStudentsBtnVisible = sourceStudentsBtnVisible;
+    }
+
+    public Boolean isSourcePiecesBtnVisible() {
+        return sourcePiecesBtnVisible;
+    }
+
+    public void setSourcePiecesBtnVisible(boolean sourcePiecesBtnVisible) {
+        this.sourcePiecesBtnVisible = sourcePiecesBtnVisible;
+    }
+
+    public Boolean isTargetStudentsBtnVisible() {
+        return targetStudentsBtnVisible;
+    }
+
+    public void setTargetStudentsBtnVisible(boolean targetStudentsBtnVisible) {
+        this.targetStudentsBtnVisible = targetStudentsBtnVisible;
+    }
+
+    public Boolean isTargetPiecesBtnVisible() {
+        return targetPiecesBtnVisible;
+    }
+
+    public void setTargetPiecesBtnVisible(boolean targetPiecesBtnVisible) {
+        this.targetPiecesBtnVisible = targetPiecesBtnVisible;
+    }
+
+    public List<Boolean> listOfCharacterButtons(){
+        return new ArrayList<>(){
+            {
+                add(colorBtnVisible);
+                add(sourceStudentsBtnVisible);
+                add(sourcePiecesBtnVisible);
+                add(targetStudentsBtnVisible);
+                add(targetPiecesBtnVisible);
+            }
+        };
+    }
+
+    public PlayCharacterRequest getCharacterRequest(){
+        return new PlayCharacterRequest(
+                characterIndex,
+                clientController.getPlayerInfo().getNickname(),
+                characterTargetColor,
+                characterStudentsInOrigin,
+                characterStudentsInTarget,
+                characterOriginPieces,
+                characterTargetPieces);
     }
 }
