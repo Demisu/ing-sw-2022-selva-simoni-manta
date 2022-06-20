@@ -97,6 +97,9 @@
                   <DropShadow />
                </effect>
             </Button>
+            <Pane fx:id="content1" layoutX="168.0" layoutY="448.0" prefHeight="50.0" prefWidth="236.0" />
+            <Pane fx:id="content2" layoutX="533.0" layoutY="448.0" prefHeight="50.0" prefWidth="236.0" />
+            <Pane fx:id="content3" layoutX="898.0" layoutY="448.0" prefHeight="50.0" prefWidth="236.0" />
          </children>
       </AnchorPane>
    </children>

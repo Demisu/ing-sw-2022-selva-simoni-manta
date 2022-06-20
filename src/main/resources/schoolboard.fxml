@@ -627,6 +627,7 @@
                   </ImageView>
                </children>
             </Pane>
+            <Pane fx:id="guiDiningRoom" layoutX="208.0" layoutY="25.0" prefHeight="492.0" prefWidth="672.0" />
          </children>
       </AnchorPane>
    </children>

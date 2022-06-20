@@ -141,7 +141,7 @@ public class RealmController implements GUIController {
         }else{
             characters.setOnAction(e -> {
                 gui.changeScene(GUI.CHARACTERS);
-                ((CharactersController) gui.getControllerFromName(GUI.CHARACTERS)).onLoad();
+                gui.getControllerFromName(GUI.CHARACTERS).onLoad();
             });
         }
 
@@ -151,35 +151,23 @@ public class RealmController implements GUIController {
 
         assistants.setOnAction(e -> {
             gui.changeScene(GUI.ASSISTANTS);
-            ((AssistantsController) gui.getControllerFromName(GUI.ASSISTANTS)).onLoad();
+            gui.getControllerFromName(GUI.ASSISTANTS).onLoad();
         });
         schoolboard.setOnAction(e -> {
             gui.changeScene(GUI.SCHOOLBOARD);
-            ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).onLoad();
+            gui.getControllerFromName(GUI.SCHOOLBOARD).onLoad();
             ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(gui.getClientController().getPlayerInfo());
         });
         menu.setOnAction(e -> gui.changeScene(GUI.MENU));
         profiles.setOnAction(e -> {
             gui.changeScene(GUI.PROFILES);
-            ((ProfilesController) gui.getControllerFromName(GUI.PROFILES)).onLoad();
+            gui.getControllerFromName(GUI.PROFILES).onLoad();
         });
         pass.setOnAction(e -> {
             Platform.runLater(() -> {
                 gui.getClientController().passTurn();
             });
         });
-
-        //TO POLISH
-        //Show student button only during action phase
-        students.setVisible(gui.getClientController().getGamePhase().equals(ACTION));
-        students.setOnAction(e -> {
-            //[TO BE IMPLEMENTED..]
-        });
-
-        //OLD
-        //motherNature.setOnAction(e -> {
-        //    motherNatureDialog(gui.getClientController().getPlayerInfo().getLastAssistantPlayed().getMotherNatureMovements() + Game.getMotherNatureMovements());
-        //});
 
         guiIslands.forEach(island -> island.setVisible(false));
         guiClouds.forEach(cloud -> cloud.setVisible(false));
@@ -194,14 +182,14 @@ public class RealmController implements GUIController {
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             ArrayList<Text> info = new ArrayList<>();
             studentsInBag = gui.getClientController().getGameInfo().getBagStudents();
-            bagInfo = "Students remaining: "+studentsInBag.size()+"\n\n";
+            bagInfo = "Students remaining: " + studentsInBag.size() + "\n\n";
             info.add(new Text(bagInfo));
             Text emoji;
             for (it.polimi.ingsw.model.Color color : it.polimi.ingsw.model.Color.values()) {
                 emoji = new Text();
                 emoji.setText("\uD83D\uDD34");
                 emoji.setFill(parseColor(color));
-                bagInfo = color+": "+studentsInBag.stream().filter(s -> colorOfStudent(s).equals(color)).count()+" students\n";
+                bagInfo = color + ": " + studentsInBag.stream().filter(s -> colorOfStudent(s).equals(color)).count() + " students\n";
                 info.add(emoji);
                 info.add(new Text(bagInfo));
             }

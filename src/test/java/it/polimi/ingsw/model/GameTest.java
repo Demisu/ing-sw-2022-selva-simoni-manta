@@ -185,6 +185,18 @@ public class GameTest {
         StudentAccessiblePiece testPiece = gameTest.getStudentAccessiblePieceByID(-99);
         assertNull(testPiece);
 
+        gameTest.getTeams().get(0).setWinner(true);
+        assertTrue(gameTest.anyWinner());
+        Team team = gameTest.getWinnerTeam();
+        int i = gameTest.getStudentsToMove();
+        i = gameTest.getTurnNumber();
+        gameTest.setSelectedCloudInTurn(gameTest.getSelectedCloudInTurn());
+        gameTest.getCloudByID(gameTest.getClouds().get(0).getPieceID());
+        gameTest.setMovedStudentsInTurn(gameTest.getMovedStudentsInTurn());
+
+        gameTest.getTeams().forEach(t -> t.getPlayers().forEach(p -> p.setActive(false)));
+        gameTest.nextPlayer();
+
     }
 
     @Test

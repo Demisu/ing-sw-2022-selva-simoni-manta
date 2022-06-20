@@ -10,7 +10,6 @@ import java.util.List;
 public class Team implements Serializable {
     private TowerColor towerColor;
     private Integer towerNumber;//Towers in player's school board (not island)
-    //Check that the number doesn't go below zero.
     private List<Player> players;
     private final Integer teamId;
     private Boolean isWinner = false;

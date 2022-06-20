@@ -45,5 +45,7 @@ class TeamTest {
         team1.addPlayer(player1);
         team1.addPlayer(player2);
         assertEquals(team1.getPlayers(), players);
+
+        team1.setWinner(true);
     }
 }

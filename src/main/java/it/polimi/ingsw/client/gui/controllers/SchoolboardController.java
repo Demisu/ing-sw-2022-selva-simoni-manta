@@ -54,13 +54,9 @@ public class SchoolboardController implements GUIController {
     private HashMap<Color, Text> studentNumberTexts;
     private HashMap<Color, ImageView> studentImages;
 
-    public void drawSchoolBoard(Player player){// This schoolBoard is just to show, without functionality
+    public void drawSchoolBoard(Player player){
         drawStudentsEntrance(player.getPlayerBoard());
-        drawStudentsDining(player.getPlayerBoard().getAllDiningRoomStudents(Color.GREEN), Color.GREEN);
-        drawStudentsDining(player.getPlayerBoard().getAllDiningRoomStudents(Color.RED), Color.RED);
-        drawStudentsDining(player.getPlayerBoard().getAllDiningRoomStudents(Color.YELLOW), Color.YELLOW);
-        drawStudentsDining(player.getPlayerBoard().getAllDiningRoomStudents(Color.PURPLE), Color.PURPLE);
-        drawStudentsDining(player.getPlayerBoard().getAllDiningRoomStudents(Color.BLUE), Color.BLUE);
+        drawStudentsDining(player);
         drawProfessors(player.getPlayerBoard().getProfessors());
         drawTowers(player);
         guiDiningRoom.setOnMouseClicked(e -> {
@@ -73,9 +69,9 @@ public class SchoolboardController implements GUIController {
                     gui.getClientController().moveStudent(gui.getStudentToMove(), gui.getStudentSource(), gui.getStudentTarget());
                     resetStatus();
                     //Reload school board
-                    gui.getClientController().getModelInfo();
                     gui.changeScene(GUI.SCHOOLBOARD);
-                    ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).onLoad();
+                    gui.getControllerFromName(GUI.SCHOOLBOARD).onLoad();
+                    ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(player);
                 });
             }
         });
@@ -95,9 +91,11 @@ public class SchoolboardController implements GUIController {
         }
     }
 
-    public void drawStudentsDining(ArrayList<Integer> students, Color color) {
-        if(students.size() != 0) {
-            for (int i = 0; i < students.size(); i++) {
+    public void drawStudentsDining(Player player) {
+
+        for(Color color : Color.values()) {
+            int number = player.getPlayerBoard().getDiningRoomStudents(color);
+            for (int i = 0; i < number; i++) {
                 studentsDining.get(color).get(i).setVisible(true);
                 studentsDining.get(color).get(i).setEffect(gui.getColorEffect(color));
             }
@@ -253,11 +251,11 @@ public class SchoolboardController implements GUIController {
 
         realm.setOnAction(e -> {
             gui.changeScene(GUI.REALM);
-            ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
+            gui.getControllerFromName(GUI.REALM).onLoad();
         });
         gameStatus.setOnAction(e -> {
             gui.changeScene(GUI.PROFILES);
-            ((ProfilesController) gui.getControllerFromName(GUI.PROFILES)).onLoad();
+            gui.getControllerFromName(GUI.PROFILES).onLoad();
         });
     }
 

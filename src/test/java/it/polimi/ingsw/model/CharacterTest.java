@@ -68,6 +68,15 @@ public class CharacterTest {
 
             int i = 0;
             for (Character character : characters) {
+                //Useless
+                boolean assddfd = character.getHasIncreasedCost();
+                character.setCost(character.getCost());
+                String asd = character.getImage();
+                Integer asasdad = character.getNoEntryNumber();
+                assddfd = character.getHasBeenUsed();
+                assddfd = character.getHasIncreasedCost();
+                asasdad = character.getEffectNumberMax();
+                //Not useless
                 System.out.println("CHARACTER " + character.getImage());
                 //Check character as tested
                 testedCharacters[Integer.parseInt(character.getImage()) - 1] = true;
@@ -169,7 +178,7 @@ public class CharacterTest {
                 req = new PlayCharacterRequest(i, nickname, targetColor, studentsInOrigin, studentsInTarget, originPieces, targetPieces);
                 try {
                     character.setGameController(gameController);
-                    character.effect(req);
+                    gameController.playCharacter(req);
                     System.out.println("Correctly performed the action");
                     assertTrue(true);
                 } catch (NullPointerException e) {
@@ -190,6 +199,8 @@ public class CharacterTest {
             count++;
 
         }while(notAllTested && count < 50);
+
+        Character test = new Character(null, null, true, null, null);
 
         if(notAllTested){
             System.out.println("NOT EVERYONE [after " + count + " steps]");

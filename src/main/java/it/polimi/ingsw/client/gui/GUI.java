@@ -54,6 +54,8 @@ public class GUI extends Application implements ClientView {
     //Status
     private String status = NONE;
 
+    private boolean ready;
+
     //Used for student movement
     private Integer studentToMove;
     private Integer studentSource;
@@ -115,7 +117,11 @@ public class GUI extends Application implements ClientView {
     public void changeScene(String scene){
         //If setup is completed, start updating the model
         if(! (scene.equals(MENU) ||  scene.equals(NICKNAME) || scene.equals(PLAYERS))) {
-            Platform.runLater(() -> clientController.getModelInfo());
+            Platform.runLater(() -> {
+                ready = false;
+                clientController.getModelInfo();
+                ready = true;
+            });
         }
         currentScene = nameMapScene.get(scene);
         double prevWidth = stage.getWidth();
@@ -305,6 +311,10 @@ public class GUI extends Application implements ClientView {
 
     public Scene getCurrentScene() {
         return currentScene;
+    }
+
+    public boolean isReady() {
+        return ready;
     }
 
     //STATUS

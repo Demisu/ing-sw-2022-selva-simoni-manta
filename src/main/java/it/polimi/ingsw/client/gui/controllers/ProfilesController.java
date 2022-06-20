@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GamePhase;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Team;
 import javafx.application.Platform;
@@ -127,7 +128,16 @@ public class ProfilesController implements GUIController {
             Game currentGame = gui.getClientController().getGameInfo();
             roundDisplay.setText("Round " + (currentGame.getTurnNumber() + 1));
             phaseDisplay.setText("Phase: " + currentGame.getCurrentPhase());
-            currentPlayerDisplay.setText("Current Player: " + currentGame.getCurrentPlayer());
+            if(currentGame.getCurrentPhase().equals(GamePhase.END)) {
+                Team winnerTeam = currentGame.getWinnerTeam();
+                String players = "";
+                for(Player player : winnerTeam.getPlayers()){
+                    players += player.getNickname() + " ";
+                }
+                currentPlayerDisplay.setText("Winner team: " + (winnerTeam.getTeamId() + 1) + "\n[ " + players + "]");
+            } else {
+                currentPlayerDisplay.setText("Current Player: " + currentGame.getCurrentPlayer());
+            }
             List<Player> players = currentGame.getPlayers();
             teams = currentGame.getTeams();
             players.forEach(this::drawPlayer);

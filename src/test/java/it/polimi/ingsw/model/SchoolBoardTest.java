@@ -39,6 +39,11 @@ class SchoolBoardTest {
         assertEquals(2,board.getDiningRoomStudents(RED));
         assertEquals(1,board.getDiningRoomStudents(PURPLE));
 
+        for(Color color : Color.values()){
+            board.getAllDiningRoomStudents(color);
+            board.getStudents(color);
+        }
+
         board.setProfessor(GREEN, true);
         assertEquals(board.getOwnedProfessors(), 1);
     }

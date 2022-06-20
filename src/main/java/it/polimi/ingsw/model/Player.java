@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Player implements Serializable {
 
-    private final Integer initialCoins = 10;
+    private final Integer initialCoins = 1;
     private Integer playerId;
     private Integer coins;
 

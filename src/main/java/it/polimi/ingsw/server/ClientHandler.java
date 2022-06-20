@@ -38,13 +38,6 @@ public class ClientHandler implements Runnable {
                 }
                  if (serverResponse != null) {
                      try {
-                         System.out.println("-----------"
-                                 + "\nResponse generated."
-                                 + "\nName: "
-                                 + serverResponse
-                                 + "\nType: "
-                                 + serverResponse.getClass()
-                                 + "\n-----------\n");
                          out.writeObject(serverResponse);
                          out.flush();
                          out.reset();

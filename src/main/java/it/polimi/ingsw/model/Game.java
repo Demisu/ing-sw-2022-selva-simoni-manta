@@ -49,6 +49,7 @@ public class Game implements Serializable {
     private final int studentsForBoards;
     private final int studentsToMove;
     private int movedStudentsInTurn;
+    private boolean selectedCloudInTurn = false;
 
     private Character[] availableCharacters;
 
@@ -354,7 +355,7 @@ public class Game implements Serializable {
                 this.setCurrentPlayer(currentTurnOrder.get(currentIndex + 1).getNickname());
             }
             //If there is only 1 player connected, start timer
-            if (connectedPlayersNumber().equals(1) && !startedTimer) {
+            if (connectedPlayersNumber() <= 1) {
                 System.out.println("Started 10sec timer because only 1 or less players are still connected");
                 startedTimer = true;
                 ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();
@@ -371,14 +372,15 @@ public class Game implements Serializable {
                         startedTimer = false;
                     }
                 }, 10, TimeUnit.SECONDS);
-            }
-            //If the player is disconnected, skip his turn
-            Player newNextPlayer = getPlayerByNickname(currentPlayer);
-            if (!newNextPlayer.isActive()) {
-                if(currentPhase.equals(PLANNING)) {
-                    newNextPlayer.setLastAssistantPlayed(new Assistant(11, 0, -1));
+            } else {
+                //If the player is disconnected, skip his turn
+                Player newNextPlayer = getPlayerByNickname(currentPlayer);
+                if (!newNextPlayer.isActive()) {
+                    if (currentPhase.equals(PLANNING)) {
+                        newNextPlayer.setLastAssistantPlayed(new Assistant(11, 0, -1));
+                    }
+                    nextPlayer();
                 }
-                nextPlayer();
             }
         } else {
             nextPlayer();
@@ -551,6 +553,7 @@ public class Game implements Serializable {
 
         //Reset moved students
         this.movedStudentsInTurn = 0;
+        selectedCloudInTurn = false;
 
         Game.setAllStudentsValue(1);
         Game.setTowerValue(1);
@@ -749,6 +752,13 @@ public class Game implements Serializable {
         return studentsToMove;
     }
 
+    /**
+     * @return if a cloud has already been selected in the round
+     */
+    public boolean getSelectedCloudInTurn(){
+        return selectedCloudInTurn;
+    }
+
     //Setters
 
     /**
@@ -841,6 +851,13 @@ public class Game implements Serializable {
      */
     public void setMovedStudentsInTurn(int movedStudentsInTurn) {
         this.movedStudentsInTurn = movedStudentsInTurn;
+    }
+
+    /**
+     * @param selectedCloudInTurn students moved in this turn
+     */
+    public void setSelectedCloudInTurn(boolean selectedCloudInTurn) {
+        this.selectedCloudInTurn = selectedCloudInTurn;
     }
 
     /**

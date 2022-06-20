@@ -85,13 +85,19 @@ public class ServerController implements ClientRequestHandler {
                 return new OperationResultResponse(false, "Cannot move a student to another schoolboard");
             }
             //If the player already moved all the students for this turn, and the student isn't moved from a cloud
-            if(game.getStudentsToMove() == game.getMovedStudentsInTurn() && game.getCloudByID(req.getSourceId()) == null){
+            if(game.getStudentsToMove() == game.getMovedStudentsInTurn() && game.getCloudByID(req.getSourceId()) == null
+                                                                         && !game.getSelectedCloudInTurn()){
                 return new OperationResultResponse(false, "Moved all students for this turn");
             }
             //Ok
             gameController.moveStudent(req.getStudentId(), req.getSourceId(), req.getTargetId());
-            //Adds 1 moved student
-            game.setMovedStudentsInTurn(game.getMovedStudentsInTurn() + 1);
+            //If source is not a cloud
+            if(game.getCloudByID(req.getSourceId()) == null){
+                //Adds 1 moved student
+                game.setMovedStudentsInTurn(game.getMovedStudentsInTurn() + 1);
+            } else {
+                game.setSelectedCloudInTurn(true);
+            }
             return new OperationResultResponse(true, "Moved student " + req.getStudentId() + " from " + req.getSourceId() + " to " + req.getTargetId());
         }
         return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to move student.");
