@@ -8,6 +8,9 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Server main runner class, initializes socket
+ */
 public class GameServer {
 
     private final ServerSocket serverSocket;
@@ -15,6 +18,10 @@ public class GameServer {
     private final GameController gameController;
     ServerController serverController;
 
+    /**
+     * @param port port
+     * @throws IOException IOException
+     */
     public GameServer(Integer port) throws IOException {
         serverSocket = new ServerSocket(port);
         executorServicePool = Executors.newCachedThreadPool();
@@ -26,6 +33,11 @@ public class GameServer {
                 + serverSocket.getLocalPort());
     }
 
+    /**
+     * Accepts new clients and creates and handler for each one
+     *
+     * @throws IOException IOException
+     */
     public void run() throws IOException {
         while(true) {
             Socket clientSocket = serverSocket.accept();
@@ -34,6 +46,11 @@ public class GameServer {
         }
     }
 
+    /**
+     * Closes socket and client handlers
+     *
+     * @throws IOException IOException
+     */
     public void close() throws IOException {
         serverSocket.close();
         executorServicePool.shutdown();

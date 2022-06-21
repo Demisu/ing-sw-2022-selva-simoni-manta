@@ -6,8 +6,17 @@ import it.polimi.ingsw.server.Server;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Main class of the game, used to start it (client or server)
+ */
 public class Eriantys {
 
+    /**
+     * Asks which type of application is needed: SERVER, CLI or GUI
+     *
+     * @param args args
+     * @throws IOException IOException
+     */
     public static void main(String[] args) throws IOException {
 
         Scanner scanner = new Scanner(System.in);

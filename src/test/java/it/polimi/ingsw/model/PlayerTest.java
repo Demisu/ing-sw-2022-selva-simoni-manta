@@ -43,7 +43,7 @@ public class PlayerTest {
         Player player1 = new Player(0);
 
         assertEquals(player1.getPlayerId(),0);
-        player1.setPlayerid(2);
+        player1.setPlayerId(2);
         assertEquals(player1.getPlayerId(),2);
         SchoolBoard schoolboard = player1.getPlayerBoard();
 

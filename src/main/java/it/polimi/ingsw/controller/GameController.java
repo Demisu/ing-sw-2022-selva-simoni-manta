@@ -11,11 +11,12 @@ import java.util.concurrent.TimeUnit;
 
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 
+/**
+ * Class for the Main Game Controller
+ */
 public class GameController {
 
-    private static Game referenceGame;
     private Game currentGame;
-    private Boolean timerOn = false;
 
     /*------*/
     /* GAME */
@@ -30,7 +31,6 @@ public class GameController {
      */
     public void startGame(Integer playerNumber, String nicknameOfCreator, Boolean expertMode){
         currentGame = new Game(playerNumber, nicknameOfCreator, expertMode);
-        referenceGame = currentGame;
     }
 
     /*----------*/
@@ -292,13 +292,11 @@ public class GameController {
 
         //5sec timer after the player left, then his turn is passed
         System.out.println("Started 5sec timer for player " + nickname + " (Disconnected)");
-        timerOn = true;
         ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();
         timer.schedule(() -> {
             if (!currentGame.getPlayerByNickname(nickname).isActive()) {
                 System.out.println("Timer ended, the player did not reconnect. Skipping his turn in case");
                 if(currentGame.getCurrentPlayer().equals(nickname)){
-                    timerOn = false;
                     if(player.getLastAssistantPlayed() == null) {
                         currentGame.getPlayerByNickname(nickname).setLastAssistantPlayed(new Assistant(11, 0, -1));
                     }

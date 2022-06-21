@@ -7,6 +7,9 @@ import it.polimi.ingsw.server.ServerResponse;
 
 import java.util.List;
 
+/**
+ * Request to play characters
+ */
 public class PlayCharacterRequest implements ClientRequest {
 
     private final Integer characterNumber;
@@ -17,7 +20,15 @@ public class PlayCharacterRequest implements ClientRequest {
     private List<Integer> originPieces; //Id of origin island/schoolboard/ecc
     private List<Integer> targetPieces; //Id of target island/schoolboard/ecc
 
-    //General constructor
+    /**
+     * @param characterNumber number of character
+     * @param nickname requester
+     * @param targetColor target color
+     * @param studentsInOrigin list of students in origin pieces
+     * @param studentsInTarget list of students in target pieces
+     * @param originPieces origin pieces
+     * @param targetPieces target pieces
+     */
     public PlayCharacterRequest(Integer characterNumber, String nickname, Color targetColor, List<Integer> studentsInOrigin,
                                 List<Integer> studentsInTarget, List<Integer> originPieces, List<Integer> targetPieces) {
         this.characterNumber = characterNumber;
@@ -29,13 +40,25 @@ public class PlayCharacterRequest implements ClientRequest {
         this.targetPieces = targetPieces;
     }
 
-    //Used for character 2, 4, 5, 6, 8
+    /**
+     * Used for testing character 2, 4, 5, 6, 8
+     *
+     * @param characterNumber number of character
+     * @param nickname requester
+     */
     public PlayCharacterRequest(Integer characterNumber, String nickname) {
         this.characterNumber = characterNumber;
         this.nickname = nickname;
     }
 
-    //Used for character 1, 11
+    /**
+     * Used for testing character 1, 11
+     *
+     * @param characterNumber number of character
+     * @param nickname requester
+     * @param studentsInOrigin list of students in origin pieces
+     * @param targetPieces target pieces
+     */
     public PlayCharacterRequest(Integer characterNumber, String nickname, List<Integer> studentsInOrigin, List<Integer> targetPieces) {
         this.characterNumber = characterNumber;
         this.nickname = nickname;
@@ -43,14 +66,28 @@ public class PlayCharacterRequest implements ClientRequest {
         this.targetPieces = targetPieces;
     }
 
-    //Used for character 3, 5
+    /**
+     * Used for testing character 3, 5
+     *
+     * @param characterNumber number of character
+     * @param nickname requester
+     * @param targetPieces target pieces
+     */
     public PlayCharacterRequest(Integer characterNumber, String nickname, List<Integer> targetPieces) {
         this.characterNumber = characterNumber;
         this.nickname = nickname;
         this.targetPieces = targetPieces;
     }
 
-    //Used for character 7
+    /**
+     * Used for testing character 7
+     *
+     * @param characterNumber number of character
+     * @param nickname requester
+     * @param studentsInOrigin list of students in origin pieces
+     * @param originPieces origin pieces
+     * @param targetPieces target pieces
+     */
     public PlayCharacterRequest(Integer characterNumber, String nickname, List<Integer> studentsInOrigin,
                                 List<Integer> originPieces, List<Integer> targetPieces) {
         this.characterNumber = characterNumber;
@@ -60,7 +97,16 @@ public class PlayCharacterRequest implements ClientRequest {
         this.targetPieces = targetPieces;
     }
 
-    //Used for character 10
+    /**
+     * Used for testing character 10
+     *
+     * @param characterNumber number of character
+     * @param nickname requester
+     * @param studentsInOrigin list of students in origin pieces
+     * @param studentsInTarget list of students in target pieces
+     * @param originPieces origin pieces
+     * @param targetPieces target pieces
+     */
     public PlayCharacterRequest(Integer characterNumber, String nickname, List<Integer> studentsInOrigin, List<Integer> studentsInTarget,
                                 List<Integer> originPieces, List<Integer> targetPieces) {
         this.characterNumber = characterNumber;
@@ -71,42 +117,73 @@ public class PlayCharacterRequest implements ClientRequest {
         this.targetPieces = targetPieces;
     }
 
-    //Used for character 9, 12
+    /**
+     * Used for testing
+     *
+     * @param characterNumber number of character
+     * @param nickname requester
+     * @param targetColor target color
+     */
     public PlayCharacterRequest(Integer characterNumber, String nickname, Color targetColor) {
         this.characterNumber = characterNumber;
         this.nickname = nickname;
         this.targetColor = targetColor;
     }
 
+    /**
+     * @param handler handler to handle request
+     * @return ServerResponse
+     */
     @Override
     public ServerResponse handle(ClientRequestHandler handler) {
         return handler.handle(this);
     }
 
+    /**
+     * @return characterNumber
+     */
     public Integer getCharacterNumber() {
         return characterNumber;
     }
 
+    /**
+     * @return nickname
+     */
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * @return studentsInOrigin
+     */
     public List<Integer> getStudentsInOrigin() {
         return studentsInOrigin;
     }
 
+    /**
+     * @return studentsInTarget
+     */
     public List<Integer> getStudentsInTarget() {
         return studentsInTarget;
     }
 
+    /**
+     * @return targetPieces
+     */
     public List<Integer> getTargetPieces() {
         return targetPieces;
     }
 
+    /**
+     * @return originPieces
+     */
     public List<Integer> getOriginPieces() {
         return originPieces;
     }
 
+    /**
+     * @return targetColor
+     */
     public Color getTargetColor() {
         return targetColor;
     }

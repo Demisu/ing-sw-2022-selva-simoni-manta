@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GUI extends Application implements ClientView {
 
-    public static final String END_OF_THE_GAME = "End of the game";
+    //public static final String END_OF_THE_GAME = "End of the game";
     public static final String MENU = "start.fxml";
     public static final String NICKNAME = "nickname.fxml";
     public static final String PLAYERS = "players.fxml";

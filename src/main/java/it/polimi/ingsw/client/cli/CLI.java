@@ -15,6 +15,9 @@ import static it.polimi.ingsw.model.Color.*;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
 
+/**
+ * CLI class for Command Line Interface game UI
+ */
 public class CLI implements ClientView {
 
     Scanner scanner = new Scanner(System.in);
@@ -63,12 +66,20 @@ public class CLI implements ClientView {
         }
     };
 
-    private final ClientController clientController;
+    private ClientController clientController;
 
+    /**
+     * general constructor for CLI instances
+     *
+     * @param clientController controller for the CLI
+     */
     public CLI(ClientController clientController) {
         this.clientController = clientController;
     }
 
+    /**
+     * Setup phase handler, prints all necessary info and available commands for the setup of the game
+     */
     public void setupPhase() {
 
         Integer result;
@@ -109,11 +120,17 @@ public class CLI implements ClientView {
         }
     }
 
+    /**
+     * @param clientController controller for the CLI
+     */
     @Override
     public void setClientController(ClientController clientController) {
-
+        this.clientController = clientController;
     }
 
+    /**
+     * Wait end of setup phase handler, makes the player wait the rest of the players
+     */
     public void waitGameStartPhase() {
 
         Boolean status = false;
@@ -124,6 +141,10 @@ public class CLI implements ClientView {
 
     }
 
+    /**
+     * Planning phase handler, prints all necessary info and available commands for the setup of the game.
+     * Handles assistant use and main game info
+     */
     public void planningPhase() {
 
         availableActions = planningActions;
@@ -161,11 +182,15 @@ public class CLI implements ClientView {
                 break;
             }
 
-            processAction(action);
+            parseAction(action);
 
         } while(clientController.getGamePhase().equals(GamePhase.PLANNING));
     }
 
+    /**
+     * Action phase handler, prints all necessary info and available commands for the setup of the game.
+     * Handles character use, student movement, cloud selection, mother nature movement and main game info
+     */
     public void actionPhase() {
 
         availableActions = turnActions;
@@ -187,11 +212,14 @@ public class CLI implements ClientView {
             showAvailableActions();
             System.out.println("Your choice: ");
             action = scanner.nextLine();
-            processAction(action);
+            parseAction(action);
 
         } while(clientController.getGamePhase().equals(GamePhase.ACTION));
     }
 
+    /**
+     * Ending phase handler, notifies the player that the game ended and shows the winner
+     */
     public void endingPhase() {
 
         clientController.getModelInfo();
@@ -209,7 +237,13 @@ public class CLI implements ClientView {
         System.exit(0);
     }
 
-    public void processAction(String action){
+    /**
+     * Parses the input string and interprets it as an action. If the action is badly typed or not available, prompts
+     * the user to enter another one.
+     *
+     * @param action string of the action input
+     */
+    public void parseAction(String action){
 
         if(!availableActions.contains(action)){
             System.out.println("Invalid action.");
@@ -363,6 +397,9 @@ public class CLI implements ClientView {
         }
     }
 
+    /**
+     * Printer method to show clouds status
+     */
     public void showClouds(){
         clearConsole();
         printLongRow();
@@ -384,6 +421,9 @@ public class CLI implements ClientView {
         printLongRow();
     }
 
+    /**
+     * Printer method to show assistants status
+     */
     public void showAssistants() {
         clearConsole();
         printLongRow();
@@ -399,6 +439,9 @@ public class CLI implements ClientView {
         printLongRow();
     }
 
+    /**
+     * Printer method to show characters status
+     */
     public void showCharacters() {
         clearConsole();
         printLongRow();
@@ -418,6 +461,9 @@ public class CLI implements ClientView {
         printLongRow();
     }
 
+    /**
+     * Printer method to show islands status
+     */
     public void showIslands() {
         clearConsole();
         printLongRow();
@@ -442,6 +488,9 @@ public class CLI implements ClientView {
         printLongRow();
     }
 
+    /**
+     * Printer method to show schoolboards status
+     */
     public void showSchoolBoards() {
         clearConsole();
         printLongRow();
@@ -472,6 +521,9 @@ public class CLI implements ClientView {
         printLongRow();
     }
 
+    /**
+     * Printer method to show general info
+     */
     public void showInfo(){
         clearConsole();
         printLongRow();
@@ -485,6 +537,9 @@ public class CLI implements ClientView {
         printLongRow();
     }
 
+    /**
+     * Printer method to show game bag info
+     */
     public void showBagStudents() {
         clearConsole();
         ArrayList<Integer> studentsInBag = clientController.getGameInfo().getBagStudents();
@@ -500,6 +555,9 @@ public class CLI implements ClientView {
         printLongRow();
     }
 
+    /**
+     * Printer method to show all available actions
+     */
     public void showAvailableActions() {
         printLongRow();
         System.out.println("Allowed actions:");
@@ -508,6 +566,13 @@ public class CLI implements ClientView {
         printLongRow();
     }
 
+    /**
+     * Builder method to create a correct and functional request for a character effect. Handles character types and
+     * automatically asks only strictly necessary parameters for the character usage.
+     *
+     * @param characterNumber number of the character to play
+     * @return PlayCharacterRequest to send to the controller, to play the character
+     */
     public PlayCharacterRequest generateCharacterRequest(Integer characterNumber){
 
         Character character = clientController.getCharacters().get(characterNumber);
@@ -672,20 +737,33 @@ public class CLI implements ClientView {
 
     // UTILITY
 
+    /**
+     * Utility method to print a long line
+     */
     public void printLongRow(){
         System.out.println("------------------------------------------------");
     }
 
+    /**
+     * Utility method to print a short line
+     */
     public void printShortRow(){
         System.out.println("----------------");
     }
 
+    /**
+     * Utility method to clear the CLI
+     */
     public void clearConsole(){
         for (int i = 0; i < 30; i++) {
             System.out.println();
         }
     }
 
+    /**
+     * @param color color to parse
+     * @return Color equivalent to input string, null if not found
+     */
     public Color parseColor(String color){
         switch (color) {
             case "YELLOW", "1" -> {return YELLOW;}

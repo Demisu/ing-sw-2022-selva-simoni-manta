@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.server.ServerResponse;
 
 import java.io.IOException;
@@ -8,6 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * Client class used for server connection and communication
+ */
 public class Client {
 
     private final String hostAddress;
@@ -18,11 +20,20 @@ public class Client {
     private ObjectOutputStream out;
     private Boolean isConnected = false;
 
+    /**
+     * @param hostAddress IP of the host (server)
+     * @param port port of the host (server)
+     */
     public Client(String hostAddress, Integer port) {
         this.hostAddress = hostAddress;
         this.port = port;
     }
 
+    /**
+     * Initiates client connection
+     *
+     * @throws IOException IOException
+     */
     public void initConnection() throws IOException {
         connection = new Socket(hostAddress, port);
         in = new ObjectInputStream(connection.getInputStream());
@@ -30,6 +41,11 @@ public class Client {
         isConnected = true;
     }
 
+    /**
+     * Closes client connection
+     *
+     * @throws IOException
+     */
     public void closeConnection() throws IOException {
         in.close();
         out.close();
@@ -68,6 +84,9 @@ public class Client {
         }
     }
 
+    /**
+     * @return if the client is connected
+     */
     public Boolean isConnected() {
         return isConnected;
     }

@@ -3,7 +3,15 @@ package it.polimi.ingsw.client;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Class to execute client and handle its setup/connection
+ */
 public class ClientExec {
+
+    /**
+     * @param args args
+     * @throws IOException IOException
+     */
     public static void main(String[] args) throws IOException {
 
         int port = 4567;
@@ -32,8 +40,6 @@ public class ClientExec {
             ui = args[0];
         }
 
-        //ClientController controller = new ClientController(client, ui);
-
         try {
             client.initConnection();
         } catch(IOException e) {
@@ -42,6 +48,6 @@ public class ClientExec {
         }
 
         ClientController clientController = new ClientController(client, ui);
-        clientController.run(); //batch of methods to call from the controller when starting the game
+        clientController.run();
     }
 }

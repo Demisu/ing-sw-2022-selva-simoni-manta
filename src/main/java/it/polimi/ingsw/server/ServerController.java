@@ -22,25 +22,27 @@ public class ServerController implements ClientRequestHandler {
     private static Boolean gameExists = false;
     private static Integer connectedPlayers = 0;
 
+    /**
+     * @param gameController gameController
+     */
     public ServerController(GameController gameController) {
         this.gameController = gameController;
         this.clientHandlerList = new ArrayList<>();
     }
 
-    public void addClientHandler(ClientHandler clientHandler){
-        this.clientHandlerList.add(clientHandler);
-    }
-
+    /**
+     * @param nickname nickname of the disconnected player
+     */
     public void playerDisconnected(String nickname){
         gameController.setInactive(nickname);
     }
 
     /**
-     * Properly dispatches the received response to the correct method
-     * Requests are defined in the server. Responses package, one Class for each
-     * @param req the response received by the Server from the Client
+     * Checks if the player is the current turn owner and if mother nature is allowed to be moved now
+     *
+     * @param req MoveMotherNatureRequest
+     * @return OperationResultResponse
      */
-
     @Override
     public ServerResponse handle(MoveMotherNatureRequest req) {
 
@@ -106,6 +108,12 @@ public class ServerController implements ClientRequestHandler {
         return new OperationResultResponse(true, "Moved student " + req.getStudentId() + " from " + req.getSourceId() + " to " + req.getTargetId());
     }
 
+    /**
+     * Checks if the current phase is planning, if the assistant was already played and if the player is current
+     *
+     * @param req PlayAssistantRequest
+     * @return OperationResultResponse
+     */
     @Override
     public ServerResponse handle(PlayAssistantRequest req) {
 
@@ -115,19 +123,19 @@ public class ServerController implements ClientRequestHandler {
         }
         String nickname = req.getNickname();
         Player requestPlayer = gameController.getCurrentGame().getPlayerByNickname(nickname);
-        if(gameController.getCurrentGame().getCurrentPlayer().equals(nickname)){
-            for (Player player : gameController.getCurrentGame().getPlayers()) {
-                if(player.getLastAssistantPlayed() == null){
-                    continue;
-                }
-                if(player.getLastAssistantPlayed().getAssistantId().equals(requestPlayer.getDeck().get(req.getAssistantNumber()).getAssistantId())){
-                    return new OperationResultResponse(false, "Assistant already played during this turn");
-                }
-            }
-            gameController.playAssistant(req.getNickname(), req.getAssistantNumber());
-            return new OperationResultResponse(true, "Played assistant " + req.getAssistantNumber() + " of player " + req.getNickname());
+        if(!gameController.getCurrentGame().getCurrentPlayer().equals(nickname)){
+            return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to play assistant.");
         }
-        return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to play assistant.");
+        for (Player player : gameController.getCurrentGame().getPlayers()) {
+            if(player.getLastAssistantPlayed() == null){
+                continue;
+            }
+            if(player.getLastAssistantPlayed().getAssistantId().equals(requestPlayer.getDeck().get(req.getAssistantNumber()).getAssistantId())){
+                return new OperationResultResponse(false, "Assistant already played during this turn");
+            }
+        }
+        gameController.playAssistant(req.getNickname(), req.getAssistantNumber());
+        return new OperationResultResponse(true, "Played assistant " + req.getAssistantNumber() + " of player " + req.getNickname());
     }
 
     /**
@@ -247,6 +255,13 @@ public class ServerController implements ClientRequestHandler {
         return new GetUpdatedBoardResponse(gameController.getCurrentGame().getReducedModel(), studentsOfClouds);
     }
 
+    /**
+     * Handles passing turn, checks if the player is current and if he didn-t play an assistant yet
+     * (in this case sets a dummy assistant to avoid null pointer exceptions)
+     *
+     * @param req PassTurnRequest
+     * @return OperationResultResponse
+     */
     @Override
     public ServerResponse handle(PassTurnRequest req) {
 
@@ -265,6 +280,12 @@ public class ServerController implements ClientRequestHandler {
                 "'s turn started.");
     }
 
+    /**
+     * Waits until all the players have connected
+     *
+     * @param req WaitingRequest
+     * @return OperationResultResponse
+     */
     @Override
     public ServerResponse handle(WaitingRequest req) {
 
@@ -275,6 +296,12 @@ public class ServerController implements ClientRequestHandler {
         return new OperationResultResponse(true, "Ready");
     }
 
+    /**
+     * Checks if game has started
+     *
+     * @param req GameStartedRequest
+     * @return OperationResultResponse
+     */
     @Override
     public ServerResponse handle(GameStartedRequest req) {
 

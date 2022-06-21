@@ -78,6 +78,8 @@ public class Character extends StudentAccessiblePiece implements Serializable {
     /**
      * Depending on the character type,
      * calls the relative effect (move/exchange/add/resolve)
+     *
+     * @param req PlayCharacterRequest
      */
     public void effect(PlayCharacterRequest req){
 
@@ -93,6 +95,8 @@ public class Character extends StudentAccessiblePiece implements Serializable {
 
     /**
      * Used by move-type characters, performs the action
+     *
+     * @param req PlayCharacterRequest
      */
     public void move(PlayCharacterRequest req){
 
@@ -130,6 +134,8 @@ public class Character extends StudentAccessiblePiece implements Serializable {
 
     /**
      * Used by exchange-type characters, performs the action
+     *
+     * @param req PlayCharacterRequest
      */
     public void exchange(PlayCharacterRequest req){
 
@@ -161,6 +167,8 @@ public class Character extends StudentAccessiblePiece implements Serializable {
 
     /**
      * Used by add-type characters, adds a certain value to the game modifiers
+     *
+     * @param req PlayCharacterRequest
      */
     public void add(PlayCharacterRequest req){
 
@@ -215,6 +223,8 @@ public class Character extends StudentAccessiblePiece implements Serializable {
 
     /**
      * Used by resolve-type characters, resolves the target island
+     *
+     * @param req PlayCharacterRequest
      */
     public void resolve(PlayCharacterRequest req){
 

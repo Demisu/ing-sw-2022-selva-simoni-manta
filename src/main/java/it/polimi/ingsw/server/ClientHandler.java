@@ -9,6 +9,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * Handler for client communication
+ */
 public class ClientHandler implements Runnable {
 
     private Socket socket;
@@ -18,14 +21,21 @@ public class ClientHandler implements Runnable {
     private final ServerController controller;
     private String clientNickname;
 
+    /**
+     * @param socket socket reference
+     * @param mainServerController mainServerController
+     * @throws IOException IOException
+     */
     public ClientHandler(Socket socket, ServerController mainServerController) throws IOException {
         this.socket = socket;
         this.out = new ObjectOutputStream(socket.getOutputStream());
         this.in = new ObjectInputStream(socket.getInputStream());
         this.controller = mainServerController;
-        mainServerController.addClientHandler(this);
     }
 
+    /**
+     * Run method to be used during execution, handles in and out stream
+     */
     @Override
     public void run() {
         try {
@@ -55,6 +65,9 @@ public class ClientHandler implements Runnable {
         closeConnection();
     }
 
+    /**
+     * Closes client connection
+     */
     private void closeConnection() {
         isClientStopped = true;
 
@@ -84,10 +97,10 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    /**
+     * sets isClientStopped to true
+     */
     public void stopClient() {
         this.isClientStopped = true;
     }
-
-
-    //to implement Listener methods observing the view with @Override
 }

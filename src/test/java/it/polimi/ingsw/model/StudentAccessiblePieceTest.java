@@ -7,8 +7,7 @@ import java.util.HashSet;
 
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class StudentAccessiblePieceTest {
 
@@ -44,5 +43,11 @@ class StudentAccessiblePieceTest {
         StudentAccessiblePiece piece = new Cloud();
         piece.setStudents(new HashSet<>());
         assertNotNull(piece.getStudents());
+        assertEquals(StudentAccessiblePiece.parseColor("RED"), Color.RED);
+        assertEquals(StudentAccessiblePiece.parseColor("YELLOW"), Color.YELLOW);
+        assertEquals(StudentAccessiblePiece.parseColor("BLUE"), Color.BLUE);
+        assertEquals(StudentAccessiblePiece.parseColor("GREEN"), Color.GREEN);
+        assertEquals(StudentAccessiblePiece.parseColor("PURPLE"), Color.PURPLE);
+        assertNull(StudentAccessiblePiece.parseColor("DHBSFIB"));
     }
 }

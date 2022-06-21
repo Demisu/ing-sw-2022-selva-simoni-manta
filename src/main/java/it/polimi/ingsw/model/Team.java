@@ -83,14 +83,23 @@ public class Team implements Serializable {
         this.towerNumber = towerNumber;
     }
 
+    /**
+     * @param isWinner boolean if team has won
+     */
     public void setWinner(boolean isWinner) {
         this.isWinner = isWinner;
     }
 
+    /**
+     * @return if team has won
+     */
     public Boolean isWinner(){
         return isWinner;
     }
 
+    /**
+     * @return number of professor (cumulative between team-members) owned by the team
+     */
     public Integer getProfessorsNumber(){
 
         Integer profNumber = 0;

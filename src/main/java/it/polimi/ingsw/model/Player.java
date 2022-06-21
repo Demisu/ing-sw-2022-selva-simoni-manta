@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for Players instances in the game
+ */
 public class Player implements Serializable {
 
     private final Integer initialCoins = 1;
@@ -20,6 +23,11 @@ public class Player implements Serializable {
 
     private final SchoolBoard playerBoard; //package-private
 
+    /**
+     * General player constructor
+     *
+     * @param playerId id of the player
+     */
     public Player(Integer playerId){
         this.playerId = playerId;
         this.coins = initialCoins;
@@ -35,78 +43,136 @@ public class Player implements Serializable {
         this.isActive = true;
     }
 
+    /**
+     * @return coins of the player
+     */
     public Integer getCoins(){
         return this.coins;
     }
 
+    /**
+     * @param coins coins of the player
+     */
     public void setCoins(Integer coins){
         this.coins=coins;
     }
 
+    /**
+     * @return id of player
+     */
     public Integer getPlayerId() {
         return playerId;
     }
 
-    public void setPlayerid(Integer playerid) {
-        this.playerId = playerid;
-    } //Useful only to change existing PlayerId in case it is needed.
+    /**
+     * @param playerId id of player
+     */
+    public void setPlayerId(Integer playerId) {
+        this.playerId = playerId;
+    }
 
+    /**
+     * @return Schoolboard of the player
+     */
     public SchoolBoard getPlayerBoard(){
         return this.playerBoard;
     }
 
+    /**
+     * @return nickname of the player
+     */
     public String getNickname(){
         return this.nickname;
     }
 
-    public void setNickname(String nicknameOfCreator) {
-        this.nickname = nicknameOfCreator;
+    /**
+     * @param nickname nickname of the player
+     */
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
+    /**
+     * @return Deck of player
+     */
     public List<Assistant> getDeck() {
         return deck;
     }
 
+    /**
+     * @param deck Deck of player
+     */
     public void setDeck(ArrayList<Assistant> deck) {
         this.deck = deck;
     }
 
+    /**
+     * @return LastAssistantPlayed
+     */
     public Assistant getLastAssistantPlayed() {
         return LastAssistantPlayed;
     }
 
+    /**
+     * @return LastAssistantPlayed's TurnPriority
+     */
     public Integer getLastAssistantPlayedPriority() {
         return LastAssistantPlayed.getTurnPriority();
     }
 
+    /**
+     * @param lastAssistantPlayed LastAssistantPlayed
+     */
     public void setLastAssistantPlayed(Assistant lastAssistantPlayed) {
         LastAssistantPlayed = lastAssistantPlayed;
     }
 
+    /**
+     * @param status if activeCharacter
+     */
     public void setActiveCharacter(Boolean status){
         this.activeCharacter = status;
     }
 
+    /**
+     * @return if activeCharacter
+     */
     public Boolean hasActiveCharacter() {
         return activeCharacter;
     }
 
+    /**
+     * @return if active
+     */
     public Boolean isActive() {
         return isActive;
     }
 
+    /**
+     * @param active active state of player
+     */
     public void setActive(Boolean active) {
         this.isActive = active;
     }
 
+    /**
+     * @return teamID
+     */
     public Integer getTeamID() {
         return teamID;
     }
 
+    /**
+     * @param teamID teamID
+     */
     public void setTeamID(Integer teamID) {
         this.teamID = teamID;
     }
 
+    /**
+     * @param assistantId id of the assistant to get
+     * @return assistant with input id
+     */
     public Assistant getAssistantById(Integer assistantId) {
 
         for (Assistant assistant: deck) {
@@ -119,6 +185,9 @@ public class Player implements Serializable {
         return null;
     }
 
+    /**
+     * @param assistant assistant to be played and removed
+     */
     public void removeAssistant(Assistant assistant) {
 
         this.setLastAssistantPlayed(assistant);

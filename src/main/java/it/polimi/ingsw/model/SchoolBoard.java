@@ -10,7 +10,7 @@ import static java.util.Arrays.fill;
 
 /**
  * Class for School Boards,
- * inherits HashSet<Integer> students from StudentAccessiblePiece, which is used to save students in the entrance
+ * inherits HashSetstudents from StudentAccessiblePiece, which is used to save students in the entrance
  */
 public class SchoolBoard extends StudentAccessiblePiece implements Serializable {
 
@@ -67,6 +67,10 @@ public class SchoolBoard extends StudentAccessiblePiece implements Serializable 
         };
     }
 
+    /**
+     * @param color color of the students to get
+     * @return ArrayList containing all the students of this color inside the dining room
+     */
     public ArrayList<Integer> getAllDiningRoomStudents(Color color){
         return switch (color) {
             case YELLOW -> this.yellowDiningRoomStudents;
@@ -100,6 +104,9 @@ public class SchoolBoard extends StudentAccessiblePiece implements Serializable 
         return this.professors;
     }
 
+    /**
+     * @return number of owned professors
+     */
     public Integer getOwnedProfessors(){
 
         Integer owned = 0;

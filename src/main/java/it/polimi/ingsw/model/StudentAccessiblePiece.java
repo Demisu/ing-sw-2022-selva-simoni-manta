@@ -109,6 +109,10 @@ public abstract class StudentAccessiblePiece implements Serializable {
         };
     }
 
+    /**
+     * @param color color string to parse
+     * @return Color corresponding to the string, null if invalid
+     */
     public static Color parseColor(String color){
         return switch (color) {
             case "YELLOW" -> YELLOW;
