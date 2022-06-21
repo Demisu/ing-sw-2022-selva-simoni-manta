@@ -77,10 +77,6 @@ public class SchoolBoard extends StudentAccessiblePiece implements Serializable 
         };
     }
 
-    public List<Integer> getStudents(Color color) {
-        return students.stream().filter(student -> colorOfStudent(student).equals(color)).collect(Collectors.toList());
-    }
-
     /**
      * Sets professor status on the school board
      *

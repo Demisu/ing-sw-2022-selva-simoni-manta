@@ -2,6 +2,10 @@ package it.polimi.ingsw.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static it.polimi.ingsw.model.Color.*;
 
 /**
  * Abstract class that includes all pieces which can contain students (Islands, Clouds, etc.)
@@ -63,6 +67,14 @@ public abstract class StudentAccessiblePiece implements Serializable {
     }
 
     /**
+     * @param color color of students to get
+     * @return List of all the students of that color contained in the piece
+     */
+    public List<Integer> getStudents(Color color) {
+        return students.stream().filter(student -> colorOfStudent(student).equals(color)).collect(Collectors.toList());
+    }
+
+    /**
      * StudentID to Color conversion:
      * 0-25: yellow
      * 26-51: blue
@@ -94,6 +106,17 @@ public abstract class StudentAccessiblePiece implements Serializable {
             case GREEN -> 2;
             case RED -> 3;
             case PURPLE -> 4;
+        };
+    }
+
+    public static Color parseColor(String color){
+        return switch (color) {
+            case "YELLOW" -> YELLOW;
+            case "BLUE" -> BLUE;
+            case "GREEN" -> GREEN;
+            case "RED" -> RED;
+            case "PURPLE" -> PURPLE;
+            default -> null;
         };
     }
 
@@ -155,6 +178,9 @@ public abstract class StudentAccessiblePiece implements Serializable {
         this.pieceID = pieceID;
     }
 
+    /**
+     * @param students students to be set as content
+     */
     public void setStudents(HashSet<Integer> students) {
         this.students = students;
     }

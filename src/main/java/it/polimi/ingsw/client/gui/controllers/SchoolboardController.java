@@ -2,16 +2,22 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Character;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+import static it.polimi.ingsw.model.Color.*;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
 
@@ -21,7 +27,7 @@ public class SchoolboardController implements GUIController {
     @FXML
     private Button realm, gameStatus, undo;
     @FXML
-    private Button colorBtn, sourceStudentsBtn, sourcePiecesBtn, targetStudentsBtn, targetPiecesBtn;
+    private Button colorBtn, sourceStudentsBtn, targetStudentsBtn, targetPiecesBtn;
 
     @FXML
     private ImageView greenProfessor, redProfessor, yellowProfessor, pinkProfessor, blueProfessor;
@@ -57,6 +63,25 @@ public class SchoolboardController implements GUIController {
     private HashMap<Color, ImageView> studentImages;
     private ArrayList<Button> characterButtons;
 
+    private HashMap<it.polimi.ingsw.model.Color, Integer> colorMapNumberChosen = new HashMap<>(){
+        {
+            put(GREEN, 0);
+            put(YELLOW, 0);
+            put(RED, 0);
+            put(BLUE, 0);
+            put(PURPLE, 0);
+        }
+    };
+    private HashMap<it.polimi.ingsw.model.Color, Integer> colorMapNumberChosenDining = new HashMap<>(){
+        {
+            put(GREEN, 0);
+            put(YELLOW, 0);
+            put(RED, 0);
+            put(BLUE, 0);
+            put(PURPLE, 0);
+        }
+    };
+
     public void drawSchoolBoard(Player player){
         drawStudentsEntrance(player.getPlayerBoard());
         drawStudentsDining(player);
@@ -74,22 +99,26 @@ public class SchoolboardController implements GUIController {
                     //Reload school board
                     gui.changeScene(GUI.SCHOOLBOARD);
                     gui.getControllerFromName(GUI.SCHOOLBOARD).onLoad();
-                    ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(player);
+                    ScheduledExecutorService lateUpdater = Executors.newSingleThreadScheduledExecutor();
+                    //Checks if gameModel updated, then draw schoolboard
+                    lateUpdater.scheduleAtFixedRate(() -> {
+                        if(gui.isReady()){
+                            ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(gui.getClientController().getPlayerInfo());
+                            lateUpdater.shutdown();
+                        }
+                    }, 5, 5, TimeUnit.MILLISECONDS);
                 });
-                gui.changeScene(GUI.SCHOOLBOARD);
-                gui.getControllerFromName(GUI.SCHOOLBOARD).onLoad();
-                ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(player);
             }
         });
     }
 
     public void drawProfessors(Boolean[] professors) {
-
         for(Color color : Color.values()) {
             for (int i = 0; i < professors.length; i++) {
                 if (professors[indexOfColor(color)]){
+                    professorsImage.get(color).setImage(gui.getColorImage(color));
+                    professorsImage.get(color).setEffect(new DropShadow());
                     professorsImage.get(color).setVisible(true);
-                    professorsImage.get(color).setEffect(gui.getColorEffect(color));
                 } else {
                     professorsImage.get(color).setVisible(false);
                 }
@@ -98,12 +127,23 @@ public class SchoolboardController implements GUIController {
     }
 
     public void drawStudentsDining(Player player) {
-
+        SchoolBoard schoolBoard = player.getPlayerBoard();
         for(Color color : Color.values()) {
-            int number = player.getPlayerBoard().getDiningRoomStudents(color);
+            int number = schoolBoard.getDiningRoomStudents(color);
             for (int i = 0; i < number; i++) {
-                studentsDining.get(color).get(i).setVisible(true);
-                studentsDining.get(color).get(i).setEffect(gui.getColorEffect(color));
+                ImageView studentToDraw = studentsDining.get(color).get(i);
+                studentToDraw.setImage(gui.getColorImage(color));
+                studentToDraw.setEffect(new DropShadow());
+                studentToDraw.setVisible(true);
+                studentToDraw.setOnMouseClicked(e -> {
+                    if(gui.getStatus().equals(GUI.CHARACTER)
+                            && colorMapNumberChosenDining.get(color) < schoolBoard.getDiningRoomStudents(color)){
+                        gui.addStudent(schoolBoard.getAllDiningRoomStudents(color).get(colorMapNumberChosenDining.get(color)));
+                        //+1 to counter of students of that color
+                        colorMapNumberChosenDining.put(color, colorMapNumberChosenDining.get(color) + 1);
+                        gui.addPiece(schoolBoard.getPieceID());
+                    }
+                });
             }
         }
     }
@@ -118,22 +158,17 @@ public class SchoolboardController implements GUIController {
             if(tempStudentNumber > 0){
                 //Set color
                 studentNumberTexts.get(color).setText(String.valueOf(tempStudentNumber));
-                studentImages.get(color).setEffect(gui.getColorEffect(color));
+                studentImages.get(color).setImage(gui.getColorImage(color));
+                studentImages.get(color).setEffect(new DropShadow());
                 //Show them
                 studentNumberTexts.get(color).setVisible(true);
                 studentImages.get(color).setVisible(true);
                 //Mouse click
                 studentNumberTexts.get(color).setOnMouseClicked(e -> {
-                    gui.setStatus(GUI.STUDENT);
-                    gui.setStudentToMove(schoolBoard.getStudents(color).get(0));
-                    gui.setStudentSource(schoolBoard.getPieceID());
-                    undo.setVisible(true);
+                    chooseStudent(schoolBoard, color);
                 });
                 studentImages.get(color).setOnMouseClicked(e -> {
-                    gui.setStatus(GUI.STUDENT);
-                    gui.setStudentToMove(schoolBoard.getStudents(color).get(0));
-                    gui.setStudentSource(schoolBoard.getPieceID());
-                    undo.setVisible(true);
+                    chooseStudent(schoolBoard, color);
                 });
             } else {
                 studentNumberTexts.get(color).setVisible(false);
@@ -148,8 +183,8 @@ public class SchoolboardController implements GUIController {
         if(team.getPlayers().get(0).getNickname().equals(player.getNickname())){
             for(int i = 0; i < team.getTowerNumber(); i++){
                 ImageView towerToRender = guiTowers.get(i);
-                towerToRender.setImage(new Image(getClass().getResourceAsStream("/assets/coin.png")));
-                towerToRender.setEffect(gui.getColorEffect(team.getTowerColor()));
+                towerToRender.setImage(gui.getColorImage(team.getTowerColor()));
+                towerToRender.setEffect(new DropShadow());
                 towerToRender.setVisible(true);
             }
         }
@@ -242,7 +277,6 @@ public class SchoolboardController implements GUIController {
             {
                 add(colorBtn);
                 add(sourceStudentsBtn);
-                add(sourcePiecesBtn);
                 add(targetStudentsBtn);
                 add(targetPiecesBtn);
             }
@@ -260,10 +294,6 @@ public class SchoolboardController implements GUIController {
         //Hide towers before drawing them
         guiTowers.forEach(tower -> tower.setVisible(false));
 
-        //Undo
-        undo.setVisible(false);
-        undo.setOnAction(e -> resetStatus());
-
         realm.setOnAction(e -> {
             gui.changeScene(GUI.REALM);
             gui.getControllerFromName(GUI.REALM).onLoad();
@@ -280,15 +310,65 @@ public class SchoolboardController implements GUIController {
         //Hide/Show needed characters buttons
         for(int i = 0; i < characterButtons.size(); i++){
             characterButtons.get(i).setVisible(gui.listOfCharacterButtons().get(i));
-            //TODO ADD ONCLICK
         }
+        //Add onClick
+        setCharacterButtons();
     }
 
     public void resetStatus(){
 
         gui.resetStatus();
+        colorMapNumberChosen = new HashMap<>(){
+            {
+                put(GREEN, 0);
+                put(YELLOW, 0);
+                put(RED, 0);
+                put(BLUE, 0);
+                put(PURPLE, 0);
+            }
+        };
+        colorMapNumberChosenDining = new HashMap<>(){
+            {
+                put(GREEN, 0);
+                put(YELLOW, 0);
+                put(RED, 0);
+                put(BLUE, 0);
+                put(PURPLE, 0);
+            }
+        };
+        gui.reloadScene();
         //Hide undo
         undo.setVisible(false);
+    }
+
+    public void chooseStudent(SchoolBoard schoolBoard, Color color){
+        if(gui.getStatus().equals(GUI.NONE)) {
+            gui.setStatus(GUI.STUDENT);
+            gui.setStudentToMove(schoolBoard.getStudents(color).get(0));
+            gui.setStudentSource(schoolBoard.getPieceID());
+            undo.setVisible(true);
+        } else if(gui.getStatus().equals(GUI.CHARACTER)
+                && colorMapNumberChosen.get(color) < schoolBoard.getStudents(color).size()){
+            gui.addStudent(schoolBoard.getStudents(color).get(colorMapNumberChosen.get(color)));
+            //+1 to counter of students of that color
+            colorMapNumberChosen.put(color, colorMapNumberChosen.get(color) + 1);
+            gui.addPiece(schoolBoard.getPieceID());
+        }
+    }
+
+    public void setCharacterButtons(){
+        colorBtn.setOnAction(e -> {
+            gui.colorDialog();
+        });
+        sourceStudentsBtn.setOnAction(e -> {
+            gui.setChoosingObject(GUI.STUDENTSINORIGIN);
+        });
+        targetStudentsBtn.setOnAction(e -> {
+            gui.setChoosingObject(GUI.STUDENTSINTARGET);
+        });
+        targetPiecesBtn.setOnAction(e -> {
+            gui.setChoosingObject(GUI.TARGET);
+        });
     }
 
     @Override

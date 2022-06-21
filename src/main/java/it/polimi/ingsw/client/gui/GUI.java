@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.gui.controllers.RealmController;
 import it.polimi.ingsw.client.requests.PlayCharacterRequest;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Character;
+import it.polimi.ingsw.model.StudentAccessiblePiece;
 import it.polimi.ingsw.model.TowerColor;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -14,7 +15,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -29,6 +32,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.security.cert.CertificateParsingException;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -54,6 +58,10 @@ public class GUI extends Application implements ClientView {
     public static final String MOTHER_NATURE = "MOTHER_NATURE";
     public static final String STUDENT = "STUDENT";
     public static final String CHARACTER = "CHARACTER";
+    public static final String STUDENTSINORIGIN = "STUDENTSINORIGIN";
+    public static final String STUDENTSINTARGET = "STUDENTSINTARGET";
+    public static final String TARGET = "TARGET";
+
     //Status
     private String status = NONE;
 
@@ -71,7 +79,6 @@ public class GUI extends Application implements ClientView {
     //Variables for character buttons visibility
     private Boolean colorBtnVisible = false;
     private Boolean sourceStudentsBtnVisible = false;
-    private Boolean sourcePiecesBtnVisible = false;
     private Boolean targetStudentsBtnVisible = false;
     private Boolean targetPiecesBtnVisible = false;
     //Variables for character requests
@@ -81,6 +88,8 @@ public class GUI extends Application implements ClientView {
     List<Integer> characterStudentsInTarget = new ArrayList<>();
     List<Integer> characterOriginPieces = new ArrayList<>();
     List<Integer> characterTargetPieces = new ArrayList<>();
+    //Flags
+    private String choosingObject = NONE;
 
     /**
      * Maps each scene name to the effective scene object, in order to easily find it during scene changing operations.
@@ -117,7 +126,7 @@ public class GUI extends Application implements ClientView {
         this.clientController = clientController;
         staticClientController = clientController;
         try {
-            main(new String[]{});
+            main(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -214,7 +223,8 @@ public class GUI extends Application implements ClientView {
         //Update the scene only when needed
         if(currentScene.equals(nameMapScene.get(LOBBY))
                 || currentScene.equals(nameMapScene.get(REALM))
-                || currentScene.equals(nameMapScene.get(PROFILES))) {
+                || currentScene.equals(nameMapScene.get(PROFILES))
+                || currentScene.equals(nameMapScene.get(ASSISTANTS)) ) {
             Platform.runLater(() -> {
                 changeScene(sceneMapName.get(currentScene));
                 this.getControllerFromName(sceneMapName.get(currentScene)).onLoad();
@@ -243,46 +253,22 @@ public class GUI extends Application implements ClientView {
         dialog.showAndWait();
     }
 
-    public ColorAdjust getColorEffect(it.polimi.ingsw.model.Color color){
-        ColorAdjust colorAdjust = new ColorAdjust();
-        colorAdjust.setBrightness(0.14);
-        colorAdjust.setContrast(1.0);
-        colorAdjust.setSaturation(1.0);
-        switch (color) {
-            case YELLOW -> {
-                colorAdjust.setHue(0.21);
-            }
-            case RED -> {}
-            case GREEN -> {
-                colorAdjust.setHue(0.47);
-            }
-            case BLUE -> {
-                colorAdjust.setHue(1.0);
-            }
-            case PURPLE -> {
-                colorAdjust.setHue(-0.36);
-            }
-        }
-        return colorAdjust;
+    public Image getColorImage(it.polimi.ingsw.model.Color color){
+        return new Image(getClass().getResourceAsStream("/assets/student_" + color.toString().toLowerCase(Locale.ROOT) + ".png"));
     }
 
-    public ColorAdjust getColorEffect(TowerColor towerColor){
-        ColorAdjust colorAdjust = new ColorAdjust();
-        colorAdjust.setContrast(1);
-        colorAdjust.setSaturation(-1.0);
-        colorAdjust.setHue(0);
-        switch (towerColor) {
-            case BLACK -> {
-                colorAdjust.setBrightness(-0.9);
-            }
-            case GREY -> {
-                colorAdjust.setBrightness(-0.6);
-            }
-            case WHITE -> {
-                colorAdjust.setBrightness(0.5);
-            }
-        }
-        return colorAdjust;
+    public Image getColorImage(TowerColor towerColor) {
+        return new Image(getClass().getResourceAsStream("/assets/tower_" + towerColor.toString().toLowerCase(Locale.ROOT) + ".png"));
+    }
+
+    public DropShadow getHighlight(Color color){
+        DropShadow effect = new DropShadow();
+        effect.setHeight(40.0);
+        effect.setWidth(40.0);
+        effect.setRadius(20.0);
+        effect.setSpread(0.65);
+        effect.setColor(color);
+        return effect;
     }
 
     public void studentActionReset(){
@@ -297,17 +283,20 @@ public class GUI extends Application implements ClientView {
     }
 
     public void characterActionReset(){
+        //Parameters
         characterIndex = 0;
         characterTargetColor = null;
         characterStudentsInOrigin = new ArrayList<>();
         characterStudentsInTarget = new ArrayList<>();
         characterOriginPieces = new ArrayList<>();
         characterTargetPieces = new ArrayList<>();
+        //Buttons
         colorBtnVisible = false;
         sourceStudentsBtnVisible = false;
-        sourcePiecesBtnVisible = false;
         targetStudentsBtnVisible = false;
         targetPiecesBtnVisible = false;
+        //Choosing
+        choosingObject = NONE;
     }
 
     public void resetStatus(){
@@ -317,6 +306,25 @@ public class GUI extends Application implements ClientView {
             case CHARACTER -> characterActionReset();
         }
         status = NONE;
+    }
+
+    /**
+     * Shows a dialog window to select a color
+     */
+    public void colorDialog() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Select a color");
+        dialog.setHeaderText("Allowed: " + Arrays.toString(it.polimi.ingsw.model.Color.values()));
+        dialog.setGraphic(null);
+        Optional<String> color = dialog.showAndWait();
+        color.ifPresent(inputColor -> {
+            it.polimi.ingsw.model.Color parsedColor = StudentAccessiblePiece.parseColor(inputColor);
+            if(parsedColor == null){
+                colorDialog();
+            } else {
+                setCharacterTargetColor(parsedColor);
+            }
+        });
     }
 
     /**
@@ -469,14 +477,6 @@ public class GUI extends Application implements ClientView {
         this.sourceStudentsBtnVisible = sourceStudentsBtnVisible;
     }
 
-    public Boolean isSourcePiecesBtnVisible() {
-        return sourcePiecesBtnVisible;
-    }
-
-    public void setSourcePiecesBtnVisible(boolean sourcePiecesBtnVisible) {
-        this.sourcePiecesBtnVisible = sourcePiecesBtnVisible;
-    }
-
     public Boolean isTargetStudentsBtnVisible() {
         return targetStudentsBtnVisible;
     }
@@ -498,7 +498,6 @@ public class GUI extends Application implements ClientView {
             {
                 add(colorBtnVisible);
                 add(sourceStudentsBtnVisible);
-                add(sourcePiecesBtnVisible);
                 add(targetStudentsBtnVisible);
                 add(targetPiecesBtnVisible);
             }
@@ -514,5 +513,33 @@ public class GUI extends Application implements ClientView {
                 characterStudentsInTarget,
                 characterOriginPieces,
                 characterTargetPieces);
+    }
+
+    public void setChoosingObject(String choosingObject) {
+        this.choosingObject = choosingObject;
+    }
+
+    public String getChoosingObject() {
+        return choosingObject;
+    }
+
+    public void addStudent(Integer student){
+        if(choosingObject.equals(GUI.STUDENTSINORIGIN)){
+            //Add in origin/source
+            characterStudentsInOrigin.add(student);
+        } else if(choosingObject.equals(GUI.STUDENTSINTARGET)){
+            //Add in target
+            characterStudentsInTarget.add(student);
+        }
+    }
+
+    public void addPiece(Integer piece){
+        if(choosingObject.equals(GUI.TARGET)){
+            //Add in target
+            characterTargetPieces.add(piece);
+        } else {
+            //Add in origin/source
+            characterOriginPieces.add(piece);
+        }
     }
 }

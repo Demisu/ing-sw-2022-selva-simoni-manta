@@ -27,9 +27,12 @@ import javafx.stage.Stage;
 
 import java.util.*;
 
+import static it.polimi.ingsw.model.Color.*;
+import static it.polimi.ingsw.model.Color.PURPLE;
 import static it.polimi.ingsw.model.GamePhase.ACTION;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
+import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.WHITE;
 
 public class RealmController implements GUIController {
@@ -54,7 +57,7 @@ public class RealmController implements GUIController {
     @FXML
     private Button characters, assistants, schoolboard, menu, profiles, pass, undo;
     @FXML
-    private Button colorBtn, sourceStudentsBtn, sourcePiecesBtn, targetStudentsBtn, targetPiecesBtn;
+    private Button colorBtn, sourceStudentsBtn, targetStudentsBtn, targetPiecesBtn;
 
     @FXML
     private Pane stackPane1, stackPane2, stackPane3, stackPane4, stackPane5, stackPane6, stackPane7, stackPane8, stackPane9, stackPane10, stackPane11, stackPane12;
@@ -74,6 +77,15 @@ public class RealmController implements GUIController {
     private ArrayList<Pane> cloudPane;
     private ArrayList<Button> characterButtons;
     private ArrayList<String> colors;
+    private HashMap<it.polimi.ingsw.model.Color, Integer> colorMapNumberChosen = new HashMap<>(){
+        {
+            put(it.polimi.ingsw.model.Color.GREEN, 0);
+            put(YELLOW, 0);
+            put(RED, 0);
+            put(BLUE, 0);
+            put(PURPLE, 0);
+        }
+    };
 
     public void onLoad(){
         colors = new ArrayList<>(){
@@ -137,21 +149,39 @@ public class RealmController implements GUIController {
             {
                 add(colorBtn);
                 add(sourceStudentsBtn);
-                add(sourcePiecesBtn);
                 add(targetStudentsBtn);
                 add(targetPiecesBtn);
             }
         };
 
+        if(gui.getStatus().equals(GUI.MOTHER_NATURE)){
+            int i = 0;
+            for(ImageView guiIsland : guiIslands){
+                //If island is visibile and in range for mother nature, highlight it
+                if(guiIsland.isVisible()
+                        && (i - gui.getOriginIslandIndex()) > 0
+                        && (i - gui.getOriginIslandIndex()) <= gui.getClientController().getPlayerInfo().getLastAssistantPlayed().getMotherNatureMovements()) {
+                    guiIsland.setEffect(gui.getHighlight(GREEN));
+                }
+                i++;
+            }
+        } else if(gui.getStatus().equals(GUI.STUDENT)) {
+            guiIslands.forEach(guiIsland -> guiIsland.setEffect(gui.getHighlight(GREEN)));
+        } else {
+            guiIslands.forEach(guiIsland -> guiIsland.setEffect(null));
+        }
+
         //Clear islands
         islandPane.forEach(pane -> pane.getChildren().clear());
         //Clear clouds
         cloudPane.forEach(pane -> pane.getChildren().clear());
+
         //Hide/Show needed characters buttons
         for(int i = 0; i < characterButtons.size(); i++){
             characterButtons.get(i).setVisible(gui.listOfCharacterButtons().get(i));
-            //TODO ADD ONCLICK
         }
+        //Add onClick
+        setCharacterButtons();
 
         if(!expertMode){
             characters.setVisible(false);
@@ -164,7 +194,10 @@ public class RealmController implements GUIController {
 
         //Show undo if an action is in progress
         undo.setVisible(!gui.getStatus().equals(GUI.NONE));
-        undo.setOnAction(e -> resetStatus());
+        undo.setOnAction(e -> {
+            resetStatus();
+            gui.reloadScene();
+        });
 
         assistants.setOnAction(e -> {
             gui.changeScene(GUI.ASSISTANTS);
@@ -175,7 +208,7 @@ public class RealmController implements GUIController {
             gui.getControllerFromName(GUI.SCHOOLBOARD).onLoad();
             ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(gui.getClientController().getPlayerInfo());
         });
-        menu.setOnAction(e -> gui.changeScene(GUI.MENU));
+        menu.setOnAction(e -> gui.stop());
         profiles.setOnAction(e -> {
             gui.changeScene(GUI.PROFILES);
             gui.getControllerFromName(GUI.PROFILES).onLoad();
@@ -237,26 +270,6 @@ public class RealmController implements GUIController {
         }
     }
 
-    /**
-     * Shows a dialog window to move Mother Nature by the defined number of steps
-     *
-     * @param max_steps the maximum number of steps that are to be allowed
-     */
-    public void motherNatureDialog(int max_steps) {
-        TextInputDialog dialog = new TextInputDialog(String.valueOf(max_steps));
-        dialog.setTitle("Move Mother Nature");
-        dialog.setHeaderText("Maximum steps allowed: " + max_steps);
-        dialog.setGraphic(null);
-        Optional<String> movements = dialog.showAndWait();
-        movements.ifPresent(string -> {
-            if(Integer.parseInt(string) <= max_steps) {
-                gui.getClientController().moveMotherNature(Integer.parseInt(string));
-            } else {
-                motherNatureDialog(max_steps);
-            }
-        });
-    }
-
     public void drawIsland(Island island){
         Integer index = island.getPieceID();
         ImageView islandToRender = guiIslands.get(index);
@@ -267,12 +280,18 @@ public class RealmController implements GUIController {
                 gui.setTargetIslandIndex(gui.getClientController().getIslands().indexOf(island));
                 Platform.runLater(() -> {
                     //Move mother nature
-                    gui.getClientController().moveMotherNature(gui.getTargetIslandIndex() - gui.getOriginIslandIndex());
+                    int steps = gui.getTargetIslandIndex() - gui.getOriginIslandIndex();
+                    if(steps > 0 && steps <= gui.getClientController().getPlayerInfo().getLastAssistantPlayed().getMotherNatureMovements()) {
+                        gui.getClientController().moveMotherNature(gui.getTargetIslandIndex() - gui.getOriginIslandIndex());
+                    } else {
+                        System.out.println("Moving too far!");
+                    }
                     resetStatus();
+                    guiIslands.forEach(guiIsland -> guiIsland.setEffect(null));
                     //Reload realm
                     gui.getClientController().getModelInfo();
                     gui.changeScene(GUI.REALM);
-                    ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
+                    gui.getControllerFromName(GUI.REALM).onLoad();
                 });
             } else if(gui.getStatus().equals(GUI.STUDENT)){
                 //Student action
@@ -285,11 +304,13 @@ public class RealmController implements GUIController {
                     //Reload realm
                     gui.getClientController().getModelInfo();
                     gui.changeScene(GUI.REALM);
-                    ((RealmController) gui.getControllerFromName(GUI.REALM)).onLoad();
+                    gui.getControllerFromName(GUI.REALM).onLoad();
                 });
+            } else if(gui.getStatus().equals(GUI.CHARACTER)){
+                gui.addPiece(island.getPieceID());
             } else {
                 gui.changeScene(GUI.ISLAND);
-                ((IslandController) gui.getControllerFromName(GUI.ISLAND)).onLoad();
+                gui.getControllerFromName(GUI.ISLAND).onLoad();
                 ((IslandController) gui.getControllerFromName(GUI.ISLAND)).drawZoomedIsland(island);
             }
         });
@@ -300,18 +321,13 @@ public class RealmController implements GUIController {
             //Delete old mother nature
             //Draw mother nature
             ImageView motherNature = new ImageView();
-            motherNature.setImage(new Image(getClass().getResourceAsStream("/assets/coin.png")));
+            motherNature.setImage(new Image(getClass().getResourceAsStream("/assets/mothernature.png")));
             islandPane.get(index).getChildren().add(motherNature);
             motherNature.setLayoutX(counterX);
             motherNature.setLayoutY(counterY);
             motherNature.setFitHeight(studentSize);
             motherNature.setFitWidth(studentSize);
-            ColorAdjust effect = new ColorAdjust();
-            effect.setBrightness(-0.21);
-            effect.setContrast(-0.19);
-            effect.setSaturation(1.0);
-            effect.setHue(0.09);
-            motherNature.setEffect(effect);
+            motherNature.setEffect(new DropShadow());
 
             //Add hand if it's action phase, player's turn
             if(gui.getClientController().getGamePhase().equals(ACTION)
@@ -324,6 +340,7 @@ public class RealmController implements GUIController {
                     //Update status
                     gui.setStatus(GUI.MOTHER_NATURE);
                     undo.setVisible(true);
+                    gui.reloadScene();
                 });
                 motherNature.setCursor(Cursor.MOVE);
 
@@ -344,14 +361,23 @@ public class RealmController implements GUIController {
             //Draw tower
             ImageView tower = new ImageView();
             counterX += studentSize;
-            tower = new ImageView();
-            tower.setImage(new Image(getClass().getResourceAsStream("/assets/coin.png")));
+            tower.setImage(gui.getColorImage(island.getTowersColor()));
             islandPane.get(index).getChildren().add(tower);
             tower.setLayoutX(counterX);
             tower.setLayoutY(counterY);
             tower.setFitHeight(studentSize);
             tower.setFitWidth(studentSize);
-            tower.setEffect(gui.getColorEffect(island.getTowersColor()));
+            tower.setEffect(new DropShadow());
+            //Text
+            Text towerNumber = new Text();
+            islandPane.get(index).getChildren().add(towerNumber);
+            towerNumber.setLayoutX(counterX + textOffsetX);
+            towerNumber.setLayoutY(counterY + textOffsetY);
+            towerNumber.setFont(new Font("System Bold", 20.0));
+            towerNumber.setFill(WHITE);
+            towerNumber.setEffect(new DropShadow());
+            towerNumber.setTextAlignment(TextAlignment.CENTER);
+            towerNumber.setText(island.getTowersNumber().toString());
         }
     }
 
@@ -371,7 +397,7 @@ public class RealmController implements GUIController {
             cloudToRender.setCursor(Cursor.HAND);
             cloudToRender.setOnMouseClicked(e -> {
                 gui.changeScene(GUI.CLOUD);
-                ((CloudController) gui.getControllerFromName(GUI.CLOUD)).onLoad();
+                gui.getControllerFromName(GUI.CLOUD).onLoad();
                 ((CloudController) gui.getControllerFromName(GUI.CLOUD)).drawZoomedCloud(cloud);
             });
         }
@@ -409,7 +435,8 @@ public class RealmController implements GUIController {
                 colorImage.setLayoutY(counterY);
                 colorImage.setFitHeight(studentSize);
                 colorImage.setFitWidth(studentSize);
-                colorImage.setEffect(gui.getColorEffect(color));
+                colorImage.setImage(gui.getColorImage(color));
+                colorImage.setEffect(new DropShadow());
 
                 //Text
                 studentWrapper.getChildren().add(colorNumber);
@@ -427,6 +454,13 @@ public class RealmController implements GUIController {
                     colorNumber.setOnMouseClicked(e -> selectCloud(cloud));
                     colorImage.setCursor(Cursor.HAND);
                     colorNumber.setCursor(Cursor.HAND);
+                } else if(gui.getStatus().equals(GUI.CHARACTER)
+                        && colorMapNumberChosen.get(color) < piece.getStudents(color).size()){
+                    gui.addStudent(piece.getStudents(color).get(colorMapNumberChosen.get(color)));
+                    //+1 to counter of students of that color
+                    colorMapNumberChosen.put(color, colorMapNumberChosen.get(color) + 1);
+                    gui.addPiece(piece.getPieceID());
+
                 } else {
                     colorImage.setCursor(Cursor.WAIT);
                     colorNumber.setCursor(Cursor.WAIT);
@@ -452,14 +486,39 @@ public class RealmController implements GUIController {
             }
             gui.getClientController().getModelInfo();
             gui.changeScene(GUI.REALM);
+            gui.getControllerFromName(GUI.REALM).onLoad();
         });
     }
 
     public void resetStatus(){
 
         gui.resetStatus();
+        colorMapNumberChosen = new HashMap<>(){
+            {
+                put(it.polimi.ingsw.model.Color.GREEN, 0);
+                put(YELLOW, 0);
+                put(RED, 0);
+                put(BLUE, 0);
+                put(PURPLE, 0);
+            }
+        };
         //Hide undo
         undo.setVisible(false);
+    }
+
+    public void setCharacterButtons(){
+        colorBtn.setOnAction(e -> {
+            gui.colorDialog();
+        });
+        sourceStudentsBtn.setOnAction(e -> {
+            gui.setChoosingObject(GUI.STUDENTSINORIGIN);
+        });
+        targetStudentsBtn.setOnAction(e -> {
+            gui.setChoosingObject(GUI.STUDENTSINTARGET);
+        });
+        targetPiecesBtn.setOnAction(e -> {
+            gui.setChoosingObject(GUI.TARGET);
+        });
     }
 
     @Override

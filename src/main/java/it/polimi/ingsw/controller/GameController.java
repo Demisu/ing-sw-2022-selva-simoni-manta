@@ -154,6 +154,9 @@ public class GameController {
         Island currentIsland = islands.get(refIndex);
         currentIsland.setMotherNature(true);
 
+        //Sets Mother nature as already moved in this turn
+        currentGame.setMovedMotherNatureInTurn(true);
+
         // If there are no entry tiles, remove one of them and don't resolve the island
         if(currentIsland.getNoEntry() > 0){
             currentIsland.setNoEntry(currentIsland.getNoEntry() - 1);
@@ -222,11 +225,12 @@ public class GameController {
     public void playCharacter(PlayCharacterRequest fullRequest){
 
         Character playedCharacter =  currentGame.getCharacter(fullRequest.getCharacterNumber());
+        Player player = currentGame.getPlayerByNickname(fullRequest.getNickname());
 
-        currentGame.getPlayerByNickname(fullRequest.getNickname()).setActiveCharacter(true);
+        player.setActiveCharacter(true);
         playedCharacter.setGameController(this);
-
         playedCharacter.effect(fullRequest);
+        player.setCoins(player.getCoins() - 1);
 
         if(playedCharacter.getHasIncreasedCost()){
             playedCharacter.setCost(playedCharacter.getCost() + 1);

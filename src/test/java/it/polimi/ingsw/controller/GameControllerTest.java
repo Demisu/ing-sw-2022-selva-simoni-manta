@@ -178,10 +178,6 @@ public class GameControllerTest {
         controller.startGame(2, "testChar", true);
 
         PlayCharacterRequest testReq = new PlayCharacterRequest(0, "testChar");
-        //TODO
-        //controller.playCharacter(testReq);
-
-        //assertTrue(controller.getCurrentGame().getPlayerByNickname("testChar").hasActiveCharacter());
     }
 
 }

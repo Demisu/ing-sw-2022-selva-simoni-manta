@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.TowerColor;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -68,6 +69,8 @@ public class IslandController implements GUIController {
         guiIsland.setImage(new Image(getClass().getResourceAsStream("/assets/island" + ((island.getPieceID()) % 3 + 1) + "-zoomed.png")));
         drawStudents(island.getStudents());
         //If mother nature is present, show her
+        motherNature.setImage(new Image(getClass().getResourceAsStream("/assets/mothernature.png")));
+        motherNature.setEffect(new DropShadow());
         motherNature.setVisible(island.isMotherNature());
         //If there are towers, show them
         drawTowers(island);
@@ -82,6 +85,8 @@ public class IslandController implements GUIController {
         //Draw each color
         for (Color color : Color.values()) {
             Integer tempStudentNumber = studentsNumber[indexOfColor(color)];
+            colorToImage.get(color).setImage(gui.getColorImage(color));
+            colorToImage.get(color).setEffect(new DropShadow());
             colorToImage.get(color).setVisible(tempStudentNumber > 0);
             colorToText.get(color).setVisible(tempStudentNumber > 0);
             //Set text to number of students of that color
@@ -94,21 +99,10 @@ public class IslandController implements GUIController {
         tower.setVisible(hasTowers);
         towerNumber.setVisible(hasTowers);
         if(hasTowers){
-            tower.setEffect(colorTowerEffect(island.getTowersColor()));
+            tower.setImage(gui.getColorImage(island.getTowersColor()));
+            tower.setEffect(new DropShadow());
             towerNumber.setText(island.getTowersNumber().toString());
         }
-    }
-
-    public ColorAdjust colorTowerEffect(TowerColor towerColor){
-        ColorAdjust colorAdjust = new ColorAdjust();
-        double brightness = 0;
-        switch (towerColor) {
-            case BLACK -> brightness = 0;
-            case WHITE -> brightness = 1;
-            case GREY -> brightness = 0.5;
-        }
-        colorAdjust.setBrightness(brightness);
-        return colorAdjust;
     }
 
     @Override

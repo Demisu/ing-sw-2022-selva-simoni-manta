@@ -3,12 +3,14 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.model.Character;
 import it.polimi.ingsw.model.Cloud;
+import it.polimi.ingsw.model.SchoolBoard;
 import it.polimi.ingsw.model.StudentAccessiblePiece;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,10 +20,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 
+import java.util.*;
+
+import static it.polimi.ingsw.model.Color.*;
 import static it.polimi.ingsw.model.GamePhase.ACTION;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
@@ -40,7 +42,7 @@ public class CharactersController implements GUIController {
     @FXML
     private Button info1, info2, info3;
     @FXML
-    private Button colorBtn, sourceStudentsBtn, sourcePiecesBtn, targetStudentsBtn, targetPiecesBtn;
+    private Button colorBtn, sourceStudentsBtn, targetStudentsBtn, targetPiecesBtn;
 
     @FXML
     private ImageView character1, character2, character3, coin1, coin2, coin3;
@@ -52,6 +54,15 @@ public class CharactersController implements GUIController {
     private ArrayList<ImageView> guiCharacter, coins;
     private ArrayList<Pane> contents;
     private ArrayList<Button> characterButtons;
+    private HashMap<it.polimi.ingsw.model.Color, Integer> colorMapNumberChosen = new HashMap<>(){
+        {
+            put(GREEN, 0);
+            put(YELLOW, 0);
+            put(RED, 0);
+            put(BLUE, 0);
+            put(PURPLE, 0);
+        }
+    };
 
     //Variables for positioning
     public final int studentSize = 46;
@@ -92,7 +103,6 @@ public class CharactersController implements GUIController {
             {
                 add(colorBtn);
                 add(sourceStudentsBtn);
-                add(sourcePiecesBtn);
                 add(targetStudentsBtn);
                 add(targetPiecesBtn);
             }
@@ -114,8 +124,9 @@ public class CharactersController implements GUIController {
         //Hide/Show needed characters buttons
         for(int i = 0; i < characterButtons.size(); i++){
             characterButtons.get(i).setVisible(gui.listOfCharacterButtons().get(i));
-            //TODO ADD ONCLICK
         }
+        //Add onClick
+        setCharacterButtons();
 
         //Remove old images
         contents.forEach(pane -> pane.getChildren().clear());
@@ -134,43 +145,44 @@ public class CharactersController implements GUIController {
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             ArrayList<Text> infoChars = new ArrayList<>(){
                 {
-                    add(new Text("\t [INFO TO BE ADDED..]"));
+                    add(new Text(character.getDescription()));
                 }
             };
-            gui.createModal(stage, "[CHARACTER NAME TO BE ADDED..]", "coin.png", Color.DARKGRAY, infoChars);
+            gui.createModal(stage, "[CHARACTER " + character.getImage() + "]", "coin.png", Color.DARKGRAY, infoChars);
         });
 
         //Character
-        //If it hasn't been used this round and the player is the current turn owner
-        if(!character.getHasBeenUsed()
-                && gui.getClientController().getGameInfo().getCurrentPlayer().equals(gui.getClientController().getPlayerInfo().getNickname())){
-
+        //If it hasn't been used this round
+        if(!character.getHasBeenUsed()){
             guiCharacter.get(index).setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/CarteTOT_front" + character.getImage() + ".jpg")));
-            guiCharacter.get(index).setOnMouseClicked(mouseEvent -> {
-                //If a character was already selected
-                if(gui.getStatus().equals(GUI.CHARACTER)){
-                    Platform.runLater(() -> {
-                        //Play it
-                        if(gui.getClientController().playCharacter(gui.getCharacterRequest())) {
-                            //Turn the card face down
-                            guiCharacter.get(index).setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
-                        }
-                        resetStatus();
+            //If the player is the current turn owner
+            if(gui.getClientController().getGameInfo().getCurrentPlayer().equals(gui.getClientController().getPlayerInfo().getNickname())) {
+                guiCharacter.get(index).setOnMouseClicked(mouseEvent -> {
+                    //If a character was already selected
+                    if (gui.getStatus().equals(GUI.CHARACTER)) {
+                        Platform.runLater(() -> {
+                            //Play it
+                            if (gui.getClientController().playCharacter(gui.getCharacterRequest())) {
+                                //Turn the card face down
+                                guiCharacter.get(index).setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
+                            }
+                            resetStatus();
+                            gui.changeScene(GUI.CHARACTERS);
+                            gui.getControllerFromName(GUI.CHARACTERS).onLoad();
+                        });
+                    } else {
+                        //Start building character request
+                        gui.setStatus(GUI.CHARACTER);
+                        gui.setCharacterIndex(index);
+
+                        //Show buttons needed
+                        readCharacterParameters(character);
+
                         gui.changeScene(GUI.CHARACTERS);
                         gui.getControllerFromName(GUI.CHARACTERS).onLoad();
-                    });
-                } else {
-                    //Start building character request
-                    gui.setStatus(GUI.CHARACTER);
-                    gui.setCharacterIndex(index);
-
-                    //Show buttons needed
-                    readCharacterParameters(character);
-
-                    gui.changeScene(GUI.CHARACTERS);
-                    gui.getControllerFromName(GUI.CHARACTERS).onLoad();
-                }
-            });
+                    }
+                });
+            }
             if (character.getHasIncreasedCost()) {
                 coins.get(index).setImage(coinImage);
             }
@@ -212,14 +224,17 @@ public class CharactersController implements GUIController {
                 colorImage.setVisible(false);
                 colorNumber.setVisible(false);
             } else {
-                colorImage.setImage(new Image(getClass().getResourceAsStream("/assets/coin.png")));
+                colorImage.setImage(gui.getColorImage(color));
                 studentWrapper.getChildren().add(colorImage);
 
                 //Image
                 colorImage.setLayoutX(counterX);
                 colorImage.setFitHeight(studentSize);
                 colorImage.setFitWidth(studentSize);
-                colorImage.setEffect(gui.getColorEffect(color));
+                colorImage.setEffect(new DropShadow());
+                colorImage.setOnMouseClicked(e -> {
+                    chooseStudent(character, color);
+                });
 
                 //Text
                 studentWrapper.getChildren().add(colorNumber);
@@ -230,6 +245,9 @@ public class CharactersController implements GUIController {
                 colorNumber.setEffect(new DropShadow());
                 colorNumber.setTextAlignment(TextAlignment.CENTER);
                 colorNumber.setText(tempStudentNumber.toString());
+                colorNumber.setOnMouseClicked(e -> {
+                    chooseStudent(character, color);
+                });
             }
 
             //Setup next
@@ -249,9 +267,29 @@ public class CharactersController implements GUIController {
         }
     }
 
+    public void chooseStudent(Character character, it.polimi.ingsw.model.Color color){
+        //If character active and there are still enough students to get
+        if(gui.getStatus().equals(GUI.CHARACTER)
+                && colorMapNumberChosen.get(color) < character.getStudents(color).size()){
+            gui.addStudent(character.getStudents(color).get(colorMapNumberChosen.get(color)));
+            //+1 to counter of students of that color
+            colorMapNumberChosen.put(color, colorMapNumberChosen.get(color) + 1);
+            gui.addPiece(character.getPieceID());
+        }
+    }
+
     public void resetStatus(){
 
         gui.resetStatus();
+        colorMapNumberChosen = new HashMap<>(){
+            {
+                put(GREEN, 0);
+                put(YELLOW, 0);
+                put(RED, 0);
+                put(BLUE, 0);
+                put(PURPLE, 0);
+            }
+        };
         //Hide undo
         undo.setVisible(false);
         gui.reloadScene();
@@ -292,7 +330,7 @@ public class CharactersController implements GUIController {
 
                     //Source
                     if (character.getEffectSource().equals("entrance")) {
-                        gui.setSourcePiecesBtnVisible(true);
+                        //?
                     } else if(character.getEffectSource().equals("character")) {
                         //[char 7]
                     }
@@ -331,6 +369,21 @@ public class CharactersController implements GUIController {
                 }
             }
         }
+    }
+
+    public void setCharacterButtons(){
+        colorBtn.setOnAction(e -> {
+            gui.colorDialog();
+        });
+        sourceStudentsBtn.setOnAction(e -> {
+            gui.setChoosingObject(GUI.STUDENTSINORIGIN);
+        });
+        targetStudentsBtn.setOnAction(e -> {
+            gui.setChoosingObject(GUI.STUDENTSINTARGET);
+        });
+        targetPiecesBtn.setOnAction(e -> {
+            gui.setChoosingObject(GUI.TARGET);
+        });
     }
 
     @Override

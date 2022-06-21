@@ -25,7 +25,6 @@ public class CharacterTest {
         boolean notAllTested;
         int count = 0;
         Arrays.fill(testedCharacters, false);
-        // TODO
         // STILL NEED TO TEST CHARACTER 7 AND 12
         testedCharacters[7 - 1] = true;
         testedCharacters[12 - 1] = true;

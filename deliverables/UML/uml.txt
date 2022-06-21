@@ -2,7 +2,6 @@
 class GameController {
 moveStudent(student, origin, target)
 moveProfessor(professorColor, origin, target)
-//TODO
 }
 enum Color {
 YELLOW,

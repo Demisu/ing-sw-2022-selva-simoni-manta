@@ -18,6 +18,7 @@ public class Character extends StudentAccessiblePiece implements Serializable {
     private Integer cost;
     private String image;
     private Integer noEntryNumber;
+    private String description;
 
     //Setup info
     private Boolean setup_required;
@@ -65,7 +66,6 @@ public class Character extends StudentAccessiblePiece implements Serializable {
         this.hasIncreasedCost = hasIncreasedCost;
         this.students = students;
         this.noEntryNumber = noEntryNumber;
-
     }
 
     /**
@@ -138,11 +138,16 @@ public class Character extends StudentAccessiblePiece implements Serializable {
         List<Integer> exchangeOriginList = req.getOriginPieces();
         List<Integer> exchangeTargetList = req.getTargetPieces();
 
+        System.out.println(studentsInOrigin);
+        System.out.println(studentsInTarget);
+        System.out.println(exchangeOriginList);
+        System.out.println(exchangeTargetList);
+
         //Both the original characters of type exchange ask a range
         //If more characters are added, other checks may be needed
         Integer studentOrigin, studentTarget, pieceOrigin, pieceTarget;
 
-        for(int i = 0; i < effect_number_max; i++){
+        for(int i = 0; i < studentsInOrigin.size(); i++){
             studentOrigin = studentsInOrigin.get(i);
             studentTarget = studentsInTarget.get(i);
             pieceOrigin = exchangeOriginList.get(i);
@@ -194,8 +199,9 @@ public class Character extends StudentAccessiblePiece implements Serializable {
             case "no_entry":
                 for(Integer target : req.getTargetPieces()){
                     Island targetIsland = gameController.getCurrentGame().getIslandByID(target);
-                    if(!(targetIsland == null)){
+                    if(!(targetIsland == null) && noEntryNumber > 0){
                         targetIsland.setNoEntry(targetIsland.getNoEntry() + 1);
+                        noEntryNumber--;
                     }
                 }
                 break;
@@ -344,5 +350,9 @@ public class Character extends StudentAccessiblePiece implements Serializable {
      */
     public Integer getEffectNumberMax() {
         return effect_number_max;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

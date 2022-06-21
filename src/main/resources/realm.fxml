@@ -109,22 +109,22 @@
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="assistants" layoutX="113.0" layoutY="681.0" mnemonicParsing="false" text="Deck">
+            <Button fx:id="assistants" layoutX="14.0" layoutY="607.0" mnemonicParsing="false" text="Deck">
                <effect>
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="characters" layoutX="168.0" layoutY="681.0" mnemonicParsing="false" text="Characters">
+            <Button fx:id="characters" layoutX="14.0" layoutY="644.0" mnemonicParsing="false" text="Characters">
                <effect>
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="pass" layoutX="1084.0" layoutY="681.0" mnemonicParsing="false" text="Pass turn">
+            <Button fx:id="pass" layoutX="1139.0" layoutY="681.0" mnemonicParsing="false" text="Pass turn">
                <effect>
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="menu" layoutX="1162.0" layoutY="681.0" mnemonicParsing="false" text="Return to MENU">
+            <Button fx:id="menu" layoutX="1225.0" layoutY="681.0" mnemonicParsing="false" text="Quit">
                <effect>
                   <DropShadow />
                </effect>
@@ -161,32 +161,27 @@
             </Pane>
             <Pane fx:id="cloudStackPane4" layoutX="793.0" layoutY="217.0" prefHeight="135.0" prefWidth="150.0">
             </Pane>
-            <Button fx:id="undo" layoutX="1018.0" layoutY="681.0" mnemonicParsing="false" text="Undo">
+            <Button fx:id="undo" layoutX="626.0" layoutY="334.0" mnemonicParsing="false" text="Undo">
                <effect>
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="colorBtn" layoutX="299.0" layoutY="681.0" mnemonicParsing="false" text="Choose color">
+            <Button fx:id="colorBtn" layoutX="1182.0" layoutY="14.0" mnemonicParsing="false" text="Choose color">
                <effect>
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="sourceStudentsBtn" layoutX="397.0" layoutY="681.0" mnemonicParsing="false" text="Choose source students">
+            <Button fx:id="sourceStudentsBtn" layoutX="1124.0" layoutY="48.0" mnemonicParsing="false" text="Choose source students">
                <effect>
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="sourcePiecesBtn" layoutX="550.0" layoutY="681.0" mnemonicParsing="false" text="Choose source pieces">
+            <Button fx:id="targetStudentsBtn" layoutX="1127.0" layoutY="83.0" mnemonicParsing="false" text="Choose target students">
                <effect>
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="targetStudentsBtn" layoutX="690.0" layoutY="681.0" mnemonicParsing="false" text="Choose target students">
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Button>
-            <Button fx:id="targetPiecesBtn" layoutX="840.0" layoutY="681.0" mnemonicParsing="false" text="Choose target pieces">
+            <Button fx:id="targetPiecesBtn" layoutX="1139.0" layoutY="119.0" mnemonicParsing="false" text="Choose target pieces">
                <effect>
                   <DropShadow />
                </effect>

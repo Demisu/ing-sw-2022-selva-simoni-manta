@@ -11,9 +11,6 @@ import it.polimi.ingsw.server.responses.SetNicknameResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Controller used by the Server
@@ -47,11 +44,16 @@ public class ServerController implements ClientRequestHandler {
     @Override
     public ServerResponse handle(MoveMotherNatureRequest req) {
 
-        if(gameController.getCurrentGame().getCurrentPlayer().equals(req.getNickname())){
-            gameController.moveMotherNature(req.getMovements());
-            return new OperationResultResponse(true, "Moved mother nature by " + req.getMovements() + " steps.");
+        //Not current player
+        if(!gameController.getCurrentGame().getCurrentPlayer().equals(req.getNickname())){
+            return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to move mother nature.");
         }
-        return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to move mother nature.");
+        //Mother nature already moved in this turn
+        if(gameController.getCurrentGame().getMovedMotherNatureInTurn()){
+            return new OperationResultResponse(false, "Mother nature already moved in this turn");
+        }
+        gameController.moveMotherNature(req.getMovements());
+        return new OperationResultResponse(true, "Moved mother nature by " + req.getMovements() + " steps.");
     }
 
     /**
@@ -67,45 +69,50 @@ public class ServerController implements ClientRequestHandler {
 
         Game game = gameController.getCurrentGame();
         Player player = game.getPlayerByNickname(req.getNickname());
-        if(game.getCurrentPlayer().equals(req.getNickname())){
-            //If the input student is not contained in the source
-            if(!game.getStudentAccessiblePieceByID(req.getSourceId()).getStudents().contains(req.getStudentId())){
-                return new OperationResultResponse(false, "The selected student is not contained in the source");
-            }
-            //If source is an island
-            if(game.getIslandByID(req.getSourceId()) != null){
-                return new OperationResultResponse(false, "Cannot take a student from an island");
-            }
-            //If source is a schoolboard, but is not owned by the player
-            if(game.getSchoolBoardByID(req.getSourceId()) != null && !player.getPlayerBoard().getPieceID().equals(req.getSourceId())){
-                return new OperationResultResponse(false, "Cannot take a student from another schoolboard");
-            }
-            //If target is a schoolboard, but is not owned by the player
-            if(game.getSchoolBoardByID(req.getTargetId()) != null && !player.getPlayerBoard().getPieceID().equals(req.getTargetId())){
-                return new OperationResultResponse(false, "Cannot move a student to another schoolboard");
-            }
-            //If the player already moved all the students for this turn, and the student isn't moved from a cloud
-            if(game.getStudentsToMove() == game.getMovedStudentsInTurn() && game.getCloudByID(req.getSourceId()) == null
-                                                                         && !game.getSelectedCloudInTurn()){
-                return new OperationResultResponse(false, "Moved all students for this turn");
-            }
-            //Ok
-            gameController.moveStudent(req.getStudentId(), req.getSourceId(), req.getTargetId());
-            //If source is not a cloud
-            if(game.getCloudByID(req.getSourceId()) == null){
-                //Adds 1 moved student
-                game.setMovedStudentsInTurn(game.getMovedStudentsInTurn() + 1);
-            } else {
-                game.setSelectedCloudInTurn(true);
-            }
-            return new OperationResultResponse(true, "Moved student " + req.getStudentId() + " from " + req.getSourceId() + " to " + req.getTargetId());
+        //If not current player
+        if(!game.getCurrentPlayer().equals(req.getNickname())){
+            return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to move student.");
         }
-        return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to move student.");
+        //If the input student is not contained in the source
+        if(!game.getStudentAccessiblePieceByID(req.getSourceId()).getStudents().contains(req.getStudentId())){
+            return new OperationResultResponse(false, "The selected student is not contained in the source");
+        }
+        //If source is an island
+        if(game.getIslandByID(req.getSourceId()) != null){
+            return new OperationResultResponse(false, "Cannot take a student from an island");
+        }
+        //If source is a schoolboard, but is not owned by the player
+        if(game.getSchoolBoardByID(req.getSourceId()) != null && !player.getPlayerBoard().getPieceID().equals(req.getSourceId())){
+            return new OperationResultResponse(false, "Cannot take a student from another schoolboard");
+        }
+        //If target is a schoolboard, but is not owned by the player
+        if(game.getSchoolBoardByID(req.getTargetId()) != null && !player.getPlayerBoard().getPieceID().equals(req.getTargetId())){
+            return new OperationResultResponse(false, "Cannot move a student to another schoolboard");
+        }
+        //If the player already moved all the students for this turn, and the student isn't moved from a cloud
+        if(game.getStudentsToMove() == game.getMovedStudentsInTurn() && game.getCloudByID(req.getSourceId()) == null
+                && !game.getSelectedCloudInTurn()){
+            return new OperationResultResponse(false, "Moved all students for this turn");
+        }
+        //Ok
+        gameController.moveStudent(req.getStudentId(), req.getSourceId(), req.getTargetId());
+        //If source is not a cloud
+        if(game.getCloudByID(req.getSourceId()) == null){
+            //Adds 1 moved student
+            game.setMovedStudentsInTurn(game.getMovedStudentsInTurn() + 1);
+        } else {
+            game.setSelectedCloudInTurn(true);
+        }
+        return new OperationResultResponse(true, "Moved student " + req.getStudentId() + " from " + req.getSourceId() + " to " + req.getTargetId());
     }
 
     @Override
     public ServerResponse handle(PlayAssistantRequest req) {
 
+        //If it is not planning phase, req is invalid
+        if(!gameController.getCurrentGame().getCurrentPhase().equals(GamePhase.PLANNING)){
+            return new OperationResultResponse(false, "Planning phase ended or not yet started");
+        }
         String nickname = req.getNickname();
         Player requestPlayer = gameController.getCurrentGame().getPlayerByNickname(nickname);
         if(gameController.getCurrentGame().getCurrentPlayer().equals(nickname)){
@@ -113,7 +120,7 @@ public class ServerController implements ClientRequestHandler {
                 if(player.getLastAssistantPlayed() == null){
                     continue;
                 }
-                if(player.getLastAssistantPlayed().getAssistantId() == requestPlayer.getDeck().get(req.getAssistantNumber()).getAssistantId()){
+                if(player.getLastAssistantPlayed().getAssistantId().equals(requestPlayer.getDeck().get(req.getAssistantNumber()).getAssistantId())){
                     return new OperationResultResponse(false, "Assistant already played during this turn");
                 }
             }
@@ -137,21 +144,26 @@ public class ServerController implements ClientRequestHandler {
 
         Game currentGame = gameController.getCurrentGame();
         Character characterToPlay = gameController.getCurrentGame().getAllCharacters()[req.getCharacterNumber()];
-        if(currentGame.getCurrentPlayer().equals(req.getNickname())){
-
-            if(currentGame.getPlayerByNickname(req.getNickname()).getCoins() < characterToPlay.getCost()){
-                return new OperationResultResponse(false, req.getNickname() + " doesn't have enough coins, unable to play character.");
-            }
-
-            if(characterToPlay.getHasBeenUsed()){
-                return new OperationResultResponse(false, "Character already played during this round");
-            }
-
-            //Everything is ok, play character
-            gameController.playCharacter(req);
-            return new OperationResultResponse(true, "Played character " + req.getCharacterNumber());
+        //If not current player
+        if(!currentGame.getCurrentPlayer().equals(req.getNickname())){
+            return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to play character.");
         }
-        return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to play character.");
+        //If not action phase
+        if(!currentGame.getCurrentPhase().equals(GamePhase.ACTION)){
+            return new OperationResultResponse(false, "Action phase has ended or has not yet started");
+        }
+        //If not enough coins
+        if(currentGame.getPlayerByNickname(req.getNickname()).getCoins() < characterToPlay.getCost()){
+            return new OperationResultResponse(false, req.getNickname() + " doesn't have enough coins, unable to play character.");
+        }
+        //If already used
+        if(characterToPlay.getHasBeenUsed()){
+            return new OperationResultResponse(false, "Character already played during this round");
+        }
+
+        //Everything is ok, play character
+        gameController.playCharacter(req);
+        return new OperationResultResponse(true, "Played character " + req.getCharacterNumber());
     }
 
     /**
@@ -162,31 +174,31 @@ public class ServerController implements ClientRequestHandler {
     @Override
     public ServerResponse handle(SetNicknameRequest req) {
 
+        //Create game
         if(!gameExists){
             return new SetNicknameResponse(true, true, "You are the game creator");
-        }else{
-            //If the game is full and the user is not reconnecting to an inactive account
-            if(connectedPlayers >= gameController.getPlayerNumber()
-                    && gameController.getCurrentGame().getPlayerByNickname(req.getNickname()) == null){
-                return new SetNicknameResponse(false, false, "Game is full");
-            }
-            //If the client is reconnecting to an active player
-            if(gameController.getCurrentGame().getPlayerByNickname(req.getNickname()) != null
-                    && gameController.getCurrentGame().getPlayerByNickname(req.getNickname()).isActive()){
-                System.out.println("Client tried to connect to active player " + req.getNickname());
-                return new SetNicknameResponse(false, false, "Player is already connected");
-            }
-            Boolean success = gameController.addPlayer(req.getNickname());
-            if(!success){
-                System.out.println("ERROR: Error adding player (from SetNicknameRequest)");
-                return new SetNicknameResponse(false, false, "Error encountered while joining the game");
-            }
-            connectedPlayers++;
-            return new SetNicknameResponse(false, true, """
-                    Connected to game lobby.
-                    The game will start as soon as all players have joined.
-                    Waiting for all players...""");
         }
+        //If the game is full and the user is not reconnecting to an inactive account
+        if(connectedPlayers >= gameController.getPlayerNumber()
+                && gameController.getCurrentGame().getPlayerByNickname(req.getNickname()) == null){
+            return new SetNicknameResponse(false, false, "Game is full");
+        }
+        //If the client is reconnecting to an active player
+        if(gameController.getCurrentGame().getPlayerByNickname(req.getNickname()) != null
+                && gameController.getCurrentGame().getPlayerByNickname(req.getNickname()).isActive()){
+            System.out.println("Client tried to connect to active player " + req.getNickname());
+            return new SetNicknameResponse(false, false, "Player is already connected");
+        }
+        Boolean success = gameController.addPlayer(req.getNickname());
+        if(!success){
+            System.out.println("ERROR: Error adding player (from SetNicknameRequest)");
+            return new SetNicknameResponse(false, false, "Error encountered while joining the game");
+        }
+        connectedPlayers++;
+        return new SetNicknameResponse(false, true, """
+                   Connected to game lobby.
+                   The game will start as soon as all players have joined.
+                   Waiting for all players...""");
     }
 
     /**
@@ -208,15 +220,14 @@ public class ServerController implements ClientRequestHandler {
                     + "\nCreator: " + currentGame.getPlayers().get(0).getNickname()
                     + "\nExpert Mode: " + currentGame.isExpertMode());
             return new OperationResultResponse(true, "Game created");
-        } else {
-            Boolean success = gameController.addPlayer(req.getNickname());
-            if(!success){
-                System.out.println("ERROR: Error adding player (from SetPlayerNumberRequest)");
-            }
-            connectedPlayers++;
-            return new OperationResultResponse(false, "Someone already created a game, joining...\n" +
-                    "The game will start as soon as all players have joined.");
         }
+        Boolean success = gameController.addPlayer(req.getNickname());
+        if(!success){
+            System.out.println("ERROR: Error adding player (from SetPlayerNumberRequest)");
+        }
+        connectedPlayers++;
+        return new OperationResultResponse(false, "Someone already created a game, joining...\n" +
+                "The game will start as soon as all players have joined.");
     }
 
     /**
@@ -240,17 +251,18 @@ public class ServerController implements ClientRequestHandler {
     public ServerResponse handle(PassTurnRequest req) {
 
         Game currentGame = gameController.getCurrentGame();
-        if(currentGame.getCurrentPlayer().equals(req.getNickname())){
-            //If he didn't play an assistant
-            if(currentGame.getPlayerByNickname(req.getNickname()).getLastAssistantPlayed() == null){
-                currentGame.getPlayerByNickname(req.getNickname()).setLastAssistantPlayed(new Assistant(11, 0, -1));
-            }
-            currentGame.nextPlayer();
-            return new OperationResultResponse(true, req.getNickname() + "'s turn ended.\n" +
-                                                            currentGame.getCurrentPlayer() +
-                                                            "'s turn started.");
+        //If not current player
+        if(!currentGame.getCurrentPlayer().equals(req.getNickname())){
+            return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to end it.");
         }
-        return new OperationResultResponse(false, req.getNickname() + "'s turn has not yet started, unable to end it.");
+        //If he didn't play an assistant
+        if(currentGame.getPlayerByNickname(req.getNickname()).getLastAssistantPlayed() == null){
+            currentGame.getPlayerByNickname(req.getNickname()).setLastAssistantPlayed(new Assistant(11, 0, -1));
+        }
+        currentGame.nextPlayer();
+        return new OperationResultResponse(true, req.getNickname() + "'s turn ended.\n" +
+                currentGame.getCurrentPlayer() +
+                "'s turn started.");
     }
 
     @Override

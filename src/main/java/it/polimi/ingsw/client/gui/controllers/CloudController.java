@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Island;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -76,6 +77,8 @@ public class CloudController implements GUIController {
         //Draw each color
         for (Color color : Color.values()) {
             Integer tempStudentNumber = studentsNumber[indexOfColor(color)];
+            colorToImage.get(color).setImage(gui.getColorImage(color));
+            colorToImage.get(color).setEffect(new DropShadow());
             colorToImage.get(color).setVisible(tempStudentNumber > 0);
             colorToText.get(color).setVisible(tempStudentNumber > 0);
             //Set text to number of students of that color

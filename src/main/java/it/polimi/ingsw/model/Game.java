@@ -50,6 +50,7 @@ public class Game implements Serializable {
     private final int studentsToMove;
     private int movedStudentsInTurn;
     private boolean selectedCloudInTurn = false;
+    private boolean movedMotherNatureInTurn = false;
 
     private Character[] availableCharacters;
 
@@ -332,6 +333,7 @@ public class Game implements Serializable {
                     //Update order and move to action order
                     updateNextTurnOrder();
                     this.setCurrentTurnOrder(actionPhaseOrder);
+                    this.setCurrentPlayer(actionPhaseOrder.get(0).getNickname());
                     this.setCurrentPhase(GamePhase.ACTION);
 
                 } else {
@@ -554,6 +556,7 @@ public class Game implements Serializable {
         //Reset moved students
         this.movedStudentsInTurn = 0;
         selectedCloudInTurn = false;
+        movedMotherNatureInTurn = false;
 
         Game.setAllStudentsValue(1);
         Game.setTowerValue(1);
@@ -759,7 +762,21 @@ public class Game implements Serializable {
         return selectedCloudInTurn;
     }
 
+    /**
+     * @return if mother nature has already been selected in the round
+     */
+    public boolean getMovedMotherNatureInTurn() {
+        return movedMotherNatureInTurn;
+    }
+
     //Setters
+
+    /**
+     * @param movedMotherNatureInTurn set if mother nature has already been selected in the round
+     */
+    public void setMovedMotherNatureInTurn(Boolean movedMotherNatureInTurn){
+        this.movedMotherNatureInTurn = movedMotherNatureInTurn;
+    }
 
     /**
      * @param currentTurnOrder the current turn order
