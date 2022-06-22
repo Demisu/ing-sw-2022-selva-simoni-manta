@@ -21,6 +21,26 @@ The final version includes:
 * final UML diagram, generated from the code by automated tools;
 * working game implementation, which has to be rules compliant;
 * source code of the implementation;
+## Implemented Functionalities
+| Functionality | Status |
+|:-----------------------|:------------------------------------:|
+| Simplified rules | 🟢 |
+| Socket |🟢 |
+| CLI | 🟢 |
+| Complete rules | 🟢 |
+| GUI | 🟢 |
+
+| Advanced Functionality | Status |
+|:-----------------------|:------------------------------------:|
+| Character cards | 🟢 |
+| Up-to 4 players | 🟢 |
+| Multiple games | 🔴 |
+| Persistence | 🔴 |
+| Resilience to disconnections | 🟢 |
+
+#### Legend
+[🟢]() Implemented &nbsp;&nbsp;&nbsp;&nbsp;[🟡]() Implementing&nbsp;&nbsp;&nbsp;&nbsp;[🔴]() Not Implemented
+
 ## Test cases
 All tests in model and controller have class coverage at 100%.
 
@@ -28,8 +48,8 @@ All tests in model and controller have class coverage at 100%.
 
 | Package |Tested Class | Coverage |
 |:-----------------------|:------------------|:------------------------------------:|
-| Controller | Global Package | 68/92 (73%)
-| Model | Global Package | 616/685 (89%)
+| Controller | Global Package | 86/93 (92%)
+| Model | Global Package | 695/713 (97%)
 
 ## The Team
 * [Dario Simoni](https://github.com/Delath)
