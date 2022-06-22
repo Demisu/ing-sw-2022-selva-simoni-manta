@@ -192,7 +192,7 @@ public class GUI extends Application implements ClientView {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        setup();;
+        setup();
         this.stage = primaryStage;
         run();
     }

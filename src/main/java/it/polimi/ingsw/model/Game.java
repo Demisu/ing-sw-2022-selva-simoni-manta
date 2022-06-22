@@ -203,7 +203,7 @@ public class Game implements Serializable {
             //Pick n random characters from all the existing ones
             for (int i = 0; i < availableCharactersNumber; i++) {
                 // Create the paths
-                characterJsonName[i] = "Character" + allCharacters.get(i) + ".json";
+                characterJsonName[i] = "Character" + allCharacters.get(i) + ".JSON";
             }
 
             this.availableCharacters = new Character[availableCharactersNumber]; //Array of n characters
