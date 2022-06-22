@@ -192,23 +192,33 @@ public class GUI extends Application implements ClientView {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        setup();
+        setup();;
         this.stage = primaryStage;
         run();
     }
 
     public void run() {
+        System.out.println(1);
         stage.setTitle("Eriantys");
+        System.out.println(2);
         stage.setScene(currentScene);
+        System.out.println(3);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icon.png")));
+        System.out.println(4);
         stage.show();
-
+        System.out.println(5);
+;
         Media music = new Media(Objects.requireNonNull(getClass().getClassLoader()
-                .getResource("assets/media/Epic_Orchestral_Music.mp3")).toExternalForm());
+                .getResource("media/Epic_Orchestral_Music.mp3")).toExternalForm());
+        System.out.println(6);
         musicPlayer = new MediaPlayer(music);
+        System.out.println(7);
         musicPlayer.setAutoPlay(true);
+        System.out.println(8);
         musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        System.out.println(9);
         musicPlayer.setVolume(25);
+        System.out.println(10);
         musicPlayer.setOnEndOfMedia(() -> {
             musicPlayer.seek(Duration.ZERO);
             musicPlayer.play();
