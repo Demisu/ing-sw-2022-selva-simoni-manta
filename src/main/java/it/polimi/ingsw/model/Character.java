@@ -362,7 +362,17 @@ public class Character extends StudentAccessiblePiece implements Serializable {
         return effect_number_max;
     }
 
+    /**
+     * @return description of character
+     */
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * @param effectType effect to set
+     */
+    public void setEffectType(String effectType) {
+        this.effect_type = effectType;
     }
 }

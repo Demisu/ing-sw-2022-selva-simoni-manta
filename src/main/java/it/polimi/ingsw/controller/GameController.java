@@ -17,6 +17,7 @@ import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 public class GameController {
 
     private Game currentGame;
+    private Integer skipTurnDelay = 5;
 
     /*------*/
     /* GAME */
@@ -302,6 +303,10 @@ public class GameController {
                     }
                     currentGame.nextPlayer();
                 }
-            }}, 5, TimeUnit.SECONDS);
+            }}, skipTurnDelay, TimeUnit.SECONDS);
+    }
+
+    public void setSkipTurnDelay(Integer skipTurnDelay) {
+        this.skipTurnDelay = skipTurnDelay;
     }
 }

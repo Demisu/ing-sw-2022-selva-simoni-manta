@@ -12,8 +12,7 @@ import java.util.List;
 
 import static it.polimi.ingsw.model.Color.GREEN;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CharacterTest {
 
@@ -200,6 +199,7 @@ public class CharacterTest {
         }while(notAllTested && count < 50);
 
         Character test = new Character(null, null, true, null, null);
+        assertNull(test.getDescription());
 
         if(notAllTested){
             System.out.println("NOT EVERYONE [after " + count + " steps]");

@@ -6,8 +6,6 @@ import it.polimi.ingsw.Eriantys;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -1037,5 +1035,12 @@ public class Game implements Serializable {
                 .equals(teamID))
                 .findAny()
                 .orElse(null);
+    }
+
+    /**
+     * @param availableCharacters new availableCharacters array
+     */
+    public void setAvailableCharacters(Character[] availableCharacters) {
+        this.availableCharacters = availableCharacters;
     }
 }

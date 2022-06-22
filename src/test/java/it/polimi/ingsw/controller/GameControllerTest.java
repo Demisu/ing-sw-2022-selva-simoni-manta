@@ -2,9 +2,11 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.requests.PlayCharacterRequest;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Character;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -150,6 +152,23 @@ public class GameControllerTest {
     }
 
     @Test
+    @DisplayName("Testing player disconnection and turn skip")
+    void testSkip(){
+        GameController controller = new GameController();
+        controller.setSkipTurnDelay(0);
+        controller.startGame(2, "testChar", true);
+        String previous = controller.getCurrentGame().getCurrentPlayer();
+        controller.setInactive(controller.getCurrentGame().getCurrentPlayer());
+        for(int i = 0; i < Integer.MAX_VALUE; i++){
+            i++;
+            i--;
+        }
+        controller.addPlayer("testChar");
+        assertNotEquals(previous, controller.getCurrentGame().getCurrentPlayer());
+        assertTrue(controller.getCurrentGame().getPlayerByNickname(controller.getCurrentGame().getCurrentPlayer()).isActive());
+    }
+
+    @Test
     @DisplayName("Testing movement in schoolboard")
     void checkMovementSchoolboard(){
         GameController gameController = new GameController();
@@ -176,8 +195,16 @@ public class GameControllerTest {
     void testPlayCharacter(){
         GameController controller = new GameController();
         controller.startGame(2, "testChar", true);
-
-        PlayCharacterRequest testReq = new PlayCharacterRequest(0, "testChar");
+        ArrayList<Character> charactersNew = new ArrayList<>(Arrays.asList(controller.getCurrentGame().getAllCharacters()));
+        Character testing = new Character();
+        testing.setEffectType("wrong");
+        charactersNew.add(testing);
+        Character[] arrayChar = new Character[4];
+        charactersNew.toArray(arrayChar);
+        controller.getCurrentGame().setAvailableCharacters(arrayChar);
+        PlayCharacterRequest testReq = new PlayCharacterRequest(3, "testChar");
+        controller.playCharacter(testReq);
+        controller.playCharacter(testReq);
     }
 
 }

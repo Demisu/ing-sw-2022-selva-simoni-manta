@@ -170,6 +170,13 @@ public class GameTest {
         gameTest.getClouds().get(0).setStudents(new HashSet<>());
         gameTest.getTeams().forEach(t -> t.getPlayers().forEach(p -> p.setActive(false)));
         gameTest.nextPlayer();
+
+        Game gameNoExp = new Game(2, "noExp", false);
+        assertFalse(gameNoExp.isExpertMode());
+
+        assertNull(gameNoExp.getCloudByID(-1));
+        assertNull(gameNoExp.getPlayerByNickname("wrong"));
+        assertFalse(gameNoExp.getMovedMotherNatureInTurn());
     }
 
     @Test
