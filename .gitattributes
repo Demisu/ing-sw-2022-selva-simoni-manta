@@ -2,3 +2,4 @@
 *.html linguist-language=Java
 *.js linguist-language=Java
 *.zip linguist-language=Java
+*.tex linguist-language=Java
