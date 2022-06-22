@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.Eriantys;
 
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.Serializable;
 import java.nio.file.Files;
@@ -202,24 +204,18 @@ public class Game implements Serializable {
             //Pick n random characters from all the existing ones
             for (int i = 0; i < availableCharactersNumber; i++) {
                 // Create the paths
-                characterJsonName[i] = charactersJSONPath + "Character" + allCharacters.get(i) + ".JSON";
+                characterJsonName[i] = "Character" + allCharacters.get(i) + ".json";
             }
 
             this.availableCharacters = new Character[availableCharactersNumber]; //Array of n characters
             for (int i = 0; i < availableCharactersNumber; i++) {
                 /* OPEN JSON */
                 try {
-                    // create Gson instance
                     Gson gson = new Gson();
-
-                    // create a reader
-                    Reader reader = Files.newBufferedReader(Paths.get(characterJsonName[i]));
-                    // convert JSON string to Character object
+                    Reader reader = new InputStreamReader(Eriantys.class.getResourceAsStream("/characters/" + characterJsonName[i]));
                     availableCharacters[i] = gson.fromJson(reader, Character.class);
                     availableCharacters[i].students = new HashSet<>();
-                    // close reader
                     reader.close();
-
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

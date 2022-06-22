@@ -332,7 +332,8 @@ public class RealmController implements GUIController {
 
             //Add hand if it's action phase, player's turn
             if(gui.getClientController().getGamePhase().equals(ACTION)
-                && gui.getClientController().getPlayerInfo().getNickname().equals(gui.getClientController().getGameInfo().getCurrentPlayer())) {
+                && gui.getClientController().getPlayerInfo().getNickname().equals(gui.getClientController().getGameInfo().getCurrentPlayer())
+                && !gui.getClientController().getGameInfo().getMovedMotherNatureInTurn()) {
 
                 //Add movement on click
                 motherNature.setOnMouseClicked(e -> {

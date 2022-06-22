@@ -92,9 +92,12 @@ public class ServerController implements ClientRequestHandler {
             return new OperationResultResponse(false, "Cannot move a student to another schoolboard");
         }
         //If the player already moved all the students for this turn, and the student isn't moved from a cloud
-        if(game.getStudentsToMove() == game.getMovedStudentsInTurn() && game.getCloudByID(req.getSourceId()) == null
-                && !game.getSelectedCloudInTurn()){
+        if(game.getStudentsToMove() == game.getMovedStudentsInTurn() && game.getCloudByID(req.getSourceId()) == null){
             return new OperationResultResponse(false, "Moved all students for this turn");
+        }
+        //If the player already chose a cloud and is selecting one again
+        if(game.getCloudByID(req.getSourceId()) != null && game.getSelectedCloudInTurn()){
+            return new OperationResultResponse(false, "Cannot choose another cloud");
         }
         //Ok
         gameController.moveStudent(req.getStudentId(), req.getSourceId(), req.getTargetId());

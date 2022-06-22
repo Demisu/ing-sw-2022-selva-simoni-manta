@@ -75,34 +75,6 @@ public class GameTest {
     }
 
     @Test
-    @DisplayName("Testing character creation")
-    void testCharacterGeneration() {
-
-        String characterJsonName = ".\\src\\Characters\\" + "Character" + "7" + ".JSON";
-        System.out.println(characterJsonName);
-
-        Character testCharacter;
-
-        /* OPEN JSON */
-        try {
-            // create Gson instance
-            Gson gson = new Gson();
-            // create a reader
-            Reader reader = Files.newBufferedReader(Paths.get(characterJsonName));
-            // convert JSON string to Character object
-            testCharacter = gson.fromJson(reader, Character.class);
-            // close reader
-            reader.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            testCharacter = null;
-        }
-
-        assertNotNull(testCharacter);
-
-    }
-
-    @Test
     @DisplayName("Testing player managing")
     void testPlayerManaging() {
         Game gameTest = new Game(2, "Test", true);
