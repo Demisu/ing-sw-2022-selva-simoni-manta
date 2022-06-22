@@ -1,6 +1,7 @@
 {
     "cost": "123",
     "image": "path",
+    "description": "description",
 
     "setup_required": false,
     "setup_object": "student/no_entry/NA",

@@ -1,6 +1,7 @@
 {
     "cost": "1",
     "image": "1",
+    "description": "Take 1 student from this card and place it on an island of your choice.",
 
     "setup_required": true,
     "setup_object": "student",

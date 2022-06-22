@@ -160,7 +160,8 @@ public class RealmController implements GUIController {
                 //If island is visibile and in range for mother nature, highlight it
                 if(guiIsland.isVisible()
                         && (i - gui.getOriginIslandIndex()) > 0
-                        && (i - gui.getOriginIslandIndex()) <= gui.getClientController().getPlayerInfo().getLastAssistantPlayed().getMotherNatureMovements()) {
+                        && (i - gui.getOriginIslandIndex()) <= (gui.getClientController().getPlayerInfo().getLastAssistantPlayed().getMotherNatureMovements()
+                                                                + Game.getMotherNatureMovements()) ) {
                     guiIsland.setEffect(gui.getHighlight(GREEN));
                 }
                 i++;

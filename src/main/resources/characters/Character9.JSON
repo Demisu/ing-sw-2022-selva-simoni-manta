@@ -1,6 +1,7 @@
 {
     "cost": "3",
     "image": "9",
+    "description": "Choose a color of student: during the influence calculation this turn, that color adds no influence.",
 
     "setup_required": false,
     "setup_object": "NA",

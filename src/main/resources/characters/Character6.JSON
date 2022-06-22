@@ -1,6 +1,7 @@
 {
     "cost": "3",
     "image": "6",
+    "description": "When resolving a Conquering on an Island, Towers do not count towards influence.",
 
     "setup_required": false,
     "setup_object": "NA",

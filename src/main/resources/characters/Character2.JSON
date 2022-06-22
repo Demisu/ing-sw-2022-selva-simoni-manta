@@ -1,6 +1,7 @@
 {
     "cost": "2",
     "image": "2",
+    "description": "During this turn, you take control of any number of Professors even if you have the same number of Students as the player who currently controls them.",
 
     "setup_required": false,
     "setup_object": "NA",

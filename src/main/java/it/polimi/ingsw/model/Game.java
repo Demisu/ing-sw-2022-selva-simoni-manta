@@ -29,6 +29,7 @@ public class Game implements Serializable {
     private final ArrayList<Integer> allCharacters; //All existing characters
     private final String charactersJSONPath = ".\\src\\Characters\\";
 
+    private Integer gameEndTimout = 10;
     private final Boolean expertMode;
     private Boolean startedTimer = false;
     private String currentPlayer;
@@ -367,7 +368,7 @@ public class Game implements Serializable {
                     } else {
                         startedTimer = false;
                     }
-                }, 10, TimeUnit.SECONDS);
+                }, gameEndTimout, TimeUnit.SECONDS);
             } else {
                 //If the player is disconnected, skip his turn
                 Player newNextPlayer = getPlayerByNickname(currentPlayer);
@@ -1042,5 +1043,12 @@ public class Game implements Serializable {
      */
     public void setAvailableCharacters(Character[] availableCharacters) {
         this.availableCharacters = availableCharacters;
+    }
+
+    /**
+     * @param gameEndTimout new timeout to replace default for player disconnection
+     */
+    public void setGameEndTimout(Integer gameEndTimout) {
+        this.gameEndTimout = gameEndTimout;
     }
 }

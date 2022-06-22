@@ -1,6 +1,7 @@
 {
     "cost": "2",
     "image": "11",
+    "description": "Take 1 student from this card and place it in your Dining Room.",
 
     "setup_required": true,
     "setup_object": "student",

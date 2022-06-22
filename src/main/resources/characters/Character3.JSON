@@ -1,6 +1,7 @@
 {
     "cost": "3",
     "image": "3",
+    "description": "Choose an island and resolve the Island as if Mother Nature had ended her movement there.",
 
     "setup_required": false,
     "setup_object": "NA",

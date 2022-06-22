@@ -226,7 +226,14 @@ public class GameTest {
 
         Game game = new Game(2, "test", true);
         Team test = game.getTeamByID(0);
+        game.setGameEndTimout(0);
+        game.getPlayers().get(0).setActive(false);
+        game.nextPlayer();
         game.endGame();
+        for(int i = 0; i < Integer.MAX_VALUE; i++){
+            i++;
+            i--;
+        }
         assertEquals(game.getCurrentPhase(), GamePhase.END);
     }
 

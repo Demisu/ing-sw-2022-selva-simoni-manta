@@ -1,6 +1,7 @@
 {
     "cost": "2",
     "image": "5",
+    "description": "Place a No Entry tile on an Island of you choice. The first time Mother Nature ends her movement there, do not calculate influence on that island and take back the No Entry Tile.",
 
     "setup_required": true,
     "setup_object": "no_entry",

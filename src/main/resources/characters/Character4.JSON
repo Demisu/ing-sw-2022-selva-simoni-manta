@@ -1,6 +1,7 @@
 {
     "cost": "1",
     "image": "4",
+    "description": "You may move Mother Nature up to 2 additional Islands than is indicated by the Assistant card you've played.",
 
     "setup_required": false,
     "setup_object": "NA",

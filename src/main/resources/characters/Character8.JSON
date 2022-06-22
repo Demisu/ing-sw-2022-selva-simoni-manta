@@ -1,6 +1,7 @@
 {
     "cost": "2",
     "image": "8",
+    "description": "During influence calculation this turn, you count as having 2 more influence.",
 
     "setup_required": false,
     "setup_object": "NA",

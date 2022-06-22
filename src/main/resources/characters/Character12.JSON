@@ -1,6 +1,7 @@
 {
     "cost": "3",
     "image": "12",
+    "description": "Choose a type of student: every player (including you) must return 3 students of that color from their Dining Room to the bag. If any player has fewer than 3 students of that color, return as many as they have",
 
     "setup_required": false,
     "setup_object": "NA",
