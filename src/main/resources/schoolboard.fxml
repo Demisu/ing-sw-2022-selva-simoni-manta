@@ -15,7 +15,7 @@
                   <Image url="@assets/plancia.png" />
                </image>
             </ImageView>
-            <Button fx:id="realm" layoutX="366.0" layoutY="676.0" mnemonicParsing="false" text="Return to Islands' Board">
+            <Button fx:id="realm" layoutX="361.0" layoutY="676.0" mnemonicParsing="false" text="Return to Islands' Board">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -23,7 +23,7 @@
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="gameStatus" layoutX="744.0" layoutY="676.0" mnemonicParsing="false" text="Return to Game Status">
+            <Button fx:id="gameStatus" layoutX="749.0" layoutY="676.0" mnemonicParsing="false" text="Return to Game Status">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -551,7 +551,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Button fx:id="undo" layoutX="613.0" layoutY="676.0" mnemonicParsing="false" text="Undo">
+            <Button fx:id="undo" layoutX="606.0" layoutY="627.0" mnemonicParsing="false" text="Undo">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -644,6 +644,14 @@
                </effect>
             </Button>
             <Button fx:id="targetPiecesBtn" layoutX="769.0" layoutY="571.0" mnemonicParsing="false" text="Choose target pieces">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="characterChecklistBtn" layoutX="569.0" layoutY="676.0" mnemonicParsing="false" text="Character checklist">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
                <effect>
                   <DropShadow />
                </effect>

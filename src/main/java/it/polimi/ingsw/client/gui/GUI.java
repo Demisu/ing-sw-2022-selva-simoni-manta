@@ -38,6 +38,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
+
 public class GUI extends Application implements ClientView {
 
     //public static final String END_OF_THE_GAME = "End of the game";
@@ -82,6 +84,7 @@ public class GUI extends Application implements ClientView {
     private Boolean targetStudentsBtnVisible = false;
     private Boolean targetPiecesBtnVisible = false;
     //Variables for character requests
+    Character currentCharacter = null;
     int characterIndex = 0;
     it.polimi.ingsw.model.Color characterTargetColor = null;
     List<Integer> characterStudentsInOrigin = new ArrayList<>();
@@ -232,6 +235,58 @@ public class GUI extends Application implements ClientView {
         }
     }
 
+    public void characterChecklist() {
+        ArrayList<Text> info = new ArrayList<>();
+        if(colorBtnVisible){
+            info.add(new Text("Color: "
+                    + (characterTargetColor == null ? "Still need to choose" : String.valueOf(characterTargetColor))
+                    + "\n"));
+        }
+        if(sourceStudentsBtnVisible){
+            StringBuilder students = new StringBuilder();
+            if(characterStudentsInOrigin.isEmpty()){
+                students = new StringBuilder("Still need to choose");
+            } else {
+                for(Integer student : characterStudentsInOrigin){
+                    students.append(" ").append(colorOfStudent(student));
+                }
+            }
+            info.add(new Text("[" + characterStudentsInOrigin.size() + "/" + currentCharacter.getEffectNumberMax() + "] Source students: " + students + "\n"));
+        }
+        if(targetStudentsBtnVisible){
+            StringBuilder students = new StringBuilder();
+            if(characterStudentsInTarget.isEmpty()){
+                students = new StringBuilder("Still need to choose");
+            } else {
+                for(Integer student : characterStudentsInTarget){
+                    students.append(" ").append(colorOfStudent(student));
+                }
+            }
+            info.add(new Text("[" + characterStudentsInTarget.size() + "/" + currentCharacter.getEffectNumberMax() + "] Target students: " + students + "\n"));
+        }
+        if(targetPiecesBtnVisible){
+            StringBuilder pieces = new StringBuilder();
+            if(characterTargetPieces.isEmpty()){
+                pieces = new StringBuilder("Still need to choose");
+            } else {
+                for(Integer pieceID : characterTargetPieces){
+                    pieces.append(" ").append(clientController.getGameInfo().getStudentAccessiblePieceByID(pieceID).getClass().getSimpleName());
+                }
+            }
+            info.add(new Text("[" + characterTargetPieces.size() + "/" + currentCharacter.getEffectNumberMax() + "] Target pieces: " + pieces + "\n"));
+        }
+
+        if(info.isEmpty()){
+            info.add(new Text("Character is ready, click on it to use it!"));
+        }
+
+        createModal(stage,
+                "Character " + currentCharacter.getImage() + " checklist",
+                "coin.png",
+                Color.WHITE,
+                info);
+    }
+
     public void createModal(Stage stage, String title, String asset, Color color, ArrayList<Text> info){
         final Stage dialog = new Stage();
         Pane bagRoot = new Pane();
@@ -251,6 +306,25 @@ public class GUI extends Application implements ClientView {
         Scene dialogScene = new Scene(dialogTflow, 300, 200);
         dialog.setScene(dialogScene);
         dialog.showAndWait();
+    }
+
+    /**
+     * Shows a dialog window to select a color
+     */
+    public void colorDialog() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Select a color");
+        dialog.setHeaderText("Allowed: " + Arrays.toString(it.polimi.ingsw.model.Color.values()));
+        dialog.setGraphic(null);
+        Optional<String> color = dialog.showAndWait();
+        color.ifPresent(inputColor -> {
+            it.polimi.ingsw.model.Color parsedColor = StudentAccessiblePiece.parseColor(inputColor);
+            if(parsedColor == null){
+                colorDialog();
+            } else {
+                setCharacterTargetColor(parsedColor);
+            }
+        });
     }
 
     public Image getColorImage(it.polimi.ingsw.model.Color color){
@@ -284,6 +358,7 @@ public class GUI extends Application implements ClientView {
 
     public void characterActionReset(){
         //Parameters
+        currentCharacter = null;
         characterIndex = 0;
         characterTargetColor = null;
         characterStudentsInOrigin = new ArrayList<>();
@@ -306,25 +381,6 @@ public class GUI extends Application implements ClientView {
             case CHARACTER -> characterActionReset();
         }
         status = NONE;
-    }
-
-    /**
-     * Shows a dialog window to select a color
-     */
-    public void colorDialog() {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Select a color");
-        dialog.setHeaderText("Allowed: " + Arrays.toString(it.polimi.ingsw.model.Color.values()));
-        dialog.setGraphic(null);
-        Optional<String> color = dialog.showAndWait();
-        color.ifPresent(inputColor -> {
-            it.polimi.ingsw.model.Color parsedColor = StudentAccessiblePiece.parseColor(inputColor);
-            if(parsedColor == null){
-                colorDialog();
-            } else {
-                setCharacterTargetColor(parsedColor);
-            }
-        });
     }
 
     /**
@@ -534,12 +590,20 @@ public class GUI extends Application implements ClientView {
     }
 
     public void addPiece(Integer piece){
-        if(choosingObject.equals(GUI.TARGET)){
+        if(choosingObject.equals(GUI.TARGET) || choosingObject.equals(GUI.STUDENTSINTARGET)){
             //Add in target
             characterTargetPieces.add(piece);
         } else {
             //Add in origin/source
             characterOriginPieces.add(piece);
         }
+    }
+
+    public void setCurrentCharacter(Character currentCharacter) {
+        this.currentCharacter = currentCharacter;
+    }
+
+    public Character getCurrentCharacter() {
+        return currentCharacter;
     }
 }

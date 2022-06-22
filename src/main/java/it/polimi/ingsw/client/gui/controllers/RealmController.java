@@ -57,7 +57,7 @@ public class RealmController implements GUIController {
     @FXML
     private Button characters, assistants, schoolboard, menu, profiles, pass, undo;
     @FXML
-    private Button colorBtn, sourceStudentsBtn, targetStudentsBtn, targetPiecesBtn;
+    private Button colorBtn, sourceStudentsBtn, targetStudentsBtn, targetPiecesBtn, characterChecklistBtn;
 
     @FXML
     private Pane stackPane1, stackPane2, stackPane3, stackPane4, stackPane5, stackPane6, stackPane7, stackPane8, stackPane9, stackPane10, stackPane11, stackPane12;
@@ -178,8 +178,9 @@ public class RealmController implements GUIController {
 
         //Hide/Show needed characters buttons
         for(int i = 0; i < characterButtons.size(); i++){
-            characterButtons.get(i).setVisible(gui.listOfCharacterButtons().get(i));
+            characterButtons.get(i).setDisable(!gui.listOfCharacterButtons().get(i));
         }
+        characterChecklistBtn.setVisible(gui.getStatus().equals(GUI.CHARACTER));
         //Add onClick
         setCharacterButtons();
 
@@ -518,6 +519,9 @@ public class RealmController implements GUIController {
         });
         targetPiecesBtn.setOnAction(e -> {
             gui.setChoosingObject(GUI.TARGET);
+        });
+        characterChecklistBtn.setOnAction(e -> {
+            gui.characterChecklist();
         });
     }
 

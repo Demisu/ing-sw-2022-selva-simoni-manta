@@ -27,7 +27,7 @@ public class SchoolboardController implements GUIController {
     @FXML
     private Button realm, gameStatus, undo;
     @FXML
-    private Button colorBtn, sourceStudentsBtn, targetStudentsBtn, targetPiecesBtn;
+    private Button colorBtn, sourceStudentsBtn, targetStudentsBtn, targetPiecesBtn, characterChecklistBtn;
 
     @FXML
     private ImageView greenProfessor, redProfessor, yellowProfessor, pinkProfessor, blueProfessor;
@@ -99,14 +99,7 @@ public class SchoolboardController implements GUIController {
                     //Reload school board
                     gui.changeScene(GUI.SCHOOLBOARD);
                     gui.getControllerFromName(GUI.SCHOOLBOARD).onLoad();
-                    ScheduledExecutorService lateUpdater = Executors.newSingleThreadScheduledExecutor();
-                    //Checks if gameModel updated, then draw schoolboard
-                    lateUpdater.scheduleAtFixedRate(() -> {
-                        if(gui.isReady()){
-                            ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(gui.getClientController().getPlayerInfo());
-                            lateUpdater.shutdown();
-                        }
-                    }, 5, 5, TimeUnit.MILLISECONDS);
+                    scheduleRedraw();
                 });
             }
         });
@@ -136,9 +129,12 @@ public class SchoolboardController implements GUIController {
                 studentToDraw.setEffect(new DropShadow());
                 studentToDraw.setVisible(true);
                 studentToDraw.setOnMouseClicked(e -> {
+                    System.out.println("click");
                     if(gui.getStatus().equals(GUI.CHARACTER)
                             && colorMapNumberChosenDining.get(color) < schoolBoard.getDiningRoomStudents(color)){
+                        System.out.println(colorMapNumberChosenDining.get(color) + " < " + schoolBoard.getDiningRoomStudents(color));
                         gui.addStudent(schoolBoard.getAllDiningRoomStudents(color).get(colorMapNumberChosenDining.get(color)));
+                        System.out.println("added " + schoolBoard.getAllDiningRoomStudents(color).get(colorMapNumberChosenDining.get(color)));
                         //+1 to counter of students of that color
                         colorMapNumberChosenDining.put(color, colorMapNumberChosenDining.get(color) + 1);
                         gui.addPiece(schoolBoard.getPieceID());
@@ -164,12 +160,14 @@ public class SchoolboardController implements GUIController {
                 studentNumberTexts.get(color).setVisible(true);
                 studentImages.get(color).setVisible(true);
                 //Mouse click
-                studentNumberTexts.get(color).setOnMouseClicked(e -> {
-                    chooseStudent(schoolBoard, color);
-                });
-                studentImages.get(color).setOnMouseClicked(e -> {
-                    chooseStudent(schoolBoard, color);
-                });
+                if(gui.getClientController().getGamePhase().equals(GamePhase.ACTION)) {
+                    studentNumberTexts.get(color).setOnMouseClicked(e -> {
+                        chooseStudent(schoolBoard, color);
+                    });
+                    studentImages.get(color).setOnMouseClicked(e -> {
+                        chooseStudent(schoolBoard, color);
+                    });
+                }
             } else {
                 studentNumberTexts.get(color).setVisible(false);
                 studentImages.get(color).setVisible(false);
@@ -305,12 +303,18 @@ public class SchoolboardController implements GUIController {
 
         //Show undo if an action is in progress
         undo.setVisible(!gui.getStatus().equals(GUI.NONE));
-        undo.setOnAction(e -> resetStatus());
+        undo.setOnAction(e -> {
+            resetStatus();
+            gui.changeScene(GUI.SCHOOLBOARD);
+            gui.getControllerFromName(GUI.SCHOOLBOARD).onLoad();
+            scheduleRedraw();
+        });
 
         //Hide/Show needed characters buttons
         for(int i = 0; i < characterButtons.size(); i++){
-            characterButtons.get(i).setVisible(gui.listOfCharacterButtons().get(i));
+            characterButtons.get(i).setDisable(!gui.listOfCharacterButtons().get(i));
         }
+        characterChecklistBtn.setVisible(gui.getStatus().equals(GUI.CHARACTER));
         //Add onClick
         setCharacterButtons();
     }
@@ -349,10 +353,13 @@ public class SchoolboardController implements GUIController {
             undo.setVisible(true);
         } else if(gui.getStatus().equals(GUI.CHARACTER)
                 && colorMapNumberChosen.get(color) < schoolBoard.getStudents(color).size()){
+            System.out.println(colorMapNumberChosen.get(color) + " < " + schoolBoard.getStudents(color).size());
             gui.addStudent(schoolBoard.getStudents(color).get(colorMapNumberChosen.get(color)));
+            System.out.println("added " + schoolBoard.getStudents(color).get(colorMapNumberChosen.get(color)));
             //+1 to counter of students of that color
             colorMapNumberChosen.put(color, colorMapNumberChosen.get(color) + 1);
             gui.addPiece(schoolBoard.getPieceID());
+            System.out.println("piece " + schoolBoard.getPieceID());
         }
     }
 
@@ -369,6 +376,20 @@ public class SchoolboardController implements GUIController {
         targetPiecesBtn.setOnAction(e -> {
             gui.setChoosingObject(GUI.TARGET);
         });
+        characterChecklistBtn.setOnAction(e -> {
+            gui.characterChecklist();
+        });
+    }
+
+    public void scheduleRedraw(){
+        ScheduledExecutorService lateUpdater = Executors.newSingleThreadScheduledExecutor();
+        //Checks if gameModel updated, then draw schoolboard
+        lateUpdater.scheduleAtFixedRate(() -> {
+            if(gui.isReady()){
+                ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(gui.getClientController().getPlayerInfo());
+                lateUpdater.shutdown();
+            }
+        }, 5, 5, TimeUnit.MILLISECONDS);
     }
 
     @Override

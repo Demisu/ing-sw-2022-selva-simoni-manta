@@ -4,6 +4,7 @@
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <HBox alignment="CENTER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.RealmController">
    <children>
@@ -94,37 +95,55 @@
                   <Image url="@assets/cloud.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="bag" fitHeight="75.0" fitWidth="75.0" layoutX="615.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="bag" fitHeight="75.0" fitWidth="75.0" layoutX="615.0" layoutY="195.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/bag.png" />
                </image>
             </ImageView>
             <Button fx:id="profiles" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Game status">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
                <effect>
                   <DropShadow />
                </effect>
             </Button>
             <Button fx:id="schoolboard" layoutX="14.0" layoutY="681.0" mnemonicParsing="false" text="Schoolboard">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
                <effect>
                   <DropShadow />
                </effect>
             </Button>
             <Button fx:id="assistants" layoutX="14.0" layoutY="607.0" mnemonicParsing="false" text="Deck">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
                <effect>
                   <DropShadow />
                </effect>
             </Button>
             <Button fx:id="characters" layoutX="14.0" layoutY="644.0" mnemonicParsing="false" text="Characters">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
                <effect>
                   <DropShadow />
                </effect>
             </Button>
             <Button fx:id="pass" layoutX="1139.0" layoutY="681.0" mnemonicParsing="false" text="Pass turn">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
                <effect>
                   <DropShadow />
                </effect>
             </Button>
             <Button fx:id="menu" layoutX="1225.0" layoutY="681.0" mnemonicParsing="false" text="Quit">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
                <effect>
                   <DropShadow />
                </effect>
@@ -161,27 +180,35 @@
             </Pane>
             <Pane fx:id="cloudStackPane4" layoutX="793.0" layoutY="217.0" prefHeight="135.0" prefWidth="150.0">
             </Pane>
-            <Button fx:id="undo" layoutX="626.0" layoutY="334.0" mnemonicParsing="false" text="Undo">
+            <Button fx:id="undo" layoutX="626.0" layoutY="340.0" mnemonicParsing="false" text="Undo">
                <effect>
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="colorBtn" layoutX="1182.0" layoutY="14.0" mnemonicParsing="false" text="Choose color">
+            <Button fx:id="colorBtn" layoutX="1180.0" layoutY="123.0" mnemonicParsing="false" text="Choose color">
                <effect>
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="sourceStudentsBtn" layoutX="1124.0" layoutY="48.0" mnemonicParsing="false" text="Choose source students">
+            <Button fx:id="sourceStudentsBtn" layoutX="1122.0" layoutY="19.0" mnemonicParsing="false" text="Choose source students">
                <effect>
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="targetStudentsBtn" layoutX="1127.0" layoutY="83.0" mnemonicParsing="false" text="Choose target students">
+            <Button fx:id="targetStudentsBtn" layoutX="1125.0" layoutY="54.0" mnemonicParsing="false" text="Choose target students">
                <effect>
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="targetPiecesBtn" layoutX="1139.0" layoutY="119.0" mnemonicParsing="false" text="Choose target pieces">
+            <Button fx:id="targetPiecesBtn" layoutX="1137.0" layoutY="90.0" mnemonicParsing="false" text="Choose target pieces">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="characterChecklistBtn" layoutX="578.0" layoutY="293.0" mnemonicParsing="false" text="Character checklist">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
                <effect>
                   <DropShadow />
                </effect>
