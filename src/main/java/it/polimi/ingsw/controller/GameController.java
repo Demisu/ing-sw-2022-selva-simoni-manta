@@ -100,7 +100,7 @@ public class GameController {
             //If a certain character is active,
             int currentNumber = player.getPlayerBoard().getDiningRoomStudents(color) +
                             (player.hasActiveCharacter() ?
-                            Game.getStudentsInDiningModifier() :
+                            currentGame.getStudentsInDiningModifier() :
                             0);
 
             if(currentNumber > maxFound){

@@ -60,8 +60,9 @@ public class GameControllerTest {
     void testUnifyIslands(){
         GameController controller = new GameController();
         controller.startGame(2, "testUnifyIslands", true);
-        Island island0 = new Island();
-        Island island1 = new Island();
+        Game game = controller.getCurrentGame();
+        Island island0 = new Island(game);
+        Island island1 = new Island(game);
         island1.setMotherNature(true);
         island0.addStudent(23);
         island0.addStudent(27);

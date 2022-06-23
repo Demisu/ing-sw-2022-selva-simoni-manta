@@ -19,8 +19,8 @@ public class ServerController implements ClientRequestHandler {
 
     private final ArrayList<ClientHandler> clientHandlerList;
     private final GameController gameController;
-    private static Boolean gameExists = false;
-    private static Integer connectedPlayers = 0;
+    private Boolean gameExists = false;
+    private Integer connectedPlayers = 0;
 
     /**
      * @param gameController gameController
@@ -315,5 +315,19 @@ public class ServerController implements ClientRequestHandler {
         System.out.println("ALL PLAYERS JOINED, GAME HAS STARTED");
 
         return new OperationResultResponse(true, "Ready");
+    }
+
+    /**
+     * @return number of connected players
+     */
+    public Integer getConnectedPlayers() {
+        return connectedPlayers;
+    }
+
+    /**
+     * @param connectedPlayers number of connected players
+     */
+    public void setConnectedPlayers(Integer connectedPlayers) {
+        this.connectedPlayers = connectedPlayers;
     }
 }

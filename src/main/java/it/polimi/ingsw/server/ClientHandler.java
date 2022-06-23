@@ -59,6 +59,7 @@ public class ClientHandler implements Runnable {
         } catch (Exception e) {
             System.out.println("The client was disconnected");
             controller.playerDisconnected(clientNickname);
+            controller.setConnectedPlayers(controller.getConnectedPlayers() - 1);
             e.printStackTrace();
         }
 

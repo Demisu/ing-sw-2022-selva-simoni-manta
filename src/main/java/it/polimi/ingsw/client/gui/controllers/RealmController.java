@@ -161,7 +161,7 @@ public class RealmController implements GUIController {
                 if(guiIsland.isVisible()
                         && (i - gui.getOriginIslandIndex()) > 0
                         && (i - gui.getOriginIslandIndex()) <= (gui.getClientController().getPlayerInfo().getLastAssistantPlayed().getMotherNatureMovements()
-                                                                + Game.getMotherNatureMovements()) ) {
+                                                                + gui.getClientController().getGameInfo().getMotherNatureMovements()) ) {
                     guiIsland.setEffect(gui.getHighlight(GREEN));
                 }
                 i++;

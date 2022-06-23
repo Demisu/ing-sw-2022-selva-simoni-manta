@@ -172,15 +172,17 @@ public class Character extends StudentAccessiblePiece implements Serializable {
      */
     public void add(PlayCharacterRequest req){
 
+        Game game = gameController.getCurrentGame();
+
         //Not implementing extra cases out of the original 12 Characters.
         //May need to add more if new characters are added.
 
         switch(effect_object) {
             case "influence":
-                Game.setInfluenceModifier(Game.getInfluenceModifier() + effect_number_min); //(no range ATM)
+                game.setInfluenceModifier(game.getInfluenceModifier() + effect_number_min); //(no range ATM)
                 break;
             case "mother_nature":
-                Game.setMotherNatureMovements(Game.getMotherNatureMovements() + effect_number_min); //(no range ATM)
+                game.setMotherNatureMovements(game.getMotherNatureMovements() + effect_number_min); //(no range ATM)
                 break;
             case "student":
                 //Student (color?) influence += effect_number_min
@@ -189,7 +191,7 @@ public class Character extends StudentAccessiblePiece implements Serializable {
                         Color targetColor = req.getTargetColor();
                         //Should need more selection, but this is enough with only The original characters
                         Integer colorID = StudentAccessiblePiece.indexOfColor(targetColor);
-                        Game.setStudentValue(targetColor, Game.getStudentValue(colorID) + 1);
+                        game.setStudentValue(targetColor, game.getStudentValue(colorID) + 1);
                         break;
                     /*Extra cases...
                     case "???":
@@ -198,11 +200,11 @@ public class Character extends StudentAccessiblePiece implements Serializable {
                 }
                 break;
             case "tower":
-                Game.setTowerValue(Game.getTowerValue() + effect_number_min); //(no range ATM)
+                game.setTowerValue(game.getTowerValue() + effect_number_min); //(no range ATM)
                 break;
             case "student_dining":
                 //When counting DiningRoom students, consider count++
-                Game.setStudentsInDiningModifier(effect_number_min);
+                game.setStudentsInDiningModifier(effect_number_min);
                 break;
             case "no_entry":
                 for(Integer target : req.getTargetPieces()){

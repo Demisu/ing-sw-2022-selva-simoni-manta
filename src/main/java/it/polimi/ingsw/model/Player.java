@@ -40,7 +40,7 @@ public class Player implements Serializable {
 
         this.playerBoard = new SchoolBoard();
         this.activeCharacter = false;
-        this.isActive = true;
+        this.isActive = false;
     }
 
     /**

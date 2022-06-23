@@ -9,15 +9,17 @@ public class Island extends StudentAccessiblePiece implements Serializable {
     private Integer noEntry;
     private Integer towersNumber;
     private TowerColor towersColor; //check initiation value
+    private Game game;
 
     /**
      * Main constructor for Islands. Sets every variable. See also StudentAccessiblePiece.StudentAccessiblePiece()
      */
-    public Island(){
+    public Island(Game game){
         this.motherNature = false;
         this.noEntry = 0;
         this.towersNumber = 0;
         this.students = new HashSet<>();
+        this.game = game;
     }
 
     /**
@@ -80,11 +82,11 @@ public class Island extends StudentAccessiblePiece implements Serializable {
         int influence = 0;
         for(Color color : Color.values()){
             if(professors[indexOfColor(color)]){
-                influence += Game.getStudentValue(indexOfColor(color))*this.getStudentNumber(color);
+                influence += game.getStudentValue(indexOfColor(color))*this.getStudentNumber(color);
             }
         }
         if(towerColor == this.getTowersColor()){
-            influence += Game.getTowerValue()*this.getTowersNumber();
+            influence += game.getTowerValue()*this.getTowersNumber();
         }
         return influence;
     }

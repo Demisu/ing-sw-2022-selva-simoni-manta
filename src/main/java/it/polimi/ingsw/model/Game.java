@@ -27,7 +27,6 @@ public class Game implements Serializable {
     private final Integer islandsNumber = 12;
     private final Integer studentNumber = 130;
     private final ArrayList<Integer> allCharacters; //All existing characters
-    private final String charactersJSONPath = ".\\src\\Characters\\";
 
     private Integer gameEndTimout = 10;
     private final Boolean expertMode;
@@ -56,11 +55,11 @@ public class Game implements Serializable {
     private Character[] availableCharacters;
 
     //Modifiers
-    private static Integer[] studentValue = {1, 1, 1, 1, 1}; //defaults to 1
-    private static Integer towerValue = 1; //defaults to 1
-    private static Integer influenceModifier = 0; //defaults to 0
-    private static Integer motherNatureMovements = 0; //defaults to 0
-    private static Integer studentsInDiningModifier = 0; //defaults to 0
+    private Integer[] studentValue = {1, 1, 1, 1, 1}; //defaults to 1
+    private Integer towerValue = 1; //defaults to 1
+    private Integer influenceModifier = 0; //defaults to 0
+    private Integer motherNatureMovements = 0; //defaults to 0
+    private Integer studentsInDiningModifier = 0; //defaults to 0
 
     /**
      * Needed for unique Piece ID generation
@@ -130,7 +129,7 @@ public class Game implements Serializable {
         //Islands setup
         islands = new ArrayList<>();
         for(int i = 0; i < islandsNumber; i++) {
-            this.islands.add(new Island());
+            this.islands.add(new Island(this));
         }
         //Place mother nature on the first island
         this.islands.get(0).setMotherNature(true);
@@ -225,6 +224,7 @@ public class Game implements Serializable {
         }
 
         this.players.get(0).setNickname(nicknameOfCreator);
+        this.players.get(0).setActive(true);
         this.currentPlayer = players.get(0).getNickname();
         this.setupFill();
     }
@@ -553,11 +553,11 @@ public class Game implements Serializable {
         selectedCloudInTurn = false;
         movedMotherNatureInTurn = false;
 
-        Game.setAllStudentsValue(1);
-        Game.setTowerValue(1);
-        Game.setInfluenceModifier(0);
-        Game.setMotherNatureMovements(0);
-        Game.setStudentsInDiningModifier(0);
+        this.setAllStudentsValue(1);
+        this.setTowerValue(1);
+        this.setInfluenceModifier(0);
+        this.setMotherNatureMovements(0);
+        this.setStudentsInDiningModifier(0);
 
         for (Player player : this.getPlayers()) {
             player.setActiveCharacter(false);
@@ -625,13 +625,12 @@ public class Game implements Serializable {
 
     public Island getMotherNatureIsland(){
 
-        Island requestedIsland = new Island();
         for(Island island : islands){
             if(island.isMotherNature()){
-                requestedIsland = island;
+                return island;
             }
         }
-        return requestedIsland;
+        return null;
     }
 
     public List<Player> getPlayers() {
@@ -801,43 +800,41 @@ public class Game implements Serializable {
         this.currentPlayer = currentPlayer;
     }
 
-    // STATIC SECTION --------------------------------------------------------------------------------------------------
-
     //Getters
 
     /**
      * @param colorID ID of the color
      * @return value of the student color
      */
-    public static Integer getStudentValue(int colorID){
+    public Integer getStudentValue(int colorID){
         return studentValue[colorID];
     }
 
     /**
      * @return towerValue
      */
-    public static Integer getTowerValue(){
+    public Integer getTowerValue(){
         return towerValue;
     }
 
     /**
      * @return influenceModifier
      */
-    public static Integer getInfluenceModifier() {
+    public Integer getInfluenceModifier() {
         return influenceModifier;
     }
 
     /**
      * @return motherNatureMovements
      */
-    public static Integer getMotherNatureMovements() {
+    public Integer getMotherNatureMovements() {
         return motherNatureMovements;
     }
 
     /**
      * @return studentsInDiningModifier
      */
-    public static Integer getStudentsInDiningModifier() {
+    public Integer getStudentsInDiningModifier() {
         return studentsInDiningModifier;
     }
 
@@ -875,46 +872,46 @@ public class Game implements Serializable {
     /**
      * @param towerValue tower value to be set
      */
-    public static void setTowerValue(Integer towerValue) {
-        Game.towerValue = towerValue;
+    public void setTowerValue(Integer towerValue) {
+        this.towerValue = towerValue;
     }
 
     /**
      * @param color color of the student
      * @param studentValue value of the student
      */
-    public static void setStudentValue(Color color, Integer studentValue) {
-        Game.studentValue[StudentAccessiblePiece.indexOfColor(color)] = studentValue;
+    public void setStudentValue(Color color, Integer studentValue) {
+        this.studentValue[StudentAccessiblePiece.indexOfColor(color)] = studentValue;
     }
 
     /**
      * @param studentValue value of all students
      */
-    public static void setAllStudentsValue(Integer studentValue) {
+    public void setAllStudentsValue(Integer studentValue) {
         for (int i = 0; i < 5; i++){
-            Game.studentValue[i] = studentValue;
+            this.studentValue[i] = studentValue;
         }
     }
 
     /**
      * @param newInfluenceModifier influence modifier
      */
-    public static void setInfluenceModifier(Integer newInfluenceModifier) {
-        influenceModifier = newInfluenceModifier;
+    public void setInfluenceModifier(Integer newInfluenceModifier) {
+        this.influenceModifier = newInfluenceModifier;
     }
 
     /**
      * @param newMotherNatureMovements Mother nature movements modifier
      */
-    public static void setMotherNatureMovements(Integer newMotherNatureMovements) {
-        motherNatureMovements = newMotherNatureMovements;
+    public void setMotherNatureMovements(Integer newMotherNatureMovements) {
+        this.motherNatureMovements = newMotherNatureMovements;
     }
 
     /**
      * @param studentsInDiningModifier Students in dining number modifier
      */
-    public static void setStudentsInDiningModifier(Integer studentsInDiningModifier) {
-        Game.studentsInDiningModifier = studentsInDiningModifier;
+    public void setStudentsInDiningModifier(Integer studentsInDiningModifier) {
+        this.studentsInDiningModifier = studentsInDiningModifier;
     }
 
     // -----------------------------------------------------------------------------------------------------------------

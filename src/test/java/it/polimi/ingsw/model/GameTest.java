@@ -5,16 +5,9 @@ import it.polimi.ingsw.controller.GameController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
-import static it.polimi.ingsw.model.Game.getStudentValue;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
 import static org.junit.jupiter.api.Assertions.*;
@@ -90,10 +83,10 @@ public class GameTest {
         Game gameTest = new Game(2, "Test", true);
         assertNotNull(gameTest.getAllCharacters());
         gameTest.setStudentValue(Color.BLUE,3);
-        assertEquals(3,Game.getStudentValue(indexOfColor(Color.BLUE)));
+        assertEquals(3,gameTest.getStudentValue(indexOfColor(Color.BLUE)));
         gameTest.setAllStudentsValue(4);
         for(int i=0;i<5;i++){
-            assertEquals(4,Game.getStudentValue(i));
+            assertEquals(4,gameTest.getStudentValue(i));
         }
         gameTest.setStudentsInDiningModifier(2);
         assertEquals(gameTest.getStudentsInDiningModifier(),2);
@@ -114,16 +107,16 @@ public class GameTest {
         Integer studentID4 = 78;
         Integer studentID5 = 104;
 
-        assertEquals(getStudentValue(indexOfColor(colorOfStudent(studentID1))), 1);
-        assertEquals(getStudentValue(indexOfColor(colorOfStudent(studentID2))), 1);
-        assertEquals(getStudentValue(indexOfColor(colorOfStudent(studentID3))), 1);
-        assertEquals(getStudentValue(indexOfColor(colorOfStudent(studentID4))), 1);
-        assertEquals(getStudentValue(indexOfColor(colorOfStudent(studentID5))), 1);
+        assertEquals(gameTest.getStudentValue(indexOfColor(colorOfStudent(studentID1))), 1);
+        assertEquals(gameTest.getStudentValue(indexOfColor(colorOfStudent(studentID2))), 1);
+        assertEquals(gameTest.getStudentValue(indexOfColor(colorOfStudent(studentID3))), 1);
+        assertEquals(gameTest.getStudentValue(indexOfColor(colorOfStudent(studentID4))), 1);
+        assertEquals(gameTest.getStudentValue(indexOfColor(colorOfStudent(studentID5))), 1);
 
         //Getter and setters
-        assertEquals(Game.getTowerValue(), 1);
-        Game.setTowerValue(0);
-        assertEquals(Game.getTowerValue(), 0);
+        assertEquals(gameTest.getTowerValue(), 1);
+        gameTest.setTowerValue(0);
+        assertEquals(gameTest.getTowerValue(), 0);
 
         assertNotNull(gameTest.getTeams());
         assertNotNull(gameTest.getClouds());
@@ -132,13 +125,13 @@ public class GameTest {
         assertNotNull(gameTest.getCharacter(1));
         assertNotNull(gameTest.getCharacter(2));
 
-        assertEquals(Game.getInfluenceModifier(), 0);
-        Game.setInfluenceModifier(1);
-        assertEquals(Game.getInfluenceModifier(), 1);
+        assertEquals(gameTest.getInfluenceModifier(), 0);
+        gameTest.setInfluenceModifier(1);
+        assertEquals(gameTest.getInfluenceModifier(), 1);
 
-        assertEquals(Game.getMotherNatureMovements(), 0);
-        Game.setMotherNatureMovements(1);
-        assertEquals(Game.getMotherNatureMovements(), 1);
+        assertEquals(gameTest.getMotherNatureMovements(), 0);
+        gameTest.setMotherNatureMovements(1);
+        assertEquals(gameTest.getMotherNatureMovements(), 1);
 
         gameTest.setCurrentTurnOrder(new ArrayList<>());
         assertTrue(gameTest.getCurrentTurnOrder().isEmpty());
