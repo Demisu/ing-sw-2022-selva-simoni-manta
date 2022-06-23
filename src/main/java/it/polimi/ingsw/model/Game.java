@@ -49,7 +49,7 @@ public class Game implements Serializable {
     private final int studentsForBoards;
     private final int studentsToMove;
     private int movedStudentsInTurn;
-    private boolean selectedCloudInTurn = false;
+    private int movedFromCloudInTurn;
     private boolean movedMotherNatureInTurn = false;
 
     private Character[] availableCharacters;
@@ -125,6 +125,8 @@ public class Game implements Serializable {
         studentsForBoards = playerNumber == 3 ? 9 : 7;
         studentsToMove = playerNumber == 3 ? 4 : 3;
         movedStudentsInTurn = 0;
+        movedFromCloudInTurn = 0;
+
 
         //Islands setup
         islands = new ArrayList<>();
@@ -549,8 +551,8 @@ public class Game implements Serializable {
     public void resetModifiers(){
 
         //Reset moved students
-        this.movedStudentsInTurn = 0;
-        selectedCloudInTurn = false;
+        movedStudentsInTurn = 0;
+        movedFromCloudInTurn = 0;
         movedMotherNatureInTurn = false;
 
         this.setAllStudentsValue(1);
@@ -750,10 +752,17 @@ public class Game implements Serializable {
     }
 
     /**
-     * @return if a cloud has already been selected in the round
+     * @return number of students moved from a cloud in this turn
      */
-    public boolean getSelectedCloudInTurn(){
-        return selectedCloudInTurn;
+    public int getMovedFromCloudInTurn() {
+        return movedFromCloudInTurn;
+    }
+
+    /**
+     * @return number of students for each clouds
+     */
+    public int getStudentsForClouds() {
+        return studentsForClouds;
     }
 
     /**
@@ -863,10 +872,10 @@ public class Game implements Serializable {
     }
 
     /**
-     * @param selectedCloudInTurn students moved in this turn
+     * @param movedFromCloudInTurn students moved from a cloud in this turn
      */
-    public void setSelectedCloudInTurn(boolean selectedCloudInTurn) {
-        this.selectedCloudInTurn = selectedCloudInTurn;
+    public void setMovedFromCloudInTurn(int movedFromCloudInTurn) {
+        this.movedFromCloudInTurn = movedFromCloudInTurn;
     }
 
     /**

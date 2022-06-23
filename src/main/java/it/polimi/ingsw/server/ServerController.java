@@ -95,8 +95,8 @@ public class ServerController implements ClientRequestHandler {
         if(game.getStudentsToMove() == game.getMovedStudentsInTurn() && game.getCloudByID(req.getSourceId()) == null){
             return new OperationResultResponse(false, "Moved all students for this turn");
         }
-        //If the player already chose a cloud and is selecting one again
-        if(game.getCloudByID(req.getSourceId()) != null && game.getSelectedCloudInTurn()){
+        //If the player already chose the max number of students from a cloud
+        if(game.getCloudByID(req.getSourceId()) != null && game.getMovedFromCloudInTurn() >= game.getStudentsForClouds()){
             return new OperationResultResponse(false, "Cannot choose another cloud");
         }
         //Ok
@@ -106,7 +106,8 @@ public class ServerController implements ClientRequestHandler {
             //Adds 1 moved student
             game.setMovedStudentsInTurn(game.getMovedStudentsInTurn() + 1);
         } else {
-            game.setSelectedCloudInTurn(true);
+            //Adds 1 student moved from a cloud
+            game.setMovedFromCloudInTurn(game.getMovedFromCloudInTurn() + 1);
         }
         return new OperationResultResponse(true, "Moved student " + req.getStudentId() + " from " + req.getSourceId() + " to " + req.getTargetId());
     }

@@ -28,7 +28,9 @@ public class LobbyController implements GUIController {
             StringBuilder playersNames = new StringBuilder();
             List<Player> players = gui.getClientController().getGameInfo().getPlayers();
             for(int i = 0; i < gui.getClientController().getGameInfo().connectedPlayersNumber() + 1; i++){
-                playersNames.append("[").append(players.get(i).getNickname()).append("]").append(" ");
+                if(!players.get(i).getNickname().equals("Default")) {
+                    playersNames.append("[").append(players.get(i).getNickname()).append("]").append(" ");
+                }
             }
             message.setText("Players connected: "
                     + (gui.getClientController().getGameInfo().connectedPlayersNumber() + 1)

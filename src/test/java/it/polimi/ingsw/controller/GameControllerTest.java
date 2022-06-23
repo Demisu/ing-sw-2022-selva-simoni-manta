@@ -166,7 +166,7 @@ public class GameControllerTest {
         }
         controller.addPlayer("testChar");
         assertNotEquals(previous, controller.getCurrentGame().getCurrentPlayer());
-        assertTrue(controller.getCurrentGame().getPlayerByNickname(controller.getCurrentGame().getCurrentPlayer()).isActive());
+        assertFalse(controller.getCurrentGame().getPlayerByNickname(controller.getCurrentGame().getCurrentPlayer()).isActive());
     }
 
     @Test

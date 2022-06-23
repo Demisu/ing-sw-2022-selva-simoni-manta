@@ -156,7 +156,7 @@ public class GameTest {
         Team team = gameTest.getWinnerTeam();
         int i = gameTest.getStudentsToMove();
         i = gameTest.getTurnNumber();
-        gameTest.setSelectedCloudInTurn(gameTest.getSelectedCloudInTurn());
+        gameTest.setMovedFromCloudInTurn(gameTest.getMovedFromCloudInTurn());
         gameTest.getCloudByID(gameTest.getClouds().get(0).getPieceID());
         gameTest.setMovedStudentsInTurn(gameTest.getMovedStudentsInTurn());
 
