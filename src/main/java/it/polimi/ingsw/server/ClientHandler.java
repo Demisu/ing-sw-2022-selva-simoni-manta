@@ -25,8 +25,11 @@ public class ClientHandler implements Runnable {
     private final ObjectOutputStream out;
     private final ServerController controller;
     private String clientNickname;
+
+    //Timeout handling
     private ScheduledExecutorService timeOutTimer;
     private long lastPing;
+    private boolean alreadyKO = false;
     //Milliseconds for timeout
     public final long TIME_OUT_TIME = 2000;
 
@@ -86,10 +89,13 @@ public class ClientHandler implements Runnable {
      * Method to handle client disconnection, notifies the controller
      */
     public void clientKO(){
-        System.out.println("The client was disconnected");
-        controller.playerDisconnected(clientNickname);
-        controller.setConnectedPlayers(controller.getConnectedPlayers() - 1);
-        closeConnection();
+        if(!alreadyKO) {
+            alreadyKO = true;
+            System.out.println("The client was disconnected");
+            controller.playerDisconnected(clientNickname);
+            controller.setConnectedPlayers(controller.getConnectedPlayers() - 1);
+            closeConnection();
+        }
     }
 
     /**

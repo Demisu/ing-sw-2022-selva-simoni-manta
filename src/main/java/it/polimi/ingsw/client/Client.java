@@ -63,6 +63,11 @@ public class Client {
             return (ServerResponse) in.readObject();
         } catch (IOException e) {
             System.out.println("Failed to communicate with server, shutting down the application...");
+            try {
+                closeConnection();
+            } catch (IOException ex) {
+                System.out.println("Also failed to close connection");
+            }
             System.exit(-1);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Error in Client response");

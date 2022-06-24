@@ -353,8 +353,8 @@ public class Game implements Serializable {
                 //Next player
                 this.setCurrentPlayer(currentTurnOrder.get(currentIndex + 1).getNickname());
             }
-            //If there is only 1 player connected, start timer
-            if (connectedPlayersNumber() <= 1) {
+            //If there is only 1 player connected, start timer (only if the game has not already ended)
+            if (connectedPlayersNumber() <= 1 && !currentPhase.equals(END)) {
                 System.out.println("Started 10sec timer because only 1 or less players are still connected");
                 startedTimer = true;
                 ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();

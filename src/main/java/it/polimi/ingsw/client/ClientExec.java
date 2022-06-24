@@ -44,7 +44,8 @@ public class ClientExec {
             client.initConnection();
         } catch(IOException e) {
             System.out.println("failed initiating client connection");
-            e.printStackTrace();
+            client.closeConnection();
+            System.exit(-1);
         }
 
         ClientController clientController = new ClientController(client, ui);

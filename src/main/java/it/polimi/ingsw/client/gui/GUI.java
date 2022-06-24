@@ -114,6 +114,7 @@ public class GUI extends Application implements ClientView {
     private static ClientController staticClientController;
 
     private ScheduledExecutorService updater;
+    private boolean alreadyNotifiedEnd = false;
 
     public static void main(String[] args) throws IOException  {
         launch(args);
@@ -229,9 +230,11 @@ public class GUI extends Application implements ClientView {
             Platform.runLater(() -> {
                 changeScene(sceneMapName.get(currentScene));
                 this.getControllerFromName(sceneMapName.get(currentScene)).onLoad();
-                if(clientController.getGameInfo() != null && clientController.getGamePhase().equals(GamePhase.END)){
+                if(!alreadyNotifiedEnd && clientController.getGameInfo() != null && clientController.getGamePhase().equals(GamePhase.END)){
+                    alreadyNotifiedEnd = true;
                     changeScene(GUI.PROFILES);
                     getControllerFromName(GUI.PROFILES).onLoad();
+                    updater.shutdown();
                 }
             });
         }
@@ -300,7 +303,7 @@ public class GUI extends Application implements ClientView {
         dialog.setScene(bagScene);
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(stage);
-        dialog.getIcons().add(new Image(getClass().getResourceAsStream("/assets/"+asset)));
+        dialog.getIcons().add(new Image(getClass().getResourceAsStream("/assets/" + asset)));
         dialog.setTitle(title);
         TextFlow dialogTflow = new TextFlow();
         dialogTflow.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
