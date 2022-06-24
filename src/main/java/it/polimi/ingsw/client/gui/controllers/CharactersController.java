@@ -167,10 +167,10 @@ public class CharactersController implements GUIController {
                                 //Turn the card face down
                                 guiCharacter.get(index).setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
                                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Played character!", ButtonType.OK);
-                                alert.showAndWait();
+                                alert.show();
                             } else {
                                 Alert alert = new Alert(Alert.AlertType.ERROR, "Could not play character", ButtonType.OK);
-                                alert.showAndWait();
+                                alert.show();
                             }
                             resetStatus();
                             gui.changeScene(GUI.CHARACTERS);

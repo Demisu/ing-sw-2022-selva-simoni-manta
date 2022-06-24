@@ -40,7 +40,6 @@ import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 
 public class GUI extends Application implements ClientView {
 
-    //public static final String END_OF_THE_GAME = "End of the game";
     public static final String MENU = "start.fxml";
     public static final String NICKNAME = "nickname.fxml";
     public static final String PLAYERS = "players.fxml";
@@ -142,24 +141,6 @@ public class GUI extends Application implements ClientView {
         return clientController;
     }
 
-    public synchronized void changeScene(String scene){
-        //If setup is completed, start updating the model
-        if(! (scene.equals(MENU) ||  scene.equals(NICKNAME) || scene.equals(PLAYERS))) {
-            Platform.runLater(() -> {
-                ready = false;
-                clientController.getModelInfo();
-                ready = true;
-            });
-        }
-        currentScene = nameMapScene.get(scene);
-        double prevWidth = stage.getWidth();
-        double prevHeight = stage.getHeight();
-        stage.setHeight(prevHeight);
-        stage.setWidth(prevWidth);
-        stage.setScene(currentScene);
-        stage.show();
-    }
-
     /**
      * Method setup creates all the stage phases which will be updated in other methods, in particular:
      * - MENU: the game's main menu with Play and Quit buttons;
@@ -221,6 +202,24 @@ public class GUI extends Application implements ClientView {
         return musicPlayer;
     }
 
+    public synchronized void changeScene(String scene){
+        //If setup is completed, start updating the model
+        if(! (scene.equals(MENU) ||  scene.equals(NICKNAME) || scene.equals(PLAYERS))) {
+            Platform.runLater(() -> {
+                ready = false;
+                clientController.getModelInfo();
+                ready = true;
+            });
+        }
+        currentScene = nameMapScene.get(scene);
+        double prevWidth = stage.getWidth();
+        double prevHeight = stage.getHeight();
+        stage.setHeight(prevHeight);
+        stage.setWidth(prevWidth);
+        stage.setScene(currentScene);
+        stage.show();
+    }
+
     public void reloadScene(){
         //Update the scene only when needed
         if(currentScene.equals(nameMapScene.get(LOBBY))
@@ -237,6 +236,10 @@ public class GUI extends Application implements ClientView {
                     updater.shutdown();
                 }
             });
+        } else if(!currentScene.equals(nameMapScene.get(MENU))
+                && !currentScene.equals(nameMapScene.get(NICKNAME))
+                && !currentScene.equals(nameMapScene.get(PLAYERS)) ) {
+            clientController.getModelInfo();
         }
     }
 
