@@ -4,20 +4,13 @@ import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.model.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.effect.ColorAdjust;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -157,11 +150,12 @@ public class RealmController implements GUIController {
         if(gui.getStatus().equals(GUI.MOTHER_NATURE)){
             int i = 0;
             for(ImageView guiIsland : guiIslands){
-                //If island is visibile and in range for mother nature, highlight it
+                //If island is visibile and in range for mother nature (and she hasn't been moved already), highlight it
                 if(guiIsland.isVisible()
+                        && (!gui.getClientController().getGameInfo().getMovedMotherNatureInTurn())
                         && (i - gui.getOriginIslandIndex()) > 0
                         && (i - gui.getOriginIslandIndex()) <= (gui.getClientController().getPlayerInfo().getLastAssistantPlayed().getMotherNatureMovements()
-                                                                + gui.getClientController().getGameInfo().getMotherNatureMovements()) ) {
+                                                                + gui.getClientController().getGameInfo().getMotherNatureMovementsModifier()) ) {
                     guiIsland.setEffect(gui.getHighlight(GREEN));
                 }
                 i++;
@@ -283,10 +277,13 @@ public class RealmController implements GUIController {
                 Platform.runLater(() -> {
                     //Move mother nature
                     int steps = gui.getTargetIslandIndex() - gui.getOriginIslandIndex();
-                    if(steps > 0 && steps <= gui.getClientController().getPlayerInfo().getLastAssistantPlayed().getMotherNatureMovements()) {
+                    if(steps > 0
+                            && (steps <= gui.getClientController().getPlayerInfo().getLastAssistantPlayed().getMotherNatureMovements()
+                                            + gui.getClientController().getGameInfo().getMotherNatureMovementsModifier()) ) {
                         gui.getClientController().moveMotherNature(gui.getTargetIslandIndex() - gui.getOriginIslandIndex());
                     } else {
-                        System.out.println("Moving too far!");
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Moving too far!", ButtonType.OK);
+                        alert.showAndWait();
                     }
                     resetStatus();
                     guiIslands.forEach(guiIsland -> guiIsland.setEffect(null));
@@ -301,7 +298,11 @@ public class RealmController implements GUIController {
                 //Move student
                 Platform.runLater(() -> {
                     //Move student
-                    gui.getClientController().moveStudent(gui.getStudentToMove(), gui.getStudentSource(), gui.getStudentTarget());
+                    if(!gui.getClientController().moveStudent(gui.getStudentToMove(), gui.getStudentSource(), gui.getStudentTarget())){
+                        //If failed to move, tell the player
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot move student", ButtonType.OK);
+                        alert.showAndWait();
+                    }
                     resetStatus();
                     //Reload realm
                     gui.getClientController().getModelInfo();
@@ -485,7 +486,12 @@ public class RealmController implements GUIController {
         Player currentPlayer = gui.getClientController().getGameInfo().getPlayerByNickname(gui.getClientController().getPlayerInfo().getNickname());
         Platform.runLater(() -> {
             for(Integer student : cloud.getStudents()){
-                gui.getClientController().moveStudent(student, cloud.getPieceID(), currentPlayer.getPlayerBoard().getPieceID());
+                if(!gui.getClientController().moveStudent(student, cloud.getPieceID(), currentPlayer.getPlayerBoard().getPieceID())){
+                    //If failed, alert player
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot select cloud", ButtonType.OK);
+                    alert.showAndWait();
+                    break;
+                }
             }
             gui.getClientController().getModelInfo();
             gui.changeScene(GUI.REALM);

@@ -7,7 +7,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -164,6 +166,11 @@ public class CharactersController implements GUIController {
                             if (gui.getClientController().playCharacter(gui.getCharacterRequest())) {
                                 //Turn the card face down
                                 guiCharacter.get(index).setImage(new Image(getClass().getResourceAsStream("/assets/Personaggi/Personaggi_retro.jpg")));
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Played character!", ButtonType.OK);
+                                alert.showAndWait();
+                            } else {
+                                Alert alert = new Alert(Alert.AlertType.ERROR, "Could not play character", ButtonType.OK);
+                                alert.showAndWait();
                             }
                             resetStatus();
                             gui.changeScene(GUI.CHARACTERS);

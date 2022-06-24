@@ -90,9 +90,18 @@ public class Game implements Serializable {
         this.studentsForClouds = fullGame.studentsForClouds;
         this.studentsForBoards = fullGame.studentsForBoards;
         this.studentsToMove = fullGame.studentsToMove;
+        this.movedMotherNatureInTurn = fullGame.movedMotherNatureInTurn;
+        this.movedFromCloudInTurn = fullGame.movedFromCloudInTurn;
         this.students = fullGame.students;
         this.turnNumber = fullGame.turnNumber;
         this.winnerTeam = fullGame.winnerTeam;
+
+        //Modifiers
+        this.studentValue = fullGame.studentValue;
+        this.towerValue = fullGame.towerValue;
+        this.influenceModifier = fullGame.influenceModifier;
+        this.motherNatureMovements = fullGame.motherNatureMovements;
+        this.studentsInDiningModifier = fullGame.studentsInDiningModifier;
     }
 
     /**
@@ -838,7 +847,7 @@ public class Game implements Serializable {
     /**
      * @return motherNatureMovements
      */
-    public Integer getMotherNatureMovements() {
+    public Integer getMotherNatureMovementsModifier() {
         return motherNatureMovements;
     }
 

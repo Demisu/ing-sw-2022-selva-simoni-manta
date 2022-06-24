@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Class for the Character cards
@@ -182,7 +181,7 @@ public class Character extends StudentAccessiblePiece implements Serializable {
                 game.setInfluenceModifier(game.getInfluenceModifier() + effect_number_min); //(no range ATM)
                 break;
             case "mother_nature":
-                game.setMotherNatureMovements(game.getMotherNatureMovements() + effect_number_min); //(no range ATM)
+                game.setMotherNatureMovements(game.getMotherNatureMovementsModifier() + effect_number_min); //(no range ATM)
                 break;
             case "student":
                 //Student (color?) influence += effect_number_min

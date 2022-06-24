@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.controller.GameController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -129,9 +128,9 @@ public class GameTest {
         gameTest.setInfluenceModifier(1);
         assertEquals(gameTest.getInfluenceModifier(), 1);
 
-        assertEquals(gameTest.getMotherNatureMovements(), 0);
+        assertEquals(gameTest.getMotherNatureMovementsModifier(), 0);
         gameTest.setMotherNatureMovements(1);
-        assertEquals(gameTest.getMotherNatureMovements(), 1);
+        assertEquals(gameTest.getMotherNatureMovementsModifier(), 1);
 
         gameTest.setCurrentTurnOrder(new ArrayList<>());
         assertTrue(gameTest.getCurrentTurnOrder().isEmpty());

@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -30,8 +31,9 @@ public class ClientHandler implements Runnable {
     private ScheduledExecutorService timeOutTimer;
     private long lastPing;
     private boolean alreadyKO = false;
+    private boolean startedTimer = false;
     //Milliseconds for timeout
-    public final long TIME_OUT_TIME = 2000;
+    public final long TIME_OUT_TIME = 4000;
 
     /**
      * @param socket socket reference
@@ -55,6 +57,21 @@ public class ClientHandler implements Runnable {
             do {
                 ClientRequest request = ((ClientRequest) in.readObject());
                 lastPing = System.currentTimeMillis();
+                if(!startedTimer) {
+                    startedTimer = true;
+                    timeOutTimer = Executors.newSingleThreadScheduledExecutor();
+                    timeOutTimer.scheduleAtFixedRate(() -> {
+                        long currentTime = System.currentTimeMillis();
+                        if ((lastPing < currentTime - TIME_OUT_TIME)
+                                && (controller.getGameController().getCurrentGame().getCurrentPhase().equals(GamePhase.PLANNING)
+                                || controller.getGameController().getCurrentGame().getCurrentPhase().equals(GamePhase.ACTION))) {
+                            System.out.println("Connection lost with client of " + clientNickname);
+                            System.out.println(TIME_OUT_TIME/1000 + " seconds have passed without a ping response");
+                            clientKO();
+                            timeOutTimer.shutdown();
+                        }
+                    }, TIME_OUT_TIME, TIME_OUT_TIME, TimeUnit.MILLISECONDS);
+                }
                 ServerResponse serverResponse = request.handle(controller);
                 //If the client connects correctly, save his nickname for disconnection
                 if(request instanceof SetNicknameRequest && ((SetNicknameResponse) serverResponse).getSuccess()) {
@@ -65,14 +82,6 @@ public class ClientHandler implements Runnable {
                          out.writeObject(serverResponse);
                          out.flush();
                          out.reset();
-                         timeOutTimer = Executors.newSingleThreadScheduledExecutor();
-                         timeOutTimer.schedule(() -> {
-                             if((lastPing < System.currentTimeMillis() - TIME_OUT_TIME)
-                                     && (controller.getGameController().getCurrentGame().getCurrentPhase().equals(GamePhase.PLANNING)
-                                         || controller.getGameController().getCurrentGame().getCurrentPhase().equals(GamePhase.ACTION)) ){
-                                 clientKO();
-                             }
-                         }, 3, TimeUnit.SECONDS);
                      } catch (IOException e) {
                          e.printStackTrace();
                      }

@@ -142,7 +142,7 @@ public class GUI extends Application implements ClientView {
         return clientController;
     }
 
-    public void changeScene(String scene){
+    public synchronized void changeScene(String scene){
         //If setup is completed, start updating the model
         if(! (scene.equals(MENU) ||  scene.equals(NICKNAME) || scene.equals(PLAYERS))) {
             Platform.runLater(() -> {

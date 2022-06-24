@@ -5,7 +5,9 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Character;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -94,7 +96,11 @@ public class SchoolboardController implements GUIController {
                 //Move student
                 Platform.runLater(() -> {
                     //Move student
-                    gui.getClientController().moveStudent(gui.getStudentToMove(), gui.getStudentSource(), gui.getStudentTarget());
+                    if(!gui.getClientController().moveStudent(gui.getStudentToMove(), gui.getStudentSource(), gui.getStudentTarget())){
+                        //If failed to move, tell the player
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot move student", ButtonType.OK);
+                        alert.showAndWait();
+                    }
                     resetStatus();
                     //Reload school board
                     gui.changeScene(GUI.SCHOOLBOARD);
@@ -353,13 +359,10 @@ public class SchoolboardController implements GUIController {
             undo.setVisible(true);
         } else if(gui.getStatus().equals(GUI.CHARACTER)
                 && colorMapNumberChosen.get(color) < schoolBoard.getStudents(color).size()){
-            System.out.println(colorMapNumberChosen.get(color) + " < " + schoolBoard.getStudents(color).size());
             gui.addStudent(schoolBoard.getStudents(color).get(colorMapNumberChosen.get(color)));
-            System.out.println("added " + schoolBoard.getStudents(color).get(colorMapNumberChosen.get(color)));
             //+1 to counter of students of that color
             colorMapNumberChosen.put(color, colorMapNumberChosen.get(color) + 1);
             gui.addPiece(schoolBoard.getPieceID());
-            System.out.println("piece " + schoolBoard.getPieceID());
         }
     }
 

@@ -7,7 +7,9 @@ import it.polimi.ingsw.model.Player;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
@@ -104,6 +106,8 @@ public class AssistantsController implements GUIController {
                                 gui.getControllerFromName(GUI.PROFILES).onLoad();
                             } else {
                                 //Might want to add a popup here with an error
+                                Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot play assistant", ButtonType.OK);
+                                alert.showAndWait();
                             }
                         });
                     });

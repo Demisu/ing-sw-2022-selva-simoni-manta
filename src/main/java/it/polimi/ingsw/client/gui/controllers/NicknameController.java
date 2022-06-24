@@ -3,7 +3,9 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.gui.GUI;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
 public class NicknameController implements GUIController {
@@ -31,14 +33,23 @@ public class NicknameController implements GUIController {
                         gui.getControllerFromName(GUI.PLAYERS).onLoad();
                     }
                     case 2 -> {
-                        Platform.runLater(() -> {
-                            gui.getClientController().closeConnection();
-                        });
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Game is full! Click ok to quit", ButtonType.OK);
+                        alert.showAndWait();
+                        if(alert.getResult().equals(ButtonType.OK)){
+                            Platform.runLater(() -> {
+                                gui.getClientController().closeConnection();
+                            });
+                        } else {
+                            Platform.runLater(() -> {
+                                gui.getClientController().closeConnection();
+                            });
+                        }
                         Platform.exit();
                     }
                 }
             }else{
-                System.out.println("Inserisci un nickname!"); //Might want to add a popup displaying the message
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Nickname is invalid! Please try again", ButtonType.OK);
+                alert.showAndWait();
             }
         });
     }
