@@ -65,6 +65,7 @@ public class ClientHandler implements Runnable {
                         if ((lastPing < currentTime - TIME_OUT_TIME)
                                 && (controller.getGameController().getCurrentGame().getCurrentPhase().equals(GamePhase.PLANNING)
                                 || controller.getGameController().getCurrentGame().getCurrentPhase().equals(GamePhase.ACTION))) {
+                            System.out.println("--------------------------------");
                             System.out.println("Connection lost with client of " + clientNickname);
                             System.out.println(TIME_OUT_TIME/1000 + " seconds have passed without a ping response");
                             clientKO();
@@ -101,6 +102,7 @@ public class ClientHandler implements Runnable {
         if(!alreadyKO) {
             alreadyKO = true;
             System.out.println("The client was disconnected");
+            System.out.println("--------------------------------");
             controller.playerDisconnected(clientNickname);
             controller.setConnectedPlayers(controller.getConnectedPlayers() - 1);
             closeConnection();
