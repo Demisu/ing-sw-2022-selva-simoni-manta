@@ -5,10 +5,8 @@ import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
 import it.polimi.ingsw.client.gui.controllers.RealmController;
 import it.polimi.ingsw.client.requests.PlayCharacterRequest;
-import it.polimi.ingsw.model.Assistant;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Character;
-import it.polimi.ingsw.model.StudentAccessiblePiece;
-import it.polimi.ingsw.model.TowerColor;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -231,6 +229,10 @@ public class GUI extends Application implements ClientView {
             Platform.runLater(() -> {
                 changeScene(sceneMapName.get(currentScene));
                 this.getControllerFromName(sceneMapName.get(currentScene)).onLoad();
+                if(clientController.getGameInfo() != null && clientController.getGamePhase().equals(GamePhase.END)){
+                    changeScene(GUI.PROFILES);
+                    getControllerFromName(GUI.PROFILES).onLoad();
+                }
             });
         }
     }

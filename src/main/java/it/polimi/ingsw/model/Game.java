@@ -581,10 +581,12 @@ public class Game implements Serializable {
         }
         currentPhase = END;
         System.out.println("----------------------------");
-        System.out.println("THE GAME HAS ENDED. WINNER: " + winnerTeam.getTeamId());
+        System.out.println("THE GAME HAS ENDED. WINNER: Team " + winnerTeam.getTeamId());
+        System.out.print("Member(s): ");
         for (Player player : winnerTeam.getPlayers()){
-            System.out.println(player.getNickname() + " ");
+            System.out.print(player.getNickname() + " ");
         }
+        System.out.println();
         System.out.println("----------------------------");
     }
 

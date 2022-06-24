@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static it.polimi.ingsw.model.Color.*;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
@@ -19,6 +22,8 @@ import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
  * CLI class for Command Line Interface game UI
  */
 public class CLI implements ClientView {
+
+    private ScheduledExecutorService updater;
 
     Scanner scanner = new Scanner(System.in);
     String nickname;
@@ -118,6 +123,11 @@ public class CLI implements ClientView {
                 System.exit(0);
             }
         }
+
+        updater = Executors.newSingleThreadScheduledExecutor();
+        updater.scheduleAtFixedRate(() -> {
+            clientController.getModelInfo();
+        }, 0, 1, TimeUnit.SECONDS);
     }
 
     /**

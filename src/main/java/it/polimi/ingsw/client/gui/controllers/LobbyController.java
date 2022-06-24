@@ -18,7 +18,10 @@ public class LobbyController implements GUIController {
 
     public void onLoad(){
 
-        if(gui.getClientController().getGameInfo() != null && !gui.getClientController().getGamePhase().equals(GamePhase.SETUP)){
+        if(gui.getClientController().getGameInfo() != null && gui.getClientController().getGamePhase().equals(GamePhase.END)){
+            gui.changeScene(GUI.PROFILES);
+            gui.getControllerFromName(GUI.PROFILES).onLoad();
+        } else if(gui.getClientController().getGameInfo() != null && !gui.getClientController().getGamePhase().equals(GamePhase.SETUP)){
             if(!gui.getClientController().getGameInfo().isExpertMode()){
                 ((RealmController) gui.getControllerFromName(GUI.REALM)).expertMode = false;
             }
@@ -33,7 +36,7 @@ public class LobbyController implements GUIController {
                 }
             }
             message.setText("Players connected: "
-                    + (gui.getClientController().getGameInfo().connectedPlayersNumber() + 1)
+                    + (gui.getClientController().getGameInfo().connectedPlayersNumber())
                     + "/"
                     + gui.getClientController().getGameInfo().getPlayers().size()
                     + "\n"

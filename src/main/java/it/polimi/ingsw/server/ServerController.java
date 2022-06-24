@@ -17,7 +17,6 @@ import java.util.HashSet;
  */
 public class ServerController implements ClientRequestHandler {
 
-    private final ArrayList<ClientHandler> clientHandlerList;
     private final GameController gameController;
     private Boolean gameExists = false;
     private Integer connectedPlayers = 0;
@@ -27,7 +26,6 @@ public class ServerController implements ClientRequestHandler {
      */
     public ServerController(GameController gameController) {
         this.gameController = gameController;
-        this.clientHandlerList = new ArrayList<>();
     }
 
     /**
@@ -330,5 +328,12 @@ public class ServerController implements ClientRequestHandler {
      */
     public void setConnectedPlayers(Integer connectedPlayers) {
         this.connectedPlayers = connectedPlayers;
+    }
+
+    /**
+     * @return gameController reference
+     */
+    public GameController getGameController() {
+        return gameController;
     }
 }

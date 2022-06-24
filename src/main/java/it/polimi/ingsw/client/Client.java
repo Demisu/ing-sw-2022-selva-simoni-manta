@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * Client class used for server connection and communication
@@ -44,7 +45,7 @@ public class Client {
     /**
      * Closes client connection
      *
-     * @throws IOException
+     * @throws IOException IOException
      */
     public void closeConnection() throws IOException {
         in.close();
@@ -61,9 +62,9 @@ public class Client {
         try {
             return (ServerResponse) in.readObject();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Failed to communicate with server, shutting down the application...");
+            System.exit(-1);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
             throw new RuntimeException("Error in Client response");
         }
 
