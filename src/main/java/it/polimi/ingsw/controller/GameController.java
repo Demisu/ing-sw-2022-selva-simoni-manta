@@ -306,6 +306,9 @@ public class GameController {
             }}, skipTurnDelay, TimeUnit.SECONDS);
     }
 
+    /**
+     * @param skipTurnDelay Delay for the afk timer
+     */
     public void setSkipTurnDelay(Integer skipTurnDelay) {
         this.skipTurnDelay = skipTurnDelay;
     }

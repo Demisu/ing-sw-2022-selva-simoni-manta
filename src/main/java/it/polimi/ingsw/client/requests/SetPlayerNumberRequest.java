@@ -9,9 +9,9 @@ import it.polimi.ingsw.server.ServerResponse;
  */
 public class SetPlayerNumberRequest implements ClientRequest {
 
-    String nickname;
-    Integer number;
-    Boolean expertMode;
+    private String nickname;
+    private Integer number;
+    private Boolean expertMode;
 
     /**
      * @param nickname requester

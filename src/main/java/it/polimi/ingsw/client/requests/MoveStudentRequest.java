@@ -8,10 +8,10 @@ import it.polimi.ingsw.server.ServerResponse;
  * Request to move students
  */
 public class MoveStudentRequest implements ClientRequest {
-    Integer studentId;
-    Integer sourceId;
-    Integer targetId;
-    String nickname;
+    private Integer studentId;
+    private Integer sourceId;
+    private Integer targetId;
+    private String nickname;
 
     /**
      * @param studentId studentId

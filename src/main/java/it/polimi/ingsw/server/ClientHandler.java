@@ -32,7 +32,9 @@ public class ClientHandler implements Runnable {
     private long lastPing;
     private boolean alreadyKO = false;
     private boolean startedTimer = false;
-    //Milliseconds for timeout
+    /**
+     * Milliseconds for timeout
+     */
     public final long TIME_OUT_TIME = 4000;
 
     /**

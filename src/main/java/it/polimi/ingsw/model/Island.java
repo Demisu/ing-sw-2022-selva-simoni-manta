@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/**
+ * Class for the island of the game
+ */
 public class Island extends StudentAccessiblePiece implements Serializable {
     private boolean motherNature;
     private Integer noEntry;
@@ -13,6 +16,8 @@ public class Island extends StudentAccessiblePiece implements Serializable {
 
     /**
      * Main constructor for Islands. Sets every variable. See also StudentAccessiblePiece.StudentAccessiblePiece()
+     *
+     * @param game current game
      */
     public Island(Game game){
         this.motherNature = false;

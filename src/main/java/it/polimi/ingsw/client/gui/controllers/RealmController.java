@@ -28,18 +28,48 @@ import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.WHITE;
 
+/**
+ * controller for the whole realm GUI scene
+ */
 public class RealmController implements GUIController {
 
     private Stage stage;
     private GUI gui;
+    /**
+     * true for expert mode, false otherwise
+     */
     public Boolean expertMode = true; //Might want to make this Static
+    /**
+     * all the students inside the game bag
+     */
     public ArrayList<Integer> studentsInBag;
+    /**
+     * text to be shown when the bag is opened
+     */
     public String bagInfo;
+    /**
+     * diameter size for the GUI
+     */
     public final int studentSize = 40;
+    /**
+     * odd rows for the GUI
+     */
     public final int oddX = 30;
+    /**
+     * even rows for the GUI
+     */
     public final int evenX = 10;
+    /**
+     * starting Y position for the GUI
+     */
     public final int startingY = 10;
+    /**
+     * X Offset intended for the GUI positioning
+     */
     public final int textOffsetX = 15;
+    /**
+     * Y Offset intended for the GUI positioning
+     */
     public final int textOffsetY = 27;
 
     //Variables for positioning
@@ -243,6 +273,10 @@ public class RealmController implements GUIController {
         });
     }
 
+    /**
+     * @param color color from model
+     * @return color from javafx
+     */
     public Paint parseColor(it.polimi.ingsw.model.Color color){
         switch(color){
             case YELLOW -> {
@@ -266,6 +300,9 @@ public class RealmController implements GUIController {
         }
     }
 
+    /**
+     * @param island island to be filled with data (students)
+     */
     public void drawIsland(Island island){
         Integer index = island.getPieceID();
         ImageView islandToRender = guiIslands.get(index);
@@ -385,6 +422,9 @@ public class RealmController implements GUIController {
         }
     }
 
+    /**
+     * @param cloud cloud to be filled with data (students)
+     */
     public void drawCloud(Cloud cloud){
         int index = (cloud.getPieceID() - 12 ) / 2;
         ImageView cloudToRender = guiClouds.get(index);
@@ -408,6 +448,11 @@ public class RealmController implements GUIController {
         drawStudents(cloudPane.get(index), cloud.getStudents(), cloud);
     }
 
+    /**
+     * @param studentWrapper wrapper pane for the students
+     * @param students students to be drawn
+     * @param piece piece on which to place the students
+     */
     public void drawStudents(Pane studentWrapper, HashSet<Integer> students, StudentAccessiblePiece piece){
 
         counterX = oddX;
@@ -482,6 +527,9 @@ public class RealmController implements GUIController {
         }
     }
 
+    /**
+     * @param cloud cloud selected for the task associated
+     */
     public void selectCloud(Cloud cloud){
         Player currentPlayer = gui.getClientController().getGameInfo().getPlayerByNickname(gui.getClientController().getPlayerInfo().getNickname());
         Platform.runLater(() -> {
@@ -499,8 +547,10 @@ public class RealmController implements GUIController {
         });
     }
 
+    /**
+     * see gui.resetStatus()
+     */
     public void resetStatus(){
-
         gui.resetStatus();
         colorMapNumberChosen = new HashMap<>(){
             {
@@ -515,6 +565,9 @@ public class RealmController implements GUIController {
         undo.setVisible(false);
     }
 
+    /**
+     * just set the "on click" of the buttons
+     */
     public void setCharacterButtons(){
         colorBtn.setOnAction(e -> {
             gui.colorDialog();

@@ -20,6 +20,9 @@ import java.util.Map;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
 
+/**
+ * controller for the zoomed clouds scene in the GUI
+ */
 public class CloudController implements GUIController {
     private Stage stage;
     private GUI gui;
@@ -63,11 +66,17 @@ public class CloudController implements GUIController {
         });
     }
 
+    /**
+     * @param cloud the cloud to be filled with data
+     */
     public void drawZoomedCloud(Cloud cloud){
         guiCloud.setImage(new Image(getClass().getResourceAsStream("/assets/cloud-zoomed.png")));
         drawStudents(cloud.getStudents());
     }
 
+    /**
+     * @param students students currently present, to be showed
+     */
     public void drawStudents(HashSet<Integer> students){
 
         Integer[] studentsNumber = new Integer[5];

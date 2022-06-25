@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.ServerResponse;
  */
 public class PassTurnRequest implements ClientRequest {
 
-    String nickname;
+    private String nickname;
 
     /**
      * @param nickname requester

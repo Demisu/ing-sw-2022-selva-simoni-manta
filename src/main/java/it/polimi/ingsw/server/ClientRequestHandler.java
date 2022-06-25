@@ -51,7 +51,7 @@ public interface ClientRequestHandler {
     ServerResponse handle(SetPlayerNumberRequest setPlayerNumberRequest);
 
     /**
-     * @param v getUpdatedBoardRequest
+     * @param getUpdatedBoardRequest getUpdatedBoardRequest
      * @return ServerResponse
      */
     ServerResponse handle(GetUpdatedBoardRequest getUpdatedBoardRequest);

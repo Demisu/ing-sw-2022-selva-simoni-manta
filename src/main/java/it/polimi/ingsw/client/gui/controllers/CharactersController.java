@@ -27,6 +27,9 @@ import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
 import static javafx.scene.paint.Color.WHITE;
 
+/**
+ * controller for the Characters GUI scene
+ */
 public class CharactersController implements GUIController {
     private final Image coinImage = new Image(getClass().getResourceAsStream("/assets/coin.png"));
     private Stage stage;
@@ -62,9 +65,17 @@ public class CharactersController implements GUIController {
         }
     };
 
-    //Variables for positioning
+    /**
+     * Variable for positioning of the students
+     */
     public final int studentSize = 46;
+    /**
+     * Variable for positioning of the students
+     */
     public final int textOffsetX = 17;
+    /**
+     * Variable for positioning of the students
+     */
     public final int textOffsetY = 30;
     int counterX = 0;
 
@@ -135,6 +146,9 @@ public class CharactersController implements GUIController {
         characters.forEach(this::drawCharacter);
     }
 
+    /**
+     * @param character gets the character data and sets it in the GUI
+     */
     public void drawCharacter(Character character){
 
         int index = gui.getClientController().getCharacters().indexOf(character);
@@ -211,6 +225,10 @@ public class CharactersController implements GUIController {
         }
     }
 
+    /**
+     * @param studentWrapper wrapper pane for student generation
+     * @param character character that needs to draw students
+     */
     public void drawStudents(Pane studentWrapper, Character character){
 
         counterX = 0;
@@ -276,6 +294,10 @@ public class CharactersController implements GUIController {
         }
     }
 
+    /**
+     * @param studentWrapper wrapper pane for student generation
+     * @param character character that has noEntries
+     */
     public void drawNoEntry(Pane studentWrapper, Character character){
 
         for(int i = 0, counterX = 0; i < character.getNoEntryNumber(); i++, counterX += studentSize){
@@ -288,6 +310,10 @@ public class CharactersController implements GUIController {
         }
     }
 
+    /**
+     * @param character character that needs to choose a student
+     * @param color color of the student chosen
+     */
     public void chooseStudent(Character character, it.polimi.ingsw.model.Color color){
         //If character active and there are still enough students to get
         if(gui.getStatus().equals(GUI.CHARACTER)
@@ -299,8 +325,11 @@ public class CharactersController implements GUIController {
         }
     }
 
+    /**
+     * see gui.resetStatus()
+     * reloads scene
+     */
     public void resetStatus(){
-
         gui.resetStatus();
         colorMapNumberChosen = new HashMap<>(){
             {
@@ -316,6 +345,9 @@ public class CharactersController implements GUIController {
         gui.reloadScene();
     }
 
+    /**
+     * @param character character from which parameters are read
+     */
     public void readCharacterParameters(Character character){
 
         switch (character.getEffectType()) {
@@ -391,6 +423,9 @@ public class CharactersController implements GUIController {
         }
     }
 
+    /**
+     * see realmController.setCharacterButtons()
+     */
     public void setCharacterButtons(){
         colorBtn.setOnAction(e -> {
             gui.colorDialog();

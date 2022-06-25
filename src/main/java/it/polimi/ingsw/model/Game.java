@@ -542,6 +542,10 @@ public class Game implements Serializable {
         islands.remove(toRemove);
     }
 
+    /**
+     * @param nickname of the player to add
+     * @return false if the game is full, true otherwise
+     */
     public Boolean addPlayer(String nickname){
 
         if(emptyPlayerNumber >= playerNumber){
@@ -557,6 +561,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Resets turn modifiers
+     */
     public void resetModifiers(){
 
         //Reset moved students
@@ -582,6 +589,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * if there's not yet a winner, finds one and ends game
+     */
     public void endGame(){
 
         //If there is not yet a winner
@@ -599,6 +609,9 @@ public class Game implements Serializable {
         System.out.println("----------------------------");
     }
 
+    /**
+     * @return true if there's a winner, false otherwise
+     */
     public Boolean anyWinner(){
 
         if(winnerTeam != null){
@@ -615,6 +628,9 @@ public class Game implements Serializable {
         return false;
     }
 
+    /**
+     * finds the winner team if any
+     */
     public void processTheWinner(){
 
         //Way higher than max available towers
@@ -636,6 +652,9 @@ public class Game implements Serializable {
 
     //Getters
 
+    /**
+     * @return island on which there is mother nature
+     */
     public Island getMotherNatureIsland(){
 
         for(Island island : islands){
@@ -646,6 +665,9 @@ public class Game implements Serializable {
         return null;
     }
 
+    /**
+     * @return list of the players
+     */
     public List<Player> getPlayers() {
 
         List<Player> playerList = new ArrayList<>();

@@ -8,6 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
+/**
+ * controller for the nickname selection GUI scene
+ */
 public class NicknameController implements GUIController {
     private GUI gui;
 

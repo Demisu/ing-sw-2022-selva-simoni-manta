@@ -9,8 +9,8 @@ import it.polimi.ingsw.server.ServerResponse;
  */
 public class PlayAssistantRequest implements ClientRequest {
 
-    Integer assistantNumber;
-    String nickname;
+    private Integer assistantNumber;
+    private String nickname;
 
     /**
      * @param nickname requester

@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.ServerResponse;
  */
 public class GetUpdatedBoardRequest implements ClientRequest {
 
-    String nickname;
+    private String nickname;
 
     /**
      * @param nickname nickname of the requester

@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.ServerResponse;
  */
 public class MoveMotherNatureRequest implements ClientRequest {
 
-    final Integer movements;
+    private final Integer movements;
     private final String nickname;
 
     /**

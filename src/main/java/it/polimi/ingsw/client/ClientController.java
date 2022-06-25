@@ -90,6 +90,7 @@ public class ClientController implements ServerResponseHandler {
 
     /**
      * @param nickname nickname to set
+     * @return SetNicknameResponse, see this.handle(SetNickNameResponse) documentation for the return value
      */
     public Integer setPlayerNickname(String nickname) {
         this.nickname = nickname;
@@ -117,6 +118,7 @@ public class ClientController implements ServerResponseHandler {
     /**
      * Moves MotherNature
      * @param movements the amount of movements to do
+     * @return result (success)
      */
     public Boolean moveMotherNature(Integer movements) {
         client.clientRequest(new MoveMotherNatureRequest(movements, nickname));

@@ -6,6 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
+/**
+ * controller for the number of players selection GUI scene
+ */
 public class PlayersController implements GUIController {
     private GUI gui;
 
@@ -33,6 +36,9 @@ public class PlayersController implements GUIController {
         });
     }
 
+    /**
+     * @param number number of players that will be allowed in the game
+     */
     public void setPlayerNumber(int number){
         Platform.runLater(() -> {
             gui.getClientController().setPlayerNumber(number, expertMode.isSelected());

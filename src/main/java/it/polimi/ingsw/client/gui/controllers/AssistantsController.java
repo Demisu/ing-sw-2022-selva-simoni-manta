@@ -19,6 +19,9 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * controller of the assistants scene
+ */
 public class AssistantsController implements GUIController {
     private GUI gui;
 
@@ -116,6 +119,11 @@ public class AssistantsController implements GUIController {
         });
     }
 
+    /**
+     * @param priority priority number
+     * @param movement movement number
+     * @return index of the assistant
+     */
     public int getIndexOfAssistant(int priority, int movement) {
         List<Assistant> assistants = gui.getClientController().getPlayerInfo().getDeck();
         for(Assistant assistant : assistants) {

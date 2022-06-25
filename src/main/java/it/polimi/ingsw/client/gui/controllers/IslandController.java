@@ -22,6 +22,9 @@ import java.util.Map;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
 
+/**
+ * controller for the zoomed islands GUI scene
+ */
 public class IslandController implements GUIController {
     private Stage stage;
     private GUI gui;
@@ -65,6 +68,9 @@ public class IslandController implements GUIController {
         });
     }
 
+    /**
+     * @param island the island to be filled with data
+     */
     public void drawZoomedIsland(Island island){
         guiIsland.setImage(new Image(getClass().getResourceAsStream("/assets/island" + ((island.getPieceID()) % 3 + 1) + "-zoomed.png")));
         drawStudents(island.getStudents());
@@ -76,6 +82,9 @@ public class IslandController implements GUIController {
         drawTowers(island);
     }
 
+    /**
+     * @param students students currently present, to be showed
+     */
     public void drawStudents(HashSet<Integer> students){
 
         Integer[] studentsNumber = new Integer[5];
@@ -94,6 +103,9 @@ public class IslandController implements GUIController {
         }
     }
 
+    /**
+     * @param island island that needs towers to be drawn
+     */
     public void drawTowers(Island island){
         boolean hasTowers = island.getTowersNumber() > 0;
         tower.setVisible(hasTowers);

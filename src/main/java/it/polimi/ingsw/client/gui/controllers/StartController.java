@@ -8,6 +8,9 @@ import javafx.scene.control.Button;
 
 import java.io.IOException;
 
+/**
+ * controller for the main menu GUI scene
+ */
 public class StartController implements GUIController {
     private GUI gui;
     private boolean muted;
@@ -15,15 +18,30 @@ public class StartController implements GUIController {
     @FXML
     private Button sound;
 
+    /**
+     * used to switch to the nickname scene in the GUI
+     * @param e on click event
+     * @throws IOException IOException
+     */
     public void switchToNicknameScene(ActionEvent e) throws IOException {
         gui.changeScene(GUI.NICKNAME);
         gui.getControllerFromName(GUI.NICKNAME).onLoad();
     }
 
+    /**
+     * used to close the application
+     * @param e on click event
+     * @throws IOException IOException
+     */
     public void closeApplication(ActionEvent e) throws IOException {
         Platform.exit();
     }
 
+    /**
+     * mute and unmute the music volume
+     * @param e on click event
+     * @throws IOException IOException
+     */
     public void switchVolume(ActionEvent e) throws IOException {
         if(muted){// 42 39
             gui.getMusicPlayer().play();

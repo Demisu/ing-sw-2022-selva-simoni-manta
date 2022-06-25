@@ -10,6 +10,9 @@ import javafx.scene.text.Text;
 
 import java.util.List;
 
+/**
+ * controller for the lobby GUI scene
+ */
 public class LobbyController implements GUIController {
     private GUI gui;
 

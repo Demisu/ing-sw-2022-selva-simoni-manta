@@ -12,6 +12,9 @@ import static it.polimi.ingsw.model.Color.*;
  */
 public abstract class StudentAccessiblePiece implements Serializable {
 
+    /**
+     * students present in this piece
+     */
     protected HashSet<Integer> students;
     private Integer pieceID;
 

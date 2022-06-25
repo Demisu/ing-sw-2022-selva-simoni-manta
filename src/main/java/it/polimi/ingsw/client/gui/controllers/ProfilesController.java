@@ -18,6 +18,9 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * controller for the game status GUI scene
+ */
 public class ProfilesController implements GUIController {
     private GUI gui;
     List<Team> teams;
@@ -144,6 +147,9 @@ public class ProfilesController implements GUIController {
         });
     }
 
+    /**
+     * @param player player that needs data to be shown
+     */
     public void drawPlayer(Player player){
         ColorAdjust darken = new ColorAdjust();
         darken.setBrightness(-0.6);

@@ -153,7 +153,7 @@ public class GUI extends Application implements ClientView {
     /**
      * Runs the GUI with the specified input arguments
      * @param args starting arguments
-     * @throws IOException
+     * @throws IOException IOException
      */
     public static void main(String[] args) throws IOException  {
         launch(args);
@@ -701,6 +701,7 @@ public class GUI extends Application implements ClientView {
 
     /**
      * @see PlayCharacterRequest
+     * @return a new PlayCharacterRequest with gui parameters
      */
     public PlayCharacterRequest getCharacterRequest(){
         return new PlayCharacterRequest(
@@ -721,8 +722,7 @@ public class GUI extends Application implements ClientView {
     }
 
     /**
-     *
-     * @returnthe object to handle that has been clicked by the user
+     * @return the object to handle that has been clicked by the user
      */
     public String getChoosingObject() {
         return choosingObject;
