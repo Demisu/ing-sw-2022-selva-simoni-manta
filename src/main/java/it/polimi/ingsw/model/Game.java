@@ -1021,9 +1021,11 @@ public class Game implements Serializable {
             }
         }
         //Characters
-        for (Character character : availableCharacters) {
-            if(Objects.equals(character.getPieceID(), pieceID)){
-                return character;
+        if(expertMode) {
+            for (Character character : availableCharacters) {
+                if (Objects.equals(character.getPieceID(), pieceID)) {
+                    return character;
+                }
             }
         }
         //Clouds
