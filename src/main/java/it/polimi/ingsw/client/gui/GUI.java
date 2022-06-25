@@ -40,25 +40,60 @@ import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
  */
 public class GUI extends Application implements ClientView {
 
+    /** FXML filename for the start screen */
     public static final String MENU = "start.fxml";
+
+    /** FXML filename for the nickname selection screen */
     public static final String NICKNAME = "nickname.fxml";
+
+    /** FXML filename for the number of players selection screen during game setup */
     public static final String PLAYERS = "players.fxml";
+
+    /** FXML filename for the realm screen */
     public static final String REALM = "realm.fxml";
+
+    /** FXML filename for the player's SchooBoard screen */
     public static final String SCHOOLBOARD = "schoolboard.fxml";
+
+    /** FXML filename for the player's Assistants screen */
     public static final String ASSISTANTS = "assistants.fxml";
+
+    /** FXML filename for the zoomed in Island screen */
     public static final String ISLAND = "island.fxml";
+
+    /** FXML filename for the zoomed in Cloud screen */
     public static final String CLOUD = "cloud.fxml";
+
+    /** FXML filename for the waiting Lobby screen */
     public static final String LOBBY = "lobby.fxml";
+
+    /** FXML filename for the Character selection screen */
     public static final String CHARACTERS = "characters.fxml";
+
+    /** FXML filename for the game's Player information screen */
     public static final String PROFILES = "profiles.fxml";
 
-    //Status for actions
+    //Status for actions: Identifies the possible phases in which the game can be
+
+    /** Identifies the game being in no particular phase */
     public static final String NONE = "NONE";
+
+    /** Identifies the game being in the phase for moving Mother Nature */
     public static final String MOTHER_NATURE = "MOTHER_NATURE";
+
+    /** Identifies the game being in the phase for handling a Student */
     public static final String STUDENT = "STUDENT";
+
+    /** Identifies the game being in the phase for Character playing */
     public static final String CHARACTER = "CHARACTER";
+
+    /** Identifies the game being in the phase for selecting the source location for moving a Student */
     public static final String STUDENTSINORIGIN = "STUDENTSINORIGIN";
+
+    /** Identifies the game being in the phase for selecting the target location for moving a Student */
     public static final String STUDENTSINTARGET = "STUDENTSINTARGET";
+
+    /** Identifies the game being in the phase for selecting the target location for a Character's effect */
     public static final String TARGET = "TARGET";
 
     //Status
@@ -115,6 +150,11 @@ public class GUI extends Application implements ClientView {
     private ScheduledExecutorService updater;
     private boolean alreadyNotifiedEnd = false;
 
+    /**
+     * Runs the GUI with the specified input arguments
+     * @param args starting arguments
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException  {
         launch(args);
     }
@@ -127,7 +167,9 @@ public class GUI extends Application implements ClientView {
     }
 
     /**
+     * @param clientController the ClientController to assign
      * builds the GUI assigning the clientController reference and attempts to run it
+     * @see ClientController
      */
     public GUI(ClientController clientController){
         this.clientController = clientController;
@@ -417,7 +459,7 @@ public class GUI extends Application implements ClientView {
     /**
      * resets the variables that hold source location, target location and the student to move's id.
      * Used to perform Undo operations if the user chooses to do so.
-     * @see  #resetStatus()
+     * @see #resetStatus()
      */
     public void studentActionReset(){
         studentToMove = null;
