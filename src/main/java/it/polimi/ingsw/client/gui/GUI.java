@@ -387,7 +387,7 @@ public class GUI extends Application implements ClientView {
         bagRoot.getChildren().add(bagHolder);
         Scene bagScene = new Scene(bagRoot, 600, 400);
         dialog.setScene(bagScene);
-        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initModality(Modality.NONE);
         dialog.initOwner(stage);
         dialog.getIcons().add(new Image(getClass().getResourceAsStream("/assets/" + asset)));
         dialog.setTitle(title);

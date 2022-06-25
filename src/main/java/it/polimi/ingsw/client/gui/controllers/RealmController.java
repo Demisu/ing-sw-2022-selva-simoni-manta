@@ -23,6 +23,7 @@ import java.util.*;
 import static it.polimi.ingsw.model.Color.*;
 import static it.polimi.ingsw.model.Color.PURPLE;
 import static it.polimi.ingsw.model.GamePhase.ACTION;
+import static it.polimi.ingsw.model.GamePhase.PLANNING;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
 import static javafx.scene.paint.Color.GREEN;
@@ -265,7 +266,7 @@ public class RealmController implements GUIController {
                 emoji = new Text();
                 emoji.setText("\uD83D\uDD34");
                 emoji.setFill(parseColor(color));
-                bagInfo = color + ": " + studentsInBag.stream().filter(s -> colorOfStudent(s).equals(color)).count() + " students\n";
+                bagInfo = (color.equals(PURPLE) ? "PINK" : color) + ": " + studentsInBag.stream().filter(s -> colorOfStudent(s).equals(color)).count() + " students\n";
                 info.add(emoji);
                 info.add(new Text(bagInfo));
             }
@@ -292,7 +293,7 @@ public class RealmController implements GUIController {
                 return Color.RED;
             }
             case PURPLE -> {
-                return Color.PURPLE;
+                return Color.PINK;
             }
             default -> {
                 return Color.BLACK;
@@ -355,7 +356,6 @@ public class RealmController implements GUIController {
             }
         });
         drawStudents(islandPane.get(index), island.getStudents(), island);
-
         counterX = oddX;
         if(island.isMotherNature()) {
             //Delete old mother nature
