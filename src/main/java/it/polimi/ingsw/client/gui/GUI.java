@@ -3,10 +3,11 @@ package it.polimi.ingsw.client.gui;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
-import it.polimi.ingsw.client.gui.controllers.RealmController;
 import it.polimi.ingsw.client.requests.PlayCharacterRequest;
-import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Character;
+import it.polimi.ingsw.model.GamePhase;
+import it.polimi.ingsw.model.StudentAccessiblePiece;
+import it.polimi.ingsw.model.TowerColor;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -14,15 +15,12 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
@@ -30,7 +28,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.security.cert.CertificateParsingException;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -38,6 +35,9 @@ import java.util.concurrent.TimeUnit;
 
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 
+/**
+ * main class responsible for starting and handling the game GUI
+ */
 public class GUI extends Application implements ClientView {
 
     public static final String MENU = "start.fxml";
@@ -119,10 +119,16 @@ public class GUI extends Application implements ClientView {
         launch(args);
     }
 
+    /**
+     * builds a GUI object assigning the clientController reference; this constructor is called by JavaFX
+     */
     public GUI(){
         this.clientController = staticClientController;
     }
 
+    /**
+     * builds the GUI assigning the clientController reference and attempts to run it
+     */
     public GUI(ClientController clientController){
         this.clientController = clientController;
         staticClientController = clientController;
@@ -132,11 +138,17 @@ public class GUI extends Application implements ClientView {
             e.printStackTrace();
         }
     }
-    
+
+    /**
+     * @param clientController clientController to be set
+     */
     public void setClientController(ClientController clientController) {
         this.clientController = clientController;
     }
 
+    /**
+     * @return the current ClientController
+     */
     public ClientController getClientController() {
         return clientController;
     }
@@ -177,6 +189,10 @@ public class GUI extends Application implements ClientView {
         run();
     }
 
+    /**
+     * Executes the game with GUI
+     * @see Application#start(Stage)
+     */
     public void run() {
         stage.setTitle("Eriantys");
         stage.setScene(currentScene);
@@ -198,10 +214,20 @@ public class GUI extends Application implements ClientView {
         updater.scheduleAtFixedRate(this::reloadScene, 0, 1, TimeUnit.SECONDS);
     }
 
+    /**
+     * @return the MediaPlayer for background music
+     */
     public MediaPlayer getMusicPlayer() {
         return musicPlayer;
     }
 
+    /**
+     * Changes the scene to the one specified
+     *
+     * @param scene the target scene to switch to
+     *
+     * @see GUI class variables
+     */
     public synchronized void changeScene(String scene){
         //If setup is completed, start updating the model
         if(! (scene.equals(MENU) ||  scene.equals(NICKNAME) || scene.equals(PLAYERS))) {
@@ -220,6 +246,9 @@ public class GUI extends Application implements ClientView {
         stage.show();
     }
 
+    /**
+     * Reloads the currently displaying Scene
+     */
     public void reloadScene(){
         //Update the scene only when needed
         if(currentScene.equals(nameMapScene.get(LOBBY))
@@ -243,6 +272,10 @@ public class GUI extends Application implements ClientView {
         }
     }
 
+    /**
+     *  Displays a window with information about the Character currently in effect. The information is dynamically
+     *  generated based on the Character that has been played.
+     */
     public void characterChecklist() {
         ArrayList<Text> info = new ArrayList<>();
         if(colorBtnVisible){
@@ -295,6 +328,14 @@ public class GUI extends Application implements ClientView {
                 info);
     }
 
+    /**
+     * Builds and displays a window, containing information that is passed to it, to the user
+     * @param stage the Stage owner
+     * @param title the title to assign
+     * @param asset asset's filename in order to retrieve it, used as icon for the window in title bar
+     * @param color the background color to be used
+     * @param info  actual text to be displayed by the modal
+     */
     public void createModal(Stage stage, String title, String asset, Color color, ArrayList<Text> info){
         final Stage dialog = new Stage();
         Pane bagRoot = new Pane();
@@ -317,7 +358,8 @@ public class GUI extends Application implements ClientView {
     }
 
     /**
-     * Shows a dialog window to select a color
+     * Shows a dialog window to select a Color
+     * @see it.polimi.ingsw.model.Color
      */
     public void colorDialog() {
         TextInputDialog dialog = new TextInputDialog();
@@ -335,14 +377,33 @@ public class GUI extends Application implements ClientView {
         });
     }
 
+    /**
+     * retrieves the asset matching the Color provided. Does not apply to Towers which have their own color enumeration.
+     * @param color name of the color
+     * @return the corresponding image to the color
+     * @see Image
+     * @see it.polimi.ingsw.model.Color
+     */
     public Image getColorImage(it.polimi.ingsw.model.Color color){
         return new Image(getClass().getResourceAsStream("/assets/student_" + color.toString().toLowerCase(Locale.ROOT) + ".png"));
     }
 
+    /**
+     * retrieves the asset matching the TowerColor provided. Only applies for Towers.
+     * @param towerColor name of the Tower's color
+     * @return Image
+     * @see TowerColor
+     */
     public Image getColorImage(TowerColor towerColor) {
         return new Image(getClass().getResourceAsStream("/assets/tower_" + towerColor.toString().toLowerCase(Locale.ROOT) + ".png"));
     }
 
+    /**
+     * Renders a shadow of the Color provided
+     * @param color the desired color for the shadow
+     * @return a shadow effect, shaded with the provided color
+     * @see Color
+     */
     public DropShadow getHighlight(Color color){
         DropShadow effect = new DropShadow();
         effect.setHeight(40.0);
@@ -353,17 +414,31 @@ public class GUI extends Application implements ClientView {
         return effect;
     }
 
+    /**
+     * resets the variables that hold source location, target location and the student to move's id.
+     * Used to perform Undo operations if the user chooses to do so.
+     * @see  #resetStatus()
+     */
     public void studentActionReset(){
         studentToMove = null;
         studentSource = null;
         studentTarget = null;
     }
 
+    /**
+     * Resets the variables used to move Mother Nature across islands.
+     * @see #resetStatus()
+     */
     public void motherNatureActionReset(){
         originIslandIndex = 0;
         targetIslandIndex = 0;
     }
 
+    /**
+     * Resets the variables used to handle a Character.
+     * Used to perform Undo operations if the user chooses to do so.
+     * @see #resetStatus()
+     */
     public void characterActionReset(){
         //Parameters
         currentCharacter = null;
@@ -382,6 +457,13 @@ public class GUI extends Application implements ClientView {
         choosingObject = NONE;
     }
 
+    /**
+     * Checks the current game status and chooses the appropriate reset method.
+     * @see #status
+     * @see #motherNatureActionReset()
+     * @see #motherNatureActionReset()
+     * @see #characterActionReset()
+     */
     public void resetStatus(){
         switch (status) {
             case STUDENT -> studentActionReset();
@@ -405,158 +487,165 @@ public class GUI extends Application implements ClientView {
      * @param name of type String - the player's name.
      * @return GUIController - the scene controller.
      */
+
+    /**
+     * Returns the Controller which has been mapped to the String provided, each implementing the GUIController interface.
+     * Each Controller is in charge of handling specific aspects on the game, thus it's required to get the appropriate
+     * one to perform a certain operation
+     * @param name the String to search the HashMap for the desired controller
+     * @return the Controller requested
+     * @see GUIController
+     * @see #nameMapController
+     */
     public GUIController getControllerFromName(String name) {
         return nameMapController.get(name);
     }
 
-    public Stage getStage() {
-        return stage;
-    }
-
-    public Scene getCurrentScene() {
-        return currentScene;
-    }
-
+    /**
+     * @return ready
+     */
     public boolean isReady() {
         return ready;
     }
 
     //STATUS
 
+    /**
+     * @param status sets the game status
+     */
     public void setStatus(String status) {
         this.status = status;
     }
 
+    /**
+     * @return the current game's status
+     */
     public String getStatus() {
         return status;
     }
 
     //STUDENTS MOVEMENT
 
+    /**
+     * @param studentToMove the Student to move's id
+     */
     public void setStudentToMove(Integer studentToMove) {
         this.studentToMove = studentToMove;
     }
 
+    /**
+     * @param studentSource the Student to move's source location
+     */
     public void setStudentSource(Integer studentSource) {
         this.studentSource = studentSource;
     }
 
+    /**
+     * @param studentTarget the Student to move's target location
+     */
     public void setStudentTarget(Integer studentTarget) {
         this.studentTarget = studentTarget;
     }
 
+    /**
+     * @return the Student to move's id
+     */
     public Integer getStudentToMove() {
         return studentToMove;
     }
 
+    /**
+     * @return the Student to move's target location
+     */
     public Integer getStudentSource() {
         return studentSource;
     }
 
+    /**
+     * @return the Student to move's target location
+     */
     public Integer getStudentTarget() {
         return studentTarget;
     }
 
     //MOTHER NATURE
 
+    /**
+     * @return Mother Nature's starting Island's id
+     */
     public Integer getOriginIslandIndex() {
         return originIslandIndex;
     }
 
+    /**
+     * @return Mother Nature's target Island's id
+     */
     public Integer getTargetIslandIndex() {
         return targetIslandIndex;
     }
 
+    /**
+     * @param originIslandIndex Mother Nature's starting Island's id
+     */
     public void setOriginIslandIndex(Integer originIslandIndex) {
         this.originIslandIndex = originIslandIndex;
     }
 
+    /**
+     * @param targetIslandIndex Mother Nature's target Island's id
+     */
     public void setTargetIslandIndex(Integer targetIslandIndex) {
         this.targetIslandIndex = targetIslandIndex;
     }
 
     //CHARACTERS
 
-    public int getCharacterIndex() {
-        return characterIndex;
-    }
-
+    /**
+     * @param characterIndex sets the Character's index
+     */
     public void setCharacterIndex(int characterIndex) {
         this.characterIndex = characterIndex;
     }
 
-    public it.polimi.ingsw.model.Color getCharacterTargetColor() {
-        return characterTargetColor;
-    }
-
+    /**
+     * @param characterTargetColor sets the Character's color of effect
+     */
     public void setCharacterTargetColor(it.polimi.ingsw.model.Color characterTargetColor) {
         this.characterTargetColor = characterTargetColor;
     }
 
-    public List<Integer> getCharacterStudentsInOrigin() {
-        return characterStudentsInOrigin;
-    }
-
-    public void addCharacterStudentsInOrigin(Integer characterStudentsInOrigin) {
-        this.characterStudentsInOrigin.add(characterStudentsInOrigin);
-    }
-
-    public List<Integer> getCharacterStudentsInTarget() {
-        return characterStudentsInTarget;
-    }
-
-    public void addCharacterStudentsInTarget(Integer characterStudentsInTarget) {
-        this.characterStudentsInTarget.add(characterStudentsInTarget);
-    }
-
-    public List<Integer> getCharacterOriginPieces() {
-        return characterOriginPieces;
-    }
-
-    public void addCharacterOriginPieces(Integer characterOriginPieces) {
-        this.characterOriginPieces.add(characterOriginPieces);
-    }
-
-    public List<Integer> getCharacterTargetPieces() {
-        return characterTargetPieces;
-    }
-
-    public void addCharacterTargetPieces(Integer characterTargetPieces) {
-        this.characterTargetPieces.add(characterTargetPieces);
-    }
-
-    public Boolean isColorBtnVisible() {
-        return colorBtnVisible;
-    }
-
+    /**
+     * @param colorBtnVisible sets the visibility of the "Choose color" button in the Characters scene
+     */
     public void setColorBtnVisible(boolean colorBtnVisible) {
         this.colorBtnVisible = colorBtnVisible;
     }
 
-    public Boolean isSourceStudentsBtnVisible() {
-        return sourceStudentsBtnVisible;
-    }
-
+    /**
+     * @param sourceStudentsBtnVisible sets the visibility of the "Choose source students" button in the Characters scene
+     */
     public void setSourceStudentsBtnVisible(boolean sourceStudentsBtnVisible) {
         this.sourceStudentsBtnVisible = sourceStudentsBtnVisible;
     }
 
-    public Boolean isTargetStudentsBtnVisible() {
-        return targetStudentsBtnVisible;
-    }
-
+    /**
+     * @param targetStudentsBtnVisible sets the visibility of the "Choose target students" button in the Characters scene
+     */
     public void setTargetStudentsBtnVisible(boolean targetStudentsBtnVisible) {
         this.targetStudentsBtnVisible = targetStudentsBtnVisible;
     }
 
-    public Boolean isTargetPiecesBtnVisible() {
-        return targetPiecesBtnVisible;
-    }
-
+    /**
+     * @param targetPiecesBtnVisible sets the visibility of the "Choose target pieces" button in the Characters scene
+     */
     public void setTargetPiecesBtnVisible(boolean targetPiecesBtnVisible) {
         this.targetPiecesBtnVisible = targetPiecesBtnVisible;
     }
 
+    /**
+     * @return a List with the boolean values that control visibility for the "Choose color", "Choose source students",
+     * "Choose target students" and "Choose target pieces" in the Characters scene
+     */
     public List<Boolean> listOfCharacterButtons(){
         return new ArrayList<>(){
             {
@@ -568,6 +657,9 @@ public class GUI extends Application implements ClientView {
         };
     }
 
+    /**
+     * @see PlayCharacterRequest
+     */
     public PlayCharacterRequest getCharacterRequest(){
         return new PlayCharacterRequest(
                 characterIndex,
@@ -579,14 +671,28 @@ public class GUI extends Application implements ClientView {
                 characterTargetPieces);
     }
 
+    /**
+     * @param choosingObject the object to handle that has been clicked by the user
+     */
     public void setChoosingObject(String choosingObject) {
         this.choosingObject = choosingObject;
     }
 
+    /**
+     *
+     * @returnthe object to handle that has been clicked by the user
+     */
     public String getChoosingObject() {
         return choosingObject;
     }
 
+    /**
+     * adds a Student to the location specified by the choosingObject string
+     *
+     * @param student the id of Student to add
+     * @see #choosingObject
+     * @see #setChoosingObject(String)
+     */
     public void addStudent(Integer student){
         if(choosingObject.equals(GUI.STUDENTSINORIGIN)){
             //Add in origin/source
@@ -597,6 +703,13 @@ public class GUI extends Application implements ClientView {
         }
     }
 
+    /**
+     * adds a piece to the location specified by the choosingObject string, used by certain Characters' effects
+     *
+     * @param piece the id of the piece add
+     * @see #choosingObject
+     * @see #setChoosingObject(String)
+     */
     public void addPiece(Integer piece){
         if(choosingObject.equals(GUI.TARGET) || choosingObject.equals(GUI.STUDENTSINTARGET)){
             //Add in target
@@ -607,10 +720,16 @@ public class GUI extends Application implements ClientView {
         }
     }
 
+    /**
+     * @param currentCharacter sets the currently active Character
+     */
     public void setCurrentCharacter(Character currentCharacter) {
         this.currentCharacter = currentCharacter;
     }
 
+    /**
+     * @return the Character currently in effect
+     */
     public Character getCurrentCharacter() {
         return currentCharacter;
     }

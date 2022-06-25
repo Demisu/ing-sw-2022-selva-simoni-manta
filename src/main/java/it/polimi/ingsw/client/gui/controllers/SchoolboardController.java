@@ -2,14 +2,12 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.Character;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -23,6 +21,10 @@ import static it.polimi.ingsw.model.Color.*;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.colorOfStudent;
 import static it.polimi.ingsw.model.StudentAccessiblePiece.indexOfColor;
 
+/**
+ * Controller responsible for managing the player's SchoolBoard
+ * @see GUIController
+ */
 public class SchoolboardController implements GUIController {
     private GUI gui;
 
@@ -84,6 +86,10 @@ public class SchoolboardController implements GUIController {
         }
     };
 
+    /**
+     * Draws the overall SchoolBoard scene based on the player's information
+     * @param player the player whose information is to be used to draw the SchoolBoard accordingly
+     */
     public void drawSchoolBoard(Player player){
         drawStudentsEntrance(player.getPlayerBoard());
         drawStudentsDining(player);
@@ -111,6 +117,10 @@ public class SchoolboardController implements GUIController {
         });
     }
 
+    /**
+     * Displays professors based on the current game data
+     * @param professors the array of boolean values that indicate whether the player owns each professor or not
+     */
     public void drawProfessors(Boolean[] professors) {
         for(Color color : Color.values()) {
             for (int i = 0; i < professors.length; i++) {
@@ -125,6 +135,10 @@ public class SchoolboardController implements GUIController {
         }
     }
 
+    /**
+     * Draws the students in the dining area of the SchoolBoard scene based on the player's information
+     * @param player the player whose information is to be used to draw the Dining Room accordingly
+     */
     public void drawStudentsDining(Player player) {
         SchoolBoard schoolBoard = player.getPlayerBoard();
         for(Color color : Color.values()) {
@@ -150,6 +164,10 @@ public class SchoolboardController implements GUIController {
         }
     }
 
+    /**
+     * Draws the students in the entrance area of the SchoolBoard
+     * @param schoolBoard the SchoolBoard of which the Students in the entrance area are to be drawn
+     */
     public void drawStudentsEntrance(SchoolBoard schoolBoard) {
         Integer[] studentsNumber = new Integer[5];
         Arrays.fill(studentsNumber, 0);
@@ -181,6 +199,10 @@ public class SchoolboardController implements GUIController {
         }
     }
 
+    /**
+     * Draws the Towers of the SchoolBoard scene based on the player's information
+     * @param player the player whose information is to be used to draw the Towers accordingly
+     */
     public void drawTowers(Player player){
         Team team = gui.getClientController().getGameInfo().getTeamByID(player.getTeamID());
         //If this player is the team leader, show towers
@@ -194,6 +216,9 @@ public class SchoolboardController implements GUIController {
         }
     }
 
+    /**
+     * Method which gets called upon switching to this scene, to prepare it to be displayed with up-to-date information
+     */
     public void onLoad(){
         colorToImage = new HashMap<>(){
             {
@@ -325,6 +350,9 @@ public class SchoolboardController implements GUIController {
         setCharacterButtons();
     }
 
+    /**
+     * Resets the data structure holding information about the Students to move
+     */
     public void resetStatus(){
 
         gui.resetStatus();
@@ -351,6 +379,11 @@ public class SchoolboardController implements GUIController {
         undo.setVisible(false);
     }
 
+    /**
+     * Picks a Student when clicked on it
+     * @param schoolBoard the SchoolBoard on which the Student is located
+     * @param color the Color of the Student
+     */
     public void chooseStudent(SchoolBoard schoolBoard, Color color){
         if(gui.getStatus().equals(GUI.NONE)) {
             gui.setStatus(GUI.STUDENT);
@@ -366,6 +399,9 @@ public class SchoolboardController implements GUIController {
         }
     }
 
+    /**
+     *  Sets the choosingObject for moving pieces upon clicking the corresponding button
+     */
     public void setCharacterButtons(){
         colorBtn.setOnAction(e -> {
             gui.colorDialog();
@@ -384,9 +420,11 @@ public class SchoolboardController implements GUIController {
         });
     }
 
+    /**
+     *  Checks if gameModel updated, if so redraws the SchoolBoard with up-to-date data
+     */
     public void scheduleRedraw(){
         ScheduledExecutorService lateUpdater = Executors.newSingleThreadScheduledExecutor();
-        //Checks if gameModel updated, then draw schoolboard
         lateUpdater.scheduleAtFixedRate(() -> {
             if(gui.isReady()){
                 ((SchoolboardController) gui.getControllerFromName(GUI.SCHOOLBOARD)).drawSchoolBoard(gui.getClientController().getPlayerInfo());
@@ -395,6 +433,9 @@ public class SchoolboardController implements GUIController {
         }, 5, 5, TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * @param gui the GUI object to set
+     */
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
