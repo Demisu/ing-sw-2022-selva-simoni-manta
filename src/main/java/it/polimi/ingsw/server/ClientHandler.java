@@ -59,11 +59,22 @@ public class ClientHandler implements Runnable {
             do {
                 ClientRequest request = ((ClientRequest) in.readObject());
                 lastPing = System.currentTimeMillis();
+                ServerResponse serverResponse = request.handle(controller);
+                //If the client connects correctly, save his nickname for disconnection
+                if(request instanceof SetNicknameRequest && ((SetNicknameResponse) serverResponse).getSuccess()) {
+                    clientNickname = ((SetNicknameRequest) request).getNickname();
+                }
                 if(!startedTimer) {
                     startedTimer = true;
                     timeOutTimer = Executors.newSingleThreadScheduledExecutor();
                     timeOutTimer.scheduleAtFixedRate(() -> {
                         long currentTime = System.currentTimeMillis();
+                        System.out.println("-----------------------------");
+                        System.out.println("Checking " +  clientNickname);
+                        System.out.println("Last ping: " + lastPing);
+                        System.out.println("Current time: " + currentTime);
+                        System.out.println("Difference: " + (currentTime - lastPing));
+                        System.out.println("-----------------------------");
                         if ((lastPing < currentTime - TIME_OUT_TIME)
                                 && (controller.getGameController().getCurrentGame().getCurrentPhase().equals(GamePhase.PLANNING)
                                 || controller.getGameController().getCurrentGame().getCurrentPhase().equals(GamePhase.ACTION))) {
@@ -74,11 +85,6 @@ public class ClientHandler implements Runnable {
                             timeOutTimer.shutdown();
                         }
                     }, TIME_OUT_TIME, TIME_OUT_TIME, TimeUnit.MILLISECONDS);
-                }
-                ServerResponse serverResponse = request.handle(controller);
-                //If the client connects correctly, save his nickname for disconnection
-                if(request instanceof SetNicknameRequest && ((SetNicknameResponse) serverResponse).getSuccess()) {
-                    clientNickname = ((SetNicknameRequest) request).getNickname();
                 }
                 if (serverResponse != null) {
                      try {
