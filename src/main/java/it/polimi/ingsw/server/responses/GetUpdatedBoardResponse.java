@@ -1,21 +1,19 @@
 package it.polimi.ingsw.server.responses;
 
 import it.polimi.ingsw.client.ServerResponseHandler;
-import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.server.ServerResponse;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 /**
  * Response with updated model inside
  */
 public class GetUpdatedBoardResponse implements ServerResponse {
 
-    Game gameInfo;
-    HashMap<Integer, HashSet<Integer>> studentsOfClouds; //<CloudID, StudentID>
+    private Game gameInfo;
+    private HashMap<Integer, HashSet<Integer>> studentsOfClouds; //<CloudID, StudentID>
 
     /**
      * @param gameInfo reduced model

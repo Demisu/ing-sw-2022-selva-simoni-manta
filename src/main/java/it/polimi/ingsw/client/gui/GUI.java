@@ -107,8 +107,8 @@ public class GUI extends Application implements ClientView {
     private Integer studentTarget;
 
     //Variables for mother nature movement
-    Integer originIslandIndex;
-    Integer targetIslandIndex;
+    private Integer originIslandIndex;
+    private Integer targetIslandIndex;
 
     //Variables for character buttons visibility
     private Boolean colorBtnVisible = false;
@@ -116,13 +116,13 @@ public class GUI extends Application implements ClientView {
     private Boolean targetStudentsBtnVisible = false;
     private Boolean targetPiecesBtnVisible = false;
     //Variables for character requests
-    Character currentCharacter = null;
-    int characterIndex = 0;
-    it.polimi.ingsw.model.Color characterTargetColor = null;
-    List<Integer> characterStudentsInOrigin = new ArrayList<>();
-    List<Integer> characterStudentsInTarget = new ArrayList<>();
-    List<Integer> characterOriginPieces = new ArrayList<>();
-    List<Integer> characterTargetPieces = new ArrayList<>();
+    private Character currentCharacter = null;
+    private int characterIndex = 0;
+    private it.polimi.ingsw.model.Color characterTargetColor = null;
+    private List<Integer> characterStudentsInOrigin = new ArrayList<>();
+    private List<Integer> characterStudentsInTarget = new ArrayList<>();
+    private List<Integer> characterOriginPieces = new ArrayList<>();
+    private List<Integer> characterTargetPieces = new ArrayList<>();
     //Flags
     private String choosingObject = NONE;
 

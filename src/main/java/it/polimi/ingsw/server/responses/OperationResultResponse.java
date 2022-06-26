@@ -8,8 +8,8 @@ import it.polimi.ingsw.server.ServerResponse;
  */
 public class OperationResultResponse implements ServerResponse {
 
-    Boolean result;
-    String message;
+    private Boolean result;
+    private String message;
 
     /**
      * @param result result

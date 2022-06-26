@@ -8,9 +8,9 @@ import it.polimi.ingsw.client.ServerResponseHandler;
  */
 public class SetNicknameResponse implements ServerResponse {
 
-    Boolean needPlayerNumber;
-    Boolean success;
-    String message;
+    private Boolean needPlayerNumber;
+    private Boolean success;
+    private String message;
 
     /**
      * @param needPlayerNumber if player number is needed

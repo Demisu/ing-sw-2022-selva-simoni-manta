@@ -18,16 +18,16 @@ public class ClientController implements ServerResponseHandler {
 
     private final Client client;
 
-    String nickname = "";
+    private String nickname = "";
 
     //Game info
-    Game gameInfo;
-    GamePhase gamePhase;
-    Player playerInfo;
-    ArrayList<Character> characters;
-    List<Island> islands;
-    List<Cloud> clouds;
-    ArrayList<SchoolBoard> schoolBoards;
+    private Game gameInfo;
+    private GamePhase gamePhase;
+    private Player playerInfo;
+    private ArrayList<Character> characters;
+    private List<Island> islands;
+    private List<Cloud> clouds;
+    private ArrayList<SchoolBoard> schoolBoards;
 
     /**
      * the Client's View, intended as MVC
