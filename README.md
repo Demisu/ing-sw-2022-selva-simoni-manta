@@ -42,7 +42,7 @@ To play you need to have a server running and then open the client.
 $ java -jar GC15.jar
 ```
 
-## Implemented Functionalities
+## Functionalities
 | Functionality | Status |
 |:-----------------------|:------------------------------------:|
 | Simplified rules | 🟢 |
@@ -72,7 +72,7 @@ All tests in model and controller have class coverage at 100%.
 | Controller | Global Package | 86/93 (92%)
 | Model | Global Package | 695/713 (97%)
 
-## The Team
+## Development Team
 * [Dario Simoni](https://github.com/Delath)
 * [Demis Selva](https://github.com/Demisu)
 * [Riccardo Manta](https://github.com/RicX8)
