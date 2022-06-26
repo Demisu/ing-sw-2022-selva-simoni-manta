@@ -90,7 +90,7 @@ All tests in model and controller have class coverage at 100%.
 
 Eriantys Board Game is copyrighted 2022.
 
-Licensed under the **[MIT License](https://github.com/Demisu/ing-sw-2022-selva-simoni-manta/blob/main/LICENSE)** ;
+Licensed under the **[MIT License](https://github.com/Demisu/ing-sw-2022-selva-simoni-manta/blob/main/LICENSE)**,
 you may not use this software except in compliance with the License.
 
 [license]: https://github.com/Demisu/ing-sw-2022-selva-simoni-manta/blob/main/LICENSE
