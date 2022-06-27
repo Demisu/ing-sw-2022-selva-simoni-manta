@@ -252,6 +252,7 @@ public class GUI extends Application implements ClientView {
             musicPlayer.play();
         });
 
+        //GUI model updater
         updater = Executors.newSingleThreadScheduledExecutor();
         updater.scheduleAtFixedRate(this::reloadScene, 0, 1, TimeUnit.SECONDS);
     }
