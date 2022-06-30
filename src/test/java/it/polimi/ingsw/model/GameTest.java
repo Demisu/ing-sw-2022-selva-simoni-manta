@@ -161,7 +161,6 @@ public class GameTest {
 
         gameTest.getClouds().get(0).setStudents(new HashSet<>());
         gameTest.getTeams().forEach(t -> t.getPlayers().forEach(p -> p.setActive(false)));
-        gameTest.nextPlayer();
 
         Game gameNoExp = new Game(2, "noExp", false);
         assertFalse(gameNoExp.isExpertMode());
