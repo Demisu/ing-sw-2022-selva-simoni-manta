@@ -9,8 +9,6 @@ Eriantys Board Game is the final project of **"Software Engineering"**, course o
 
 **Teacher** Gianpaolo Cugola
 
-**Final Score**: N/A
-
 ## Project specification
 The project consists of a Java version of the board game *Eriantys*, made by Cranio Games.
 <details>
