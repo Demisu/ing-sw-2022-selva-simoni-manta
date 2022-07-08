@@ -37,7 +37,7 @@ To play you need to have a server running and then open the client.
 * Navigate in a folder containing the jar (use cd &lt;path&gt;)
 * Use the following command
 ```sh
-$ java -jar GC15.jar
+$ java -jar Eriantys.jar
 ```
 
 ## Functionalities
